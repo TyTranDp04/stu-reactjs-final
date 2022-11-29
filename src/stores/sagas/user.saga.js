@@ -6,7 +6,7 @@ function* login(action) {
   try {
     const loginPayload = action.payload;
     const response = yield AuthAPI.login({
-      username: loginPayload.username,
+      email: loginPayload.email,
       password: loginPayload.password,
     });
     document.cookie = `accesToken=${response.data.data.accessToken}`
