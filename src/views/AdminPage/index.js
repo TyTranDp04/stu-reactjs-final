@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import AdminHome from "../../components/Admin/AdminHome";
+import ManagementUser from "../../components/Admin/ManagementUser";
 import Layout from "../../layout";
 
 function AdminPage() {
@@ -8,8 +9,9 @@ function AdminPage() {
   const renderContent = () => {
     switch (location.pathname) {
       case "/admin":
-        return <AdminHome/>;
-
+        return <AdminHome/>
+      case "/admin/user":         
+        return  <ManagementUser/>
       default:
         return <AdminHome/>;
     }

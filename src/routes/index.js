@@ -19,7 +19,7 @@ const RouterApp = () => {
           <Route path="/" element={<HomePage />} />
 
           <Route path={"admin"} element={<AdminPage />} >
-            
+          <Route path={"user"} element={<AdminPage />} />
           </Route>
         </Routes>
       </Wrapper>
