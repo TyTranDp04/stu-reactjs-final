@@ -1,7 +1,7 @@
 import React from 'react'
 import HomeContent from '../../components/Home'
 import Layout from '../../layout'
-
+import '.changPassword.css';
 const changePassword = () => {
   return (
     <form action="">
