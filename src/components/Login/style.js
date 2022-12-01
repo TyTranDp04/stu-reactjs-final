@@ -83,7 +83,7 @@ export const Form = styled.form`
   height: 100%;
   border-radius: 5px;
 
-  .login-goole {
+  .login-google {
     background: none;
     color: #111111;
     border: 1px solid #8000FF;

@@ -6,15 +6,17 @@ import { ToastContainer } from 'react-toastify'
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
-
+import { useDispatch } from 'react-redux';
+import { loginAction, loginGoogleAction } from '../../stores/slices/user.slice'
 const schema = yup.object().shape({
-  email: yup.string()
+  Gmail: yup.string()
     .required('Please enter a valid email address'),
-  password: yup.string()
+  Password: yup.string()
     .required('Please enter a valid password'),
 }).required();
 
 const Login = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -22,8 +24,8 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
-    console.log('data: ', data)
-    // dispatch(loginAction(data));
+    // console.log('data: ', data)
+    dispatch(loginAction(data));
   };
   return (
     <Section className="container-fluid">
@@ -33,7 +35,7 @@ const Login = () => {
           <LoginTitle><H2>Login to your account</H2></LoginTitle>
           <label>Email</label>
           <Input
-            {...register("email")}
+            {...register("Gmail")}
             type="email"
             placeholder="Enter your email address"
           />
@@ -41,7 +43,7 @@ const Login = () => {
           <br />
           <label>Password</label>
           <Input
-            {...register("password")}
+            {...register("Password")}
             type="password"
             placeholder="Enter your password"
           />
@@ -49,7 +51,7 @@ const Login = () => {
           <ForgotPass><ForgotPassH4>Forgot password?</ForgotPassH4></ForgotPass>
           <Button type="submit">Submit</Button>
           <TextBlack>Or</TextBlack>
-          <Button className="login-goole"><GoogleIcon src={googleIcon} className="icon-google" /> Log in with Google</Button>
+          <Button className="login-google"><GoogleIcon src={googleIcon} className="icon-google" /> Log in with Google</Button>
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
             autoClose={1000}
