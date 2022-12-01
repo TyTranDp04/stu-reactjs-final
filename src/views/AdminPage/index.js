@@ -3,6 +3,7 @@ import AdminHome from "../../components/Admin/AdminHome";
 import Layout from "../../layout";
 
 function AdminPage() {
+
   const location = useLocation();
 
   const renderContent = () => {
