@@ -2,6 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import AdminPage from "../views/AdminPage";
 import HomePage from "../views/HomePage";
+import LoginPage from "../views/LoginPage";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const RouterApp = () => {
       <Wrapper>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
 
           <Route path={"admin"} element={<AdminPage />} >
             
