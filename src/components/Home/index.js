@@ -3,8 +3,8 @@ import { HomeCol } from './style'
 
 const Home = () => {
   return (
-    <HomeCol className='col-sm-8'>
-      Home
+    <HomeCol className='col-sm-9 col-lg-10'>
+      
     </HomeCol>
   )
 }
