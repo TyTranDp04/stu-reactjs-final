@@ -25,7 +25,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     dispatch(loginAction(data));
-    console.log(data);
+    // console.log(data);
   };
   return (
     <Section className="container-fluid">

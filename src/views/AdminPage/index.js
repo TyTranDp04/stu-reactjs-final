@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import AdminHome from "../../components/Admin/AdminHome";
-import ChangePassword from "../../components/ChangePassword/change-password";
+import ChangePassword from "../../components/ChangePassword/index";
 import Layout from "../../layout";
 
 function AdminPage() {

@@ -20,7 +20,7 @@ const Layout = ({ children, title }) => {
     if (!user) {
       navigate("/login");
     } else if (user === "admin@gmail.com") {
-      navigate("/admin");
+      navigate("/");
     }
   }, [user, navigate]);
 

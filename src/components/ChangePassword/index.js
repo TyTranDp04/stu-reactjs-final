@@ -5,11 +5,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextRed } from "../Login/style";
 import { updatechangePasswordAction } from "../../stores/slices/changePassword.slice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Clearfix, Container, H1, Input, P, Signupbtn } from "./style.js";
+import {
+  Cancel,
+  Clearfix,
+  Container,
+  H1,
+  Input,
+  P,
+  Signupbtn,
+} from "./style.js";
 import Swal from "sweetalert2";
 const schema = yup
   .object()
@@ -45,7 +53,7 @@ const ChangePassword = () => {
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = (data, notify) => {
     Swal.fire({
-      title: "Add this data?",
+      title: "Change Password ?",
       icon: "question",
       iconHtml: "?",
       confirmButtonText: "Yes",
@@ -55,7 +63,11 @@ const ChangePassword = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (data.Password === data.oldPassword) {
-          Swal.fire("Old Password and New Password cannot be the same!", "", "error");
+          Swal.fire(
+            "Old Password and New Password cannot be the same!",
+            "",
+            "error"
+          );
           toast.error("Old Password and New Password cannot be the same");
         } else if (ChangePassword === data.oldPassword) {
           dispatch(
@@ -70,8 +82,6 @@ const ChangePassword = () => {
           toast.error("Old Password Incorrect");
           Swal.fire("Old Password Incorrect!", "", "error");
         }
-
-        
       } else {
         Swal.fire(" Cancel!", "", "error");
       }
@@ -113,7 +123,14 @@ const ChangePassword = () => {
           <TextRed>{errors.confirmPassword?.message}</TextRed>
 
           <Clearfix>
-            <Signupbtn type="submit">Change Password</Signupbtn>
+            <Signupbtn className="submit" type="submit">
+              Change Password
+            </Signupbtn>
+            <Cancel className="submit">
+              <Link className="linkcanel" to={"/"}>
+                Cancel
+              </Link>
+            </Cancel>
           </Clearfix>
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
