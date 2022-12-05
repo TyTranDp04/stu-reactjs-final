@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import ChangePassword from "../components/ChangePassword/changePassword";
 import AdminPage from "../views/AdminPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
@@ -22,7 +21,7 @@ const RouterApp = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
-          <Route path="/changepassword" element={<AdminPage />} ></Route>
+          <Route path="/change-password" element={<AdminPage />} ></Route>
         </Routes>
       </Wrapper>
     </BrowserRouter>

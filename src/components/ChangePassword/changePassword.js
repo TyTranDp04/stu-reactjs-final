@@ -15,17 +15,18 @@ const schema = yup
   .shape({
     oldPassword: yup
       .string()
-      .required("Password is required")
+      .required("Old Password is required")
       .min(6, "Password min is 6 , max is 16 .")
       .max(16, "Password min is 6 , max is 16 ."),
     Password: yup
       .string()
-      .required("Password is required")
+      .required("New Password is required")
       .min(6, "Password min is 6 , max is 16 .")
       .max(16, "Password min is 6 , max is 16 ."),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("Password"), null], "Passwords must match")
+      .required("Confirm Password is required")
       .min(6, "Password min is 6 , max is 16 .")
       .max(16, "Password min is 6 , max is 16 ."),
   })
@@ -101,7 +102,6 @@ const ChangePassword = () => {
         </Container>
       </form>
     </div>
-    // </Layout>
   );
 };
 

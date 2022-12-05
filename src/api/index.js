@@ -1,2 +1,2 @@
 export { AuthAPI } from './auth.api';
-// export {changePassword} from './changePassword.api';
+export {changePasswordAPI} from './changePassword.api';

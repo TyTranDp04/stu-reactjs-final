@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../assets/images/stlogo.png";
 import {
+  DropdownLogo,
   HeaderAvatar,
   HeaderBg,
   HeaderInner,
@@ -12,6 +13,8 @@ import {
   StImg,
 } from "./style";
 import { Link } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+
 const Header = () => {
   return (
     <HeaderRow className="row">
@@ -23,11 +26,23 @@ const Header = () => {
           </HeaderLogo>
           <HeaderLogoff className="col-sm-10">
             <HeaderLogoffButton>Log off</HeaderLogoffButton>
-            <HeaderAvatar>
-              <Link to="/changepassword">
+            <Dropdown>
+              <DropdownLogo>
+              <Dropdown.Toggle className="Droplogo" variant="success" id="dropdown-basic">
+              <HeaderAvatar>
                 <StImg src={logo} />
-              </Link>
             </HeaderAvatar>
+              </Dropdown.Toggle>
+              </DropdownLogo>
+              <Dropdown.Menu>
+                <Link to="/change-password">
+                <Dropdown.Item href="#/action-1">Change Password</Dropdown.Item>
+                </Link>
+                <Link to="/admin">
+                <Dropdown.Item href="#/action-2" >My Profile</Dropdown.Item>
+                </Link>
+              </Dropdown.Menu>
+            </Dropdown>
           </HeaderLogoff>
         </HeaderInner>
       </HeaderWrapper>
