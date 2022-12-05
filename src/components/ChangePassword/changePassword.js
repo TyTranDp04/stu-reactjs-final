@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Clearfix, Container, H1, Input, P, Signupbtn } from "./changPassword.js";
-
+import { Clearfix, Container, H1, Input, P, Signupbtn } from "./style.js";
 const schema = yup
   .object()
   .shape({
@@ -93,9 +92,7 @@ const ChangePassword = () => {
           <TextRed>{errors.confirmPassword?.message}</TextRed>
 
           <Clearfix>
-            <Signupbtn type="submit">
-              Change Password
-            </Signupbtn>
+            <Signupbtn type="submit">Change Password</Signupbtn>
           </Clearfix>
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
@@ -104,6 +101,7 @@ const ChangePassword = () => {
         </Container>
       </form>
     </div>
+    // </Layout>
   );
 };
 

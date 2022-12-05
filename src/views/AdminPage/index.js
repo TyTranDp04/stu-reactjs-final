@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import AdminHome from "../../components/Admin/AdminHome";
+import ChangePassword from "../../components/ChangePassword/changePassword";
 import Layout from "../../layout";
 
 function AdminPage() {
@@ -10,9 +11,11 @@ function AdminPage() {
     switch (location.pathname) {
       case "/admin":
         return <AdminHome/>;
-
+        case "/changepassword":
+          return <ChangePassword/>;
       default:
         return <AdminHome/>;
+        
     }
   };
 
