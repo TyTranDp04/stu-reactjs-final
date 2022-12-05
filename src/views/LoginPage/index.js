@@ -14,8 +14,8 @@ const LoginPage = () => {
   useEffect(() => {
     if (!user) {
       navigate('/login');
-    } else if (user === 'admin@gmail.com') {
-      navigate('/admin');
+     } else if (user === 'admin@gmail.com') {
+       navigate('/admin');
     } else {
       navigate('/');
     }

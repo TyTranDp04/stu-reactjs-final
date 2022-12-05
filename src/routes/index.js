@@ -19,10 +19,9 @@ const RouterApp = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
-
           <Route path={"admin"} element={<AdminPage />} >
-            
           </Route>
+          <Route path="/change-password" element={<AdminPage />} ></Route>
         </Routes>
       </Wrapper>
     </BrowserRouter>
