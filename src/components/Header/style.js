@@ -80,7 +80,7 @@ export const HeaderAvatar = styled.div`
   }
 `
 export const DropdownLogo = styled.div`
-.Droplogo{
+.droplogo{
   background-color: #00aeef;
    border : 0px;
    display : flex;
@@ -88,5 +88,8 @@ export const DropdownLogo = styled.div`
 }
 .dropdown-toggle::after{
   border-top:0;
+}
+.content{
+  text-decoration-line:none;
 }
 `

@@ -1,5 +1,5 @@
 import React from 'react'
-import ChangePassword from '../ChangePassword/changePassword'
+import ChangePassword from '../ChangePassword/change-password'
 import { HomeCol } from './style'
 
 const Home = () => {

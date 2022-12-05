@@ -28,20 +28,28 @@ const Header = () => {
             <HeaderLogoffButton>Log off</HeaderLogoffButton>
             <Dropdown>
               <DropdownLogo>
-              <Dropdown.Toggle className="Droplogo" variant="success" id="dropdown-basic">
-              <HeaderAvatar>
-                <StImg src={logo} />
-            </HeaderAvatar>
-              </Dropdown.Toggle>
+                <Dropdown.Toggle
+                  className="droplogo"
+                  variant="success"
+                  id="dropdown-basic"
+                >
+                  <HeaderAvatar>
+                    <StImg src={logo} />
+                  </HeaderAvatar>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Link to="/change-password">
+                    <Dropdown.Item className="content" href="#/action-1">
+                      Change Password
+                    </Dropdown.Item>
+                  </Link>
+                  <Link to="/admin">
+                    <Dropdown.Item className="content" href="#/action-2">
+                      My Profile
+                    </Dropdown.Item>
+                  </Link>
+                </Dropdown.Menu>
               </DropdownLogo>
-              <Dropdown.Menu>
-                <Link to="/change-password">
-                <Dropdown.Item href="#/action-1">Change Password</Dropdown.Item>
-                </Link>
-                <Link to="/admin">
-                <Dropdown.Item href="#/action-2" >My Profile</Dropdown.Item>
-                </Link>
-              </Dropdown.Menu>
             </Dropdown>
           </HeaderLogoff>
         </HeaderInner>
