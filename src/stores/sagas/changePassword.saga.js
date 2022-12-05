@@ -1,17 +1,22 @@
-import { delay, put, takeEvery } from "redux-saga/effects";
+import { put, takeEvery } from "redux-saga/effects";
 import { changePasswordAPI } from "../../api/changePassword.api.js";
 import {
-  updatechangePasswordAction,
-  updatechangePasswordSuccess,
-  updatechangePasswordFailed,
+  updatechangePasswordAction, updatechangePasswordFailed, updatechangePasswordSuccess
 } from "../slices/changePassword.slice.js";
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 function* updateChangePassword(action) {
+  console.log('response: ', action.payload);
+
   try {
     const response = yield changePasswordAPI.updateChangePassword(
       action.payload.id,
-      action.payload.data
+      {Password : action.payload.Password}
     );
+    console.log("response: ", response);
+    
     // Put 1 action đã được định nghĩa ở slice
     yield put(updatechangePasswordSuccess(response.data));
   } catch (e) {
@@ -21,6 +26,6 @@ function* updateChangePassword(action) {
   }
 }
 
-export function* dpAlumniSaga() {
-  yield takeEvery(updateDpAlumniAction, updateDpAlumni);
+export function* changePasswordSaga() {
+  yield takeEvery(updatechangePasswordAction, updateChangePassword);
 }

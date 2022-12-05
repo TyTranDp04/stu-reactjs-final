@@ -17,7 +17,8 @@ export const changePasswordSlice = createSlice({
 
     },
     updatechangePasswordSuccess: (state, action) => {
-      toast.success("Add to DpAlumni successfully");
+      toast.success(action.payload.message);
+      // console.log(action.payload.message);
     },
     updatechangePasswordFailed: (state, action) => {
 

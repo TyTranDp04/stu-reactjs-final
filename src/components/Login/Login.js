@@ -24,8 +24,8 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
-    // console.log('data: ', data)
     dispatch(loginAction(data));
+    console.log(data);
   };
   return (
     <Section className="container-fluid">
