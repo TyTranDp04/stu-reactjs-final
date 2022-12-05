@@ -31,12 +31,10 @@ const schema = yup
       .max(16, "Password min is 6 , max is 16 ."),
   })
   .required();
-
 const ChangePassword = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const id = userInfo.data?.user?.id;
   const ChangePassword = userInfo.data?.user?.Password;
-  console.log("a", ChangePassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -44,15 +42,18 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = (data, notify) => {
-    if (ChangePassword === data.oldPassword) {
+  const onSubmit = (data, notify ) => {
+    if (data.Password === data.oldPassword){
+      toast.error("Old Password and New Password cannot be the same");
+    }
+    else if (ChangePassword === data.oldPassword) {
       dispatch(
         updatechangePasswordAction({
           id: id,
           Password: data.Password,
         })
       );
-      navigate("/login");
+       navigate("/change-password")
     } else {
       toast.error("Old Password Incorrect");
     }

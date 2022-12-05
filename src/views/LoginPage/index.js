@@ -17,7 +17,7 @@ const LoginPage = () => {
      } else if (user === 'admin@gmail.com') {
        navigate('/admin');
     } else {
-      navigate('/admin');
+      navigate('/');
     }
   }, [user, navigate]);
 
