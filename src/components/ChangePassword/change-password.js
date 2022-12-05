@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Clearfix, Container, H1, Input, P, Signupbtn } from "./style.js";
+import Swal from "sweetalert2";
 const schema = yup
   .object()
   .shape({
@@ -42,21 +43,39 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = (data, notify ) => {
-    if (data.Password === data.oldPassword){
-      toast.error("Old Password and New Password cannot be the same");
-    }
-    else if (ChangePassword === data.oldPassword) {
-      dispatch(
-        updatechangePasswordAction({
-          id: id,
-          Password: data.Password,
-        })
-      );
-       navigate("/change-password")
-    } else {
-      toast.error("Old Password Incorrect");
-    }
+  const onSubmit = (data, notify) => {
+    Swal.fire({
+      title: "Add this data?",
+      icon: "question",
+      iconHtml: "?",
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+      showCancelButton: true,
+      showCloseButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (data.Password === data.oldPassword) {
+          Swal.fire("Old Password and New Password cannot be the same!", "", "error");
+          toast.error("Old Password and New Password cannot be the same");
+        } else if (ChangePassword === data.oldPassword) {
+          dispatch(
+            updatechangePasswordAction({
+              id: id,
+              Password: data.Password,
+            })
+          );
+          navigate("/");
+          Swal.fire(" success!", "", "success");
+        } else {
+          toast.error("Old Password Incorrect");
+          Swal.fire("Old Password Incorrect!", "", "error");
+        }
+
+        
+      } else {
+        Swal.fire(" Cancel!", "", "error");
+      }
+    });
   };
 
   return (
