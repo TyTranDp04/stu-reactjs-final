@@ -1,6 +1,12 @@
 import React from "react";
 import logo from "../../assets/images/stlogo.png";
+import resetpassword from "../../assets/images/reset-password.png";
+import profile from "../../assets/images/profile.png";
+import shutdown from "../../assets/images/shutdown.png";
+import Swal from "sweetalert2";
 import {
+  Back,
+  Backdiv,
   DropdownLogo,
   HeaderAvatar,
   HeaderBg,
@@ -10,12 +16,32 @@ import {
   HeaderLogoffButton,
   HeaderRow,
   HeaderWrapper,
+  ResetImg,
   StImg,
+  StyleLink,
 } from "./style";
-import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const Header = () => {
+ const logout = () => {
+  Swal.fire({
+    title: "Log out?",
+    icon: "question",
+    iconHtml: "?",
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    showCancelButton: true,
+    showCloseButton: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+      Swal.fire("Logout success!", "", "success");
+    } else {
+      Swal.fire(" Cancel!", "", "error");
+    }
+  });
+ }
+
   return (
     <HeaderRow className="row">
       <HeaderBg className="col-sm-12"></HeaderBg>
@@ -38,16 +64,24 @@ const Header = () => {
                   </HeaderAvatar>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Link to="/change-password">
+                  <StyleLink to="/change-password">
                     <Dropdown.Item className="content" href="#/action-1">
+                      <ResetImg src={resetpassword} />
                       Change Password
                     </Dropdown.Item>
-                  </Link>
-                  <Link to="/admin">
+                  </StyleLink>
+                  <StyleLink to="/admin">
                     <Dropdown.Item className="content" href="#/action-2">
+                      <ResetImg src={profile} />
                       My Profile
                     </Dropdown.Item>
-                  </Link>
+                  </StyleLink>
+                  <Dropdown.Item className="content" href="#/action-2">
+                    <Back  onClick={() => logout()} >
+                      <ResetImg src={shutdown} />
+                      Logout
+                    </Back>       
+                  </Dropdown.Item>               
                 </Dropdown.Menu>
               </DropdownLogo>
             </Dropdown>
