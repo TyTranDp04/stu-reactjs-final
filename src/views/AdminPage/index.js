@@ -11,6 +11,7 @@ function AdminPage() {
     switch (location.pathname) {
       case "/admin":
         return <AdminHome/>;
+      
         case "/change-password":
           return <ChangePassword/>;
       default:

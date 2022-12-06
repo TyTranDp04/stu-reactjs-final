@@ -18,9 +18,9 @@ const Layout = ({ children, title }) => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
-    } else if (user === "admin@gmail.com") {
-      navigate("/");
+      navigate('/login');
+    } else if (user === 'admin@gmail.com') {
+      navigate('/');
     }
   }, [user, navigate]);
 
