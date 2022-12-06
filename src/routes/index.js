@@ -24,6 +24,7 @@ const RouterApp = () => {
           <Route path="/day-off" element={<DayOffPage/>} />
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
+          <Route path="/change-password" element={<AdminPage />} ></Route>
         </Routes>
       </Wrapper>
     </BrowserRouter>

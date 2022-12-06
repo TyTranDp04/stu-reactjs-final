@@ -79,3 +79,17 @@ export const HeaderAvatar = styled.div`
     color: #8000FF;
   }
 `
+export const DropdownLogo = styled.div`
+.droplogo{
+  background-color: #00aeef;
+   border : 0px;
+   display : flex;
+   --bs-btn-active-bg: #00aeef;
+}
+.dropdown-toggle::after{
+  border-top:0;
+}
+.content{
+  text-decoration-line:none;
+}
+`

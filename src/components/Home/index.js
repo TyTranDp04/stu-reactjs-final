@@ -1,4 +1,5 @@
 import React from 'react'
+import ChangePassword from '../ChangePassword/index'
 import { HomeCol } from './style'
 const Home = () => {
   return (
