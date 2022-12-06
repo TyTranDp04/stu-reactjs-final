@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+// import { Link } from "react-router-dom";
 
 export const HeaderRow = styled.div`
   background-color: #00aeef;
@@ -80,16 +82,46 @@ export const HeaderAvatar = styled.div`
   }
 `
 export const DropdownLogo = styled.div`
+text-decoration-line:none;
 .droplogo{
   background-color: #00aeef;
    border : 0px;
    display : flex;
    --bs-btn-active-bg: #00aeef;
+   
 }
 .dropdown-toggle::after{
   border-top:0;
 }
 .content{
   text-decoration-line:none;
+  &:hover {
+    background-color : #f1c40f;
+  }
 }
+`
+
+export const Back = styled.a`
+text-decoration-line:none;
+color: var(--bs-dropdown-link-color);
+&:hover{
+  color:black;
+}
+`
+export const Backdiv = styled.div`
+text-decoration-line:none;
+color: var(--bs-dropdown-link-color);
+&:hover{
+  color:black;
+}
+`
+
+export const StyleLink = styled(Link)`
+text-decoration-line:none;
+`
+
+export const ResetImg = styled.img`
+width: 30px;
+height: auto;
+padding-right:5px;
 `
