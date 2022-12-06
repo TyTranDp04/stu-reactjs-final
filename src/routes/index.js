@@ -21,7 +21,7 @@ const RouterApp = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/dayoff" element={<DayOffPage/>} />
+          <Route path="/day-off" element={<DayOffPage/>} />
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
         </Routes>
