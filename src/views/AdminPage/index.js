@@ -10,7 +10,7 @@ function AdminPage() {
     switch (location.pathname) {
       case "/admin":
         return <AdminHome/>;
-
+      
       default:
         return <AdminHome/>;
     }

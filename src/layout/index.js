@@ -19,7 +19,7 @@ const Layout = ({ children, title }) => {
   useEffect(() => {
     if (!user) {
       navigate('/login');
-    } else if (user !== 'admin@gmail.com') {
+    } else if (user === 'admin@gmail.com') {
       navigate('/');
     }
   }, [user, navigate]);
@@ -42,7 +42,7 @@ const Layout = ({ children, title }) => {
           <SidebarCol className='col-sm-3 col-lg-2'><SidebarCategory>Account</SidebarCategory></SidebarCol>
           <HomeCol className='col-sm-9 col-lg-10' style={{ display: "flex", backgroundColor: "#00aeef" }}>
             <SidebarCategory><Link to='/account'>Account / </Link></SidebarCategory>
-            <SidebarCategory><Link to='/day-off'>Days off / </Link></SidebarCategory>
+            <SidebarCategory><Link to='/dayoff'>Days off / </Link></SidebarCategory>
             <SidebarCategory>{current_date}</SidebarCategory>
           </HomeCol>
         </div>
