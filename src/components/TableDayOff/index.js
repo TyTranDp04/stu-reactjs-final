@@ -20,7 +20,7 @@ import {
   Tbody,
   Tr,
   ContainerRestore,
-  Th, SelectRequest, BoxHeader, ButtonAddDayOff, ButtonSearchDayOff, TrHead, TableScroll, TextArea, ThContent, ButtonRestoreDayOff
+  Th, BoxHeader, ButtonAddDayOff, ButtonSearchDayOff, TrHead, TableScroll, TextArea, ThContent, ButtonRestoreDayOff
 
 } from './style'
 import ActionUser from './ActionUser';
@@ -38,16 +38,19 @@ const TableDayOff = (props) => {
   const [showModalUpdate, setShowModalUpdate] = useState(false)
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApiTable, setCallApiTable] = useState(false)
+
   const dataUser = userInfo?.data?.user
+
   const formData = {
     UserId: dataUser?.id,
     RoleId: dataUser?.RoleId,
     GroupId: dataUser?.GroupId,
     Name: dataUser?.Name,
   }
-  const urlGetDayOff = URL_API+"/dayoff"
-  const urlGetDayOffStore = URL_API+"/dayoff-soft"
 
+  const urlGetDayOff = URL_API+"/dayoff"
+
+  const urlGetDayOffStore = URL_API+"/dayoff-soft"
   async function getDataDayOff() {
     await Axios.post(urlGetDayOff, formData)
       .then(res => setData(res))
@@ -62,8 +65,7 @@ const TableDayOff = (props) => {
     getDataDayOff()
     getDataDayOffStore()
   }, [callApiTable])
-  const Data = data?.data?.data
-  const dataDayOff = Data?.reverse()
+  const dataDayOff = data?.data?.data
   const dataDayOffStore = dataStore?.data?.data
   const idMaster = data?.data?.idMaster
   return (
