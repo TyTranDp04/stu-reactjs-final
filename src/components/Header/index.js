@@ -4,6 +4,7 @@ import resetpassword from "../../assets/images/reset-password.png";
 import profile from "../../assets/images/profile.png";
 import shutdown from "../../assets/images/shutdown.png";
 import Swal from "sweetalert2";
+import Notifycation from "../Notification";
 import {
   Back,
   Backdiv,
@@ -51,6 +52,7 @@ const Header = () => {
             <StImg src={logo} />
           </HeaderLogo>
           <HeaderLogoff className="col-sm-10">
+            <Notifycation></Notifycation>
             <HeaderLogoffButton>Log off</HeaderLogoffButton>
             <Dropdown>
               <DropdownLogo>
