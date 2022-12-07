@@ -22,7 +22,7 @@ const Layout = ({ children, title }) => {
         </Helmet>
       </HelmetProvider>
 
-      <Container className='container'>
+      <Container className='container-fluid'>
         <Header />
         <div className='row'>
           <SidebarCol className='col-sm-3 col-lg-2'><SidebarCategory>Account</SidebarCategory></SidebarCol>
