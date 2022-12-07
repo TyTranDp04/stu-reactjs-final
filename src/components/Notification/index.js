@@ -43,7 +43,6 @@ const Notifycation = (props) => {
     }
   }, [dataUser, userInfo, callApi, showMenu])
   const dataNoti = data?.data?.data
-  console.log(dataNoti)
   const newDataNoti = []
   dataNoti?.map((e, index) => {
     newDataNoti[dataNoti?.length - index - 1] = e
