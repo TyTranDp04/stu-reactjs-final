@@ -88,6 +88,10 @@ export const Input = styled.input`
     border-color: #66afe9;
   }
 `
+export const DivTable = styled.div`
+max-width:950px;
+overflow:auto;
+`
 export const TextArea = styled.textarea`
   background-color: #ffffff;
   border-color: #cccccc;
