@@ -1,13 +1,16 @@
-import React from "react"
-import stlogo from '../../assets/images/stlogo.png'
-import { Button, Container, ForgotPass, ForgotPassH4, Form, GoogleIcon, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
-import googleIcon from '../../assets/images/ggicon.svg'
-import { ToastContainer } from 'react-toastify'
-import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
+import { gapi } from 'gapi-script'
+import React, { useEffect } from "react"
+import { GoogleLogin } from 'react-google-login'
+import { useForm } from "react-hook-form"
+import { useDispatch } from 'react-redux'
+import { useNavigate } from "react-router-dom"
+import { ToastContainer } from 'react-toastify'
 import * as yup from "yup"
-import { useDispatch } from 'react-redux';
-import { loginAction, loginGoogleAction } from '../../stores/slices/user.slice'
+import stlogo from '../../assets/images/stlogo.png'
+import { loginAction } from '../../stores/slices/user.slice'
+import { Button, Container, ForgotPass, ForgotPassH4, Form, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
+
 const schema = yup.object().shape({
   Gmail: yup.string()
     .required('Please enter a valid email address'),
@@ -16,6 +19,7 @@ const schema = yup.object().shape({
 }).required();
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register,
@@ -24,9 +28,32 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
-    // console.log('data: ', data)
     dispatch(loginAction(data));
   };
+
+  const clientId = '432304146543-6865d8t8d9m7g4isuakferb1t5dujqma.apps.googleusercontent.com';
+
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ''
+      });
+    };
+    gapi.load('client:auth2', initClient);
+  }, []);
+
+  const onSuccess = (res) => {
+    console.log('success:', res.profileObj.email);
+    const email = res.profileObj.email;
+    if (email) {
+      // navigate('/');
+    }
+  };
+  const onFailure = (err) => {
+    console.log('failed:', err);
+  };
+
   return (
     <Section className="container-fluid">
       <Container className="container">
@@ -51,7 +78,15 @@ const Login = () => {
           <ForgotPass><ForgotPassH4>Forgot password?</ForgotPassH4></ForgotPass>
           <Button type="submit">Submit</Button>
           <TextBlack>Or</TextBlack>
-          <Button className="login-google"><GoogleIcon src={googleIcon} className="icon-google" /> Log in with Google</Button>
+          <GoogleLogin
+            className="login-google"
+            clientId={clientId}
+            buttonText="Log in with Google"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
+            // isSignedIn={true}
+          />
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
             autoClose={1000}
