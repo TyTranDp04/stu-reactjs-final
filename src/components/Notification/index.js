@@ -59,7 +59,9 @@ const Notifycation = (props) => {
     setCallApi(!callApi)
   }
   return (
-    <Container>
+    <>
+    {
+      dataUser?.RoleId==='2'? <Container>
       <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
         <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
         <Span>{newDataNoti?.length}</Span>
@@ -94,7 +96,9 @@ const Notifycation = (props) => {
           </Menu>
         </Content> : ''
       }
-    </Container>
+    </Container>:''
+    }
+   </>
   );
 }
 
