@@ -13,10 +13,10 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user || userGoogle) {
-      navigate('/');
-    } else {
+    if (!user && !userGoogle) {
       navigate('/login');
+    } else {
+      navigate('/');
     }
   }, [user, userGoogle, navigate]);
 

@@ -18,13 +18,10 @@ const Layout = ({ children, title }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user || userGoogle) {
-      navigate('/');
-    } else {
+    if (!user && !userGoogle) {
       navigate('/login');
     }
   }, [user, userGoogle, navigate]);
-
   const date = new Date();
   const current_date =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
