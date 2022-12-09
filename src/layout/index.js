@@ -13,16 +13,17 @@ import { LayoutRow } from './style'
 
 const Layout = ({ children, title }) => {
   const userInfo = useSelector(state => state.users.userInfoState);
+  const userGoogle = userInfo?.data?.email;
   const user = userInfo?.data?.user?.Gmail;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else if (user !== 'admin@gmail.com') {
+    if (user || userGoogle) {
       navigate('/');
+    } else {
+      navigate('/login');
     }
-  }, [user, navigate]);
+  }, [user, userGoogle, navigate]);
 
   const date = new Date();
   const current_date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();

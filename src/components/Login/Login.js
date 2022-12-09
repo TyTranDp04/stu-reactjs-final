@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import * as yup from "yup"
 import stlogo from '../../assets/images/stlogo.png'
-import { loginAction } from '../../stores/slices/user.slice'
+import { loginAction, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
 import { Button, Container, ForgotPass, ForgotPassH4, Form, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
 
 const schema = yup.object().shape({
@@ -44,12 +44,9 @@ const Login = () => {
   }, []);
 
   const onSuccess = (res) => {
-    console.log('success:', res.profileObj.email);
-    const email = res.profileObj.email;
-    if (email) {
-      // navigate('/');
-    }
+    dispatch(loginGoogleActionSuccess(res.profileObj))
   };
+
   const onFailure = (err) => {
     console.log('failed:', err);
   };
@@ -66,7 +63,7 @@ const Login = () => {
             type="email"
             placeholder="Enter your email address"
           />
-          <TextRed>{errors.email?.message}</TextRed>
+          <TextRed>{errors.Gmail?.message}</TextRed>
           <br />
           <label>Password</label>
           <Input
@@ -74,7 +71,7 @@ const Login = () => {
             type="password"
             placeholder="Enter your password"
           />
-          <TextRed>{errors.password?.message}</TextRed>
+          <TextRed>{errors.Password?.message}</TextRed>
           <ForgotPass><ForgotPassH4>Forgot password?</ForgotPassH4></ForgotPass>
           <Button type="submit">Submit</Button>
           <TextBlack>Or</TextBlack>
