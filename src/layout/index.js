@@ -51,7 +51,7 @@ const Layout = ({ children, title }) => {
               <Link to="/account">Account / </Link>
             </SidebarCategory>
             <SidebarCategory>
-              <Link to="/day-off">Days off / </Link>
+              <Link to="/log-off">Days off / </Link>
             </SidebarCategory>
             <SidebarCategory>{current_date}</SidebarCategory>
           </HomeCol>
