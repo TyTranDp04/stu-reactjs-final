@@ -1,8 +1,6 @@
 {
   "name": "stu-reactjs-final",
   "version": "0.1.0",
-  "proxy": "http://localhost:3636",
-  "homepage": "http://localhost:3000",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
