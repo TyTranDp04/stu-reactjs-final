@@ -4,7 +4,6 @@ import React, { useEffect } from "react"
 import { GoogleLogin } from 'react-google-login'
 import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux'
-import { useNavigate } from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import * as yup from "yup"
 import stlogo from '../../assets/images/stlogo.png'
@@ -19,7 +18,6 @@ const schema = yup.object().shape({
 }).required();
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     register,
@@ -44,7 +42,12 @@ const Login = () => {
   }, []);
 
   const onSuccess = (res) => {
+    let account = res.profileObj.email.includes('@devplus.edu.vn');
+    if (account) {
     dispatch(loginGoogleActionSuccess(res.profileObj))
+    } else {
+      alert('Login failed, Your account must include "...@devplus.edu.vn"');
+    }
   };
 
   const onFailure = (err) => {
