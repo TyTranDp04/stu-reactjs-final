@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-// import { Link } from "react-router-dom";
 
 export const HeaderRow = styled.div`
   background-color: #00aeef;
@@ -24,8 +23,9 @@ export const HeaderLogo = styled.div`
   }
 `
 export const StImg = styled.img`
-  max-width: 100%;
+ 
   height: auto;
+  
 `
 export const HeaderLogoff = styled.div`
   display: flex;
@@ -58,12 +58,12 @@ export const HeaderLogoffButton = styled.button`
   }
 `
 export const HeaderAvatar = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: 1px solid #4B5C6B;
   border-radius: 50%;
   margin: 0 30px 0 20px;
-  padding: 7px;
+
   cursor: pointer;
   background-color: #fff;
 
@@ -79,6 +79,13 @@ export const HeaderAvatar = styled.div`
   }
   &:hover {
     color: #8000FF;
+  }
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin : -1px 10px 10px -1px;  
   }
 `
 export const DropdownLogo = styled.div`
@@ -124,4 +131,10 @@ export const ResetImg = styled.img`
 width: 30px;
 height: auto;
 padding-right:5px;
+`
+
+export const HeaderName = styled.p`
+color: white;
+margin : 0;
+font-size: 18px;
 `

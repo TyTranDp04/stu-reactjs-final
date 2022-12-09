@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     if (!user) {
       document.cookie = `accesToken=${null}`;
-      localStorage.removeItem(USER_INFO_KEY);
+      // localStorage.removeItem(USER_INFO_KEY);
     }
   }, [user]);
 

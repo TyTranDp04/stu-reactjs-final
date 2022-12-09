@@ -1,21 +1,22 @@
 import { useLocation } from "react-router-dom";
 import AdminHome from "../../components/Admin/AdminHome";
 import ChangePassword from "../../components/ChangePassword/index";
+import MyProfile from "../../components/MyProfile";
 import Layout from "../../layout";
 
 function AdminPage() {
-
   const location = useLocation();
 
   const renderContent = () => {
     switch (location.pathname) {
       case "/admin":
-        return <AdminHome/>;
-        case "/change-password":
-          return <ChangePassword/>;
+        return <AdminHome />;
+      case "/change-password":
+        return <ChangePassword />;
+      // case "/my-profile":
+      //   return <MyProfile />;
       default:
-        return <AdminHome/>;
-        
+        return <AdminHome />;
     }
   };
 

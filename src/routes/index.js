@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import AdminPage from "../views/AdminPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
+import MyProfilePage from "../views/MyProfilePage";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const RouterApp = () => {
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
           <Route path="/change-password" element={<AdminPage />} ></Route>
+          <Route path="/my-profile" element={<MyProfilePage />} />
         </Routes>
       </Wrapper>
     </BrowserRouter>

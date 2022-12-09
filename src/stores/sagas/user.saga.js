@@ -2,6 +2,7 @@ import { put, takeEvery } from "redux-saga/effects";
 import { AuthAPI } from "../../api";
 import { loginAction, loginActionFailed, loginActionSuccess, loginGoogleAction, loginGoogleActionFailed, loginGoogleActionSuccess } from "../slices/user.slice";
 
+
 function* login(action) {
   try {
     const loginPayload = action.payload;
@@ -30,7 +31,20 @@ function* loginGoogle(action) {
   }
 }
 
+// function* getUser(action) {
+//   try {
+//     console.log('action: ', action.payload);
+//     const response = yield AuthAPI.getUser(action.payload);
+//     console.log('response: ', response);
+//     yield put(getUserActionSuccess(response.data.data));
+//   } catch (e) {
+//     console.log('error: ', e);
+//     yield put(getUserActionFailed(e.response.data.message));
+//   }
+// }
+
 export function* userSaga() {
   yield takeEvery(loginAction, login);
   yield takeEvery(loginGoogleAction, loginGoogle);
+  // yield takeEvery(getUserAction, getUser);
 }
