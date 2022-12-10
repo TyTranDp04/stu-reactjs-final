@@ -65,11 +65,18 @@ const ManagementUser = () => {
 
 
   async function DeleteData(e) {
-    console.log(e)
     await fetch(`http://localhost:3636/user/${e}`, { method: "DELETE" })
     .then(res =>{
       setData(res?.data)
     });
+  }
+
+  async function EditData(e){
+    console.log(e)
+    const formData = new FormData(document.getElementById('form'))
+    await fetch(`http://localhost:3636/user/${e}`, formData)
+    .then(res => console.log(res.body)  )
+      .catch(err => console.log(err)) 
   }
 
   return (
@@ -228,14 +235,35 @@ const ManagementUser = () => {
                       <TD>{item.Gmail}</TD>
                       <TD>{item.Phone}</TD>
                       <TD>{item.Address}</TD>
-                      <TD>{item.Password}</TD>
+                      <TD>{item.RoleId}</TD>
                       <TD>{item.GroupId}</TD>
-                      <div>
-                        <div>
-                          <button onClick={() => setShow(true)}>edit</button>
-                        </div>
-                        <div>
-                        <button 
+                      <TD>
+                        <TD>
+                          <button 
+                          onClick={
+                            () =>
+                            Swal.fire({
+                              title: "Are you sure EDIT?",
+                              text:"You will not be able to recover this USER",
+                              icon: "warning",
+                              iconHtml: "!",
+                              confirmButtonColor: '#DD6B55',
+                              confirmButtonText: "YES, EDIT IT!!!",
+                              cancelButtonText: "Cancel",
+                              showCancelButton: true,
+                              showCloseButton: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                            EditData(item._id)
+                                setShow(false);
+                                Swal.fire("Nice to meet you", "", "success");
+                              } 
+                              // else Swal.fire(" Cancelled", "", "error");
+                            })
+                          }
+                          >edit</button>
+                        </TD>
+                         <TD> <button 
                       onClick={
                         () =>
                         Swal.fire({
@@ -257,9 +285,8 @@ const ManagementUser = () => {
                           // else Swal.fire(" Cancelled", "", "error");
                         })
                       }
-                      >delete</button>
-                        </div>
-                      </div>
+                      >delete</button></TD>
+                          </TD>
                     </TR>
                   ))}
                 </tbody>
