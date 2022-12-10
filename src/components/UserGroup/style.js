@@ -176,7 +176,8 @@ export const NameText = styled.span`
  width : 100px;
  text-align : start;
  font-size : 20px;
- font-weight : 500;
+ font-weight : bold;
+  width: 150px;
 `
 export const BtnDeleteGroup = styled.button`
   border: none;

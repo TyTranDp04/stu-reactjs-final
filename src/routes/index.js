@@ -1,7 +1,5 @@
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import TableDayOff from "../components/TableDayOff";
-import UserGroup from "../components/UserGroup";
 import AdminPage from "../views/AdminPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
