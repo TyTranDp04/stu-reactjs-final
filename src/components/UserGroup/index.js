@@ -41,7 +41,6 @@ function UserGroup(props) {
         const dataApiGroup = res?.data?.data
         switch (userInfo?.data?.user?.RoleId) {
           case "1":
-            console.log(userInfo?.data?.user?.GroupId)
             const data = dataApiGroup.filter(function (e) {
               return userInfo?.data?.user?.GroupId.includes(e._id)
             })
@@ -121,7 +120,6 @@ function UserGroup(props) {
       if (result.isConfirmed) {
         axios.delete(url)
           .then((data) => {
-            console.log(data)
             setCallApiGroup(!callApiGroup)
             Swal.fire({
               icon: 'success',
