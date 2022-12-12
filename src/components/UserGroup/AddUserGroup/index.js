@@ -20,7 +20,6 @@ const ModalAddUserGroup = (props) => {
   const [dataUserUpdate, setDataUserUpdate] = useState()
   const [dataUserFilter, setDataUserFilter] = useState();
   const [dataAddUser, setDataAddUser ] = useState();
-  const userInfo = useSelector(state => state.users.userInfoState);
   const url = process.env.REACT_APP_URL_WEBSITE
   const urlGetUser = process.env.REACT_APP_URL_WEBSITE + '/user'
   async function getDataUser() {
@@ -30,7 +29,7 @@ const ModalAddUserGroup = (props) => {
   }
   useEffect(() => {
     getDataUser()
-  }, [])
+  }, [callApiGroup])
   useEffect(()=>{
     const ArrayId = []
     const data = dataUser?.filter(function(e){
@@ -89,6 +88,11 @@ const ModalAddUserGroup = (props) => {
         })
         setCallApiGroup(!callApiGroup)
         setShowAddUserGroup(false)
+        setDataUserUpdate([])
+        setDataInput({
+          RoleId: "1",
+          user: ''
+        })
       })
       .catch(err => console.log(err))
   }
@@ -144,8 +148,8 @@ const ModalAddUserGroup = (props) => {
               dataUserFilter?.length !== 0 && dataUserFilter? 
                 <BoxUser style={{ margin: '5px 0', width: '50%', border: '2px solid #ccc', color: "#ccc" }}>
                   {
-                    dataUserFilter?.map((e) => (
-                      <OptionUser onClick={() => chooseData(e)}>
+                    dataUserFilter?.map((e, index) => (
+                      <OptionUser key={index} onClick={() => chooseData(e)}>
                         <IconUser src={e.Avatar} alt={e.Name}></IconUser>
                         <NameUser>{e.Name}</NameUser>
                       </OptionUser>

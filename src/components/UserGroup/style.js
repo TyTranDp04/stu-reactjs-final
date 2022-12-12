@@ -175,13 +175,14 @@ justify-content: start;
 export const NameTextInfo = styled.h5`
   font-size: 16px;
   margin: 0 0 0 3px;
+  padding-right: 5px;
 `
 export const NameText = styled.span`
- width : 100px;
+ display: block;
  text-align : start;
  font-size : 20px;
  font-weight : 500;
-  width: 150px;
+  width: 100px;
 `
 export const BtnDeleteGroup = styled.button`
   border: none;

@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 import {
   Container,
-  User, Group, GroupDetail, HeaderContainer, BtnContainer, H3, Avatar, H4, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
+  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, H4, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
   Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
 } from './style'
 import axios from 'axios';
@@ -70,24 +70,20 @@ function UserGroup(props) {
     }
     await axios.post(urlDeleteUserGroup, form)
       .then(data => {
-        setCallApiGroup(!callApiGroup)
         Swal.fire({
           icon: 'success',
           title: 'Delete success',
           showConfirmButton: false,
           timer: 1000
         })
+        setCallApiGroup(!callApiGroup)
       })
       .catch(err => console.log(err))
   }
 
   function handleShowDetail(group) {
-    if( userInfo?.data?.user?.RoleId === "1"){
-
-    }else{
       setDataDetail(group)
       setShowDetail(false)
-    }
   }
   function handleDeleteUser(UserId, GroupId) {
     Swal.fire({
@@ -189,7 +185,7 @@ function UserGroup(props) {
                           userInfo?.data?.user?.RoleId === "3" ?
                             <Td>
                               <TdContent>
-
+                          
                                 <BtnDeleteGroup onClick={() => handleDeleteGroup(e?._id)}>Delete</BtnDeleteGroup>
 
                               </TdContent>
@@ -208,7 +204,7 @@ function UserGroup(props) {
           <GroupDetail>
             <Header>
               <HeaderContainer>
-                <NameText style={{ fontWeight: 'bold' }}>Basic infomation</NameText>
+                <NameText style={{ fontWeight: 'bold', width: '50%' }}>{dataDetail?.Name} infomation</NameText>
                 <BtnContainer>
                   <BtnAddGroup style={{ marginRight: '20px', width: "70px" }} onClick={() => setShowDetail(true)}>
                     <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faAngleLeft} />
@@ -224,7 +220,7 @@ function UserGroup(props) {
             </Header>
             <Name>
               <NameText>Name</NameText>
-              <NameTitle>HR</NameTitle>
+              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"User":userInfo?.data?.user?.RoleId === "2"?'Master':'HR'}</NameTitle>
             </Name>
             <Master>
               <NameText>Master</NameText>
@@ -234,9 +230,13 @@ function UserGroup(props) {
                     user.GroupId.includes(dataDetail._id) && user.RoleId === "2" ? <MemberInfo key={id}>
                       <Icon alt={user?.Name} src={user?.Avatar}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
-                      <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
-                        <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
-                      </BtnDelete>
+                      {
+                        userInfo?.data?.user?.RoleId ==="3"?
+                        <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                          <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                        </BtnDelete>:''
+                      }
+                      
                     </MemberInfo> : ''
                   ))
                 }
@@ -250,9 +250,13 @@ function UserGroup(props) {
                     user.GroupId.includes(dataDetail._id) ? <MemberInfo key={id}>
                       <Icon alt={user?.Name} src={user?.Avatar}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
-                      <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
-                        <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
-                      </BtnDelete>
+                      {
+                         userInfo?.data?.user?.RoleId !=="1" && user.RoleId === "1"?
+                         <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                         <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                       </BtnDelete>:''
+                      }
+                     
                     </MemberInfo> : ''
                   ))
                 }
