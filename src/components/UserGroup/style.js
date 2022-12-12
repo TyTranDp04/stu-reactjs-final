@@ -33,7 +33,8 @@ export const BtnContainer = styled.div`
   align-items: center;
 `
 
-export const H3 = styled.h3``
+export const H3 = styled.h3`
+`
 
 
 export const Avatar = styled.img`
@@ -104,13 +105,14 @@ export const Name = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
+  margin-bottom: 20px;
 `
 export const NameTitle = styled.div`
   height: 35px;
   border: 2px solid #ccc;
   width: 10%;
   border-radius: 5px;
-  margin-bottom: 20px;
+
   text-align: center;
   display: flex;
   align-items: center;
@@ -131,6 +133,8 @@ margin: 5px 0;
 width: 50%;
 height: 150px;
 display: flex;
+flex-wrap: wrap;
+overflow: auto;
 `
 export const MemberInfo = styled.div`
 margin: 3px 5px 0 5px;
@@ -176,7 +180,7 @@ export const NameText = styled.span`
  width : 100px;
  text-align : start;
  font-size : 20px;
- font-weight : bold;
+ font-weight : 500;
   width: 150px;
 `
 export const BtnDeleteGroup = styled.button`
