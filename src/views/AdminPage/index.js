@@ -10,8 +10,7 @@ function AdminPage() {
   const renderContent = () => {
     switch (location.pathname) {
       case "/admin":
-        return <AdminHome/>;
-      
+        return <AdminHome/>
         case "/change-password":
           return <ChangePassword/>;
       default:

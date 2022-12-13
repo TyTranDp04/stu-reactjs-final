@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const HeaderRow = styled.div`
   background-color: #00aeef;
+  
 `
 export const HeaderWrapper = styled.div`
 `
