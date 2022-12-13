@@ -116,6 +116,30 @@ const userSlice = createSlice({
         error: toast.error(action.payload),
       };
     },
+    changePasswordAction(state, action) {
+      // update data after update success password
+      // console.log("hih", action.payload)
+      state.userInfoState.loading= true;
+    },
+    changePasswordActionSuccess(state, action) {
+      // update data after update success password
+      console.log("hih", action.payload)
+      state.userInfoState.loading= false;
+      state.userInfoState.data.user.Password  = action.payload.Password;
+    },
+    changePasswordActionFailed(state, action) {
+      // update data after update success password
+      // console.log("hih", action.payload)
+      state.userInfoState.loading= false;
+    },
+    updateAvata(state, action){
+      console.log("abdbsafas",action.payload.Avatar);
+      state.userInfoState.data.user.Avatar=action.payload.Avatar;
+      state.userInfoState.data.user.Name=action.payload.Name;
+    },
+    // updateName(state, action){
+    //   state.userInfoState.data.user.Name=action.payload.Name;
+    // }
   },
 });
 export const {
@@ -130,5 +154,10 @@ export const {
   getUserAction,
   getUserActionSuccess,
   getUserActionFailed,
+  changePasswordAction,
+  changePasswordActionSuccess,
+  changePasswordActionFailed,
+  updateAvata,
+  // updateName
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;

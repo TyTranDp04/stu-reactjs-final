@@ -3,7 +3,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { mySaga } from "./sagas";
-import { changePasswordReducer } from "./slices/changePassword.slice";
 import { userReducer } from "./slices/user.slice";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -11,7 +10,6 @@ const middleware = [sagaMiddleware];
 
 const rootReducer = {
   users: userReducer,
-  changePassword: changePasswordReducer
 };
 
 export const appStore = configureStore({

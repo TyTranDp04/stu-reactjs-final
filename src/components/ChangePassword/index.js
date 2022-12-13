@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextRed } from "../Login/style";
-import { updatechangePasswordAction } from "../../stores/slices/changePassword.slice";
+import { changePasswordAction } from "../../stores/slices/user.slice";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
@@ -42,28 +42,29 @@ const schema = yup
   })
   .required();
 const ChangePassword = () => {
-    // const [data, setData] = useState();
+    const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
+  console.log(userInfo.data?.user , "user");
   const id = userInfo.data?.user?.id;
-  let ChangePassword = userInfo.data?.user?.Password;
+  let ChangePassword = data?.Password;
   console.log("abc : " ,ChangePassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const [data, setData] = useState();
-  // const getData = async () => {
-  //   const url = `http://localhost:3636/user/${id}`;
-  //   await axios
-  //     .get(url)
-  //     .then((res) => {
-  //       setData(res.data);
-  //       console.log('getdata: ', res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const getData = async () => {
+    const url = `http://localhost:3636/user/${id}`;
+    await axios
+      .get(url)
+      .then((res) => {
+        setData(res.data);
+        console.log('getdata: ', res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  // useEffect (() => {
-  //   getData()
-  //   }, []);
+  useEffect (() => {
+    getData()
+    }, []);
   const {
     register,
     handleSubmit,
@@ -90,8 +91,8 @@ const ChangePassword = () => {
           toast.error("Old Password and New Password cannot be the same");
         } else if (ChangePassword === adata.oldPassword) {
           dispatch(
-            updatechangePasswordAction({
-              id: id,
+            changePasswordAction({
+              id:id,
               Password: adata.Password,
             })
           );

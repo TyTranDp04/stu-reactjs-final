@@ -66,6 +66,11 @@ export const Cancelbtn = styled.button`
 export const Container = styled.div`
    {
     padding: 16px;
+    .lableName{
+      font-size: 16px;
+      font-weight: bold;
+      float:left;
+    }
   }
 `;
 export const Clearfix = styled.div`
@@ -201,4 +206,29 @@ export const BtnImgRemove = styled.button`
 export const IconRemove = styled.i`
   color: #fff;
 `
+export const NameGroup = styled.div`
+display: flex;
+width: 100%;
+padding: 15px;
+margin: 5px 0 22px 0;
+border: none;
+resize: vertical;
+padding: 15px;
+border-radius: 15px;
+border: 0;
+box-shadow: 4px 4px 10px rgb(0 0 0 / 20%);
 
+.Groupname{
+  width: 25%;
+padding: 15px ;
+margin: 5px 15px 22px 0;
+border: none;
+resize: vertical;
+border-radius: 15px;
+border: 0;
+box-shadow: 4px 4px 10px rgb(0 0 0 / 20%);
+&:hover{
+  background-color:#4caf50
+}
+}
+`
