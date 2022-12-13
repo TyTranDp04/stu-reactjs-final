@@ -9,7 +9,7 @@ const Sidebar = () => {
   };
   const managerRouter = {
     members: { name: "Members", url: "/members", icon: "" },
-    groups: { name: "Groups", url: "/groups", icon: "" },
+    groups: { name: "Groups", url: "/user-group", icon: "" },
     notifications: { name: "Notifications", url: "/notifications", icon: "" },
     sync: { name: "Sync", url: "/sync", icon: "" },
   };

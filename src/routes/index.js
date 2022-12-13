@@ -5,6 +5,7 @@ import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
 import Management from "../views/Management";
+import UserGroupPage from "../views/UserGroupPage";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -23,6 +24,8 @@ const RouterApp = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/day-off" element={<DayOffPage/>} />
           <Route path="/admin/user" element={<Management />} />
+          <Route path="/log-off" element={<DayOffPage/>} />
+          <Route path="/user-group" element={<UserGroupPage/>} />
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
           <Route path="/change-password" element={<AdminPage />} ></Route>
