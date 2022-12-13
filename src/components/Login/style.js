@@ -84,12 +84,16 @@ export const Form = styled.form`
   border-radius: 5px;
 
   .login-google {
-    background: none;
-    color: #111111;
-    border: 1px solid #8000FF;
-    &:hover {
-      opacity: 1;
-    }
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+    color: #111111 !important;
+    border: 1px solid #8000FF !important;
+    font-family: 'Rubik', sans-serif !important;
+    border-radius: 4px !important;
+    font-size: 16px !important;
   }
   .icon-google {
     display: inline-block;

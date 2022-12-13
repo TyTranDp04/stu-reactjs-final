@@ -4,9 +4,10 @@ import resetpassword from "../../assets/images/reset-password.png";
 import profile from "../../assets/images/profile.png";
 import shutdown from "../../assets/images/shutdown.png";
 import Swal from "sweetalert2";
+import Notifycation from "../Notification";
+import {logoutAction } from "../../stores/slices/user.slice";
 import {
   Back,
-  Backdiv,
   DropdownLogo,
   HeaderAvatar,
   HeaderBg,
@@ -22,8 +23,10 @@ import {
 } from "./style";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
  const logout = () => {
   Swal.fire({
     title: "Log out?",
@@ -35,8 +38,7 @@ const Header = () => {
     showCloseButton: true,
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.reload();
-      Swal.fire("Logout success!", "", "success");
+      dispatch(logoutAction());
     } else {
       Swal.fire(" Cancel!", "", "error");
     }
@@ -52,8 +54,9 @@ const Header = () => {
             <StImg src={logo} />
           </HeaderLogo>
           <HeaderLogoff className="col-sm-10">
+            <Notifycation></Notifycation>
             <HeaderLogoffButton>Log off</HeaderLogoffButton>
-            <Link to="/user">user</Link>
+            <Link to="/admin/user">user</Link>
             <Dropdown>
               <DropdownLogo>
                 <Dropdown.Toggle

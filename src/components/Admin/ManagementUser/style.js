@@ -11,8 +11,11 @@ export const Body = styled.div`
 export const Image = styled.img`
   with: 50px;
   height: 50px;
+  border-radius:50%;
 `;
 export const TH = styled.th`
+  padding-right:30px;
+  padding-left:30px;
   border-bottom: 2px solid #00aeef;
   background-color: #f2f2f2;
 `;
@@ -24,6 +27,7 @@ export const TR = styled.tr`
 `;
 export const TD = styled.td`
   padding: 20px;
+  width: auto;
 `;
 export const Btn = styled.button`
   align-items: flex-start;
