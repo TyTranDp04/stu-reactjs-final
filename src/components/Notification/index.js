@@ -89,7 +89,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to="/day-off">
+                    <Link key={index} to="/log-off">
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           <Name><B>Name: </B> {e.Name}</Name>
@@ -102,7 +102,7 @@ const Notifycation = (props) => {
                             <TimeDayOff date={e.DayOffFrom}></TimeDayOff>
                           </Date>
                           <Date>
-                            <H4><B>Type: </B> {e.Type ? e.Type : 'none'}</H4>
+                            <H4><B>Type: </B> {e?.Type===1?"WFH" : "OFF"}</H4>
                           </Date>
                           <Reason><B>Reason: </B>{e.Reason}</Reason>
                         </ItemContent>
