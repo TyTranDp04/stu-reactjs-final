@@ -48,6 +48,7 @@ const ChangePassword = () => {
   const id = userInfo.data?.user?.id;
   let ChangePassword = data?.Password;
   console.log("abc : " ,ChangePassword);
+  console.log(userInfo?.data?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const [data, setData] = useState();

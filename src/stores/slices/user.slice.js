@@ -26,12 +26,10 @@ const userSlice = createSlice({
     },
     loginActionSuccess(state, action) {
       const data = action.payload;
-      // const decodedToken = decodeJwt(data.accessToken);
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState = {
         ...state.userInfoState,
         loading: false,
-        // token: token,
         data,
       };
     },
@@ -52,8 +50,7 @@ const userSlice = createSlice({
       };
     },
     loginGoogleActionSuccess(state, action) {
-      // const data = action.payload;
-      // const decodedToken = decodeJwt(data.accessToken);
+      const data = action.payload;
       // localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState = {
         ...state.userInfoState,

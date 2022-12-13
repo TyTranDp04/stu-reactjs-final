@@ -12,18 +12,16 @@ import { SidebarCategory, SidebarCol } from "../components/Sidebar/style";
 import { LayoutRow } from "./style";
 
 const Layout = ({ children, title }) => {
-  const userInfo = useSelector((state) => state.users.userInfoState);
+  const userInfo = useSelector(state => state.users.userInfoState);
+  const userGoogle = userInfo?.data?.email;
   const user = userInfo?.data?.user?.Gmail;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else if (user === "admin@gmail.com") {
-      navigate("/");
+    if (!user && !userGoogle) {
+      navigate('/login');
     }
-  }, [user, navigate]);
-
+  }, [user, userGoogle, navigate]);
   const date = new Date();
   const current_date =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
@@ -51,7 +49,7 @@ const Layout = ({ children, title }) => {
               <Link to="/account">Account / </Link>
             </SidebarCategory>
             <SidebarCategory>
-              <Link to="/day-off">Days off / </Link>
+              <Link to="/log-off">Days off / </Link>
             </SidebarCategory>
             <SidebarCategory>{current_date}</SidebarCategory>
           </HomeCol>

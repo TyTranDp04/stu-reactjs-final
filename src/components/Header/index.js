@@ -8,6 +8,7 @@ import profile from "../../assets/images/profile.png";
 import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import logo from "../../assets/images/stlogo.png";
+import Notifycation from "../Notification";
 import { getUserAction, logoutAction } from "../../stores/slices/user.slice";
 import {
   Back,

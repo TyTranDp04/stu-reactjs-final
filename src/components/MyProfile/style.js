@@ -71,6 +71,12 @@ export const Container = styled.div`
       font-weight: bold;
       float:left;
     }
+    .phoneNumber{
+      display: flex;
+      .phonedefault{
+        width:80px
+      }
+    }
   }
 `;
 export const Clearfix = styled.div`
