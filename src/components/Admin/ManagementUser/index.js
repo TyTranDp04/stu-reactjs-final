@@ -16,6 +16,7 @@ import {
   TH,
   TR,
 } from "./style";
+
 import Swal from "sweetalert2";
 import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,7 @@ import { getListDpManagementAction } from "../../../stores/slices/ManagementUser
 import axios from "axios";
 
 const ManagementUser = () => {
+  const URL = process.env.REACT_APP_URL_WEBSITE
   const [data, setData] = useState();
   const [dataEdit, setDataEdit] = useState();
   const dpManagement = useSelector(
@@ -45,7 +47,7 @@ const ManagementUser = () => {
   };
   const searchHandle = async (e) => {
     let key = e.target.value;
-    await axios.get(`http://localhost:3636/user/${key}`).then((res) => {
+    await axios.get(`${URL}/user/${key}`).then((res) => {
       setData(res?.data);
     });
   };
@@ -57,13 +59,13 @@ const ManagementUser = () => {
   } = useForm();
   async function postData(data) {
     await axios
-      .post(`http://localhost:3636/user`, data)
+      .post(`${URL}/user`, data)
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
   }
 
   async function DeleteData(e) {
-    await fetch(`http://localhost:3636/user/${e}`, { method: "DELETE" }).then(
+    await fetch(`${URL}/user/${e}`, { method: "DELETE" }).then(
       (res) => {
         setData(res?.data);
       }
@@ -72,7 +74,7 @@ const ManagementUser = () => {
   const [idUser, setId] = useState();
   async function EditData(data) {
     await axios
-      .patch(`http://localhost:3636/user/${idUser}`, data)
+      .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
   }
@@ -81,7 +83,7 @@ const ManagementUser = () => {
     setId(e);
     async function getEdit (e){
       await  axios
-      .get(`http://localhost:3636/user-item/${e}`)
+      .get(`${URL}/user-item/${e}`)
       .then((res) => setDataEdit(res?.data.data))
     }
     getEdit(e);
@@ -92,8 +94,10 @@ const ManagementUser = () => {
 
   async function submitRole() {
     await axios
-      .get(`http://localhost:3636/role`)
-      .then((res) => setDataRole(res?.data))
+      .get(`${URL}/role`)
+      .then((res) => 
+      setDataRole(res?.data)
+      )
       .catch((err) => console.log(err));
   }
   useEffect(() => {
@@ -103,16 +107,20 @@ const ManagementUser = () => {
   const [dataGroup, setDataGroup] = useState();
   async function submitGroup() {
     await axios
-      .get(`http://localhost:3636/group`)
-      .then((res) => setDataGroup(res?.data))
+      .get(`${URL}/group`)
+      .then((res) => 
+      setDataGroup(res?.data.data)
+      // console.log("res group", res.data.data)
+      )
       .catch((err) => console.log(err));
   }
+
   useEffect(() => {
     submitGroup();
   }, []);
   const getRole = (event) => {
     let RoleId = event.target.value;
-    const idRole = dataRole?.filter((e) => {
+    const idRole = dataRole?.data.filter((e) => {
       if (RoleId === e.RoleName) {
         const id = e.Id;
         return id;
@@ -137,7 +145,6 @@ const ManagementUser = () => {
       setNumGroup(idGroup[0]._id);
     }
   };
-
   return (
     <React.Fragment>
       <Container className="col-lg-10 col-sm-9 ">
@@ -270,7 +277,7 @@ const ManagementUser = () => {
                     onClick={(event) => getGroup(event)}
                   >
                     <option className="text-center">...</option>
-                    {dataGroup?.data.map((e) => (
+                    {dataGroup?.map((e) => (
                       <option key={e._id} className="text-center">
                         {e.Name}
                       </option>
@@ -413,7 +420,7 @@ const ManagementUser = () => {
                       onClick={(event) => getGroup(event)}
                     >
                       <option className="text-center">...</option>
-                      {dataGroup?.data.map((e) => (
+                      {dataGroup?.map((e) => (
                         <option key={e._id} className="text-center">
                           {e.Name}
                         </option>
@@ -455,13 +462,13 @@ const ManagementUser = () => {
                       <TD>{item.Address}</TD>
                       <TD>
                         {dataRole?.map((e) =>
-                        // console.log(e)
+                        
                           item?.RoleId.includes(e.Id) ? <h6 key={e._id}>{e.RoleName}</h6> : ""
                         )}
                       </TD>
 
                       <TD>
-                        {dataGroup?.data.map((e) =>
+                        {dataGroup?.map((e) =>
                           item?.GroupId.includes(e._id) ? <h6 key={e._id}>{e.Name}</h6> : ""
                         )}
                       </TD>
