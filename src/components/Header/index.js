@@ -9,7 +9,7 @@ import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import logo from "../../assets/images/stlogo.png";
 import Notifycation from "../Notification";
-import { getUserAction, logoutAction } from "../../stores/slices/user.slice";
+import {logoutAction } from "../../stores/slices/user.slice";
 import {
   Back,
   DropdownLogo,
@@ -18,6 +18,7 @@ import {
   HeaderInner,
   HeaderLogo,
   HeaderLogoff,
+  HeaderLogoffButton,
   HeaderName,
   HeaderRow,
   HeaderWrapper,
@@ -27,6 +28,7 @@ import {
 } from "./style";
 // import Cookies from 'universal-cookie';
 // const cookies = new Cookies();
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
@@ -90,6 +92,9 @@ const Header = () => {
             <HeaderName className="navbar-user">
               Hi, <span> {Name} </span>{" "}
             </HeaderName>
+            <Notifycation></Notifycation>
+            <HeaderLogoffButton>Log off</HeaderLogoffButton>
+            <Link to="/admin/user">user</Link>
             <Dropdown>
               <DropdownLogo>
                 <Dropdown.Toggle

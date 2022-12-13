@@ -13,8 +13,6 @@ function AdminPage() {
         return <AdminHome />;
       case "/change-password":
         return <ChangePassword />;
-      // case "/my-profile":
-      //   return <MyProfile />;
       default:
         return <AdminHome />;
     }
