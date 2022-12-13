@@ -12,9 +12,11 @@ import { useSelector } from 'react-redux'
 const ModalAddUserGroup = (props) => {
   const { setShowAddUserGroup, callApiGroup, setCallApiGroup } = props.handle;
   const {group} = props
+
   const [dataInput, setDataInput] = useState({
     RoleId: "1"
   });
+  const userInfo = useSelector(state => state.users.userInfoState);
   const [dataUser, setDataUser] = useState();
   const [arrayIdUser, setArrayIdUser] = useState()
   const [dataUserUpdate, setDataUserUpdate] = useState()
@@ -137,8 +139,10 @@ const ModalAddUserGroup = (props) => {
           <InPutContainer className="mb-6">
             <LableInput style={{ width: '120px' }} className="form-label">Select position</LableInput>
             <Form.Select id='RoleId' required style={{ width: '50%', border: '2px solid #ccc', color: "#ccc" }} onChange={(e) => handleOnchange(e)}>
-              <Option value="1">Member</Option>
-              <Option value="2">Master</Option>
+              <Option  value="1">Member</Option>
+              {
+                userInfo?.data?.user?.RoleId ==="3"?<Option   value="2">Master</Option>:''
+              }
             </Form.Select>
           </InPutContainer>
           <InPutContainer className="mb-6">

@@ -139,7 +139,7 @@ function UserGroup(props) {
                 userInfo?.data?.user?.RoleId === "3" ?
                   <BtnAddGroup onClick={() => setShowAddNewGroup(true)}>+ New Group</BtnAddGroup> : ''
               }
-              <ModalAddGroup handle={{ callApiGroup, setCallApiGroup, setShowAddNewGroup }} show={showAddNewGroup}></ModalAddGroup>
+              <ModalAddGroup dataGroup={dataGroup} handle={{ callApiGroup, setCallApiGroup, setShowAddNewGroup }} show={showAddNewGroup}></ModalAddGroup>
             </Header>
             <Content>
               <Table striped bordered hover>
@@ -247,7 +247,7 @@ function UserGroup(props) {
               <MemberContainer>
                 {
                   dataUser?.map((user, id) => (
-                    user.GroupId.includes(dataDetail._id) ? <MemberInfo key={id}>
+                    user.GroupId.includes(dataDetail._id) && user.RoleId === "1" ? <MemberInfo key={id}>
                       <Icon alt={user?.Name} src={user?.Avatar}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {

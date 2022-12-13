@@ -9,10 +9,18 @@ import axios from 'axios';
 
 const ModalAddGroup = (props) => {
   const { callApiGroup, setCallApiGroup, setShowAddNewGroup } = props.handle;
+  const { dataGroup } = props
   const [dataInput, setDataInput] = useState();
   const url = process.env.REACT_APP_URL_WEBSITE
   function handleCancel() {
     setShowAddNewGroup(false)
+  }
+  function checkNameGroup(dataGroup, inputName){
+    const arrayName = []
+    dataGroup?.map((e)=>{
+      arrayName.push(e.Name)
+    })
+    return arrayName.includes(inputName)
   }
   function handleOnchange(e) {
     const data = e.target.value
@@ -20,7 +28,7 @@ const ModalAddGroup = (props) => {
   }
   async function addGroup() {
     const form = {
-      Name: dataInput
+      Name: dataInput,
     }
     await axios.post(url + '/group', form)
       .then(() => {
@@ -50,9 +58,14 @@ const ModalAddGroup = (props) => {
       showCloseButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        addGroup()
-        reset();
-        setShowAddNewGroup(false)
+        if (checkNameGroup(dataGroup, dataInput)){
+          Swal.fire("Group name already exists!", "", "error");   
+        }
+        else {
+          addGroup()
+          reset();
+          setShowAddNewGroup(false)
+        }
       } else {
         Swal.fire(" Cancel!", "", "error");
       }
@@ -74,7 +87,7 @@ const ModalAddGroup = (props) => {
         < FormDataInput id='form' onSubmit={(e) => handleSubmit(
           submit(e)
         )}>
-          <InPutContainer className="mb-6">
+          <InPutContainer className="mb-6" >
             <LableInput style={{ width: '100px' }} for='dateTo' className="form-label">Name Group</LableInput>
             <Input required type='search' id='Name' name='Name' onChange={(e) => handleOnchange(e)}></Input>
             {
