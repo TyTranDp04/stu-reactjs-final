@@ -28,7 +28,7 @@ const ModalAddGroup = (props) => {
   }
   async function addGroup() {
     const form = {
-      Name: dataInput
+      Name: dataInput,
     }
     await axios.post(url + '/group', form)
       .then(() => {
