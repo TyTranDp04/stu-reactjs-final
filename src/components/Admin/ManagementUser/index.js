@@ -270,7 +270,7 @@ const ManagementUser = () => {
                     onClick={(event) => getGroup(event)}
                   >
                     <option className="text-center">...</option>
-                    {dataGroup?.map((e) => (
+                    {dataGroup?.data.map((e) => (
                       <option key={e._id} className="text-center">
                         {e.Name}
                       </option>
@@ -413,7 +413,7 @@ const ManagementUser = () => {
                       onClick={(event) => getGroup(event)}
                     >
                       <option className="text-center">...</option>
-                      {dataGroup?.map((e) => (
+                      {dataGroup?.data.map((e) => (
                         <option key={e._id} className="text-center">
                           {e.Name}
                         </option>
@@ -461,7 +461,7 @@ const ManagementUser = () => {
                       </TD>
 
                       <TD>
-                        {dataGroup?.map((e) =>
+                        {dataGroup?.data.map((e) =>
                           item?.GroupId.includes(e._id) ? <h6 key={e._id}>{e.Name}</h6> : ""
                         )}
                       </TD>
