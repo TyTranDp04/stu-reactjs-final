@@ -8,18 +8,17 @@ import Login from '../../components/Login/Login'
 
 const LoginPage = () => {
   const userInfo = useSelector(state => state.users.userInfoState);
+  const userGoogle = userInfo?.data?.email;
   const user = userInfo?.data?.user?.Gmail;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !userGoogle) {
       navigate('/login');
-     } else if (user === 'admin@gmail.com') {
-       navigate('/admin');
     } else {
       navigate('/');
     }
-  }, [user, navigate]);
+  }, [user, userGoogle, navigate]);
 
   return (
     <>

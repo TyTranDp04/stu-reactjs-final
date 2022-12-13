@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,6 +19,7 @@ import {
   Signupbtn,
 } from "./style.js";
 import Swal from "sweetalert2";
+import axios from "axios"
 const schema = yup
   .object()
   .shape({
@@ -42,8 +43,10 @@ const schema = yup
   .required();
 const ChangePassword = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
+  console.log(userInfo?.data?.user);
+  const [data, setData] = useState();
   const id = userInfo.data?.user?.id;
-  const ChangePassword = userInfo.data?.user?.Password;
+  const ChangePassword = data?.Password;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -51,7 +54,22 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = (data, notify) => {
+  const getData = async () => {
+    const url = `http://localhost:3636/user/${id}`;
+    await axios
+      .get(url)
+      .then((res) => {
+        setData(res.data);
+        console.log("getdata: ", res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+  const onSubmit = (adata, notify) => {
+    console.log(adata , "adata");
     Swal.fire({
       title: "Change Password ?",
       icon: "question",
@@ -62,18 +80,19 @@ const ChangePassword = () => {
       showCloseButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        if (data.Password === data.oldPassword) {
+        
+        if (adata.Password === adata.oldPassword) {
           Swal.fire(
             "Old Password and New Password cannot be the same!",
             "",
             "error"
           );
           toast.error("Old Password and New Password cannot be the same");
-        } else if (ChangePassword === data.oldPassword) {
+        } else if (ChangePassword === adata.oldPassword) {
           dispatch(
             updatechangePasswordAction({
               id: id,
-              Password: data.Password,
+              Password: adata.Password,
             })
           );
           navigate("/");
