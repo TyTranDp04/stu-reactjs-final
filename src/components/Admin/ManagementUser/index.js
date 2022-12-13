@@ -24,7 +24,7 @@ import { getListDpManagementAction } from "../../../stores/slices/ManagementUser
 import axios from "axios";
 
 const ManagementUser = () => {
-  const URL = process.env.REACT_APP_URL_WEBSITE
+  const URL = process.env.REACT_APP_URL_WEBSITE;
   const [data, setData] = useState();
   const [dataEdit, setDataEdit] = useState();
   const dpManagement = useSelector(
@@ -65,11 +65,9 @@ const ManagementUser = () => {
   }
 
   async function DeleteData(e) {
-    await fetch(`${URL}/user/${e}`, { method: "DELETE" }).then(
-      (res) => {
-        setData(res?.data);
-      }
-    );
+    await fetch(`${URL}/user/${e}`, { method: "DELETE" }).then((res) => {
+      setData(res?.data);
+    });
   }
   const [idUser, setId] = useState();
   async function EditData(data) {
@@ -81,10 +79,10 @@ const ManagementUser = () => {
 
   const submitEdit = (e) => {
     setId(e);
-    async function getEdit (e){
-      await  axios
-      .get(`${URL}/user-item/${e}`)
-      .then((res) => setDataEdit(res?.data.data))
+    async function getEdit(e) {
+      await axios
+        .get(`${URL}/user-item/${e}`)
+        .then((res) => setDataEdit(res?.data.data));
     }
     getEdit(e);
     setEdit(true);
@@ -95,9 +93,7 @@ const ManagementUser = () => {
   async function submitRole() {
     await axios
       .get(`${URL}/role`)
-      .then((res) => 
-      setDataRole(res?.data)
-      )
+      .then((res) => setDataRole(res?.data))
       .catch((err) => console.log(err));
   }
   useEffect(() => {
@@ -108,9 +104,9 @@ const ManagementUser = () => {
   async function submitGroup() {
     await axios
       .get(`${URL}/group`)
-      .then((res) => 
-      setDataGroup(res?.data.data)
-      // console.log("res group", res.data.data)
+      .then(
+        (res) => setDataGroup(res?.data.data)
+        // console.log("res group", res.data.data)
       )
       .catch((err) => console.log(err));
   }
@@ -189,8 +185,7 @@ const ManagementUser = () => {
                 <div>
                   <Label className="w-100">Name</Label>
                   <Input
-                    {...register("Name")
-                  }
+                    {...register("Name")}
                     className="w-100"
                     name="Name"
                     defaultValue={dataEdit?.Name}
@@ -462,14 +457,21 @@ const ManagementUser = () => {
                       <TD>{item.Address}</TD>
                       <TD>
                         {dataRole?.map((e) =>
-                        
-                          item?.RoleId.includes(e.Id) ? <h6 key={e._id}>{e.RoleName}</h6> : ""
+                          item?.RoleId.includes(e.Id) ? (
+                            <h6 key={e._id}>{e.RoleName}</h6>
+                          ) : (
+                            ""
+                          )
                         )}
                       </TD>
 
                       <TD>
                         {dataGroup?.map((e) =>
-                          item?.GroupId.includes(e._id) ? <h6 key={e._id}>{e.Name}</h6> : ""
+                          item?.GroupId.includes(e._id) ? (
+                            <h6 key={e._id}>{e.Name}</h6>
+                          ) : (
+                            ""
+                          )
                         )}
                       </TD>
                       <TD>
