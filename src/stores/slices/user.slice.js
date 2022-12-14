@@ -75,19 +75,9 @@ const userSlice = createSlice({
         ...state.userInfoState,
         loading: false,
         data: null,
-        // token: null,
       };
     },
 
-    refreshData() {
-      console.log("state");
-      // const decodedToken = decodeJwt(data.accessToken);
-      // state.userInfoState = {
-      //   state,
-      //   loading: false,
-      //   // token: token,
-      // }
-    },
     getUserAction(state, action) {
       localStorage.removeItem(USER_INFO_KEY);
       state.userInfoState = {
@@ -113,27 +103,19 @@ const userSlice = createSlice({
       };
     },
     changePasswordAction(state, action) {
-      // update data after update success password
-      // console.log("hih", action.payload)
-      state.userInfoState.loading= true;
+      state.userInfoState.loading = true;
     },
     changePasswordActionSuccess(state, action) {
-      // update data after update success password
-      state.userInfoState.loading= false;
-      state.userInfoState.data.user.Password  = action.payload.Password;
+      state.userInfoState.loading = false;
+      state.userInfoState.data.user.Password = action.payload.Password;
     },
     changePasswordActionFailed(state, action) {
-      // update data after update success password
-      // console.log("hih", action.payload)
-      state.userInfoState.loading= false;
+      state.userInfoState.loading = false;
     },
-    updateAvata(state, action){
-      state.userInfoState.data.user.Avatar=action.payload.Avatar;
-      state.userInfoState.data.user.Name=action.payload.Name;
+    updateAvata(state, action) {
+      state.userInfoState.data.user.Avatar = action.payload.Avatar;
+      state.userInfoState.data.user.Name = action.payload.Name;
     },
-    // updateName(state, action){
-    //   state.userInfoState.data.user.Name=action.payload.Name;
-    // }
   },
 });
 export const {

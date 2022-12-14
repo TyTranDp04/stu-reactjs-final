@@ -26,22 +26,15 @@ import {
   NameGroup,
   Signupbtn,
 } from "./style.js";
-
-const schema = yup
-  .object()
-  .shape({
-    Phone: yup
+const schema = yup.object().shape({
+  Phone: yup
     .string()
-      .required("Phone number is required")
-      .max(12, "PhoneNumber is 9")
-      .min(9, "PhoneNumber is 9 "),
-    Name: yup
-      .string()
-      .max(50, "Name is required "),
-    Address: yup
-      .string()
-      .max(50,"Address is required")
-  });
+    .required("Phone number is required")
+    .max(12, "PhoneNumber is 9")
+    .min(9, "PhoneNumber is 9 "),
+  Name: yup.string().max(50, "Name is required "),
+  Address: yup.string().max(50, "Address is required"),
+});
 
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
@@ -62,9 +55,9 @@ const MyProfile = () => {
   const [fileIMG, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   function addImgHandle() {
-     addImg.click();
+    addImg.click();
   }
 
   useEffect(() => {
@@ -90,7 +83,7 @@ const MyProfile = () => {
     });
   }
   async function postData() {
-    const url = "http://localhost:3636/user/" + ID;
+    const url = process.env.REACT_APP_URL_WEBSITE + "/user/" + ID;
     const newForm = new FormData(form);
     await axios
       .post(url, newForm)
@@ -98,12 +91,17 @@ const MyProfile = () => {
         setIsLoading(false);
         getData();
         Swal.fire(" Update Succes!", "", "success");
-        dispatch(updateAvata(res.data));
+        dispatch(updateAvata({
+          Name : data.Name,
+          Address : res.data.Address,
+          Avatar : res.data.Avatar,
+          Phone : res.data.Phone  
+        }));
       })
       .catch((err) => console.log(err));
   }
   const getData = async () => {
-    const url = `http://localhost:3636/user/${ID}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${ID}`;
     await axios
       .get(url)
       .then((res) => {
@@ -154,14 +152,13 @@ const MyProfile = () => {
           }
         });
         postData();
-        
       } else {
         Swal.fire(" Cancel!", "", "error");
       }
     });
   };
   const getGroup = async () => {
-    const url = `http://localhost:3636/group`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/group`;
     await axios
       .get(url)
       .then((res) => {
@@ -174,15 +171,15 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-   groupID?.map(function (item) {
+  groupID?.map(function (item) {
     {
       group.data?.map(function (name) {
         if (item === name._id) {
           groupNameID.push(name.Name);
-         }
+        }
       });
     }
-   });
+  });
 
   return (
     <div className="col-sm-9">
@@ -223,26 +220,24 @@ const MyProfile = () => {
           </div>
           <span className="lableName">NAME </span>
           <Input
+          
             type="text"
             placeholder="Name"
             defaultValue={fullname}
             {...register("Name")}
-            
+            disabled
           />
           <TextRed>{errors.Name?.message}</TextRed>
-
           <span className="lableName">IMAGE </span>
           <Input
             type="file"
             hidden
             id="img"
             name="img"
-            // {...register("file")}
             onChange={(e) => handleOnChange(e)}
             accept="image/*"
           />
           <ImgPreview className="img__preview">
-
             {selectedImage ? (
               <ImgContent className="img__preview-content">
                 <ImgPreviewItem
