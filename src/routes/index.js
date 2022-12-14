@@ -4,8 +4,8 @@ import AdminPage from "../views/AdminPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
+import Management from "../views/AdminPage/UserPage";
 import MyProfilePage from "../views/MyProfilePage";
-import Management from "../views/Management";
 import UserGroupPage from "../views/UserGroupPage";
 import ChangePasswordPage from "../views/ChangePasswordPage";
 

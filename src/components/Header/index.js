@@ -26,7 +26,6 @@ import {
   StImg,
   StyleLink,
 } from "./style";
-import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
