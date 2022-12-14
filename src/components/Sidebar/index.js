@@ -11,6 +11,7 @@ const Sidebar = () => {
     members: { name: "Members", url: "/members", icon: "" },
     groups: { name: "Groups", url: "/user-group", icon: "" },
     notifications: { name: "Notifications", url: "/notifications", icon: "" },
+    User:{name:"User", url: "/admin/user", icon: ""},
     sync: { name: "Sync", url: "/sync", icon: "" },
   };
 

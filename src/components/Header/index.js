@@ -22,7 +22,6 @@ import {
   StyleLink,
 } from "./style";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 const Header = () => {
@@ -56,7 +55,6 @@ const Header = () => {
           <HeaderLogoff className="col-sm-10">
             <Notifycation></Notifycation>
             <HeaderLogoffButton>Log off</HeaderLogoffButton>
-            <Link to="/admin/user">user</Link>
             <Dropdown>
               <DropdownLogo>
                 <Dropdown.Toggle

@@ -4,7 +4,7 @@ import AdminPage from "../views/AdminPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
-import Management from "../views/Management";
+import Management from "../views/AdminPage/UserPage";
 import UserGroupPage from "../views/UserGroupPage";
 
 const Wrapper = ({ children }) => {
