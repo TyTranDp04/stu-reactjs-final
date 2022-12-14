@@ -4,7 +4,7 @@ import Layout from '../../layout'
 
 const ChangePasswordPage = () => {
   return (
-    <Layout>
+    <Layout title="Change Password">
       <ChangePassword/>
     </Layout>
   )
