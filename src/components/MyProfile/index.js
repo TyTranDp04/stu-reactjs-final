@@ -57,17 +57,14 @@ const MyProfile = () => {
   const address = data?.Address;
   const Phone = data?.Phone;
   const [group, setGroup] = useState();
-
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
   const [fileIMG, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [isLoading, setIsLoading] = useState(false);
-  console.log("selectedImage", selectedImage);
   
   function addImgHandle() {
-    const addImage = addImg.click();
-    console.log("addImage: ", addImage);
+     addImg.click();
   }
 
   useEffect(() => {
@@ -75,7 +72,7 @@ const MyProfile = () => {
   }, [avatar]);
 
   const removeSelectedImage = () => {
-    setSelectedImage(false);
+    setSelectedImage("");
   };
 
   const {
@@ -95,13 +92,12 @@ const MyProfile = () => {
   async function postData() {
     const url = "http://localhost:3636/user/" + ID;
     const newForm = new FormData(form);
-    console.log("newForm", newForm);
     await axios
       .post(url, newForm)
       .then((res) => {
         setIsLoading(false);
-        console.log("loading xg");
-        Swal.fire(" success!", "", "success");
+        getData();
+        Swal.fire(" Update Succes!", "", "success");
         dispatch(updateAvata(res.data));
       })
       .catch((err) => console.log(err));
@@ -130,7 +126,6 @@ const MyProfile = () => {
   if (roleID === "3") {
     rolename = "HR";
   }
-  console.log(isLoading, "isLoading");
   const onSubmit = () => {
     let timerInterval;
     setIsLoading(true);
@@ -156,11 +151,10 @@ const MyProfile = () => {
           },
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
           }
         });
         postData();
-        getData();
+        
       } else {
         Swal.fire(" Cancel!", "", "error");
       }
@@ -180,15 +174,15 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-  groupID?.map(function (item) {
+   groupID?.map(function (item) {
     {
-      group?.map(function (name) {
+      group.data?.map(function (name) {
         if (item === name._id) {
           groupNameID.push(name.Name);
-        }
+         }
       });
     }
-  });
+   });
 
   return (
     <div className="col-sm-9">

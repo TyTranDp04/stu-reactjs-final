@@ -51,7 +51,6 @@ const ChangePassword = () => {
   console.log(userInfo?.data?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [data, setData] = useState();
   const getData = async () => {
     const url = `http://localhost:3636/user/${id}`;
     await axios

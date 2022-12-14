@@ -26,41 +26,14 @@ import {
   StImg,
   StyleLink,
 } from "./style";
-// import Cookies from 'universal-cookie';
-// const cookies = new Cookies();
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
-  // const [data, setData] = useState();
-  // console.log("data: ", data);
   const dispatch = useDispatch();
   const Name = userInfo.data?.user?.Name;
   const Avatar = userInfo.data?.user?.Avatar;
   const ID = userInfo.data?.user?.id;
-
-  // useEffect(() => {
-  //   dispatch(getUserAction(ID));
-  // }, [dispatch]);
-
-  // const refresh = cookies.get('myCat')
-  //  console.log(refresh);
-  // const getData = async () => {
-  //   const url = `http://localhost:3636/user/${ID}`;
-  //   await axios
-  //       .get(url)
-  //       .then((res) => {
-  //         setData(res.data);
-  //         cookies.set('myCat','false');
-
-  //       })
-  //       .catch((err) => console.log(err));
-  // }
-
-  // useEffect (() => {
-  //   if (refresh === true) {document.addEventListener("mousedown", getData)}
-  //   document.addEventListener("mousedown", getData)}, [refresh]);
-
   const logout = () => {
     Swal.fire({
       title: "Log out?",
@@ -93,8 +66,6 @@ const Header = () => {
               Hi, <span> {Name} </span>{" "}
             </HeaderName>
             <Notifycation></Notifycation>
-            <HeaderLogoffButton>Log off</HeaderLogoffButton>
-            <Link to="/admin/user">user</Link>
             <Dropdown>
               <DropdownLogo>
                 <Dropdown.Toggle

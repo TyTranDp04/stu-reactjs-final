@@ -97,7 +97,6 @@ const userSlice = createSlice({
     },
     getUserActionSuccess(state, action) {
       const data = action.payload;
-      console.log('slice: ', data);
       localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState = {
         ...state.userInfoState,
@@ -120,7 +119,6 @@ const userSlice = createSlice({
     },
     changePasswordActionSuccess(state, action) {
       // update data after update success password
-      console.log("hih", action.payload)
       state.userInfoState.loading= false;
       state.userInfoState.data.user.Password  = action.payload.Password;
     },
@@ -130,7 +128,6 @@ const userSlice = createSlice({
       state.userInfoState.loading= false;
     },
     updateAvata(state, action){
-      console.log("abdbsafas",action.payload.Avatar);
       state.userInfoState.data.user.Avatar=action.payload.Avatar;
       state.userInfoState.data.user.Name=action.payload.Name;
     },
