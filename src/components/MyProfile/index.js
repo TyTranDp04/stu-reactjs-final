@@ -115,13 +115,13 @@ const MyProfile = () => {
 
   let rolename = null;
   if (roleID === "1") {
-    rolename = "USER";
+    rolename = "User";
   }
   if (roleID === "2") {
-    rolename = "MASTER";
+    rolename = "Master";
   }
   if (roleID === "3") {
-    rolename = "HR";
+    rolename = "Hr";
   }
   const onSubmit = () => {
     let timerInterval;

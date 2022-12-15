@@ -97,7 +97,7 @@ const ChangePassword = () => {
             })
           );
           navigate("/");
-          Swal.fire(" success!", "", "success");
+          Swal.fire("Change password success!", "", "success");
           ChangePassword = adata.Password;
           console.log(userInfo.adata?.user);
         } else {
