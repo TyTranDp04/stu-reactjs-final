@@ -27,31 +27,33 @@ export const Input = styled.input`
     resize: vertical;
     padding: 15px;
     border-radius: 15px;
-    border: 0;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid;
+    
     &:focus {
       outline: none;
+    }
+    &:hover {
+      border: 2px solid #8000ff;
     }
   }
 `;
 export const Signupbtn = styled.button`
    {
-    background-color: #4caf50;
+    background-color: #8000ff;
     color: white;
     padding: 14px 20px;
     margin: 20px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 200px;
     opacity: 0.9;
     float: left;
-    width: 100%;
     border-radius: 15px;
-    border: 0;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 0px;
     margin: 20px;
     &:hover {
-      opacity: 1;
+      opacity: 0.8;
+      border-radius: 20px;
     }
   }
 `;
@@ -77,11 +79,26 @@ export const Container = styled.div`
         width:80px
       }
     }
+    .container_top{
+      display:flex;
+      width : 100%;
+      .container_left{
+        margin-right: 50px;
+        width : 50%;
+      }
+      .container_right{
+        width: 50%;
+        .container_avatar{
+          margin-bottom: 15px;
+        }
+      }
+    }
   }
 `;
 export const Clearfix = styled.div`
   display: flex;
   margin: 20px;
+  float : right;
   &:after {
     content: "";
     clear: both;
@@ -95,13 +112,11 @@ color: white;
 padding: 14px 20px;
 border: none;
 cursor: pointer;
-width: 100%;
 opacity: 0.9;
-float: left;
-width: 100%;
-border-radius: 15px;
+float: right;
+width: 200px;
+border-radius: 20px;
 border: 0;
-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 &:hover {
 opacity: 1;
 }
@@ -114,16 +129,6 @@ opacity: 1;
   height : 100%;
 
 }`;
-
-
-
-
-
-
-
-
-
-
 
 export const ModalBtn = styled.div`
 margin-top:30px;
@@ -139,7 +144,7 @@ color: #fff;
 padding: 8px;
 border-radius: 5px;
 &:hover{
-  opacity: .8;
+  opacity: 0.8;
 }
 
 `
@@ -159,7 +164,7 @@ border-radius: 5px;
 
 export const ImgPreview = styled.div`
 width: 100%;
-height: 100%;
+height: ;
 min-height: 100px;
 margin-top: 15px;
 display: flex;
@@ -187,12 +192,13 @@ position: relative;
 left: 0px;
 width: 150px;
 height: 150px;
-border: 1px solid #cccccc;
 `
 export const ImgPreviewItem = styled.img`
 width: 100%;
 height: 100%;
-  object-fit: contain;
+border: 0.5px solid #0F1C3F;
+border-radius: 50%;
+object-fit : cover;
 
 `
 export const BtnImgRemove = styled.button`
@@ -221,20 +227,14 @@ border: none;
 resize: vertical;
 padding: 15px;
 border-radius: 15px;
-border: 0;
-box-shadow: 4px 4px 10px rgb(0 0 0 / 20%);
-
+border: 1px solid;
+flex-direction : column;
 .Groupname{
-  width: 25%;
-padding: 15px ;
-margin: 5px 15px 22px 0;
-border: none;
-resize: vertical;
-border-radius: 15px;
-border: 0;
-box-shadow: 4px 4px 10px rgb(0 0 0 / 20%);
-&:hover{
-  background-color:#4caf50
+
+text-align : left;
 }
+}
+&:hover {
+  border: 2px solid #8000ff;
 }
 `

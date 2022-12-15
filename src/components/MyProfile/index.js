@@ -28,10 +28,7 @@ import {
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
-    .string()
-    .required("Phone number is required")
-    .max(12, "PhoneNumber is 9")
-    .min(9, "PhoneNumber is 9 "),
+    .string(),
   Name: yup.string().max(50, "Name is required "),
   Address: yup.string().max(50, "Address is required"),
 });
@@ -91,12 +88,14 @@ const MyProfile = () => {
         setIsLoading(false);
         getData();
         Swal.fire(" Update Succes!", "", "success");
-        dispatch(updateAvata({
-          Name : data.Name,
-          Address : res.data.Address,
-          Avatar : res.data.Avatar,
-          Phone : res.data.Phone  
-        }));
+        dispatch(
+          updateAvata({
+            Name: data.Name,
+            Address: res.data.Address,
+            Avatar: res.data.Avatar,
+            Phone: res.data.Phone,
+          })
+        );
       })
       .catch((err) => console.log(err));
   }
@@ -173,7 +172,7 @@ const MyProfile = () => {
   let groupID = data?.GroupId;
   groupID?.map(function (item) {
     {
-      group.data?.map(function (name) {
+      group?.data?.map(function (name) {
         if (item === name._id) {
           groupNameID.push(name.Name);
         }
@@ -187,105 +186,122 @@ const MyProfile = () => {
         <Container className="container">
           <H1>MY PROFILE</H1>
           <hr />
-          <div className="container_show1">
-            <span className="lableName">ROLE NAME </span>
-            <Input
-              type="text"
-              disabled
-              placeholder="RoleName"
-              defaultValue={rolename}
-            />
-            <span className="lableName">GROUP NAME </span>
-            <NameGroup className="Name">
-              {" "}
-              {groupNameID?.map((NameGroup) => (
-                <div className="Groupname">
-                  <h3>{NameGroup}</h3>
+          <div className="container_top">
+            <div className="container_left">
+              <div className="container_show1">
+                <span className="lableName">Role </span>
+                <Input
+                  type="text"
+                  disabled
+                  placeholder="RoleName"
+                  defaultValue={rolename}
+                />
+              </div>
+              <div>
+                <span className="lableName">Group </span>
+                <NameGroup className="Name">
+                  {" "}
+                  {groupNameID?.map((NameGroup) => (
+                    <div className="Groupname">
+                      <h3>{NameGroup}</h3>
+                    </div>
+                  ))}
+                </NameGroup>
+              </div>
+              <div>
+                <span className="lableName">Name </span>
+                <Input
+                  type="text"
+                  placeholder="Name"
+                  defaultValue={fullname}
+                  {...register("Name")}
+                  disabled
+                />
+                <TextRed>{errors.Name?.message}</TextRed>
+              </div>
+
+              <div className="container_show">
+                <span className="lableName">Email </span>
+                <Input
+                  disabled
+                  type="email"
+                  placeholder="Gmail Address"
+                  defaultValue={EGmail}
+                  {...register("Gmail")}
+                />
+                <span className="show-btn">
+                  <i className="fas fa-eye"></i>
+                </span>
+              </div>
+            </div>
+
+            <div className="container_right">
+              <div className="container_avatar">
+                <span className="lableName">Avatar </span>
+                <Input
+                  type="file"
+                  hidden
+                  id="img"
+                  name="img"
+                  onChange={(e) => handleOnChange(e)}
+                  accept="image/*"
+                />
+                <ImgPreview className="img__preview">
+                  {selectedImage ? (
+                    <ImgContent className="img__preview-content">
+                      <ImgPreviewItem
+                        className="img__preview-image"
+                        onClick={() => addImgHandle()}
+                        src={selectedImage}
+                        alt="Image Preview"
+                      />
+                      <BtnImgRemove
+                        onClick={() => removeSelectedImage()}
+                        className="btn__remove-img"
+                      >
+                        <IconRemove className="fa-solid fa-xmark">
+                        </IconRemove>
+                      </BtnImgRemove>
+                    </ImgContent>
+                  ) : (
+                    <ImgContent className="img__preview-content">
+                      <ImgPreviewItem
+                        className="img__preview-image"
+                        onClick={() => addImgHandle()}
+                        src={imgnull}
+                        alt="Image Preview"
+                      />
+                    </ImgContent>
+                  )}
+                </ImgPreview>
+              </div>
+              <div>
+                <span className="lableName">Address</span>
+                <Input
+                  type="text"
+                  placeholder="Address"
+                  defaultValue={address}
+                  {...register("Address")}
+                />
+                <TextRed>{errors.Address?.message}</TextRed>
+              </div>
+              <div>
+                <div className="lableName">Phone Number</div> <br />
+                <div className="phoneNumber">
+                  <Input
+                    type="number"
+                    placeholder="Phone Number"
+                    defaultValue={Phone}
+                    {...register("Phone")}
+                  />
                 </div>
-              ))}
-            </NameGroup>
+                <TextRed>{errors.Phone?.message}</TextRed>
+              </div>
+            </div>
           </div>
-          <div className="container_show">
-            <span className="lableName">GMAIL </span>
-            <Input
-              disabled
-              type="email"
-              placeholder="Gmail Address"
-              defaultValue={EGmail}
-              {...register("Gmail")}
-            />
-            <span className="show-btn">
-              <i className="fas fa-eye"></i>
-            </span>
-          </div>
-          <span className="lableName">NAME </span>
-          <Input
-          
-            type="text"
-            placeholder="Name"
-            defaultValue={fullname}
-            {...register("Name")}
-            disabled
-          />
-          <TextRed>{errors.Name?.message}</TextRed>
-          <span className="lableName">IMAGE </span>
-          <Input
-            type="file"
-            hidden
-            id="img"
-            name="img"
-            onChange={(e) => handleOnChange(e)}
-            accept="image/*"
-          />
-          <ImgPreview className="img__preview">
-            {selectedImage ? (
-              <ImgContent className="img__preview-content">
-                <ImgPreviewItem
-                  className="img__preview-image"
-                  onClick={() => addImgHandle()}
-                  src={selectedImage}
-                  alt="Image Preview"
-                />
-                <BtnImgRemove
-                  onClick={() => removeSelectedImage()}
-                  className="btn__remove-img"
-                >
-                  <IconRemove className="fa-solid fa-xmark"></IconRemove>
-                </BtnImgRemove>
-              </ImgContent>
-            ) : (
-              <ImgContent className="img__preview-content">
-                <ImgPreviewItem
-                  className="img__preview-image"
-                  onClick={() => addImgHandle()}
-                  src={imgnull}
-                  alt="Image Preview"
-                />
-              </ImgContent>
-            )}
-          </ImgPreview>
-          <span className="lableName">ADRESS</span>
-          <Input
-            type="text"
-            placeholder="Address"
-            defaultValue={address}
-            {...register("Address")}
-          />
-          <TextRed>{errors.Address?.message}</TextRed>
-          <div className="lableName">PHONE NUMBER</div> <br />
-          <div className="phoneNumber">
-            <Input className="phonedefault" placeholder="+84" disabled />
-            <Input
-              type="number"
-              placeholder="Phone Number"
-              defaultValue={Phone}
-              {...register("Phone")}
-            />
-          </div>
-          <TextRed>{errors.Phone?.message}</TextRed>
           <Clearfix>
             <Signupbtn className="submit" type="submit">
-              Update My Profile
+              Update
             </Signupbtn>
             <Cancel className="submit">
               <Link className="linkcanel" to={"/"}>
