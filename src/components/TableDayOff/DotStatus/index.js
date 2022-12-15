@@ -7,20 +7,25 @@ import {
   DotContent
 } from './style'
 const DotStatus = (props) => {
-  const {status, arrayApprove, idMaster} = props;
+  const {status, arrayApprove, idMaster, UserId, UserRequestId} = props;
   const [statusDot, setStatusDot]= useState("")
   useEffect(()=>{
     if(status === 1){
-      setStatusDot('Pending');
+      setStatusDot('Requested');
     }
     if(status === 2){
       setStatusDot('Approved');
     }
     if(status === 3){
-      setStatusDot('Reject');
+      setStatusDot('Rejected');
+    }
+    if(status === 3){
+      setStatusDot('Changed');
+    }
+    if(status === 3){
+      setStatusDot('Reverted');
     }
   },[status])
-
   return (
     <Container>
       <DotContent>
@@ -28,7 +33,8 @@ const DotStatus = (props) => {
       <H3>{statusDot}</H3>
       </DotContent>
       {
-        statusDot === 'Pending'?idMaster?<H4>{'Approved '+arrayApprove?.length+'/'+idMaster?.length}</H4>:'':''
+        statusDot === 'Requested' && UserRequestId === UserId?     
+        <H4>{'Approved '+arrayApprove?.length+'/'+idMaster?.length}</H4>:''
       }
     </Container>
   );

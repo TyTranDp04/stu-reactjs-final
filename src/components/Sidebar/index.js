@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const Sidebar = () => {
   const accountRouter = {
     dashboard: { name: "Dashboard", url: "/dashboard", icon: "" },
-    requests: { name: "Requests", url: "/requests", icon: "" },
-    daysoff: { name: "Days off", url: "/days-off", icon: "" },
+    requests: { name: "Requests", url: "/request-log-off", icon: "" },
+    daysoff: { name: "Days off", url: "/log-off", icon: "" },
   };
   const managerRouter = {
     members: { name: "Members", url: "/members", icon: "" },
