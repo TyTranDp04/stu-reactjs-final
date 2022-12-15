@@ -27,16 +27,18 @@ export const Input = styled.input`
     resize: vertical;
     padding: 15px;
     border-radius: 15px;
-    border: 0;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    border: 0.1px solid ;
     &:focus {
       outline: none;
+    }
+    &:hover {
+      border: 2px solid #8000ff;
     }
   }
 `;
 export const Signupbtn = styled.button`
    {
-    background-color: #4caf50;
+    background-color: #8000ff;
     color: white;
     padding: 14px 20px;
     margin: 20px;
@@ -52,6 +54,7 @@ export const Signupbtn = styled.button`
     margin: 20px;
     &:hover {
       opacity: 1;
+      border-radius: 50px;
     }
   }
 `;
@@ -66,6 +69,10 @@ export const Cancelbtn = styled.button`
 export const Container = styled.div`
    {
     padding: 16px;
+    width : 50%;
+    .TextRed{
+     float: left;
+    }
   }
 `;
 export const Clearfix = styled.div`
