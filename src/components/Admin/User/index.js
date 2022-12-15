@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { dataAlumni } from "../../../constants/data.js";
 import Avatar from "../../../assets/images/avatar-default.jpg"
@@ -15,9 +15,11 @@ import {
   Image,
   Input,
   Label,
+  Row,
   Search,
   Select,
   Submit,
+  TH,
   TR,
 } from "./style";
 
@@ -29,7 +31,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const ManagementUser = () => {
+const ManagementUser = (props) => {
   const URL = process.env.REACT_APP_URL_WEBSITE;
   const [data, setData] = useState();
   const [dataEdit, setDataEdit] = useState();
@@ -49,7 +51,7 @@ const ManagementUser = () => {
   const [edit, setEdit] = useState(false);
   const renderTableHeader = () => {
     const header = Object.keys(dataAlumni[0]);
-    return header.map((key, index) => <th key={index}>{key}</th>);
+    return header.map((key, index) => <TH key={index}>{key}</TH>);
   };
   const searchHandle = async (e) => {
     let key = e.target.value;
@@ -77,21 +79,21 @@ const ManagementUser = () => {
   }
   const [idUser, setId] = useState();
   const EditData = async (data) => {
+    console.log("data",data);
     await axios
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
   }
-
+  async function getEdit(e) {
+    await axios
+      .get(`${URL}/user-item/${e}`)
+      .then((res) => setDataEdit(res?.data.data));
+  }
   const submitEdit = async (e) => {
+    console.log("e",e);
     setId(e);
-    async function getEdit(e) {
-      await axios
-        .get(`${URL}/user-item/${e}`)
-        .then((res) => setDataEdit(res?.data.data));
-    }
     getEdit(e);
-    console.log(dataEdit);
     setEdit(true);
   };
 
@@ -107,7 +109,7 @@ const ManagementUser = () => {
   }
   useEffect(() => {
     submitRole();
-  },[]);
+  }, []);
 
   const [dataGroup, setDataGroup] = useState();
   async function submitGroup() {
@@ -121,7 +123,7 @@ const ManagementUser = () => {
 
   useEffect(() => {
     submitGroup();
-  },[]);
+  }, []);
   const getRole = (event) => {
     let RoleId = event.target.value;
     const idRole = dataRole?.data.filter((e) => {
@@ -153,6 +155,7 @@ const ManagementUser = () => {
       setNumGroup(idGroup[0]._id);
     }
   };
+
   return (
     <React.Fragment>
       <Container className="col-lg-10 col-sm-9 ">
@@ -176,7 +179,7 @@ const ManagementUser = () => {
                     RoleId: numRole,
                   };
                   Swal.fire({
-                    title: "Are you sure sent information?",
+                    title: "Are You Sure Add User?",
                     icon: "question",
                     iconHtml: "?",
                     confirmButtonText: "OK",
@@ -190,13 +193,18 @@ const ManagementUser = () => {
                       reset();
                       setEdit(false);
                       Swal.fire("Nice to meet you", "", "success");
-                    } else Swal.fire(" Cancelled", "", "error");
+                    } else {
+                      Swal.fire(" Cancelled", "", "error")
+                      reset();
+                      setId(null);
+                  };
                   });
                 })}
               >
                 <div>
                   <Label className="w-100">Name</Label>
                   <Input
+                  type="text"
                     {...register("Name")}
                     className="w-100"
                     name="Name"
@@ -294,6 +302,7 @@ const ManagementUser = () => {
                 </div>
 
                 <Submit value="Edit User" className="mt-2" type="submit" />
+                <button className="text-end" onClick={() => setId(null)}>reset</button>
               </FooterForm>
             </Modal>
             <Modal
@@ -308,7 +317,7 @@ const ManagementUser = () => {
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <FooterForm
+                <FooterForm 
                   id="form"
                   className="text-start"
                   onSubmit={handleSubmit((data) => {
@@ -318,7 +327,7 @@ const ManagementUser = () => {
                       GroupId: numGroup,
                     };
                     Swal.fire({
-                      title: "Are you sure sent information?",
+                      title: "Are You Sure Add User ?",
                       icon: "question",
                       iconHtml: "?",
                       confirmButtonText: "OK",
@@ -339,6 +348,7 @@ const ManagementUser = () => {
                   <div>
                     <Label className="w-100">Name</Label>
                     <Input
+                    
                       {...register("Name", {
                         required: "The field is required.",
                       })}
@@ -444,7 +454,7 @@ const ManagementUser = () => {
           <div className="container-fluid">
             <div className="row pb-5">
               <DivBtn className="col-4 text-start">
-                <Btn onClick={() => setShow(true)}>Add New User</Btn>
+                <Btn onClick={() => {setShow(true)}}>Add New User</Btn>
               </DivBtn>
               <div className="col-4"></div>
               <div className="col-4 p-0 text-end" >
@@ -465,7 +475,7 @@ const ManagementUser = () => {
           </div>
 
           <DivTable className="container-fluid">
-            <div className="row">
+            <Row className="row">
               <Table bordered>
                 <thead className="text-center bgrHead">
                   <TR>{renderTableHeader()}</TR>
@@ -476,7 +486,7 @@ const ManagementUser = () => {
                       <td>{index + 1}</td>
                       <td className="testColor" style={{ textTransform: "capitalize" }}>{item.Name}</td>
                       <td>
-                        <Image style={{ width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
+                        <Image style={{width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
                       </td>
                       <td>{item.Gmail}</td>
                       <td>{item.Phone}</td>
@@ -502,7 +512,8 @@ const ManagementUser = () => {
                       </td>
                       <td>
                         <td>
-                          <BtnAction onClick={() => submitEdit(item._id)}>
+                          <BtnAction onClick={() => {submitEdit(item._id);
+                    }}>
                             <OverlayTrigger
                               overlay={
                                 <Tooltip>
@@ -557,7 +568,7 @@ const ManagementUser = () => {
                   ))}
                 </tbody>
               </Table>
-            </div>
+            </Row>
           </DivTable>
         </Body>
       </Container>

@@ -37,13 +37,12 @@ export const Image = styled.img`
   with: 100%;
   height: 70px;
   border-radius:50%;
+  object-fit: cover;
 `;
 export const TH = styled.th`
-  padding-right:30px;
-  padding-left:30px;
-  border-bottom: 5px solid #ffffff;
-  background-color: #8000ff;
-  color: #ffffff;
+  position:sticky;
+  top:0px;
+  background-color: #8000ff !important;
 `;
 export const DivBtn = styled.div`
 padding:0px;
@@ -75,6 +74,8 @@ export const Btn = styled.button`
     opacity: 0.8;
   }
 `;
+export const Row = styled.div`
+`
 export const BtnInput = styled.button`
   position: absolute;
   border: 1px solid black;
@@ -87,7 +88,7 @@ export const DivModal = styled.div`
   justify-content:center;
 `
 export const FooterForm = styled.form`
-  padding: 48px;
+  padding: 10px;
   @media (max-width: 768px) {
     padding-left: 48px;
     padding-right: 48px;
@@ -137,13 +138,14 @@ padding: 6px 15px;
 `
 export const DivTable = styled.div`
 overflow:auto;
+height:100vh;
 .testHover:hover{
   background-color: #8000ff;
   opacity: 0.8;
   color:#fff;
 }
 .bgrHead{
-  background-color: #8000ff;
+  background-color: #8000ff !important;
   color:#fff;
 }
 `
