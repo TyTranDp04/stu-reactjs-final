@@ -52,7 +52,7 @@ const ChangePassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
-    const url = `http://localhost:3636/user/${id}`;
+    const url = process.env.REACT_APP_URL_WEBSITE  + `/user/${id}`;
     await axios
       .get(url)
       .then((res) => {
@@ -130,7 +130,7 @@ const ChangePassword = () => {
               placeholder="New Password"
               {...register("Password")}
             />
-            <TextRed>{errors.Password?.message}</TextRed>
+            <TextRed >{errors.Password?.message}</TextRed>
             <span className="show-btn">
               <i className="fas fa-eye"></i>
             </span>

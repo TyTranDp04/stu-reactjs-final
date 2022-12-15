@@ -24,7 +24,7 @@ export const HeaderLogo = styled.div`
   }
 `
 export const StImg = styled.img`
- 
+  object-fit : cover;
   height: auto;
   
 `
