@@ -5,7 +5,10 @@ import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
 import ShowDayOffPage from "../views/ShowDayOffPage";
+import Management from "../views/AdminPage/UserPage";
+import MyProfilePage from "../views/MyProfilePage";
 import UserGroupPage from "../views/UserGroupPage";
+import ChangePasswordPage from "../views/ChangePasswordPage";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -24,10 +27,11 @@ const RouterApp = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/request-log-off" element={<DayOffPage/>} />
           <Route path="/log-off" element={<ShowDayOffPage/>} />
+          <Route path="/admin/user" element={<Management />} />
           <Route path="/user-group" element={<UserGroupPage/>} />
-          <Route path={"admin"} element={<AdminPage />} >
-          </Route>
-          <Route path="/change-password" element={<AdminPage />} ></Route>
+          <Route path={"admin"} element={<AdminPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/my-profile" element={<MyProfilePage />} />
         </Routes>
       </Wrapper>
     </BrowserRouter>
