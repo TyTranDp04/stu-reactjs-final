@@ -1,25 +1,25 @@
 import React from 'react'
-import TableDayOff from '../../components/TableDayOff'
+import TableShowDayOff from '../../components/TableShowDayOff'
 import Layout from '../../layout'
 import { Helmet } from 'react-helmet'
 import { HelmetProvider } from 'react-helmet-async'
 import logo from '../../assets/images/stlogo.png'
-
-const DayOffPage = () => {
+const ShowDayOffPage = () => {
   return (
     <>
       <HelmetProvider>
         <Helmet>
-          <title>ST request day off</title>
+          <title>ST log off</title>
           <link rel="icon" href={logo} />
         </Helmet>
       </HelmetProvider>
       <Layout>
-        <TableDayOff />
+        <TableShowDayOff />
+
       </Layout>
     </>
 
   )
 }
 
-export default DayOffPage
+export default ShowDayOffPage

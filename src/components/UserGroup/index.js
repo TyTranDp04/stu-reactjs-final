@@ -220,7 +220,7 @@ function UserGroup(props) {
             </Header>
             <Name>
               <NameText>Name</NameText>
-              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"User":userInfo?.data?.user?.RoleId === "2"?'Master':'HR'}</NameTitle>
+              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"Staff":userInfo?.data?.user?.RoleId === "2"?'Manager':'Admin'}</NameTitle>
             </Name>
             <Master>
               <NameText>Master</NameText>

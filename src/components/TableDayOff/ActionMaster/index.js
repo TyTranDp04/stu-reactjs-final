@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Btn, H5 } from './style';
-import { faRectangleXmark, faSquareCheck, faSquarePen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faClockRotateLeft, faRectangleXmark, faRotateLeft, faSquareCheck, faSquarePen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { URL_API } from '../../../api/dayoff.api';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import ModalRequestChange from '../ModalRequestChange';
 const ActionMaster = (props) => {
+  const [showRequestChange, setShowRequestChange] = useState(false)
   const { arrayApprove, userId, status, requestUserId, requestId } = props;
   const { callApiTable, setCallApiTable, setShowModalUpdate, setIdRequest } = props.handle
+
   const urlReject = URL_API + "/reject"
   async function Reject() {
     await axios.post(urlReject, { RequestId: requestId })
@@ -57,9 +60,9 @@ const ActionMaster = (props) => {
         if (data?.data?.success) {
           Swal.fire({
             icon: 'success',
-            title: 'Add request success',
+            title: 'Approve success',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1000
           })
           setCallApiTable(!callApiTable)
         } else {
@@ -70,11 +73,11 @@ const ActionMaster = (props) => {
   }
   function handleApprove() {
     Swal.fire({
-      title: "Approve this request?",
+      title: "Are you sure?",
       icon: "question",
       iconHtml: "?",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Approve",
       showCancelButton: true,
       showCloseButton: true,
     }).then((result) => {
@@ -97,6 +100,7 @@ const ActionMaster = (props) => {
       .catch(() => {
       })
   }
+
   function handleDelete() {
     Swal.fire({
       title: "Delete this request?",
@@ -118,9 +122,10 @@ const ActionMaster = (props) => {
   }
   return (
     <div>
+      <ModalRequestChange data={formData} handle={{ showRequestChange, setShowRequestChange }}></ModalRequestChange>
       {
-        arrayApprove.includes(userId) ? status === 1 ? <H5>You appoved</H5> : '' : status === 2 ? '' : status === 3 ? '' : <Btn type='button' title="Approve" onClick={() => handleApprove()}>
-          <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faSquareCheck} />
+        arrayApprove?.includes(userId) ? status === 1 ? <H5>You appoved</H5> : '' : status === 2 ? '' : status === 3 ? '' : <Btn type='button' title="Approve" onClick={() => handleApprove()}>
+          <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquareCheck} />
         </Btn>
       }
       {
@@ -129,14 +134,24 @@ const ActionMaster = (props) => {
         </Btn> : ''
       }
       {
-        status === 1 ? requestUserId === userId ? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
-          <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
+        status === 1 && requestUserId === userId ? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
+          <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faSquarePen} />
+        </Btn> : ''
+      }
+      {
+        status === 1 ? requestUserId !== userId ? <Btn type='button' title="Request change" onClick={() => setShowRequestChange(true)}>
+          <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faRotateLeft} />
         </Btn> : '' : ''
       }
-      {status === 1 ? requestUserId === userId?
+      {
+        status === 1 ? requestUserId !== userId ? <Btn type='button' title="Revert"onClick={''}>
+          <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
+        </Btn> : '' : ''
+      }
+      {status === 1 && requestUserId === userId ?
         <Btn type="button" title='Delete'>
           <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} onClick={() => handleDelete()} />
-        </Btn> : '':''
+        </Btn> : ''
       }
     </div>
   );

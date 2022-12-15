@@ -4,6 +4,7 @@ import AdminPage from "../views/AdminPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
+import ShowDayOffPage from "../views/ShowDayOffPage";
 import Management from "../views/AdminPage/UserPage";
 import MyProfilePage from "../views/MyProfilePage";
 import UserGroupPage from "../views/UserGroupPage";
@@ -24,8 +25,9 @@ const RouterApp = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/request-log-off" element={<DayOffPage/>} />
+          <Route path="/log-off" element={<ShowDayOffPage/>} />
           <Route path="/admin/user" element={<Management />} />
-          <Route path="/log-off" element={<DayOffPage/>} />
           <Route path="/user-group" element={<UserGroupPage/>} />
           <Route path={"admin"} element={<AdminPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />

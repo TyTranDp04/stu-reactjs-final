@@ -97,7 +97,6 @@ const ModalUpdateData = (props) => {
   } = useForm();
   async function submit(e) {
     e.preventDefault();
-    let timerInterval
     Swal.fire({
       title: "Update this request?",
       icon: "question",
