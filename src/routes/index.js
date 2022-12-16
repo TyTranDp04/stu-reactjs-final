@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import AdminPage from "../views/AdminPage";
+import DayOffHistoryPage from "../views/DayOffHistoryPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";
@@ -28,6 +29,7 @@ const RouterApp = () => {
           <Route path={"admin"} element={<AdminPage />} >
           </Route>
           <Route path="/change-password" element={<AdminPage />} ></Route>
+          <Route path="/admin/day-off-history" element={<DayOffHistoryPage />} />
         </Routes>
       </Wrapper>
     </BrowserRouter>

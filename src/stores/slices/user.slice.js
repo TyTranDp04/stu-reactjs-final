@@ -6,7 +6,7 @@ const userInfoFromStorage = localStorage.getItem(USER_INFO_KEY) ? JSON.parse(loc
 
 const initialState = {
   userInfoState: {
-    data: null,
+    data: userInfoFromStorage,
     loading: false,
     error: null,
   },
@@ -67,7 +67,7 @@ const userSlice = createSlice({
 
     logoutAction(state, action) {
       console.log('logout');
-      // localStorage.removeItem(USER_INFO_KEY);
+      localStorage.removeItem(USER_INFO_KEY);
       state.userInfoState = {
         ...state.userInfoState,
         loading: false,

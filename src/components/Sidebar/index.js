@@ -5,13 +5,13 @@ const Sidebar = () => {
   const accountRouter = {
     dashboard: { name: "Dashboard", url: "/dashboard", icon: "" },
     requests: { name: "Requests", url: "/requests", icon: "" },
-    daysoff: { name: "Days off", url: "/days-off", icon: "" },
+    daysoff: { name: "Days off", url: "/log-off", icon: "" },
   };
   const managerRouter = {
     members: { name: "Members", url: "/members", icon: "" },
     groups: { name: "Groups", url: "/user-group", icon: "" },
     notifications: { name: "Notifications", url: "/notifications", icon: "" },
-    sync: { name: "Sync", url: "/sync", icon: "" },
+    sync: { name: "Day off history", url: "/admin/day-off-history", icon: "" },
   };
 
   return (

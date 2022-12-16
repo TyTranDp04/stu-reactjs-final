@@ -1,6 +1,6 @@
 import { put, takeEvery } from "redux-saga/effects";
 import { AuthAPI } from "../../api";
-import { loginAction, loginActionFailed, loginActionSuccess, loginGoogleAction, loginGoogleActionFailed, loginGoogleActionSuccess } from "../slices/user.slice";
+import { loginAction, loginActionFailed, loginActionSuccess } from "../slices/user.slice";
 
 function* login(action) {
   try {
@@ -9,7 +9,6 @@ function* login(action) {
       Gmail: loginPayload.Gmail,
       Password: loginPayload.Password,
     });
-    document.cookie = `accesToken=${response.data.data.accessToken}`
     yield put(loginActionSuccess(response.data.data));
   } catch (e) {
     yield put(loginActionFailed(e.response.data.message));
