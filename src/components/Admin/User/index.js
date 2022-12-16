@@ -193,7 +193,7 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       reset();
                       setEdit(false);
-                      Swal.fire("Nice to meet you", "", "success");
+                      Swal.fire("successfully", "", "success");
                     } else {
                       Swal.fire(" Cancelled", "", "error")
                       reset();
@@ -343,7 +343,7 @@ const ManagementUser = (props) => {
                         reset();
                         dispatch(getListDpManagementAction());
                         setShow(false);
-                        Swal.fire("Nice to meet you", "", "success");
+                        Swal.fire("successfully", "", "success");
                       } else Swal.fire(" Cancelled", "", "error");
                     });
                   })}
@@ -541,7 +541,7 @@ const ManagementUser = (props) => {
                                 icon: "warning",
                                 iconHtml: "!",
                                 confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "YES, DELETE IT!!!",
+                                confirmButtonText: "Oke",
                                 cancelButtonText: "Cancel",
                                 showCancelButton: true,
                                 showCloseButton: true,
@@ -550,7 +550,7 @@ const ManagementUser = (props) => {
                                   DeleteData(item._id);
                                   setShow(false);
                                   dispatch(getListDpManagementAction());
-                                  Swal.fire("Nice to meet you", "", "success");
+                                  Swal.fire("successfully", "", "success");
                                 }
                                 // else Swal.fire(" Cancelled", "", "error");
                               })
