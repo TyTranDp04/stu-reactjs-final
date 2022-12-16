@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner } from './style'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 const Sidebar = () => {
+  const userInfo = useSelector((state) => state.users.userInfoState);
+  const [getRoleId,setRoleId] = useState()
+  useEffect(() => {
+    setRoleId(userInfo?.data?.user)
+  }, [userInfo])
+
+
+
   const accountRouter = {
     dashboard: { name: "Dashboard", url: "/dashboard", icon: "" },
     requests: { name: "Requests", url: "/request-log-off", icon: "" },
@@ -11,7 +20,7 @@ const Sidebar = () => {
     members: { name: "Members", url: "/members", icon: "" },
     groups: { name: "Groups", url: "/user-group", icon: "" },
     notifications: { name: "Notifications", url: "/notifications", icon: "" },
-    User:{name:"User", url: "/admin/user", icon: ""},
+    User:{name:"User", url: `${ getRoleId?.RoleId === "1" ? "/404" : '/admin/user'}`, icon: ""},
     sync: { name: "Sync", url: "/sync", icon: "" },
   };
 

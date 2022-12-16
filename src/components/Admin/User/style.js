@@ -7,6 +7,7 @@ export const Body = styled.div`
   padding:0px;
   padding-left:10px;
   background-color: white;
+  height:100vh;
 `;
 
 export const Search = styled.input`
@@ -138,7 +139,7 @@ padding: 6px 15px;
 `
 export const DivTable = styled.div`
 overflow:auto;
-height:300px;
+max-height:400px;
 .testHover:hover{
   background-color: #8000ff;
   opacity: 0.8;

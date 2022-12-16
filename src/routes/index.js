@@ -9,6 +9,7 @@ import Management from "../views/AdminPage/UserPage";
 import MyProfilePage from "../views/MyProfilePage";
 import UserGroupPage from "../views/UserGroupPage";
 import ChangePasswordPage from "../views/ChangePasswordPage";
+import Page404 from "../views/page-404";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const RouterApp = () => {
           <Route path={"admin"} element={<AdminPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/my-profile" element={<MyProfilePage />} />
+          <Route path="/404" element ={<Page404/>}/>
         </Routes>
       </Wrapper>
     </BrowserRouter>

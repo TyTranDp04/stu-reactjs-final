@@ -79,7 +79,7 @@ const ManagementUser = (props) => {
   const [idUser, setId] = useState();
   const [edit, setEdit] = useState(false);
   const EditData = async (data) => {
-    console.log("data",data);
+    console.log("data", data);
     await axios
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
@@ -89,57 +89,19 @@ const ManagementUser = (props) => {
     setId(e);
     await axios
       .get(`${URL}/user-item/${e}`)
-      .then((res) =>{
-      console.log("data",res?.data.data);
-      setDataEdit(res?.data.data)
+      .then((res) => {
+        console.log("data", res?.data.data);
+        setDataEdit(res?.data.data)
       });
-    if(!edit){
+    if (!edit) {
       reset();
     }
   }
 
 
-  const [dataRole, setDataRole] = useState();
-  const [numRole, setNumRole] = useState(1);
 
-  async function submitRole() {
-    await axios
-      .get(`${URL}/role`)
-      .then((res) => setDataRole(res?.data))
-      .catch((err) => console.log(err));
-  }
-  useEffect(() => {
-    submitRole();
-  }, []);
 
   const [dataGroup, setDataGroup] = useState();
-  async function submitGroup() {
-    await axios
-      .get(`${URL}/group`)
-      .then(
-        (res) => setDataGroup(res?.data.data)
-      )
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    submitGroup();
-  }, []);
-  const getRole = (event) => {
-    let RoleId = event.target.value;
-    const idRole = dataRole?.data.filter((e) => {
-      if (RoleId === e.RoleName) {
-        const id = e.Id;
-        return id;
-      }
-    });
-    if (idRole.length === 0) {
-      setNumRole(null);
-    } else {
-      setNumRole(idRole[0]._id);
-    }
-  };
-
   const [numGroup, setNumGroup] = useState();
 
   const getGroup = (event) => {
@@ -156,6 +118,40 @@ const ManagementUser = (props) => {
       setNumGroup(idGroup[0]._id);
     }
   };
+  async function submitGroup() {
+    await axios
+      .get(`${URL}/group`)
+      .then(
+        (res) => setDataGroup(res?.data.data)
+      )
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    submitGroup();
+  }, []);
+
+  const [dataRole, setDataRole] = useState();
+  const [numRole, setNumRole] = useState();
+  async function submitRole() {
+    await axios
+      .get(`${URL}/role`)
+      .then((res) => {
+        setDataRole(res?.data)
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    submitRole();
+  }, []);
+  const getRole = (event) => {
+    let RoleId = event.target.value;
+    console.log("value",RoleId)
+    console.log(dataRole)
+    dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
+  };
+
+
+
 
   return (
     <React.Fragment>
@@ -171,6 +167,11 @@ const ManagementUser = (props) => {
               dialogClassName="modal-90w"
               aria-labelledby="example-custom-modal-styling-title"
             >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-custom-modal-styling-title">
+                  Edit User
+                </Modal.Title>
+              </Modal.Header>
               <FooterForm
                 id="form1"
                 className="text-start"
@@ -198,21 +199,21 @@ const ManagementUser = (props) => {
                       Swal.fire(" Cancelled", "", "error")
                       reset();
                       setId(null);
-                  };
+                    };
                   });
                 })}
               >
                 <div>
                   <Label className="w-100">Name</Label>
-                 {dataEdit?.Name &&  <Input
-                  type="text"
+                  {dataEdit?.Name && <Input
+                    type="text"
                     {...register("Name")}
                     className="w-100"
                     name="Name"
-                    defaultValue={ dataEdit?.Name ? dataEdit?.Name : 'Name'}
+                    defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
                   />
 
-                 }
+                  }
                   <Error className="w-100">{errors.Name?.message}</Error>
                 </div>
                 <div>
@@ -236,7 +237,7 @@ const ManagementUser = (props) => {
                 <div>
                   <Label className="w-100">Phone</Label>
 
-                 {dataEdit?.Phone &&  <Input
+                  {dataEdit?.Phone && <Input
                     name="Phone"
                     type="text"
                     defaultValue={dataEdit?.Phone}
@@ -280,28 +281,22 @@ const ManagementUser = (props) => {
                   >
                     <option></option>
                     {dataRole?.map((e) => (
-                      <option key={e._id}>{e.RoleName}</option>
+                      <option value={e.RoleName} key={e._id}>{e.RoleName}</option>
                     ))}
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Group</Label>
-                  <Select
+                  {dataEdit?.GroupId && <Input
                     name="GroupId"
                     {...register("Group", {
                       required: "The field is required.",
                     })}
                     className="w-100"
-                    onClick={(event) => getGroup(event)}
-                  >
-                    <option className="text-center">...</option>
-                    {dataGroup?.map((e) => (
-                      <option key={e._id} className="text-center">
-                        {e.Name}
-                      </option>
-                    ))}
-                  </Select>
+                    defaultValue={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
+                  />}
+
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
 
@@ -320,7 +315,7 @@ const ManagementUser = (props) => {
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <FooterForm 
+                <FooterForm
                   id="form"
                   className="text-start"
                   onSubmit={handleSubmit((data) => {
@@ -351,7 +346,7 @@ const ManagementUser = (props) => {
                   <div>
                     <Label className="w-100">Name</Label>
                     <Input
-                    
+
                       {...register("Name", {
                         required: "The field is required.",
                       })}
@@ -413,7 +408,6 @@ const ManagementUser = (props) => {
                   <div>
                     <Label className="w-100">Role</Label>
                     <Select
-                      id="RoleId"
                       name="RoleId"
                       {...register("RoleId", {
                         required: "The field is required.",
@@ -440,9 +434,9 @@ const ManagementUser = (props) => {
                       className="w-100"
                       onClick={(event) => getGroup(event)}
                     >
-                      <option className="text-center">...</option>
+                      <option>...</option>
                       {dataGroup?.map((e) => (
-                        <option key={e._id} className="text-center">
+                        <option key={e._id} >
                           {e.Name}
                         </option>
                       ))}
@@ -457,7 +451,7 @@ const ManagementUser = (props) => {
           <div className="container-fluid">
             <div className="row pb-5">
               <DivBtn className="col-4 text-start">
-                <Btn onClick={() => {setShow(true);reset()}}>Add New User</Btn>
+                <Btn onClick={() => { setShow(true); reset() }}>Add New User</Btn>
               </DivBtn>
               <div className="col-4"></div>
               <div className="col-4 p-0 text-end" >
@@ -489,7 +483,7 @@ const ManagementUser = (props) => {
                       <td>{index + 1}</td>
                       <td className="testColor" style={{ textTransform: "capitalize" }}>{item.Name}</td>
                       <td>
-                        <Image style={{width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
+                        <Image style={{ width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
                       </td>
                       <td>{item.Gmail}</td>
                       <td>{item.Phone}</td>
@@ -515,10 +509,10 @@ const ManagementUser = (props) => {
                       </td>
                       <td>
                         <td>
-                          <BtnAction onClick={() => { 
-                            setEdit(true); 
+                          <BtnAction onClick={() => {
+                            setEdit(true);
                             getEdit(item._id);
-                            }}>
+                          }}>
                             <OverlayTrigger
                               overlay={
                                 <Tooltip>
