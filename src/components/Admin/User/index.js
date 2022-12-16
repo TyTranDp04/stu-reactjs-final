@@ -48,7 +48,6 @@ const ManagementUser = (props) => {
   }, [dispatch]);
 
   const [show, setShow] = useState(false);
-  const [edit, setEdit] = useState(false);
   const renderTableHeader = () => {
     const header = Object.keys(dataAlumni[0]);
     return header.map((key, index) => <TH key={index}>{key}</TH>);
@@ -78,6 +77,7 @@ const ManagementUser = (props) => {
     });
   }
   const [idUser, setId] = useState();
+  const [edit, setEdit] = useState(false);
   const EditData = async (data) => {
     console.log("data",data);
     await axios
@@ -86,16 +86,17 @@ const ManagementUser = (props) => {
       .catch((err) => console.log(err));
   }
   async function getEdit(e) {
+    setId(e);
     await axios
       .get(`${URL}/user-item/${e}`)
-      .then((res) => setDataEdit(res?.data.data));
+      .then((res) =>{
+      console.log("data",res?.data.data);
+      setDataEdit(res?.data.data)
+      });
+    if(!edit){
+      reset();
+    }
   }
-  const submitEdit = async (e) => {
-    console.log("e",e);
-    setId(e);
-    getEdit(e);
-    setEdit(true);
-  };
 
 
   const [dataRole, setDataRole] = useState();
@@ -192,7 +193,7 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       reset();
                       setEdit(false);
-                      Swal.fire("Nice to meet you", "", "success");
+                      Swal.fire("successfully", "", "success");
                     } else {
                       Swal.fire(" Cancelled", "", "error")
                       reset();
@@ -203,18 +204,20 @@ const ManagementUser = (props) => {
               >
                 <div>
                   <Label className="w-100">Name</Label>
-                  <Input
+                 {dataEdit?.Name &&  <Input
                   type="text"
                     {...register("Name")}
                     className="w-100"
                     name="Name"
-                    defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
+                    defaultValue={ dataEdit?.Name ? dataEdit?.Name : 'Name'}
                   />
+
+                 }
                   <Error className="w-100">{errors.Name?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Email</Label>
-                  <Input
+                  {dataEdit?.Gmail && <Input
                     name="Gmail"
                     type="Gmail"
                     defaultValue={dataEdit?.Gmail}
@@ -226,14 +229,14 @@ const ManagementUser = (props) => {
                       },
                     })}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Gmail?.message}</Error>
                 </div>
 
                 <div>
                   <Label className="w-100">Phone</Label>
 
-                  <Input
+                 {dataEdit?.Phone &&  <Input
                     name="Phone"
                     type="text"
                     defaultValue={dataEdit?.Phone}
@@ -248,17 +251,17 @@ const ManagementUser = (props) => {
                       },
                     })}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Phone?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Address</Label>
-                  <Input
+                  {dataEdit?.Address && <Input
                     name="Address"
                     defaultValue={dataEdit?.Address}
                     {...register("Address")}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Address?.message}</Error>
                 </div>
                 <div>
@@ -275,6 +278,7 @@ const ManagementUser = (props) => {
                       getRole(event);
                     }}
                   >
+                    <option></option>
                     {dataRole?.map((e) => (
                       <option key={e._id}>{e.RoleName}</option>
                     ))}
@@ -302,7 +306,6 @@ const ManagementUser = (props) => {
                 </div>
 
                 <Submit value="Edit User" className="mt-2" type="submit" />
-                <button className="text-end" onClick={() => setId(null)}>reset</button>
               </FooterForm>
             </Modal>
             <Modal
@@ -340,7 +343,7 @@ const ManagementUser = (props) => {
                         reset();
                         dispatch(getListDpManagementAction());
                         setShow(false);
-                        Swal.fire("Nice to meet you", "", "success");
+                        Swal.fire("successfully", "", "success");
                       } else Swal.fire(" Cancelled", "", "error");
                     });
                   })}
@@ -454,7 +457,7 @@ const ManagementUser = (props) => {
           <div className="container-fluid">
             <div className="row pb-5">
               <DivBtn className="col-4 text-start">
-                <Btn onClick={() => {setShow(true)}}>Add New User</Btn>
+                <Btn onClick={() => {setShow(true);reset()}}>Add New User</Btn>
               </DivBtn>
               <div className="col-4"></div>
               <div className="col-4 p-0 text-end" >
@@ -512,8 +515,10 @@ const ManagementUser = (props) => {
                       </td>
                       <td>
                         <td>
-                          <BtnAction onClick={() => {submitEdit(item._id);
-                    }}>
+                          <BtnAction onClick={() => { 
+                            setEdit(true); 
+                            getEdit(item._id);
+                            }}>
                             <OverlayTrigger
                               overlay={
                                 <Tooltip>
@@ -536,7 +541,7 @@ const ManagementUser = (props) => {
                                 icon: "warning",
                                 iconHtml: "!",
                                 confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "YES, DELETE IT!!!",
+                                confirmButtonText: "Oke",
                                 cancelButtonText: "Cancel",
                                 showCancelButton: true,
                                 showCloseButton: true,
@@ -545,7 +550,7 @@ const ManagementUser = (props) => {
                                   DeleteData(item._id);
                                   setShow(false);
                                   dispatch(getListDpManagementAction());
-                                  Swal.fire("Nice to meet you", "", "success");
+                                  Swal.fire("successfully", "", "success");
                                 }
                                 // else Swal.fire(" Cancelled", "", "error");
                               })
