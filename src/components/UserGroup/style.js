@@ -67,19 +67,24 @@ export const TdContent = styled.div`
   max-width: 350px;
   display: flex;
   position: relative;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   height: 100%;
 `
  export const BtnAddGroup = styled.button`
  border-radius: 5px;
  border: none;
- background-color: #00AEEF;
+ background-color: #8000ff;
  height: 40px;
  color: #FFFFFF;
  font-weight: bold;
+ &:hover{
+  opacity:0.8;
+ }
  `
  export const Thead = styled.thead`
+ background-color:#8000ff;
+ color:#fff;
  `
 
 export const Tr = styled.tr`
@@ -90,6 +95,7 @@ export const Tr = styled.tr`
 export const Th = styled.th``
 export const Td  = styled.td`
   height: 100px;
+  font-weight:700;
 `
 export const Tbody = styled.tbody`
 `

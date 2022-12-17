@@ -139,7 +139,7 @@ padding: 6px 15px;
 `
 export const DivTable = styled.div`
 overflow:auto;
-max-height:400px;
+max-height:60vh;
 .testHover:hover{
   background-color: #8000ff;
   opacity: 0.8;
