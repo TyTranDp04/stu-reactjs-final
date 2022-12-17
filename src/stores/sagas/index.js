@@ -1,6 +1,5 @@
 import { all, fork } from 'redux-saga/effects';
 import { dpManagementSaga } from './Management.saga';
-import { changePasswordSaga } from './changePassword.saga';
 import { userSaga } from './user.saga';
 import { googleSheetSaga } from './googleSheet.saga';
 import { exportExcelSaga } from './dayoffHistory.saga';
@@ -12,7 +11,6 @@ export function* mySaga() {
   yield all([
     fork(userSaga),
     fork(dpManagementSaga),
-    fork(changePasswordSaga),
     fork(googleSheetSaga),
     fork(exportExcelSaga),
     fork(roleIdSaga),

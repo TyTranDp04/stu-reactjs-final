@@ -87,7 +87,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to="/day-off">
+                    <Link key={index} to="/request-log-off">
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           <Name><B>Name: </B> {e.Name}</Name>

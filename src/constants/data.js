@@ -1,9 +1,9 @@
 export const dataAlumni = [
     {
-      id: 1,
-      name: "",
+      No: 1,
+      Name: "",
       Avatar: "",
-      Gmail:"",
+      Email:"",
       Phone:"",
       Address:"",
       Role: "",

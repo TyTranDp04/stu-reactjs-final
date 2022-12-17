@@ -48,7 +48,7 @@ const ActionUser = (props)=>{
       {
         status === 1 ?
           <Btn type='button' onClick={()=> handleUpdate()}>
-            <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
+            <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faSquarePen} />
           </Btn> : ''
       }
       {status === 1 || status === 3 ?

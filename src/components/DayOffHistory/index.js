@@ -64,6 +64,7 @@ const DayOffHistory = () => {
   };
   const openInNewTab = () => {
     window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
+    window.location.reload(false);
   };
   return (
     <DayOffHistoryCol className='col-sm-9 col-lg-10' onSubmit={handleSubmit(onSubmit)}>
@@ -103,6 +104,7 @@ const DayOffHistory = () => {
                   headers={csvHeaders}
                   enclosingCharacter={``}
                   separator={";"}
+                  onClick={() => window.location.reload(false)}
                   target="_blank">
                   Export CSV
                 </CSVLink> : "Prepare Export CSV"}

@@ -133,6 +133,7 @@ export const Input = styled.input`
 
 export const TextRed = styled.div`
   color: red;
+  text-align: left;
 `;
 export const TextBlack = styled.div`
   color: #111111;

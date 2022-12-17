@@ -4,7 +4,7 @@ import Layout from '../../layout'
 
 const DayOffHistoryPage = () => {
   return (
-    <Layout title="ST Log off - Day off history">
+    <Layout title="Log Off SRS - Day off history">
       <DayOffHistory/>
     </Layout>
   )

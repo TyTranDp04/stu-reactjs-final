@@ -4,7 +4,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { mySaga } from "./sagas";
 import { DpManagementReducer } from "./slices/ManagementUser.slice.js";
-import { changePasswordReducer } from "./slices/changePassword.slice";
 import { userReducer } from "./slices/user.slice";
 import { googleSheetReducer } from "./slices/googleSheet.slice";
 import { exportExcelReducer } from "./slices/dayoffHistory.slice";
@@ -16,7 +15,6 @@ const middleware = [sagaMiddleware];
 const rootReducer = {
   users: userReducer,
   dpManagement: DpManagementReducer,
-  changePassword: changePasswordReducer,
   googleSheet: googleSheetReducer,
   exportExcel: exportExcelReducer,
   roleId: roleIdReducer,
