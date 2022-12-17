@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner } from './style'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
+import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner } from './style'
+
 const Sidebar = () => {
-  const userInfo = useSelector((state) => state.users.userInfoState);
-  const [getRoleId,setRoleId] = useState()
+  const roleId = useSelector(state => state.roleId.roleIdState);
+  const userInfo = useSelector(state => state.users.userInfoState);
+  const dispatch = useDispatch()
+
+  const roleIdData = roleId?.data;
+  const userRoleId = userInfo?.data?.user?.RoleId;
+  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const permission = filterRoleId?.RoleName;
+  
   useEffect(() => {
-    setRoleId(userInfo?.data?.user)
-  }, [userInfo])
-
-
+    dispatch(getListRoleIdAction())
+  }, [dispatch]);
 
   const accountRouter = {
     dashboard: { name: "Dashboard", url: "/dashboard", icon: "" },
@@ -20,8 +27,8 @@ const Sidebar = () => {
     members: { name: "Members", url: "/members", icon: "" },
     groups: { name: "Groups", url: "/user-group", icon: "" },
     notifications: { name: "Notifications", url: "/notifications", icon: "" },
-    sync: { name: "Day off history", url: "/admin/day-off-history", icon: "" },
-    User:{name:"User", url: `${ getRoleId?.RoleId === "1" ? "/404" : '/admin/user'}`, icon: ""},
+    sync: { name: "Day off history", url: `${ permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: "" },
+    User:{name:"User", url: `${ permission === "Admin" ? "/admin/user" : "/404"}`, icon: ""},
   };
 
   return (
