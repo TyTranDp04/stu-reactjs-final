@@ -32,7 +32,6 @@ const Notifycation = (props) => {
   const [callApi, setCallApi] = useState(false)
   const [inverseData, setInverseData] = useState(false)
 
-
   useEffect(() => {
     setDataUser(userInfo?.data?.user)
   }, [userInfo])
@@ -57,7 +56,6 @@ const Notifycation = (props) => {
     data?.map((e, index) => {
       newDataNoti[data?.length - index - 1] = e
     })
-    console.log(newDataNoti)
     setData(newDataNoti)
   },[inverseData])
   

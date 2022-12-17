@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Container, ContainerFluid } from "../assets/css/common";
-import logo from "../assets/images/stlogo.png";
+import logo from "../assets/images/power_red.svg";
 import Header from "../components/Header";
 import { HomeCol } from "../components/Home/style";
 import Sidebar from "../components/Sidebar";
