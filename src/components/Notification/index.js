@@ -15,7 +15,9 @@ import {
   Reason,
   Date,
   H4,
-  B
+  B,
+  HeadPopup,
+  P
 } from "./style";
 import { useState } from 'react';
 import { URL_API } from '../../api/dayoff.api';
@@ -70,6 +72,7 @@ const Notifycation = (props) => {
       .catch(err => { })
   }
   function handleIsRead(e) {
+    console.log("e....fini",e)
     updateDataDayOff(e)
       .then(() => {
         setCallApi(!callApi)
@@ -79,13 +82,16 @@ const Notifycation = (props) => {
     <>
       {
         dataUser?.RoleId === '2' ? <Container>
-          <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
+          <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { 
+            data?.length === 0 ? setShowMenu(false) : setShowMenu(!showMenu);
+            // setShowMenu(!showMenu)
+           }}>
             <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
-            <Span>{data?.length}</Span>
+            <Span style={{display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length }</Span>
           </HeaderIcon>
           {
             showMenu ? <Content>
-              <H3>New log day off</H3>
+              <HeadPopup><H3>New Log Day Off</H3></HeadPopup>
               <Menu>
                 {
                   data?.map((e, index) => (
@@ -99,10 +105,10 @@ const Notifycation = (props) => {
                           </Date>
                           <Date>
                             <H4><B style={{ marginRight: '5px' }}>Day Off To:</B></H4>
-                            <TimeDayOff date={e.DayOffFrom}></TimeDayOff>
+                            <TimeDayOff date={e.DayOffTo}></TimeDayOff>
                           </Date>
                           <Date>
-                            <H4><B>Type: </B> {e.Type ? e.Type : 'none'}</H4>
+                            <H4><B>Type: </B> {e.Type === 1 ? "WFH" : 'OFF'}</H4>
                           </Date>
                           <Reason><B>Reason: </B>{e.Reason}</Reason>
                         </ItemContent>
