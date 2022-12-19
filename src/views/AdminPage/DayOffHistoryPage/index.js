@@ -1,6 +1,6 @@
 import React from 'react'
-import DayOffHistory from '../../components/DayOffHistory'
-import Layout from '../../layout'
+import DayOffHistory from '../../../components/Admin/DayOffHistory'
+import Layout from '../../../layout'
 
 const DayOffHistoryPage = () => {
   return (

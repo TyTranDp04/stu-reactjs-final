@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Container, ContainerFluid } from "../assets/css/common";
@@ -10,13 +10,26 @@ import { HomeCol } from "../components/Home/style";
 import Sidebar from "../components/Sidebar";
 import { SidebarCategory, SidebarCol } from "../components/Sidebar/style";
 import { LayoutRow } from "./style";
+import { getListRoleIdAction } from "../stores/slices/roleId.slice";
 
 const Layout = ({ children, title }) => {
   const userInfo = useSelector(state => state.users.userInfoState);
+  const roleId = useSelector(state => state.roleId.roleIdState);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const userGoogle = userInfo?.data?.email;
   const user = userInfo?.data?.user?.Gmail;
-  const navigate = useNavigate();
 
+  const userRoleId = userInfo?.data?.user?.RoleId;
+  const roleIdData = roleId?.data;
+  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const permission = filterRoleId?.RoleName;
+  
+  useEffect(() => {
+    dispatch(getListRoleIdAction())
+  }, [dispatch]);
+  
   useEffect(() => {
     if (!user && !userGoogle) {
       navigate('/login');
@@ -55,7 +68,7 @@ const Layout = ({ children, title }) => {
           </HomeCol>
         </div>
         <LayoutRow className="row">
-          <Sidebar />
+          <Sidebar permission={permission}/>
           {children}
         </LayoutRow>
       </Container>
