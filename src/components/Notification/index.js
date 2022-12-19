@@ -79,6 +79,7 @@ const Notifycation = (props) => {
       .catch(err => { })
   }
   function handleIsRead(e) {
+    console.log("e....fini",e)
     updateDataDayOff(e)
       .then(() => {
         setCallApi(!callApi)
@@ -104,7 +105,7 @@ const Notifycation = (props) => {
         <Container>
           <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
             <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
-            <Span>{data?.length}</Span>
+            <Span style={{display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length }</Span>
           </HeaderIcon>
           {
             showMenu ? <Content>

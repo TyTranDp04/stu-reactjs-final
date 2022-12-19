@@ -70,9 +70,7 @@ export const Container = styled.div`
    {
     padding: 16px;
     width : 50%;
-    .TextRed{
-     float: left;
-    }
+
   }
 `;
 export const Clearfix = styled.div`

@@ -50,7 +50,7 @@ const userSlice = createSlice({
       };
     },
     loginGoogleActionSuccess(state, action) {
-      const data = action.payload;
+      // const data = action.payload;
       // localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState = {
         ...state.userInfoState,
@@ -69,7 +69,7 @@ const userSlice = createSlice({
     },
 
     logoutAction(state, action) {
-      console.log("logout");
+      console.log('logout');
       localStorage.removeItem(USER_INFO_KEY);
       state.userInfoState = {
         ...state.userInfoState,

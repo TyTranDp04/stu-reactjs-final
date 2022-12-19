@@ -1,5 +1,5 @@
 // import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -7,9 +7,9 @@ import avatarnull from "../../assets/images/avatarnull.png";
 import profile from "../../assets/images/profile.png";
 import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
-import logo from "../../assets/images/stlogo.png";
+import logo from "../../assets/images/power_red.svg";
+import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
-import {logoutAction } from "../../stores/slices/user.slice";
 import {
   Back,
   DropdownLogo,
@@ -17,22 +17,23 @@ import {
   HeaderBg,
   HeaderInner,
   HeaderLogo,
+  HeaderLogoInner,
+  HeaderLogoWrapper,
   HeaderLogoff,
-  HeaderLogoffButton,
   HeaderName,
   HeaderRow,
   HeaderWrapper,
   ResetImg,
   StImg,
-  StyleLink,
+  StyleLink
 } from "./style";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const dispatch = useDispatch();
   const Name = userInfo.data?.user?.Name;
   const Avatar = userInfo.data?.user?.Avatar;
-  const ID = userInfo.data?.user?.id;
   const logout = () => {
     Swal.fire({
       title: "Log out?",
@@ -42,6 +43,7 @@ const Header = () => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
@@ -56,11 +58,12 @@ const Header = () => {
       <HeaderBg className="col-sm-12"></HeaderBg>
       <HeaderWrapper className="container-fluid">
         <HeaderInner className="row">
-          <HeaderLogo className="col-sm-2">
-            <StImg src={logo} />
+          <HeaderLogo className="col-sm-3 col-lg-2">
+            <HeaderLogoWrapper>
+              <HeaderLogoInner><Link to="/"><StImg src={logo} /></Link></HeaderLogoInner>
+            </HeaderLogoWrapper>
           </HeaderLogo>
-          <HeaderLogoff className="col-sm-10">
-            {/* <HeaderLogoffButton>{Name}</HeaderLogoffButton> */}
+          <HeaderLogoff className="col-sm-9 col-lg-10">
             <HeaderName className="navbar-user">
               Hi, <span> {Name} </span>{" "}
             </HeaderName>

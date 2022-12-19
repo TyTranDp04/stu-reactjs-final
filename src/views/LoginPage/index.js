@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { HelmetProvider } from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/images/stlogo.png'
+import logo from '../../assets/images/power_red.svg'
 import Login from '../../components/Login/Login'
 
 const LoginPage = () => {
@@ -24,7 +24,7 @@ const LoginPage = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title>ST Log off - log in </title>
+          <title>Log Off SRS - log in</title>
           <link rel="icon" href={logo} />
         </Helmet>
       </HelmetProvider>

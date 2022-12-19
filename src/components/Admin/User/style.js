@@ -7,6 +7,7 @@ export const Body = styled.div`
   padding:0px;
   padding-left:10px;
   background-color: white;
+  height:100vh;
 `;
 
 export const Search = styled.input`
@@ -81,6 +82,23 @@ export const BtnInput = styled.button`
   border: 1px solid black;
   z-index: 99999;
 `;
+export const BtnCancel = styled.button`
+align-items: flex-start;
+  background-color:#aaaaaa;
+  border-radius: 4px;
+  border:none;
+  color: #ffffff;
+  font-family:Rubik;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 11px 15px;
+  text-align: center;
+  &:hover {
+    opacity: 0.8;
+  }
+`
 export const DivModal = styled.div`
   position: absolute;
   z-index:10000;
@@ -138,7 +156,7 @@ padding: 6px 15px;
 `
 export const DivTable = styled.div`
 overflow:auto;
-height:100vh;
+max-height:60vh;
 .testHover:hover{
   background-color: #8000ff;
   opacity: 0.8;

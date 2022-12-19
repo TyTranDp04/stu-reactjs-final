@@ -87,7 +87,13 @@ const MyProfile = () => {
       .then((res) => {
         setIsLoading(false);
         getData();
-        Swal.fire(" Update Succes!", "", "success");
+        Swal.fire({
+          title: "Update success",
+          icon: "success",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
         dispatch(
           updateAvata({
             Name: data.Name,
@@ -134,6 +140,7 @@ const MyProfile = () => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -145,7 +152,7 @@ const MyProfile = () => {
           },
           willClose: () => {
             clearInterval(timerInterval);
-          },
+          } ,
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
           }
@@ -253,15 +260,15 @@ const MyProfile = () => {
                         className="img__preview-image"
                         onClick={() => addImgHandle()}
                         src={selectedImage}
-                        alt="Image Preview"
+                        alt="Image Preview" 
                       />
-                      <BtnImgRemove
+                      {/* <BtnImgRemove
                         onClick={() => removeSelectedImage()}
                         className="btn__remove-img"
                       >
                         <IconRemove className="fa-solid fa-xmark">
                         </IconRemove>
-                      </BtnImgRemove>
+                      </BtnImgRemove> */}
                     </ImgContent>
                   ) : (
                     <ImgContent className="img__preview-content">
