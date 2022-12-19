@@ -34,26 +34,8 @@ const Layout = ({ children, title }) => {
           <link rel="icon" href={logo} />
         </Helmet>
       </HelmetProvider>
-
       <Container className="container">
         <Header />
-        <div className="row">
-          <SidebarCol className="col-sm-3 col-lg-2">
-            <SidebarCategory>Account</SidebarCategory>
-          </SidebarCol>
-          <HomeCol
-            className="col-sm-9 col-lg-10"
-            style={{ display: "flex", backgroundColor: "#00aeef" }}
-          >
-            <SidebarCategory>
-              <Link to="/account">Account / </Link>
-            </SidebarCategory>
-            <SidebarCategory>
-              <Link to="/log-off">Days off / </Link>
-            </SidebarCategory>
-            <SidebarCategory>{current_date}</SidebarCategory>
-          </HomeCol>
-        </div>
         <LayoutRow className="row">
           <Sidebar />
           {children}

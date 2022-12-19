@@ -84,7 +84,7 @@ export const BtnInput = styled.button`
 `;
 export const BtnCancel = styled.button`
 align-items: flex-start;
-  background-color:red;
+  background-color:#aaaaaa;
   border-radius: 4px;
   border:none;
   color: #ffffff;
