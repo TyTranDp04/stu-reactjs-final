@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 import {
   Container,
-  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, H4, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
+  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
   Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
 } from './style'
 import axios from 'axios';
@@ -27,14 +27,10 @@ function UserGroup(props) {
   const urlGetUser = process.env.REACT_APP_URL_WEBSITE + '/user'
   const urlGetGroup = process.env.REACT_APP_URL_WEBSITE + '/group'
   const urlDeleteUserGroup = process.env.REACT_APP_URL_WEBSITE + '/user-group/delete'
-  useEffect(() => {
-    getDataUser()
-    getDataGroup()
-  }, [callApiGroup])
+ 
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-      .catch(err => console.log(err))
   }
   async function getDataGroup() {
     await axios.get(urlGetGroup)
@@ -61,9 +57,11 @@ function UserGroup(props) {
 
         }
       })
-      .catch(err => console.log(err))
   }
-
+  useEffect(() => {
+    getDataUser()
+    getDataGroup()
+  }, [callApiGroup])
   async function deleteUserGroup(UserId, GroupId) {
     const form = {
       UserId: UserId,
@@ -79,7 +77,6 @@ function UserGroup(props) {
         })
         setCallApiGroup(!callApiGroup)
       })
-      .catch(err => console.log(err))
   }
 
   function handleShowDetail(group) {

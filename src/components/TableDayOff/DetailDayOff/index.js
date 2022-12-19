@@ -32,7 +32,6 @@ const DetailDayOff = (props) => {
     const urlGetHistory = process.env.REACT_APP_URL_WEBSITE + "/history/" + idDayOff
     await axios.get(urlGetHistory)
       .then(res => setDataHistory(res?.data?.data))
-      .catch(err => console.log(err))
   }
   useEffect(() => {
     getHistory()
@@ -42,7 +41,6 @@ const DetailDayOff = (props) => {
     const urlGetDayOff = process.env.REACT_APP_URL_WEBSITE + "/dayoff/" + idDayOff
     await axios.get(urlGetDayOff, formData)
       .then(res => setDataDayOff(res?.data?.data))
-      .catch(err => console.log(err))
   }
   useEffect(() => {
     getDataDayOff()

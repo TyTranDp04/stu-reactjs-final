@@ -64,7 +64,6 @@ const ModalUpdateData = (props) => {
         setQuantity(newdata?.Quantity)
         setChangeData(!changeData)
       })
-      .catch(err => console.log(err))
   }
   useEffect(() => {
     getDataUpdate()
@@ -161,7 +160,6 @@ useEffect(()=>{
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
   }
 
   function handleOnChangeForm(e) {

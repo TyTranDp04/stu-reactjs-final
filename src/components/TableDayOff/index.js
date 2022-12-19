@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react';
-import { faCalendarDay, faCalendarDays, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
+import {  faCalendarDays, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DotStatus from './DotStatus';
 import { useSelector } from 'react-redux'
@@ -55,13 +55,11 @@ const TableDayOff = (props) => {
     const urlGetDayOff = URL_API + "/dayoff"
     await Axios.post(urlGetDayOff, formData)
       .then(res => setData(res?.data))
-      .catch(err => console.log(err))
   }
   async function getDataUser() {
     const urlGetDataUser = URL_API + "/user"
     await Axios.get(urlGetDataUser)
       .then(res => setDataAllUser(res?.data))
-      .catch(err => console.log(err))
   }
 
   useEffect(() => {

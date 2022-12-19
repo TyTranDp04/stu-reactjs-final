@@ -39,7 +39,6 @@ const ActionMaster = (props) => {
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
   }
   function handleApprove() {
     Swal.fire({

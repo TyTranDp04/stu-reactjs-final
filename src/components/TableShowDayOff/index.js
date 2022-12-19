@@ -54,7 +54,6 @@ const TableShowDayOff = (props) => {
       }
 
       )
-      .catch(err => console.log(err))
   }
   useEffect(() => {
     getDataDayOff()
@@ -99,7 +98,6 @@ const TableShowDayOff = (props) => {
     const urlGetDataUser = URL_API + "/user"
     await Axios.get(urlGetDataUser)
       .then(res => setDataAllUser(res?.data))
-      .catch(err => console.log(err))
   }
   useEffect(()=>{
     getDataUser()
@@ -215,7 +213,6 @@ const TableShowDayOff = (props) => {
           </ContainerDefault>
           : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
       }
-
     </Main>
   );
 }
