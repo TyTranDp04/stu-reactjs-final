@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Table from 'react-bootstrap/Table';
 import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import Table from 'react-bootstrap/Table';
 import Swal from "sweetalert2";
 
 import {
@@ -10,10 +10,11 @@ import {
   Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
 } from './style'
 import axios from 'axios';
-import ModalAddGroup from './ModalAddGroup';
-import ModalAddUserGroup from './AddUserGroup';
-import { useSelector } from 'react-redux'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import ModalAddUserGroup from './AddUserGroup';
+import ModalAddGroup from './ModalAddGroup';
+
 
 function UserGroup(props) {
   const [showDetail, setShowDetail] = useState(true)

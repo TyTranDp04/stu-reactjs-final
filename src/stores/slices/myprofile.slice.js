@@ -18,7 +18,6 @@ export const myProfileSlice = createSlice({
     },
     updatemyProfileSuccess: (state, action) => {
       toast.success(action.payload.message);
-      // console.log(action.payload.message);
     },
     updatemyProfileFailed: (state, action) => {
 

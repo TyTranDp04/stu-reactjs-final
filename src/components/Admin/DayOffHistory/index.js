@@ -38,7 +38,6 @@ const DayOffHistory = () => {
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  console.log("🚀 ~ file: index.js:41 ~ DayOffHistory ~ permission", permission)
 
   useEffect(() => {
     if (!permission) {
@@ -69,12 +68,11 @@ const DayOffHistory = () => {
   };
   const openInNewTab = () => {
     window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
-    window.location.reload(false);
   };
 
   return (
-    <DayOffHistoryCol className='col-sm-9 col-lg-10' onSubmit={handleSubmit(onSubmit)}>
-      <Form className='day-off-history_form'>
+    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
+      <Form className='day-off-history_form' onSubmit={handleSubmit(onSubmit)}>
         <LoginTitle><H2 className='day-off-history_title'>Day Off History</H2></LoginTitle>
         <label>Day off from</label>
         <Input
@@ -97,24 +95,24 @@ const DayOffHistory = () => {
             <Button className='day-off-history_button' type='submit'>
               <DayOffHistoryExportCsv>
                 <DayOffHistoryExportLoading>{loading && <FontAwesomeIcon icon={faSpinner} />}</DayOffHistoryExportLoading>
-                <DayOffHistoryExportButton>{csvData ? <CSVLink
-                  data={csvData?.map((item, index) => ({
-                    ...item,
-                    No: index + 1,
-                    DayOffFrom: item?.DayOffFrom && format('dd-MM-yyyy', new Date(item?.DayOffFrom)),
-                    DayOffTo: item?.DayOffTo && format('dd-MM-yyyy', new Date(item?.DayOffTo)),
-                    Type: item?.Type === 1 ? "OFF" : "WFH"
-                  })) ?? []}
-                  filename={fileName}
-                  className="hidden"
-                  ref={csvLink}
-                  headers={csvHeaders}
-                  enclosingCharacter={``}
-                  separator={";"}
-                  onClick={() => window.location.reload(false)}
-                  target="_blank">
-                  Export CSV
-                </CSVLink> : "Prepare Export CSV"}
+                <DayOffHistoryExportButton>
+                  {!csvData ? "Export CSV" : <CSVLink
+                    data={csvData?.map((item, index) => ({
+                      ...item,
+                      No: index + 1,
+                      DayOffFrom: item?.DayOffFrom && format('dd-MM-yyyy', new Date(item?.DayOffFrom)),
+                      DayOffTo: item?.DayOffTo && format('dd-MM-yyyy', new Date(item?.DayOffTo)),
+                      Type: item?.Type === 1 ? "OFF" : "WFH"
+                    })) ?? []}
+                    filename={fileName}
+                    className="hidden"
+                    ref={csvLink}
+                    headers={csvHeaders}
+                    enclosingCharacter={``}
+                    separator={";"}
+                    target="_blank">
+                    Export CSV
+                  </CSVLink>}
                 </DayOffHistoryExportButton>
               </DayOffHistoryExportCsv>
             </Button>

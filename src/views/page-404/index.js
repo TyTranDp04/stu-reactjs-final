@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout404 from '../../components/Page404'
-import logo from '../../assets/images/stlogo.png'
+import logo from '../../assets/images/power_red.svg'
 
 
 const Page404 = () => {
