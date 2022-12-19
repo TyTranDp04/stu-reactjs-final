@@ -55,7 +55,6 @@ const Notifycation = (props) => {
     data?.map((e, index) => {
       newDataNoti[data?.length - index - 1] = e
     })
-    console.log(newDataNoti)
     setData(newDataNoti)
   },[inverseData])
   

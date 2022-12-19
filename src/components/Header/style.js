@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 export const HeaderRow = styled.div`
   background-color: #00aeef;
-  
+  .swal2-styled.swal2-confirm{
+    background-color: #8000ff;
+  }
 `
 export const HeaderWrapper = styled.div`
 `

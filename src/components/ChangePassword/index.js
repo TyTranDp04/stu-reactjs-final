@@ -7,7 +7,7 @@ import { TextRed } from "../Login/style";
 import { changePasswordAction } from "../../stores/slices/user.slice";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 import {
   Cancel,
@@ -44,11 +44,8 @@ const schema = yup
 const ChangePassword = () => {
     const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
-  console.log(userInfo.data?.user , "user");
   const id = userInfo.data?.user?.id;
   let ChangePassword = data?.Password;
-  console.log("abc : " ,ChangePassword);
-  console.log(userInfo?.data?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
@@ -57,7 +54,6 @@ const ChangePassword = () => {
       .get(url)
       .then((res) => {
         setData(res.data);
-        console.log('getdata: ', res.data);
       })
       .catch((err) => console.log(err));
   };
@@ -71,7 +67,6 @@ const ChangePassword = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = (adata, notify) => {
-    console.log(adata);
     Swal.fire({
       title: "Change Password ?",
       icon: "question",
@@ -80,6 +75,7 @@ const ChangePassword = () => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         if (adata.Password === adata.oldPassword) {
@@ -97,9 +93,14 @@ const ChangePassword = () => {
             })
           );
           navigate("/");
-          Swal.fire("Change password success!", "", "success");
+          Swal.fire({
+            title: "Update success",
+            icon: "success",
+            confirmButtonText: "Ok",
+            showCloseButton: true,
+            confirmButtonColor: "#8000ff",
+          })
           ChangePassword = adata.Password;
-          console.log(userInfo.adata?.user);
         } else {
           toast.error("Old Password Incorrect");
           Swal.fire("Old Password Incorrect!", "", "error");
