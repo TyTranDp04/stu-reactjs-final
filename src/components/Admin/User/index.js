@@ -148,8 +148,6 @@ const ManagementUser = (props) => {
   };
 
 
-
-
   return (
     <React.Fragment>
       <Container className="col-lg-10 col-sm-9 ">
@@ -178,13 +176,14 @@ const ManagementUser = (props) => {
                     RoleId: numRole,
                   };
                   Swal.fire({
-                    title: "Are You Sure Add User?",
+                    title: "Are You Sure Edit User?",
                     icon: "question",
                     iconHtml: "?",
                     confirmButtonText: "OK",
                     cancelButtonText: "Cancel",
                     showCancelButton: true,
                     showCloseButton: true,
+                    confirmButtonColor:"#8000ff",
                   }).then((result) => {
                     if (result.isConfirmed) {
                       EditData(object);
@@ -193,8 +192,6 @@ const ManagementUser = (props) => {
                       setEdit(false);
                       Swal.fire("successfully", "", "success");
                     } else {
-                      Swal.fire(" Cancelled", "", "error")
-                      reset();
                       setId(null);
                     };
                   });
@@ -276,8 +273,8 @@ const ManagementUser = (props) => {
                       getRole(event);
                     }}
                   >
-                    {dataRole?.map((e) => (
-                      <option selected={dataEdit?.RoleId ? dataEdit?.RoleId : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
+                    {dataRole?.map((e) => (                      
+                      <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
                     ))}
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
@@ -290,16 +287,17 @@ const ManagementUser = (props) => {
                       required: "The field is required.",
                     })}
                     className="w-100"
-                    defaultValue={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
+                    // disabled 
+                    value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
                   />}
 
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
                 <div className="row">
-                  <div className="text-start col-6">
-                    <Submit value="Edit User" className="mt-2" type="submit" />
+                  <div className="text-start col-3">
+                    <Submit value="Edit User" type="submit" />
                   </div>
-                  <div className="text-end col-6">
+                  <div className="text-start col-9">
                     <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
                   </div>
                 </div>
@@ -336,6 +334,7 @@ const ManagementUser = (props) => {
                       cancelButtonText: "Cancel",
                       showCancelButton: true,
                       showCloseButton: true,
+                      confirmButtonColor:"#8000ff",
                     }).then((result) => {
                       if (result.isConfirmed) {
                         postData(object);
@@ -343,7 +342,9 @@ const ManagementUser = (props) => {
                         dispatch(getListDpManagementAction());
                         setShow(false);
                         Swal.fire("successfully", "", "success");
-                      } else Swal.fire(" Cancelled", "", "error");
+                      } else {
+                        
+                      };
                     });
                   })}
                 >
@@ -448,10 +449,10 @@ const ManagementUser = (props) => {
                     <Error className="w-100">{errors.Group?.message}</Error>
                   </div>
                   <div className="row">
-                    <div className="text-start col-6">
-                      <Submit value="Add User" className="mt-2" type="submit" />
+                    <div className="text-start col-3">
+                      <Submit value="Add User" type="submit" />
                     </div>
-                    <div className="text-end col-6">
+                    <div className="text-start col-9">
                       <BtnCancel type="button" onClick={() => setShow(!show)}>Cancel</BtnCancel>
                     </div>
                   </div>
