@@ -8,7 +8,6 @@ function* exportExcel(action) {
     const dataPayload = action.payload;
     const response = yield GoogleSheetAPI.export(dataPayload.DayOffFrom, dataPayload.DayOffTo);
     const data = response.data;
-    console.log("🚀 ~ file: dayoffHistory.saga.js:11 ~ function*exportExcel ~ data", data)
     yield put(exportExcelActionSuccess(data));
   } catch (e) {
     yield put(exportExcelActionFailed(e));

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Avatar from "../../../assets/images/avatar-default.jpg";
 import { dataAlumni } from "../../../constants/data.js";
-import Avatar from "../../../assets/images/avatar-default.jpg"
 import {
   Body,
   Btn,
@@ -24,13 +24,14 @@ import {
   TR,
 } from "./style";
 
-import Swal from "sweetalert2";
+import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
-import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const ManagementUser = (props) => {
   const URL = process.env.REACT_APP_URL_WEBSITE;
@@ -39,7 +40,26 @@ const ManagementUser = (props) => {
   const dpManagement = useSelector(
     (state) => state.dpManagement.dpManagementState
   );
+  const userInfo = useSelector(state => state.users.userInfoState);
+  const roleId = useSelector(state => state.roleId.roleIdState);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRoleId = userInfo?.data?.user?.RoleId;
+  const roleIdData = roleId?.data;
+  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const permission = filterRoleId?.RoleName;
+
+  useEffect(() => {
+    if (!permission) {
+      return
+    } else if (permission !== "Admin") {
+      navigate("/404")
+    } else {
+      navigate("/admin/user")
+    }
+  }, [permission, navigate]);
+
   useEffect(() => {
     setData(dpManagement?.data);
   }, [dpManagement]);
@@ -97,9 +117,6 @@ const ManagementUser = (props) => {
     }
   }
 
-
-
-
   const [dataGroup, setDataGroup] = useState();
   const [numGroup, setNumGroup] = useState();
 
@@ -117,6 +134,7 @@ const ManagementUser = (props) => {
       setNumGroup(idGroup[0]._id);
     }
   };
+
   async function submitGroup() {
     await axios
       .get(`${URL}/group`)
@@ -146,7 +164,6 @@ const ManagementUser = (props) => {
     let RoleId = event.target.value;
     dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
   };
-
 
   return (
     <React.Fragment>
@@ -206,7 +223,6 @@ const ManagementUser = (props) => {
                     name="Name"
                     defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
                   />
-
                   }
                   <Error className="w-100">{errors.Name?.message}</Error>
                 </div>
@@ -227,10 +243,8 @@ const ManagementUser = (props) => {
                   />}
                   <Error className="w-100">{errors.Gmail?.message}</Error>
                 </div>
-
                 <div>
                   <Label className="w-100">Phone</Label>
-
                   {dataEdit?.Phone && <Input
                     name="Phone"
                     type="text"
@@ -290,7 +304,6 @@ const ManagementUser = (props) => {
                     // disabled 
                     value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
                   />}
-
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
                 <div className="row">
@@ -301,8 +314,6 @@ const ManagementUser = (props) => {
                     <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
                   </div>
                 </div>
-
-
               </FooterForm>
             </Modal>
             <Modal
@@ -351,7 +362,6 @@ const ManagementUser = (props) => {
                   <div>
                     <Label className="w-100">Name</Label>
                     <Input
-
                       {...register("Name", {
                         required: "The field is required.",
                       })}
@@ -377,10 +387,8 @@ const ManagementUser = (props) => {
                     />
                     <Error className="w-100">{errors.Gmail?.message}</Error>
                   </div>
-
                   <div>
                     <Label className="w-100">Phone</Label>
-
                     <Input
                       name="Phone"
                       type="text"
@@ -467,7 +475,6 @@ const ManagementUser = (props) => {
               </DivBtn>
               <div className="col-4"></div>
               <div className="col-4 p-0 text-end" >
-
                 <OverlayTrigger
                   overlay={
                     <Tooltip id={`tooltip`}>
@@ -477,8 +484,6 @@ const ManagementUser = (props) => {
                 >
                   <Search placeholder="Search" onChange={searchHandle}></Search>
                 </OverlayTrigger>
-
-
               </div>
             </div>
           </div>
@@ -520,60 +525,55 @@ const ManagementUser = (props) => {
                         )}
                       </td>
                       <td>
-                        <td>
-                          <BtnAction onClick={() => {
-                            setEdit(true);
-                            getEdit(item._id);
-                          }}>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip>
-                                  Edit
-                                </Tooltip>
-                              }
-                            >
-                              <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
-                            </OverlayTrigger>
-
-                          </BtnAction>
-                        </td>
-                        <td>
-                          {" "}
-                          <BtnAction
-                            onClick={() =>
-                              Swal.fire({
-                                title: "Are you sure DELETE?",
-                                text: "You will not be able to recover this USER",
-                                icon: "warning",
-                                iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Oke",
-                                cancelButtonText: "Cancel",
-                                showCancelButton: true,
-                                showCloseButton: true,
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  DeleteData(item._id);
-                                  setShow(false);
-                                  dispatch(getListDpManagementAction());
-                                  Swal.fire("successfully", "", "success");
-                                }
-                                // else Swal.fire(" Cancelled", "", "error");
-                              })
+                        <BtnAction onClick={() => {
+                          setEdit(true);
+                          getEdit(item._id);
+                        }}>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip>
+                                Edit
+                              </Tooltip>
                             }
                           >
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip>
-                                  Delete
-                                </Tooltip>
-                              }
-                            >
-                              <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} />
-                            </OverlayTrigger>
+                            <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
+                          </OverlayTrigger>
 
-                          </BtnAction>
-                        </td>
+                        </BtnAction>
+                        {" "}
+                        <BtnAction
+                          onClick={() =>
+                            Swal.fire({
+                              title: "Are you sure DELETE?",
+                              text: "You will not be able to recover this USER",
+                              icon: "warning",
+                              iconHtml: "!",
+                              confirmButtonColor: "#DD6B55",
+                              confirmButtonText: "Oke",
+                              cancelButtonText: "Cancel",
+                              showCancelButton: true,
+                              showCloseButton: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                DeleteData(item._id);
+                                setShow(false);
+                                dispatch(getListDpManagementAction());
+                                Swal.fire("successfully", "", "success");
+                              }
+                            })
+                          }
+                        >
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip>
+                                Delete
+                              </Tooltip>
+                            }
+                          >
+                            <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} />
+                          </OverlayTrigger>
+
+                        </BtnAction>
                       </td>
                     </TR>
                   ))}

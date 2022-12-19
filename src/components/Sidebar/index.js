@@ -1,23 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
 import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner } from './style'
 
-const Sidebar = () => {
-  const roleId = useSelector(state => state.roleId.roleIdState);
-  const userInfo = useSelector(state => state.users.userInfoState);
-  const dispatch = useDispatch()
-
-  const roleIdData = roleId?.data;
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
-  const permission = filterRoleId?.RoleName;
-  
-  useEffect(() => {
-    dispatch(getListRoleIdAction())
-  }, [dispatch]);
-
+const Sidebar = ({permission}) => {
   const accountRouter = {
     requests: { name: "Requests", url: "/request-log-off", icon: "" },
     daysoff: { name: "Days off", url: "/log-off", icon: "" },
