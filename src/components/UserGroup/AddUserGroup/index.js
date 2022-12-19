@@ -27,7 +27,6 @@ const ModalAddUserGroup = (props) => {
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-      .catch(err => {})
   }
   useEffect(() => {
     getDataUser()
@@ -96,7 +95,6 @@ const ModalAddUserGroup = (props) => {
           user: ''
         })
       })
-      .catch(err => {})
   }
   const {
     handleSubmit,
