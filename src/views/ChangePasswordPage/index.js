@@ -4,7 +4,7 @@ import Layout from '../../layout'
 
 const ChangePasswordPage = () => {
   return (
-    <Layout title="Change Password">
+    <Layout title="Log Off SRS - Change Password">
       <ChangePassword/>
     </Layout>
   )

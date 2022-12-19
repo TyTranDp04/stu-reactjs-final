@@ -17,6 +17,7 @@ const Layout = ({ children, title }) => {
 
   const userGoogle = userInfo?.data?.email;
   const user = userInfo?.data?.user?.Gmail;
+  const lengthPass = userInfo?.data?.user?.Password?.length;
 
   const userRoleId = userInfo?.data?.user?.RoleId;
   const roleIdData = roleId?.data;
@@ -30,8 +31,10 @@ const Layout = ({ children, title }) => {
   useEffect(() => {
     if (!user && !userGoogle) {
       navigate('/login');
+    } else if (lengthPass < 8) {
+      navigate('/change-password');
     }
-  }, [user, userGoogle, navigate]);
+  }, [user, userGoogle, lengthPass, navigate]);
 
   return (
     <ContainerFluid className="container-fluid">

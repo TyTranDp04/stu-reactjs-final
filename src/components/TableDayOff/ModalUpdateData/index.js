@@ -45,7 +45,7 @@ const ModalUpdateData = (props) => {
         newdata.DayOffTo = dateTo
         setData(newdata)
       })
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   function changeDateUpdate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
@@ -71,7 +71,7 @@ const ModalUpdateData = (props) => {
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   useEffect(() => {
     getDataUpdate()
