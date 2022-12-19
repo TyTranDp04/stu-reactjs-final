@@ -1,60 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Btn } from '../ActionMaster/style';
-import { faSquarePen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faClockRotateLeft, faSquarePen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import  {URL_API} from '../../../api/dayoff.api'
-import Swal from "sweetalert2";
-
+import ModalRequestChange from '../ModalRequestChange';
 const ActionUser = (props)=>{
-  const { status, requestId } = props;
-  const {callApiTable, setCallApiTable,  setShowModalUpdate, setIdRequest  } = props.handle
-  async function DeleteData() {
-    await fetch(URL_API + "/dayoff-soft/" + requestId, { method: "DELETE" })
-      .then((data) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Add request success',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          setCallApiTable(!callApiTable)
-        setCallApiTable(!callApiTable)
-      })
-      .catch(() => {
-    })
-  }
+  const { data, formData } = props;
+  const {setShowModalUpdate, setIdRequest, setCallApiTable, callApiTable  } = props.handle
+  const [time, setTime] = useState()
+  const [showRequestChange, setShowRequestChange] = useState(false)
   function handleUpdate(){
-    setIdRequest(requestId)
+    setIdRequest(data?._id)
     setShowModalUpdate(true);
   }
-  function handleDelete(){
-    Swal.fire({
-      title: "Delete this request?",
-      icon: "question",
-      iconHtml: "?",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      showCancelButton: true,
-      showCloseButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        DeleteData()
-      } else Swal.fire(" Cancel", "", "error");
-    });
-  }
+  useEffect(()=>{
+    const today = new Date ()
+    const dayOff = new Date(data?.DayOffFrom)
+    const newtime = (((dayOff - today) / 360 / 24 / 10000) + 1)
+    setTime(newtime)
+  }, [data])
 
   return (
     <div>
+      <ModalRequestChange type={'revert'} data={data} formData={formData} handle={{ showRequestChange, setShowRequestChange, setCallApiTable, callApiTable }}></ModalRequestChange>
       {
-        status === 1 ?
+        data?.Status === 1 || data?.Status === 4?
           <Btn type='button' onClick={()=> handleUpdate()}>
-            <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faSquarePen} />
+            <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faSquarePen} />
           </Btn> : ''
       }
-      {status === 1 || status === 3 ?
-        <Btn type='button' onClick={()=>handleDelete()}>
-          <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} />
-        </Btn> : ''
+      { time > 1?
+        data?.Status === 2 || data?.Status === 1? <Btn type='button' title="Revert" onClick={()=>setShowRequestChange(true)}>
+          <FontAwesomeIcon style={{ color: '#C66DAD', marginRight: '5px' }} icon={faClockRotateLeft} />
+        </Btn> : '':''
       }
     </div>
   );

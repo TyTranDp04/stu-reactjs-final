@@ -196,8 +196,6 @@ function UserGroup(props) {
                   }
                 </Tbody>
               </Table>
-
-
             </Content>
           </Group>
           :
