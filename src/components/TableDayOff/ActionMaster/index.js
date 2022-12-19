@@ -27,7 +27,7 @@ const ActionMaster = (props) => {
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   function handleReject() {
     Swal.fire({
@@ -69,7 +69,7 @@ const ActionMaster = (props) => {
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   function handleApprove() {
     Swal.fire({

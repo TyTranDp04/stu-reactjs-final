@@ -4,7 +4,7 @@ import Layout from '../../layout'
 
 const UserGroupPage = () => {
   return (
-    <Layout>
+    <Layout title="Log Off SRS - User group">
       <UserGroup/>
     </Layout>
   )

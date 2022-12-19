@@ -3,7 +3,7 @@ import Layout from "../../layout";
 
 const MyProfilePage = () => {
   return (
-    <Layout title="My Profile">
+    <Layout title="Log Off SRS - My Profile">
       <MyProfile />
     </Layout>
   );

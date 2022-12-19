@@ -1,17 +1,16 @@
-// import axios from "axios";
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import avatarnull from "../../assets/images/avatarnull.png";
+import logo from "../../assets/images/power_red.svg";
 import profile from "../../assets/images/profile.png";
 import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
-import logo from "../../assets/images/power_red.svg";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
 import {
-  Back,
   DropdownLogo,
   HeaderAvatar,
   HeaderBg,
@@ -24,10 +23,8 @@ import {
   HeaderRow,
   HeaderWrapper,
   ResetImg,
-  StImg,
-  StyleLink
+  StImg
 } from "./style";
-import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
@@ -84,23 +81,17 @@ const Header = () => {
                   </HeaderAvatar>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <StyleLink to="/change-password">
-                    <Dropdown.Item className="content" href="#/action-1">
-                      <ResetImg src={resetpassword} />
-                      Change Password
-                    </Dropdown.Item>
-                  </StyleLink>
-                  <StyleLink to="/my-profile">
-                    <Dropdown.Item className="content" href="#/action-2">
-                      <ResetImg src={profile} />
-                      My Profile
-                    </Dropdown.Item>
-                  </StyleLink>
-                  <Dropdown.Item className="content" href="#/action-3">
-                    <Back onClick={() => logout()}>
-                      <ResetImg src={shutdown} />
-                      Logout
-                    </Back>
+                  <Dropdown.Item className="content" href="/change-password">
+                    <ResetImg src={resetpassword} />
+                    Change Password
+                  </Dropdown.Item>
+                  <Dropdown.Item className="content" href="/my-profile">
+                    <ResetImg src={profile} />
+                    My Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item className="content" onClick={() => logout()}>
+                    <ResetImg src={shutdown} />
+                    Logout
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </DropdownLogo>

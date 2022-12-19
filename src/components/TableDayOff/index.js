@@ -55,12 +55,12 @@ const TableDayOff = (props) => {
   async function getDataDayOff() {
     await Axios.post(urlGetDayOff, formData)
       .then(res => setData(res?.data))
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   async function getDataDayOffStore() {
     await Axios.post(urlGetDayOffStore, { UserId: dataUser?.id, RoleId: dataUser?.RoleId, })
       .then(res => setDataStore(res?.data?.data))
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   useEffect(() => {
     getDataDayOff()
@@ -74,7 +74,7 @@ const TableDayOff = (props) => {
       newDataDayOff[dayOffData?.length - index - 1] = e
     })
     setDataDayOff(newDataDayOff)
-  }, [data])
+  }, [data, dayOffData])
   function handleDetail(data) {
     setDataDetail(data)
     setShowDetail(true)
@@ -86,7 +86,7 @@ const TableDayOff = (props) => {
         showRestore ?
           <ContainerDefault >
             <BoxHeader>
-              <BoxNav class="box-nav d-flex justify-between">
+              <BoxNav className="box-nav d-flex justify-between">
                 <Span>{dataDayOff?.length} Day Off Request</Span>
                 {
                   dataUser?.RoleId === "3" ? '' :
@@ -111,7 +111,7 @@ const TableDayOff = (props) => {
             <FormData action="/" method="POST">
               <TableScroll>
                 <Table striped bordered hover>
-                  <Thead class="thead-dark">
+                  <Thead className="thead-dark">
                     <TrHead>
                       <Th>
                         <ThContent>#</ThContent>

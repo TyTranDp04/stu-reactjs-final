@@ -7,7 +7,7 @@ import { TextRed } from "../Login/style";
 import { changePasswordAction } from "../../stores/slices/user.slice";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Cancel,
@@ -25,31 +25,29 @@ const schema = yup
   .shape({
     oldPassword: yup
       .string()
-      .required("Old Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .required("Old Password is required"),
     Password: yup
       .string()
       .required("New Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .min(8, "Password min is 8 , max is 16 .")
+      .max(16, "Password min is 8 , max is 16 ."),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("Password"), null], "Passwords must match")
       .required("Confirm Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .min(8, "Password min is 8 , max is 16 .")
+      .max(16, "Password min is 8 , max is 16 ."),
   })
   .required();
 const ChangePassword = () => {
-    const [data, setData] = useState();
+  const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
   const id = userInfo.data?.user?.id;
   let ChangePassword = data?.Password;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE  + `/user/${id}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${id}`;
     await axios
       .get(url)
       .then((res) => {
@@ -58,9 +56,9 @@ const ChangePassword = () => {
       .catch((err) => console.log(err));
   };
 
-  useEffect (() => {
+  useEffect(() => {
     getData()
-    }, []);
+  }, []);
   const {
     register,
     handleSubmit,
@@ -88,7 +86,7 @@ const ChangePassword = () => {
         } else if (ChangePassword === adata.oldPassword) {
           dispatch(
             changePasswordAction({
-              id:id,
+              id: id,
               Password: adata.Password,
             })
           );

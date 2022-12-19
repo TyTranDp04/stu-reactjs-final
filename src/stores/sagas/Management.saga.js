@@ -21,7 +21,6 @@ function* searchDpManagementData(action) {
     const response = yield DpManagementAPI.searchDpManagementData(action.payload);
     const dpManagementData = response.data;
     // Put 1 action đã được định nghĩa ở slice
-    console.log('response: ', dpManagementData);
     yield put(
       searchDpManagementSuccess(dpManagementData)
     );
@@ -36,7 +35,6 @@ function* addDpManagement(action) {
     yield put(addDpManagementSuccess(response.data));
   } catch (e) {
     // Put 1 action đã được định nghĩa ở slice
-    console.log("e:", e);
     yield put(addDpManagementFailed(e.response.data));
   }
 }
@@ -63,7 +61,6 @@ function* updateDpManagement(action) {
     );
   } catch (e) {
     // Put 1 action đã được định nghĩa ở slice
-    // console.log("error:", e);
     yield put(updateDpManagementFailed(e.response.data));
   }
 }

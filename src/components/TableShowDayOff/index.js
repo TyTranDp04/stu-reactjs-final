@@ -1,29 +1,31 @@
-import Axios from 'axios'
-import React, { useState, useEffect } from 'react';
-import {  faCheck, faClockRotateLeft, faList, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faClockRotateLeft, faList, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { useSelector } from 'react-redux'
-import "react-datepicker/dist/react-datepicker.css";
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-
-import {
-  Main,
-  ContainerDefault,
-  BoxNav,
-  Span,
-  FormSearch,
-  InputSearch,
-  FormData,
-  Thead,
-  Tbody,
-  Tr,
-  Th, BoxHeader, ButtonAddDayOff, ButtonSearchDayOff, TrHead, TableScroll, TextArea, ThContent, 
-
-} from './style'
+import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux';
 import { URL_API } from '../../api/dayoff.api';
 import DotStatus from '../TableDayOff/DotStatus';
 import TimeDayOff from '../TableDayOff/TimeDayOff';
+import {
+  BoxHeader,
+  BoxNav,
+  ButtonAddDayOff, ButtonSearchDayOff,
+  ContainerDefault,
+  FormData,
+  FormSearch,
+  InputSearch,
+  Main,
+  TableScroll,
+  Tbody,
+  TextArea,
+  Th,
+  ThContent,
+  Thead,
+  Tr,
+  TrHead
+} from './style';
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
   const [dataDayOff, setDataDayOff] = useState()
@@ -41,7 +43,7 @@ const TableShowDayOff = (props) => {
   async function getDataDayOff() {
     await Axios.post(urlGetDayOff, formData)
       .then(res => setData(res?.data?.data))
-      .catch(err => console.log(err))
+      .catch(err => {})
   }
   useEffect(() => {
     getDataDayOff()
@@ -80,7 +82,7 @@ const TableShowDayOff = (props) => {
     <Main id="site-main" className='col-sm-9 col-lg-10'>
       <ContainerDefault >
         <BoxHeader>
-          <BoxNav class="box-nav d-flex justify-between">
+          <BoxNav className="box-nav d-flex justify-between">
             <ButtonAddDayOff onClick={() => setTypeFilter('all')}>
               <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faList} />
               {" All day off"}
@@ -108,7 +110,7 @@ const TableShowDayOff = (props) => {
         <FormData action="/" method="POST">
           <TableScroll>
             <Table striped bordered hover>
-              <Thead class="thead-dark">
+              <Thead className="thead-dark">
                 <TrHead>
                   <Th>
                     <ThContent>#</ThContent>

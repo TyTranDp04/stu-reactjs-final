@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form"
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import * as yup from "yup"
-import stlogo from '../../assets/images/stlogo.png'
-import { loginAction, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
-import { Button, Container, ForgotPass, ForgotPassH4, Form, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
+import stlogo from '../../assets/images/power_red.svg'
+import { loginAction, loginGoogleActionFailed, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
+import { Button, Container, ForgotPass, ForgotPassH4, Form, FormHeader, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
 
 const schema = yup.object().shape({
   Gmail: yup.string()
@@ -44,9 +44,10 @@ const Login = () => {
   const onSuccess = (res) => {
     let account = res.profileObj.email.includes('@devplus.edu.vn');
     if (account) {
-    dispatch(loginGoogleActionSuccess(res.profileObj))
+      dispatch(loginGoogleActionSuccess(res.profileObj))
     } else {
-      alert('Login failed, Your account must include "...@devplus.edu.vn"');
+      // alert('Login failed, Your account must include "...@devplus.edu.vn"');
+      dispatch(loginGoogleActionFailed("Your account is invalid !!!"))
     }
   };
 
@@ -58,8 +59,10 @@ const Login = () => {
     <Section className="container-fluid">
       <Container className="container">
         <Form className="col-lg-6" onSubmit={handleSubmit(onSubmit)}>
-          <StImgDiv><StImg src={stlogo} /></StImgDiv>
-          <LoginTitle><H2>Login to your account</H2></LoginTitle>
+          <FormHeader>
+            <StImgDiv><StImg src={stlogo} /></StImgDiv>
+            <LoginTitle><H2>Log Off SRS</H2></LoginTitle>
+          </FormHeader>
           <label>Email</label>
           <Input
             {...register("Gmail")}
@@ -75,7 +78,7 @@ const Login = () => {
             placeholder="Enter your password"
           />
           <TextRed>{errors.Password?.message}</TextRed>
-          <ForgotPass><ForgotPassH4>Forgot password?</ForgotPassH4></ForgotPass>
+          <ForgotPass><ForgotPassH4></ForgotPassH4></ForgotPass>
           <Button type="submit">Submit</Button>
           <TextBlack>Or</TextBlack>
           <GoogleLogin
@@ -85,7 +88,7 @@ const Login = () => {
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
-            // isSignedIn={true}
+          // isSignedIn={true}
           />
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
