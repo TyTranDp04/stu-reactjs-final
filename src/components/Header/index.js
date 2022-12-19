@@ -43,6 +43,7 @@ const Header = () => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
