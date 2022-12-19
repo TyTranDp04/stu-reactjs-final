@@ -6,6 +6,7 @@ import {
   Body,
   Btn,
   BtnAction,
+  BtnCancel,
   Container,
   DivBtn,
   DivTable,
@@ -50,8 +51,12 @@ const ManagementUser = (props) => {
   const permission = filterRoleId?.RoleName;
 
   useEffect(() => {
-    if (permission !== "Admin") {
+    if (!permission) {
+      return
+    } else if (permission !== "Admin") {
       navigate("/404")
+    } else {
+      navigate("/admin/user")
     }
   }, [permission, navigate]);
 
@@ -95,7 +100,6 @@ const ManagementUser = (props) => {
   const [idUser, setId] = useState();
   const [edit, setEdit] = useState(false);
   const EditData = async (data) => {
-    console.log("data", data);
     await axios
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
@@ -106,7 +110,6 @@ const ManagementUser = (props) => {
     await axios
       .get(`${URL}/user-item/${e}`)
       .then((res) => {
-        console.log("data", res?.data.data);
         setDataEdit(res?.data.data)
       });
     if (!edit) {
@@ -190,13 +193,14 @@ const ManagementUser = (props) => {
                     RoleId: numRole,
                   };
                   Swal.fire({
-                    title: "Are You Sure Add User?",
+                    title: "Are You Sure Edit User?",
                     icon: "question",
                     iconHtml: "?",
                     confirmButtonText: "OK",
                     cancelButtonText: "Cancel",
                     showCancelButton: true,
                     showCloseButton: true,
+                    confirmButtonColor:"#8000ff",
                   }).then((result) => {
                     if (result.isConfirmed) {
                       EditData(object);
@@ -205,8 +209,6 @@ const ManagementUser = (props) => {
                       setEdit(false);
                       Swal.fire("successfully", "", "success");
                     } else {
-                      Swal.fire(" Cancelled", "", "error")
-                      reset();
                       setId(null);
                     };
                   });
@@ -285,9 +287,8 @@ const ManagementUser = (props) => {
                       getRole(event);
                     }}
                   >
-                    <option></option>
-                    {dataRole?.map((e) => (
-                      <option value={e.RoleName} key={e._id}>{e.RoleName}</option>
+                    {dataRole?.map((e) => (                      
+                      <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
                     ))}
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
@@ -300,11 +301,19 @@ const ManagementUser = (props) => {
                       required: "The field is required.",
                     })}
                     className="w-100"
-                    defaultValue={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
+                    // disabled 
+                    value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
                   />}
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
-                <Submit value="Edit User" className="mt-2" type="submit" />
+                <div className="row">
+                  <div className="text-start col-3">
+                    <Submit value="Edit User" type="submit" />
+                  </div>
+                  <div className="text-start col-9">
+                    <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
+                  </div>
+                </div>
               </FooterForm>
             </Modal>
             <Modal
@@ -336,6 +345,7 @@ const ManagementUser = (props) => {
                       cancelButtonText: "Cancel",
                       showCancelButton: true,
                       showCloseButton: true,
+                      confirmButtonColor:"#8000ff",
                     }).then((result) => {
                       if (result.isConfirmed) {
                         postData(object);
@@ -343,7 +353,9 @@ const ManagementUser = (props) => {
                         dispatch(getListDpManagementAction());
                         setShow(false);
                         Swal.fire("successfully", "", "success");
-                      } else Swal.fire(" Cancelled", "", "error");
+                      } else {
+                        
+                      };
                     });
                   })}
                 >
@@ -444,7 +456,14 @@ const ManagementUser = (props) => {
                     </Select>
                     <Error className="w-100">{errors.Group?.message}</Error>
                   </div>
-                  <Submit value="Add User" className="mt-2" type="submit" />
+                  <div className="row">
+                    <div className="text-start col-3">
+                      <Submit value="Add User" type="submit" />
+                    </div>
+                    <div className="text-start col-9">
+                      <BtnCancel type="button" onClick={() => setShow(!show)}>Cancel</BtnCancel>
+                    </div>
+                  </div>
                 </FooterForm>
               </Modal.Body>
             </Modal>
@@ -488,7 +507,7 @@ const ManagementUser = (props) => {
                       <td style={{ textTransform: "capitalize" }}>{item.Address}</td>
                       <td style={{ textTransform: "capitalize" }}>
                         {dataRole?.map((e) =>
-                          item?.RoleId.includes(e.Id) ? (
+                          item?.RoleId?.includes(e?.Id) ? (
                             <h6 key={e._id}>{e.RoleName}</h6>
                           ) : (
                             ""
@@ -498,7 +517,7 @@ const ManagementUser = (props) => {
 
                       <td>
                         {dataGroup?.map((e) =>
-                          item?.GroupId.includes(e._id) ? (
+                          item?.GroupId?.includes(e?._id) ? (
                             <h6 key={e._id}>{e.Name}</h6>
                           ) : (
                             ""

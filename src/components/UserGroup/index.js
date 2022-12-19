@@ -13,6 +13,7 @@ import axios from 'axios';
 import ModalAddGroup from './ModalAddGroup';
 import ModalAddUserGroup from './AddUserGroup';
 import { useSelector } from 'react-redux'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 function UserGroup(props) {
   const [showDetail, setShowDetail] = useState(true)
@@ -163,8 +164,15 @@ function UserGroup(props) {
                           {
                             dataUser?.map((user, id) => (
                               user.GroupId.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
+                                <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user.Name}
+                                </Tooltip>
+                              }
+                            >
                                 <Avatar src={user.Avatar}></Avatar>
-                                <H4>{user.Name}</H4>
+                            </OverlayTrigger>
                               </User> : ''
                             ))
                           }
@@ -174,8 +182,15 @@ function UserGroup(props) {
                             {
                               dataUser?.map((user, id) => (
                                 user.GroupId.includes(e._id) && user.RoleId === "2" ? <User key={id}>
+                                  <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user.Name}
+                                </Tooltip>
+                              }
+                            >
                                   <Avatar src={user.Avatar}></Avatar>
-                                  <H4>{user.Name}</H4>
+                            </OverlayTrigger>
                                 </User> : ''
                               ))
                             }

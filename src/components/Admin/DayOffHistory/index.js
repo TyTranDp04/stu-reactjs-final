@@ -38,10 +38,15 @@ const DayOffHistory = () => {
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
+  console.log("🚀 ~ file: index.js:41 ~ DayOffHistory ~ permission", permission)
 
   useEffect(() => {
-    if (permission !== "Admin") {
+    if (!permission) {
+      return
+    } else if (permission !== "Admin") {
       navigate("/404")
+    } else {
+      navigate("/admin/day-off-history")
     }
   }, [permission, navigate]);
 
