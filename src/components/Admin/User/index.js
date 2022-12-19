@@ -80,7 +80,6 @@ const ManagementUser = (props) => {
   const [idUser, setId] = useState();
   const [edit, setEdit] = useState(false);
   const EditData = async (data) => {
-    console.log("data", data);
     await axios
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
@@ -91,7 +90,6 @@ const ManagementUser = (props) => {
     await axios
       .get(`${URL}/user-item/${e}`)
       .then((res) => {
-        console.log("data", res?.data.data);
         setDataEdit(res?.data.data)
       });
     if (!edit) {
@@ -146,8 +144,6 @@ const ManagementUser = (props) => {
   }, []);
   const getRole = (event) => {
     let RoleId = event.target.value;
-    console.log("value", RoleId)
-    console.log(dataRole)
     dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
   };
 
