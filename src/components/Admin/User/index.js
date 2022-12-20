@@ -71,7 +71,6 @@ const ManagementUser = (props) => {
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
   }
-
   async function DeleteData(e) {
     await fetch(`${URL}/user/${e}`, { method: "DELETE" }).then((res) => {
       setData(res?.data);
@@ -147,10 +146,10 @@ const ManagementUser = (props) => {
     dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
   };
 
-
+  const filterData = dataGroup?.filter(item => dataEdit?.GroupId?.includes(item._id)? item.Name : "" )
   return (
     <React.Fragment>
-      <Container className="col-lg-10 col-sm-9 ">
+      {/* <Container className="col-lg-10 col-sm-9 "> */}
         <Body>
           <div className="row pt-2 m-0">
             <div className="text-center">
@@ -190,7 +189,12 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       reset();
                       setEdit(false);
-                      Swal.fire("successfully", "", "success");
+                      Swal.fire({
+                        title: "succesfully",
+                        icon:"success",
+                        confirmButtonText: "OK",
+                        confirmButtonColor:"#8000ff",
+                      });
                     } else {
                       setId(null);
                     };
@@ -204,7 +208,7 @@ const ManagementUser = (props) => {
                     {...register("Name")}
                     className="w-100"
                     name="Name"
-                    defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
+                    defaultValue={dataEdit?.Name ? dataEdit?.Name : ''}
                   />
 
                   }
@@ -215,7 +219,7 @@ const ManagementUser = (props) => {
                   {dataEdit?.Gmail && <Input
                     name="Gmail"
                     type="Gmail"
-                    defaultValue={dataEdit?.Gmail}
+                    defaultValue={dataEdit?.Gmail ? dataEdit?.Gmail : ''}
                     {...register("Gmail", {
                       pattern: {
                         value:
@@ -234,7 +238,7 @@ const ManagementUser = (props) => {
                   {dataEdit?.Phone && <Input
                     name="Phone"
                     type="text"
-                    defaultValue={dataEdit?.Phone}
+                    defaultValue={dataEdit?.Phone ? dataEdit?.Phone : ''}
                     {...register("Phone", {
                       minLength: {
                         value: 10,
@@ -253,7 +257,7 @@ const ManagementUser = (props) => {
                   <Label className="w-100">Address</Label>
                   {dataEdit?.Address && <Input
                     name="Address"
-                    defaultValue={dataEdit?.Address}
+                    defaultValue={dataEdit?.Address ? dataEdit?.Address : ''}
                     {...register("Address")}
                     className="w-100"
                   />}
@@ -268,7 +272,7 @@ const ManagementUser = (props) => {
                       required: "The field is required.",
                     })}
                     className="w-100"
-                    defaultValue={dataEdit?.RoleId}
+                    defaultValue={dataEdit?.RoleId ? dataEdit?.RoleId : ''}
                     onClick={(event) => {
                       getRole(event);
                     }}
@@ -284,11 +288,12 @@ const ManagementUser = (props) => {
                   {dataEdit?.GroupId && <Input
                     name="GroupId"
                     {...register("Group", {
-                      required: "The field is required.",
+                      // required: "The field is required.",
+                      required:false
                     })}
                     className="w-100"
-                    // disabled 
-                    value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
+
+                    value={filterData.map(e => e.Name) ?? ""}
                   />}
 
                   <Error className="w-100">{errors.Group?.message}</Error>
@@ -297,7 +302,7 @@ const ManagementUser = (props) => {
                   <div className="text-start col-3">
                     <Submit value="Edit User" type="submit" />
                   </div>
-                  <div className="text-start col-9">
+                  <div className="text-start col-9 p-0">
                     <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
                   </div>
                 </div>
@@ -341,7 +346,12 @@ const ManagementUser = (props) => {
                         reset();
                         dispatch(getListDpManagementAction());
                         setShow(false);
-                        Swal.fire("successfully", "", "success");
+                        Swal.fire({
+                            title: "succesfully",
+                            icon:"success",
+                            confirmButtonText: "OK",
+                            confirmButtonColor:"#8000ff",
+                          });
                       } else {
                         
                       };
@@ -434,12 +444,12 @@ const ManagementUser = (props) => {
                     <Select
                       name="GroupId"
                       {...register("Group", {
-                        required: "The field is required.",
+                        required: false
                       })}
                       className="w-100"
                       onClick={(event) => getGroup(event)}
                     >
-                      <option>...</option>
+                      <option></option>
                       {dataGroup?.map((e) => (
                         <option key={e._id} >
                           {e.Name}
@@ -452,7 +462,7 @@ const ManagementUser = (props) => {
                     <div className="text-start col-3">
                       <Submit value="Add User" type="submit" />
                     </div>
-                    <div className="text-start col-9">
+                    <div className="text-start col-9 p-0">
                       <BtnCancel type="button" onClick={() => setShow(!show)}>Cancel</BtnCancel>
                     </div>
                   </div>
@@ -462,11 +472,11 @@ const ManagementUser = (props) => {
           </div>
           <div className="container-fluid">
             <div className="row pb-5">
-              <DivBtn className="col-4 text-start">
+              <DivBtn className="col-lg-4 col-sm-4 mb-2 text-start">
                 <Btn onClick={() => { setShow(true); reset() }}>Add New User</Btn>
               </DivBtn>
-              <div className="col-4"></div>
-              <div className="col-4 p-0 text-end" >
+              <div className="col-lg-5 col-sm-2"></div>
+              <div className="col-lg-3 col-sm-3 p-0 text-end" >
 
                 <OverlayTrigger
                   overlay={
@@ -546,11 +556,12 @@ const ManagementUser = (props) => {
                                 text: "You will not be able to recover this USER",
                                 icon: "warning",
                                 iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
+                                confirmButtonColor: "#8000ff",
                                 confirmButtonText: "Oke",
                                 cancelButtonText: "Cancel",
                                 showCancelButton: true,
                                 showCloseButton: true,
+
                               }).then((result) => {
                                 if (result.isConfirmed) {
                                   DeleteData(item._id);
@@ -582,7 +593,7 @@ const ManagementUser = (props) => {
             </Row>
           </DivTable>
         </Body>
-      </Container>
+      {/* </Container> */}
     </React.Fragment>
   );
 };

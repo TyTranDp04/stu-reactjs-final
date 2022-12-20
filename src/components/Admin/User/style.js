@@ -7,12 +7,12 @@ export const Body = styled.div`
   padding:0px;
   padding-left:10px;
   background-color: white;
-  height:100vh;
 `;
 
 export const Search = styled.input`
   border-radius:5px;
   border:none;
+  width:100%;
   padding:5px 0px 5px 5px;
   background-color:#fffbf8;
    box-shadow:
