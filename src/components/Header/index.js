@@ -1,3 +1,4 @@
+
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +46,13 @@ const Header = () => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };
