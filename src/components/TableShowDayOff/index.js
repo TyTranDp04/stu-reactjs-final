@@ -104,7 +104,7 @@ const TableShowDayOff = (props) => {
   },[])
   
   return (
-    <Main id="site-main" >
+    <Main id="site-main" className='col-sm-9 col-lg-10'>
       {
         !showDetail ?
           <ContainerDefault >
