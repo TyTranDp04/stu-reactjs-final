@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,12 +14,10 @@ import imgnull from "../../assets/images/trend-avatar-1.jpg";
 import { TextRed } from "../Login/style.js";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  BtnImgRemove,
   Cancel,
   Clearfix,
   Container,
   H1,
-  IconRemove,
   ImgContent,
   ImgPreview,
   ImgPreviewItem,
@@ -49,9 +48,9 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-  const [fileIMG, setfileIMG] = useState();
+  // const [fileIMG, setfileIMG] = useState();
   const addImg = document.getElementById("img");
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   function addImgHandle() {
     addImg.click();
@@ -60,11 +59,7 @@ const MyProfile = () => {
   useEffect(() => {
     setSelectedImage(avatar);
   }, [avatar]);
-
-  const removeSelectedImage = () => {
-    setSelectedImage("");
-  };
-
+  
   const {
     register,
     handleSubmit,
@@ -74,7 +69,7 @@ const MyProfile = () => {
     Object.values(e.target.files).forEach((e) => {
       if (selectedImage !== null) {
         setSelectedImage(URL.createObjectURL(e));
-        setfileIMG(e);
+        // setfileIMG(e);
       } else {
       }
     });
@@ -106,7 +101,7 @@ const MyProfile = () => {
       .catch((err) => console.log(err));
   }
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${ID}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user-getone/${ID}`;
     await axios
       .get(url)
       .then((res) => {
@@ -117,6 +112,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let rolename = null;
@@ -177,11 +173,13 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-  groupID?.map(function (item) {
+   // eslint-disable-next-line array-callback-return
+  groupID?.map(function(item)  {
     {
-      group?.data?.map(function (name) {
+      // eslint-disable-next-line array-callback-return
+      group?.data?.filter( function (name)  {
         if (item === name._id) {
-          groupNameID.push(name.Name);
+           groupNameID.push(name.Name);
         }
       });
     }
@@ -208,8 +206,8 @@ const MyProfile = () => {
                 <span className="lableName">Group </span>
                 <NameGroup className="Name">
                   {" "}
-                  {groupNameID?.map((NameGroup) => (
-                    <div className="Groupname">
+                  {groupNameID?.map((NameGroup, index) => (
+                    <div className="Groupname" key={index}>
                       <h3>{NameGroup}</h3>
                     </div>
                   ))}
@@ -262,13 +260,6 @@ const MyProfile = () => {
                         src={selectedImage}
                         alt="Image Preview" 
                       />
-                      {/* <BtnImgRemove
-                        onClick={() => removeSelectedImage()}
-                        className="btn__remove-img"
-                      >
-                        <IconRemove className="fa-solid fa-xmark">
-                        </IconRemove>
-                      </BtnImgRemove> */}
                     </ImgContent>
                   ) : (
                     <ImgContent className="img__preview-content">
