@@ -10,7 +10,7 @@ const Sidebar = ({permission}) => {
   };
   const managerRouter = {
     sync: { name: "Day off history", url: `${ permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: "" },
-    User:{name:"User", url: `${ permission === "Admin" ? "/admin/user" : "/404"}`, icon: ""},
+    User:{name:"User", url: "/admin/user", icon: ""},
   };
 
   return (

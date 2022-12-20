@@ -40,25 +40,43 @@ const ManagementUser = (props) => {
   const dpManagement = useSelector(
     (state) => state.dpManagement.dpManagementState
   );
-  const userInfo = useSelector(state => state.users.userInfoState);
-  const roleId = useSelector(state => state.roleId.roleIdState);
+  const userInfo = useSelector((state) => state.users.userInfoState);
+  const roleId = useSelector((state) => state.roleId.roleIdState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userRoleId = userInfo?.data?.user?.RoleId;
+  const id = userInfo?.data?.user?.id;
+  // console.log("userInfo?.data?.user",userInfo?.data?.user);
   const roleIdData = roleId?.data;
-  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
+  // console.log(roleIdData, "roleIdData");
+  // console.log("filterRoleId",filterRoleId);
+  const roleName = filterRoleId?.RoleName;
+  console.log("roleName", roleName);
+  console.log("data", data);
+  // console.log(data.RoleId, "data.RoleId");
+  // console.log(data._id,"data._id");
+  // console.log("userRoleId" ,id);
+  // const GroupManeger = [];
 
-  useEffect(() => {
-    if (!permission) {
-      return
-    } else if (permission !== "Admin") {
-      navigate("/404")
-    } else {
-      navigate("/admin/user")
+  //  console.log("GroupManeger",GroupManeger);
+  // useEffect(() => {
+  //   if (!permission) {
+  //     return
+  //   } else if (permission !== "Admin") {
+  //     navigate("/404")
+  //   } else {
+  //     navigate("/admin/user")
+  //   }
+  // }, [permission, navigate]);
+
+  data?.map(function (item) {
+    if (item.RoleId === "1" || item._id === id) {
+      // console.log("abc");
     }
-  }, [permission, navigate]);
+  });
 
   useEffect(() => {
     setData(dpManagement?.data);
@@ -104,14 +122,12 @@ const ManagementUser = (props) => {
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
-  }
+  };
   async function getEdit(e) {
     setId(e);
-    await axios
-      .get(`${URL}/user-item/${e}`)
-      .then((res) => {
-        setDataEdit(res?.data.data)
-      });
+    await axios.get(`${URL}/user-item/${e}`).then((res) => {
+      setDataEdit(res?.data.data);
+    });
     if (!edit) {
       reset();
     }
@@ -138,9 +154,7 @@ const ManagementUser = (props) => {
   async function submitGroup() {
     await axios
       .get(`${URL}/group`)
-      .then(
-        (res) => setDataGroup(res?.data.data)
-      )
+      .then((res) => setDataGroup(res?.data.data))
       .catch((err) => console.log(err));
   }
   useEffect(() => {
@@ -153,7 +167,7 @@ const ManagementUser = (props) => {
     await axios
       .get(`${URL}/role`)
       .then((res) => {
-        setDataRole(res?.data)
+        setDataRole(res?.data);
       })
       .catch((err) => console.log(err));
   }
@@ -162,7 +176,7 @@ const ManagementUser = (props) => {
   }, []);
   const getRole = (event) => {
     let RoleId = event.target.value;
-    dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
+    dataRole.map((e) => (e.RoleName === RoleId ? setNumRole(e.Id) : ""));
   };
 
   return (
@@ -200,7 +214,7 @@ const ManagementUser = (props) => {
                     cancelButtonText: "Cancel",
                     showCancelButton: true,
                     showCloseButton: true,
-                    confirmButtonColor:"#8000ff",
+                    confirmButtonColor: "#8000ff",
                   }).then((result) => {
                     if (result.isConfirmed) {
                       EditData(object);
@@ -210,67 +224,74 @@ const ManagementUser = (props) => {
                       Swal.fire("successfully", "", "success");
                     } else {
                       setId(null);
-                    };
+                    }
                   });
                 })}
               >
                 <div>
                   <Label className="w-100">Name</Label>
-                  {dataEdit?.Name && <Input
-                    type="text"
-                    {...register("Name")}
-                    className="w-100"
-                    name="Name"
-                    defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
-                  />
-                  }
+                  {dataEdit?.Name && (
+                    <Input
+                      type="text"
+                      {...register("Name")}
+                      className="w-100"
+                      name="Name"
+                      defaultValue={dataEdit?.Name ? dataEdit?.Name : "Name"}
+                    />
+                  )}
                   <Error className="w-100">{errors.Name?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Email</Label>
-                  {dataEdit?.Gmail && <Input
-                    name="Gmail"
-                    type="Gmail"
-                    defaultValue={dataEdit?.Gmail}
-                    {...register("Gmail", {
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Gmail Invalid",
-                      },
-                    })}
-                    className="w-100"
-                  />}
+                  {dataEdit?.Gmail && (
+                    <Input
+                      name="Gmail"
+                      type="Gmail"
+                      defaultValue={dataEdit?.Gmail}
+                      {...register("Gmail", {
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "Gmail Invalid",
+                        },
+                      })}
+                      className="w-100"
+                    />
+                  )}
                   <Error className="w-100">{errors.Gmail?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Phone</Label>
-                  {dataEdit?.Phone && <Input
-                    name="Phone"
-                    type="text"
-                    defaultValue={dataEdit?.Phone}
-                    {...register("Phone", {
-                      minLength: {
-                        value: 10,
-                        message: "Your phone error number = 10",
-                      },
-                      maxLength: {
-                        value: 10,
-                        message: "Your phone error number = 10",
-                      },
-                    })}
-                    className="w-100"
-                  />}
+                  {dataEdit?.Phone && (
+                    <Input
+                      name="Phone"
+                      type="text"
+                      defaultValue={dataEdit?.Phone}
+                      {...register("Phone", {
+                        minLength: {
+                          value: 10,
+                          message: "Your phone error number = 10",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Your phone error number = 10",
+                        },
+                      })}
+                      className="w-100"
+                    />
+                  )}
                   <Error className="w-100">{errors.Phone?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Address</Label>
-                  {dataEdit?.Address && <Input
-                    name="Address"
-                    defaultValue={dataEdit?.Address}
-                    {...register("Address")}
-                    className="w-100"
-                  />}
+                  {dataEdit?.Address && (
+                    <Input
+                      name="Address"
+                      defaultValue={dataEdit?.Address}
+                      {...register("Address")}
+                      className="w-100"
+                    />
+                  )}
                   <Error className="w-100">{errors.Address?.message}</Error>
                 </div>
                 <div>
@@ -287,23 +308,33 @@ const ManagementUser = (props) => {
                       getRole(event);
                     }}
                   >
-                    {dataRole?.map((e) => (                      
-                      <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
+                    {dataRole?.map((e) => (
+                      <option
+                        selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""}
+                        value={e.RoleName}
+                        key={e._id}
+                      >
+                        {e.RoleName}
+                      </option>
                     ))}
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Group</Label>
-                  {dataEdit?.GroupId && <Input
-                    name="GroupId"
-                    {...register("Group", {
-                      required: "The field is required.",
-                    })}
-                    className="w-100"
-                    // disabled 
-                    value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
-                  />}
+                  {dataEdit?.GroupId && (
+                    <Input
+                      name="GroupId"
+                      {...register("Group", {
+                        required: "The field is required.",
+                      })}
+                      className="w-100"
+                      // disabled
+                      value={dataGroup?.map((e) =>
+                        dataEdit?.GroupId.includes(e._id) ? e.Name : ""
+                      )}
+                    />
+                  )}
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
                 <div className="row">
@@ -311,7 +342,9 @@ const ManagementUser = (props) => {
                     <Submit value="Edit User" type="submit" />
                   </div>
                   <div className="text-start col-9">
-                    <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
+                    <BtnCancel type="button" onClick={() => setEdit(!edit)}>
+                      Cancel
+                    </BtnCancel>
                   </div>
                 </div>
               </FooterForm>
@@ -345,7 +378,7 @@ const ManagementUser = (props) => {
                       cancelButtonText: "Cancel",
                       showCancelButton: true,
                       showCloseButton: true,
-                      confirmButtonColor:"#8000ff",
+                      confirmButtonColor: "#8000ff",
                     }).then((result) => {
                       if (result.isConfirmed) {
                         postData(object);
@@ -354,8 +387,7 @@ const ManagementUser = (props) => {
                         setShow(false);
                         Swal.fire("successfully", "", "success");
                       } else {
-                        
-                      };
+                      }
                     });
                   })}
                 >
@@ -449,9 +481,7 @@ const ManagementUser = (props) => {
                     >
                       <option>...</option>
                       {dataGroup?.map((e) => (
-                        <option key={e._id} >
-                          {e.Name}
-                        </option>
+                        <option key={e._id}>{e.Name}</option>
                       ))}
                     </Select>
                     <Error className="w-100">{errors.Group?.message}</Error>
@@ -461,7 +491,9 @@ const ManagementUser = (props) => {
                       <Submit value="Add User" type="submit" />
                     </div>
                     <div className="text-start col-9">
-                      <BtnCancel type="button" onClick={() => setShow(!show)}>Cancel</BtnCancel>
+                      <BtnCancel type="button" onClick={() => setShow(!show)}>
+                        Cancel
+                      </BtnCancel>
                     </div>
                   </div>
                 </FooterForm>
@@ -471,15 +503,20 @@ const ManagementUser = (props) => {
           <div className="container-fluid">
             <div className="row pb-5">
               <DivBtn className="col-4 text-start">
-                <Btn onClick={() => { setShow(true); reset() }}>Add New User</Btn>
+                <Btn
+                  onClick={() => {
+                    setShow(true);
+                    reset();
+                  }}
+                >
+                  Add New User
+                </Btn>
               </DivBtn>
               <div className="col-4"></div>
-              <div className="col-4 p-0 text-end" >
+              <div className="col-4 p-0 text-end">
                 <OverlayTrigger
                   overlay={
-                    <Tooltip id={`tooltip`}>
-                      Search Name,Phone,Address
-                    </Tooltip>
+                    <Tooltip id={`tooltip`}>Search Name,Phone,Address</Tooltip>
                   }
                 >
                   <Search placeholder="Search" onChange={searchHandle}></Search>
@@ -498,13 +535,23 @@ const ManagementUser = (props) => {
                   {data?.map((item, index) => (
                     <TR className="testHover" key={item._id}>
                       <td>{index + 1}</td>
-                      <td className="testColor" style={{ textTransform: "capitalize" }}>{item.Name}</td>
+                      <td
+                        className="testColor"
+                        style={{ textTransform: "capitalize" }}
+                      >
+                        {item.Name}
+                      </td>
                       <td>
-                        <Image style={{ width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
+                        <Image
+                          style={{ width: "70px" }}
+                          src={item.Avatar ? item.Avatar : Avatar}
+                        ></Image>
                       </td>
                       <td>{item.Gmail}</td>
                       <td>{item.Phone}</td>
-                      <td style={{ textTransform: "capitalize" }}>{item.Address}</td>
+                      <td style={{ textTransform: "capitalize" }}>
+                        {item.Address}
+                      </td>
                       <td style={{ textTransform: "capitalize" }}>
                         {dataRole?.map((e) =>
                           item?.RoleId?.includes(e?.Id) ? (
@@ -524,57 +571,102 @@ const ManagementUser = (props) => {
                           )
                         )}
                       </td>
-                      <td>
-                        <BtnAction onClick={() => {
-                          setEdit(true);
-                          getEdit(item._id);
-                        }}>
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip>
-                                Edit
-                              </Tooltip>
+                      {roleName === "Admin" ? (
+                       item._id === id || item.RoleId ==="1" || item.RoleId ==="2" ?  (
+                        <td>
+                          <BtnAction
+                            onClick={() => {
+                              setEdit(true);
+                              getEdit(item._id);
+                            }}
+                          >
+                            <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                              <FontAwesomeIcon
+                                style={{ color: "#1FCE2D" }}
+                                icon={faSquarePen}
+                              />
+                            </OverlayTrigger>
+                          </BtnAction>{" "}
+                          <BtnAction
+                            onClick={() =>
+                              Swal.fire({
+                                title: "Are you sure DELETE?",
+                                text: "You will not be able to recover this USER",
+                                icon: "warning",
+                                iconHtml: "!",
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Oke",
+                                cancelButtonText: "Cancel",
+                                showCancelButton: true,
+                                showCloseButton: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  DeleteData(item._id);
+                                  setShow(false);
+                                  dispatch(getListDpManagementAction());
+                                  Swal.fire("successfully", "", "success");
+                                }
+                              })
                             }
                           >
-                            <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
-                          </OverlayTrigger>
-
-                        </BtnAction>
-                        {" "}
-                        <BtnAction
-                          onClick={() =>
-                            Swal.fire({
-                              title: "Are you sure DELETE?",
-                              text: "You will not be able to recover this USER",
-                              icon: "warning",
-                              iconHtml: "!",
-                              confirmButtonColor: "#DD6B55",
-                              confirmButtonText: "Oke",
-                              cancelButtonText: "Cancel",
-                              showCancelButton: true,
-                              showCloseButton: true,
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                DeleteData(item._id);
-                                setShow(false);
-                                dispatch(getListDpManagementAction());
-                                Swal.fire("successfully", "", "success");
-                              }
-                            })
-                          }
-                        >
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip>
-                                Delete
-                              </Tooltip>
+                            <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
+                              <FontAwesomeIcon
+                                style={{ color: "#00AEEF" }}
+                                icon={faTrash}
+                              />
+                            </OverlayTrigger>
+                          </BtnAction>
+                        </td>
+                       ) :("")
+                      ) :  ( 
+                        roleName === "Manager" ? (item.RoleId==="1"|| item._id === id ?(
+                          <td>
+                          <BtnAction
+                            onClick={() => {
+                              setEdit(true);
+                              getEdit(item._id);
+                            }}
+                          >
+                            <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                              <FontAwesomeIcon
+                                style={{ color: "#1FCE2D" }}
+                                icon={faSquarePen}
+                              />
+                            </OverlayTrigger>
+                          </BtnAction>{" "}
+                          <BtnAction
+                            onClick={() =>
+                              Swal.fire({
+                                title: "Are you sure DELETE?",
+                                text: "You will not be able to recover this USER",
+                                icon: "warning",
+                                iconHtml: "!",
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Oke",
+                                cancelButtonText: "Cancel",
+                                showCancelButton: true,
+                                showCloseButton: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  DeleteData(item._id);
+                                  setShow(false);
+                                  dispatch(getListDpManagementAction());
+                                  Swal.fire("successfully", "", "success");
+                                }
+                              })
                             }
                           >
-                            <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} />
-                          </OverlayTrigger>
-
-                        </BtnAction>
-                      </td>
+                            <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
+                              <FontAwesomeIcon
+                                style={{ color: "#00AEEF" }}
+                                icon={faTrash}
+                              />
+                            </OverlayTrigger>
+                          </BtnAction>
+                        </td>
+                        ) : ("")) : ("")
+                        )
+                      }
                     </TR>
                   ))}
                 </tbody>
