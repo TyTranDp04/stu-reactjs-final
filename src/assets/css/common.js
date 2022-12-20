@@ -6,7 +6,7 @@ export const ContainerFluid = styled.div`
   min-height: 100vh;
 `
 export const Container = styled.div`
-  min-height: 100vh;
+  min-height: 80vh;
   border-radius: 10px;
   @media (min-width: 1400px) {
     max-width: 100%;

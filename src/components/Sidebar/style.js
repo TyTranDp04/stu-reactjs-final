@@ -2,8 +2,12 @@ import styled from "styled-components";
 
 export const SidebarCol = styled.div`
   text-align: left;
-  padding-left: 40px;
-  background-color: #00aeef;
+  height:100vh;
+  position:relative;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  background-color: #8000ff;
   @media (max-width: 800px) {
     padding: 0 0 0 35px;
   }
@@ -18,12 +22,48 @@ export const SidebarCol = styled.div`
     padding-left: 18px;
   }
 `
+export const Fabar = styled.div`
+display: flex;
+justify-content:center;
+align-items: center;
+`
+export const P = styled.p`
+font-size:20px;
+font-weight:700;
+color:#fff;
+margin-bottom:0px;
+
+`
+export const BtnArrow = styled.div`
+position: absolute;
+top: 20%;
+right:-10%;
+height:30px;
+width:30px;
+background-color: #fff;
+color:#8000ff;
+border-radius:50%;
+font-size:22px;
+display:flex;
+justify-content: center;
+align-items: center;
+cursor:pointer;
+&:hover{
+  opacity:0.8;
+}
+`
+export const Row = styled.div`
+padding-bottom:20px;
+height:50px;
+`
 export const SidebarInner = styled.div`
   margin-bottom: 30px;
+  min-width:80%;
 `
 export const SidebarCategory = styled.h4`
   font-size: 18px;
-  color: #111111;
+  padding-bottom:10px;
+  color: #fff;
   margin-right: 5px;
   cursor: pointer;
   &:hover {
@@ -50,12 +90,10 @@ export const SidebarCategory = styled.h4`
   }
 `
 export const SidebarDesc = styled.div`
-
+  padding-bottom:20px;
   a {
     color: #fff;
     text-decoration: none;
-    border-bottom: 2px solid #97AEB0;
-
     &:hover {
       font-weight: bold;
     }

@@ -2,10 +2,16 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderRow = styled.div`
-  background-color: #00aeef;
-  .swal2-styled.swal2-confirm{
-    background-color: #8000ff;
-  }
+  background-color: #8000ff;
+  
+`
+export const DivLogo = styled.div`
+position:relative;
+display:flex;
+justify-content: center;
+align-items: center;
+padding:0px;
+padding-bottom:20px;
 `
 export const HeaderWrapper = styled.div`
 `
@@ -68,6 +74,7 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
+  background-color:#8000ff;
   align-items: center;
   justify-content: flex-end;
 
@@ -130,7 +137,7 @@ export const HeaderAvatar = styled.div`
 export const DropdownLogo = styled.div`
 text-decoration-line:none;
 .droplogo{
-  background-color: #00aeef;
+  background-color: #8000ff;
   border : 0px;
   display : flex;
   --bs-btn-active-bg: #00aeef;
