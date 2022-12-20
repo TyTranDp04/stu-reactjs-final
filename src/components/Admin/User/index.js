@@ -51,19 +51,17 @@ const ManagementUser = (props) => {
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
   const roleName = filterRoleId?.RoleName;
-  console.log("roleName", roleName);
-  console.log("data", data);
 
-  //  console.log("GroupManeger",GroupManeger);
-  // useEffect(() => {
-  //   if (!permission) {
-  //     return
-  //   } else if (permission !== "Admin") {
-  //     navigate("/404")
-  //   } else {
-  //     navigate("/admin/user")
-  //   }
-  // }, [permission, navigate]);
+
+  useEffect(() => {
+    if (!permission) {
+      return
+    } else if (permission === "Staff") {
+      navigate("/404")
+    } else {
+      navigate("/admin/user")
+    }
+  }, [permission, navigate]);
 
   useEffect(() => {
     setData(dpManagement?.data);

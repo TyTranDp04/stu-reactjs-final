@@ -28,7 +28,7 @@ const Sidebar = ({isOpen, Toggle}) => {
   };
   const managerRouter = {
     sync: { name: "Day off history", displayIcon: userRoleId === "1" || userRoleId === "2" ? "none" : "inline-block", display: userRoleId === "1" || userRoleId === "2" ? "none" : isOpen ? 'inline' : 'none', url: `${permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: faList },
-    User: { name: "User", displayIcon: userRoleId === "1" ? "none" : "inline-block", url: `${permission === "Admin" ? "/admin/user" : "/404"}`, display: userRoleId === "1" ? "none" : isOpen ? 'inline' : 'none', icon: faUser },
+    User: { name: "User", displayIcon: userRoleId === "1" ? "none" : "inline-block", url: `${permission === "Staff" ? "/404" : "/admin/user"}`, display: userRoleId === "1" ? "none" : isOpen ? 'inline' : 'none', icon: faUser },
   };
 
   return (
