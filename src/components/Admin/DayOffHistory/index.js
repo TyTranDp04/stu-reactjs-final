@@ -71,7 +71,7 @@ const DayOffHistory = () => {
   };
 
   return (
-    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
+    <DayOffHistoryCol className='mt-3'>
       <Form className='day-off-history_form' onSubmit={handleSubmit(onSubmit)}>
         <LoginTitle><H2 className='day-off-history_title'>Day Off History</H2></LoginTitle>
         <label>Day off from</label>
