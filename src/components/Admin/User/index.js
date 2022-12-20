@@ -47,19 +47,12 @@ const ManagementUser = (props) => {
 
   const userRoleId = userInfo?.data?.user?.RoleId;
   const id = userInfo?.data?.user?.id;
-  // console.log("userInfo?.data?.user",userInfo?.data?.user);
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  // console.log(roleIdData, "roleIdData");
-  // console.log("filterRoleId",filterRoleId);
   const roleName = filterRoleId?.RoleName;
   console.log("roleName", roleName);
   console.log("data", data);
-  // console.log(data.RoleId, "data.RoleId");
-  // console.log(data._id,"data._id");
-  // console.log("userRoleId" ,id);
-  // const GroupManeger = [];
 
   //  console.log("GroupManeger",GroupManeger);
   // useEffect(() => {
@@ -71,12 +64,6 @@ const ManagementUser = (props) => {
   //     navigate("/admin/user")
   //   }
   // }, [permission, navigate]);
-
-  data?.map(function (item) {
-    if (item.RoleId === "1" || item._id === id) {
-      // console.log("abc");
-    }
-  });
 
   useEffect(() => {
     setData(dpManagement?.data);
@@ -572,101 +559,112 @@ const ManagementUser = (props) => {
                         )}
                       </td>
                       {roleName === "Admin" ? (
-                       item._id === id || item.RoleId ==="1" || item.RoleId ==="2" ?  (
-                        <td>
-                          <BtnAction
-                            onClick={() => {
-                              setEdit(true);
-                              getEdit(item._id);
-                            }}
-                          >
-                            <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                              <FontAwesomeIcon
-                                style={{ color: "#1FCE2D" }}
-                                icon={faSquarePen}
-                              />
-                            </OverlayTrigger>
-                          </BtnAction>{" "}
-                          <BtnAction
-                            onClick={() =>
-                              Swal.fire({
-                                title: "Are you sure DELETE?",
-                                text: "You will not be able to recover this USER",
-                                icon: "warning",
-                                iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Oke",
-                                cancelButtonText: "Cancel",
-                                showCancelButton: true,
-                                showCloseButton: true,
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  DeleteData(item._id);
-                                  setShow(false);
-                                  dispatch(getListDpManagementAction());
-                                  Swal.fire("successfully", "", "success");
-                                }
-                              })
-                            }
-                          >
-                            <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
-                              <FontAwesomeIcon
-                                style={{ color: "#00AEEF" }}
-                                icon={faTrash}
-                              />
-                            </OverlayTrigger>
-                          </BtnAction>
-                        </td>
-                       ) :("")
-                      ) :  ( 
-                        roleName === "Manager" ? (item.RoleId==="1"|| item._id === id ?(
+                        item._id === id ||
+                        item.RoleId === "1" ||
+                        item.RoleId === "2" ? (
                           <td>
-                          <BtnAction
-                            onClick={() => {
-                              setEdit(true);
-                              getEdit(item._id);
-                            }}
-                          >
-                            <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                              <FontAwesomeIcon
-                                style={{ color: "#1FCE2D" }}
-                                icon={faSquarePen}
-                              />
-                            </OverlayTrigger>
-                          </BtnAction>{" "}
-                          <BtnAction
-                            onClick={() =>
-                              Swal.fire({
-                                title: "Are you sure DELETE?",
-                                text: "You will not be able to recover this USER",
-                                icon: "warning",
-                                iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Oke",
-                                cancelButtonText: "Cancel",
-                                showCancelButton: true,
-                                showCloseButton: true,
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  DeleteData(item._id);
-                                  setShow(false);
-                                  dispatch(getListDpManagementAction());
-                                  Swal.fire("successfully", "", "success");
-                                }
-                              })
-                            }
-                          >
-                            <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
-                              <FontAwesomeIcon
-                                style={{ color: "#00AEEF" }}
-                                icon={faTrash}
-                              />
-                            </OverlayTrigger>
-                          </BtnAction>
-                        </td>
-                        ) : ("")) : ("")
+                            <BtnAction
+                              onClick={() => {
+                                setEdit(true);
+                                getEdit(item._id);
+                              }}
+                            >
+                              <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                                <FontAwesomeIcon
+                                  style={{ color: "#1FCE2D" }}
+                                  icon={faSquarePen}
+                                />
+                              </OverlayTrigger>
+                            </BtnAction>{" "}
+                            <BtnAction
+                              onClick={() =>
+                                Swal.fire({
+                                  title: "Are you sure DELETE?",
+                                  text: "You will not be able to recover this USER",
+                                  icon: "warning",
+                                  iconHtml: "!",
+                                  confirmButtonColor: "#DD6B55",
+                                  confirmButtonText: "Oke",
+                                  cancelButtonText: "Cancel",
+                                  showCancelButton: true,
+                                  showCloseButton: true,
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    DeleteData(item._id);
+                                    setShow(false);
+                                    dispatch(getListDpManagementAction());
+                                    Swal.fire("successfully", "", "success");
+                                  }
+                                })
+                              }
+                            >
+                              <OverlayTrigger
+                                overlay={<Tooltip>Delete</Tooltip>}
+                              >
+                                <FontAwesomeIcon
+                                  style={{ color: "#00AEEF" }}
+                                  icon={faTrash}
+                                />
+                              </OverlayTrigger>
+                            </BtnAction>
+                          </td>
+                        ) : (
+                          ""
                         )
-                      }
+                      ) : roleName === "Manager" ? (
+                        item.RoleId === "1" || item._id === id ? (
+                          <td>
+                            <BtnAction
+                              onClick={() => {
+                                setEdit(true);
+                                getEdit(item._id);
+                              }}
+                            >
+                              <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                                <FontAwesomeIcon
+                                  style={{ color: "#1FCE2D" }}
+                                  icon={faSquarePen}
+                                />
+                              </OverlayTrigger>
+                            </BtnAction>{" "}
+                            <BtnAction
+                              onClick={() =>
+                                Swal.fire({
+                                  title: "Are you sure DELETE?",
+                                  text: "You will not be able to recover this USER",
+                                  icon: "warning",
+                                  iconHtml: "!",
+                                  confirmButtonColor: "#DD6B55",
+                                  confirmButtonText: "Oke",
+                                  cancelButtonText: "Cancel",
+                                  showCancelButton: true,
+                                  showCloseButton: true,
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    DeleteData(item._id);
+                                    setShow(false);
+                                    dispatch(getListDpManagementAction());
+                                    Swal.fire("successfully", "", "success");
+                                  }
+                                })
+                              }
+                            >
+                              <OverlayTrigger
+                                overlay={<Tooltip>Delete</Tooltip>}
+                              >
+                                <FontAwesomeIcon
+                                  style={{ color: "#00AEEF" }}
+                                  icon={faTrash}
+                                />
+                              </OverlayTrigger>
+                            </BtnAction>
+                          </td>
+                        ) : (
+                          ""
+                        )
+                      ) : (
+                        ""
+                      )}
                     </TR>
                   ))}
                 </tbody>
