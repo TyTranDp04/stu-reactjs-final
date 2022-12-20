@@ -23,6 +23,14 @@ const ModalAddData = (props) => {
   const { setShowModalAdd, setCallApiTable, callApiTable } = props.handle
   const { user } = props
   const [showMidDay, setShowMidDay] = useState(true)
+  const url = URL_API + '/newdayoff'
+  const [quantity, setQuantity] = useState()
+  const [currentQuantity, setCurrentQuantity] = useState(1)
+  const [data, setData] = useState({
+    UserId: user?.UserId,
+    Name: user?.Name,
+    RoleId: user?.RoleId,
+  })
   function handleCancel() {
     setShowModalAdd(false)
     const newdata = { ...data }
@@ -31,23 +39,6 @@ const ModalAddData = (props) => {
     setData(newdata)
     setQuantity(0)
   }
-  const url = URL_API + '/newdayoff'
-  const [dayOffFrom, setDayOffFrom] = useState()
-  const [dayOffTo, setDayOffTo] = useState()
-  const [reason, setReason] = useState()
-  const [quantity, setQuantity] = useState()
-  const [currentQuantity, setCurrentQuantity] = useState(1)
-  const [time, setTime] = useState('')
-  const [data, setData] = useState({
-    UserId: user?.UserId,
-    Name: user?.Name,
-    RoleId: user?.RoleId,
-    DayOffFrom: dayOffFrom,
-    DayOffTo: dayOffTo,
-    Reason: reason,
-    Quantity: quantity,
-    Time: time,
-  })
   function changeDate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
     return dataDate
@@ -56,6 +47,9 @@ const ModalAddData = (props) => {
     const dataFrom = changeDate(data?.DayOffFrom)
     const dataTo = changeDate(data?.DayOffTo)
     const newdata = { ...data }
+    if(!data?.Type){
+      newdata.Type = 0
+    }
     newdata.DayOffFrom = dataFrom
     newdata.DayOffTo = dataTo
     newdata.Quantity = quantity
@@ -87,7 +81,7 @@ const ModalAddData = (props) => {
     }
   }, [data?.DayOffFrom, data?.DayOffTo,data?.Time], currentQuantity)
   function totalDay(data) {
-    const { DayOffFrom, DayOffTo, Time } = data
+    const { DayOffFrom, DayOffTo } = data
     if (DayOffFrom && DayOffTo) {
       const time = (((DayOffTo - DayOffFrom) / 360 / 24 / 10000) + 1) * currentQuantity
         setQuantity(time)
@@ -192,7 +186,7 @@ const ModalAddData = (props) => {
           <InPutContainerFrom>
             <LableInput style={{ width: '51%', margin: '0', }} className="form-label">From</LableInput>
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
+              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
             </InPutContainer>
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
               <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
@@ -210,7 +204,7 @@ const ModalAddData = (props) => {
           </InPutContainerFrom>
           <InPutContainer className="mb-6">
             <LableInput style={{ width: '28.4%', margin: '0', }} className="form-label">To</LableInput>
-            <DatePicker autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
+            <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
           </InPutContainer>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>

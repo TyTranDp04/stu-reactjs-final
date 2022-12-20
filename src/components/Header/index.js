@@ -1,15 +1,16 @@
-// import axios from "axios";
+
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import avatarnull from "../../assets/images/avatarnull.png";
+import logo from "../../assets/images/power_red.svg";
 import profile from "../../assets/images/profile.png";
 import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
-import logo from "../../assets/images/power_red.svg";
 import {
   Back,
   DivLogo,
@@ -25,7 +26,6 @@ import {
   StImg,
   StyleLink
 } from "./style";
-import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import { BtnArrow, P } from "../Sidebar/style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,11 +45,18 @@ const Header = ({ Toggle, isOpen }) => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };

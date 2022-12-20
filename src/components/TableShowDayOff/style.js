@@ -69,16 +69,7 @@ font-weight: 600;
 display: flex;
 align-items: center;
 `
-export const FormSearch = styled.form`
-    display: flex;
-    flex-wrap: wrap;
-    border: none;
-    background-color: #fff;
-    border-radius: 5px;
-    overflow: hidden;
-    padding-left: 5px;
 
-`
 export const InputSearch = styled.input`
 border: none;
 outline: none;
@@ -98,7 +89,7 @@ export const TableScroll = styled.div`
 `
 export const Thead = styled.thead`
   position: sticky;
-  top: 0;
+  top: -2px;
   background-color: #F0F4F7;
   z-index: 1;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);

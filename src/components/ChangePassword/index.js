@@ -25,45 +25,40 @@ const schema = yup
   .shape({
     oldPassword: yup
       .string()
-      .required("Old Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .required("Old Password is required"),
     Password: yup
       .string()
       .required("New Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .min(8, "Password min is 8 , max is 16 .")
+      .max(16, "Password min is 8 , max is 16 ."),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("Password"), null], "Passwords must match")
       .required("Confirm Password is required")
-      .min(6, "Password min is 6 , max is 16 .")
-      .max(16, "Password min is 6 , max is 16 ."),
+      .min(8, "Password min is 8 , max is 16 .")
+      .max(16, "Password min is 8 , max is 16 ."),
   })
   .required();
 const ChangePassword = () => {
-    const [data, setData] = useState();
+  const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
-  console.log(userInfo.data?.user , "user");
   const id = userInfo.data?.user?.id;
   let ChangePassword = data?.Password;
-  console.log("abc : " ,ChangePassword);
-  console.log(userInfo?.data?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE  + `/user/${id}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${id}`;
     await axios
       .get(url)
       .then((res) => {
         setData(res.data);
-        console.log('getdata: ', res.data);
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect (() => {
+  useEffect(() => {
     getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
   const {
     register,
@@ -71,7 +66,6 @@ const ChangePassword = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = (adata, notify) => {
-    console.log(adata);
     Swal.fire({
       title: "Change Password ?",
       icon: "question",
@@ -80,6 +74,7 @@ const ChangePassword = () => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         if (adata.Password === adata.oldPassword) {
@@ -92,20 +87,31 @@ const ChangePassword = () => {
         } else if (ChangePassword === adata.oldPassword) {
           dispatch(
             changePasswordAction({
-              id:id,
+              id: id,
               Password: adata.Password,
             })
           );
           navigate("/");
-          Swal.fire("Change password success!", "", "success");
+          Swal.fire({
+            title: "Update success",
+            icon: "success",
+            confirmButtonText: "Ok",
+            showCloseButton: true,
+            confirmButtonColor: "#8000ff",
+          })
           ChangePassword = adata.Password;
-          console.log(userInfo.adata?.user);
         } else {
           toast.error("Old Password Incorrect");
           Swal.fire("Old Password Incorrect!", "", "error");
         }
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };

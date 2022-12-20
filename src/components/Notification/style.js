@@ -118,7 +118,7 @@ export const Content = styled.div`
   padding: 20px 0 0 0;
   top: 165%;
   right: 0;
-  width: 300px;
+  width: 250px;
    z-index: 10;
    animation: growDown 300ms ease-in-out;
    transform-origin: top center;
@@ -129,17 +129,47 @@ export const Content = styled.div`
 `
 export const Reason = styled.div`
 text-align: start;
-max-width: 280px;
+max-width: 200px;
 max-height: 50px;
+font-size: 14px;
 overflow: hidden;
 overflow: hidden;
 display: -webkit-box;
 -webkit-box-orient: vertical;
 -webkit-line-clamp: 2;
 `
-
+export const ReasonChange = styled.div`
+text-align: start;
+max-width: 200px;
+max-height: 50px;
+font-size: 14px;
+display: inline-block;
+`
 export const ItemContent = styled.div`
+width: 100%;
 
+`
+export const ContentStatus = styled.div`
+  display: block;
+  .Rejected{
+    color: red!important;
+  }
+  .New{
+    color: #FECB09 !important;
+  }
+  .change{
+    color: #85CBA6 !important;
+  }
+  .Reverted{
+    color: #C66DAD !important;
+  }
+`
+export const ContentDayOff = styled.div`
+  border-radius: 5px;
+  width: 100%;
+  border: 2px solid #8000FF;
+  padding: 5px;
+  margin-bottom: 4px;
 `
 export const Name = styled.div`
 text-align: start;
@@ -150,5 +180,5 @@ export const Date = styled.div`
   display: flex;
 `
 export const H4 = styled.h4`
-  font-size: 16px;
+  font-size: 14px;
 `

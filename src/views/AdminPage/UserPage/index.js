@@ -4,7 +4,7 @@ import Layout from "../../../layout";
 const Management = () => {
   return (
     <>
-      <Layout title="Management User">
+      <Layout title="Log Off SRS - Management User">
         <ManagementUser />
       </Layout>
     </>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Btn, H5 } from './style';
-import { faClockRotateLeft, faRectangleXmark, faRotateLeft, faSquareCheck, faSquarePen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faClockRotateLeft, faRectangleXmark, faRotateLeft, faSquareCheck, faSquarePen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { URL_API } from '../../../api/dayoff.api';
 import Swal from 'sweetalert2';
@@ -8,53 +8,23 @@ import axios from 'axios';
 import ModalRequestChange from '../ModalRequestChange';
 const ActionMaster = (props) => {
   const [showRequestChange, setShowRequestChange] = useState(false)
-  const { arrayApprove, userId, status, requestUserId, requestId } = props;
+  const [typeModal, setTypeModal] = useState()
+  const [time, setTime] = useState()
+  const { userId, data } = props;
   const { callApiTable, setCallApiTable, setShowModalUpdate, setIdRequest } = props.handle
-
-  const urlReject = URL_API + "/reject"
-  async function Reject() {
-    await axios.post(urlReject, { RequestId: requestId })
-      .then(data => {
-        if (data?.data?.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Add request success',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          setCallApiTable(!callApiTable)
-        } else {
-          Swal.fire("Error!", "", "error");
-        }
-      })
-      .catch(err => console.log(err))
-  }
-  function handleReject() {
-    Swal.fire({
-      title: "Reject this request?",
-      icon: "question",
-      iconHtml: "?",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      showCancelButton: true,
-      showCloseButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Reject()
-          .then(() => {
-            setCallApiTable(!callApiTable)
-          })
-      } else Swal.fire("Cancel", "", "error");
-    });
-  }
-
-  const urlAprove = URL_API + "/approve"
   const formData = {
-    RequestId: requestId,
-    UserId: requestUserId,
-    UserAproveId: userId,
+    RequestId: data?._id,
+    UserId: data?.UserId,
+    UserActionId: userId,
   }
+  useEffect(() => {
+    const today = new Date()
+    const dayOff = new Date(data?.DayOffFrom)
+    const newtime = (((dayOff - today) / 360 / 24 / 10000) + 1)
+    setTime(newtime)
+  }, [data])
   async function Approve() {
+    const urlAprove = URL_API + "/approve"
     await axios.post(urlAprove, formData)
       .then(data => {
         if (data?.data?.success) {
@@ -69,7 +39,6 @@ const ActionMaster = (props) => {
           Swal.fire("Error!", "", "error");
         }
       })
-      .catch(err => console.log(err))
   }
   function handleApprove() {
     Swal.fire({
@@ -86,73 +55,44 @@ const ActionMaster = (props) => {
       } else Swal.fire("Cancel", "", "error");
     });
   }
-  async function DeleteData() {
-    await fetch(URL_API + "/dayoff-soft/" + requestId, { method: "DELETE" })
-      .then((data) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Add request success',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        setCallApiTable(!callApiTable)
-      })
-      .catch(() => {
-      })
-  }
-
-  function handleDelete() {
-    Swal.fire({
-      title: "Delete this request?",
-      icon: "question",
-      iconHtml: "?",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      showCancelButton: true,
-      showCloseButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        DeleteData()
-      } else Swal.fire(" Cancel", "", "error");
-    });
-  }
   function handleUpdate() {
-    setIdRequest(requestId)
+    setIdRequest(data?._id)
     setShowModalUpdate(true);
   }
+  function handleModal(value) {
+    setTypeModal(value)
+    setShowRequestChange(true)
+  }
+
   return (
     <div>
-      <ModalRequestChange data={formData} handle={{ showRequestChange, setShowRequestChange }}></ModalRequestChange>
+      <ModalRequestChange type={typeModal} data={data} formData={formData} handle={{ showRequestChange, setShowRequestChange, setCallApiTable, callApiTable }}></ModalRequestChange>
       {
-        arrayApprove?.includes(userId) ? status === 1 ? <H5>You appoved</H5> : '' : status === 2 ? '' : status === 3 ? '' : <Btn type='button' title="Approve" onClick={() => handleApprove()}>
-          <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquareCheck} />
-        </Btn>
+        data?.Approve?.includes(userId) && data?.Status === 1 && userId !== data?.UserId ? <H5>You appoved</H5> : data?.Status === 1 && !data?.Approve?.includes(userId) ? <Btn type='button' title="Approve" onClick={() => handleApprove()}>
+          <FontAwesomeIcon style={{ color: '#1DF73E' }} icon={faSquareCheck} />
+        </Btn> : ''
       }
       {
-        status === 1 && userId !== requestUserId ? <Btn type='button' title="Reject" onClick={() => handleReject()}>
+        data?.Status === 1 && userId !== data?.UserId ? <Btn type='button' title="Reject" onClick={() => handleModal('reject')}>
           <FontAwesomeIcon style={{ color: '#FB1717' }} icon={faRectangleXmark} />
         </Btn> : ''
       }
       {
-        status === 1 && requestUserId === userId ? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
-          <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faSquarePen} />
+        data?.Status === 1 && data?.UserId === userId ? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
+          <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faSquarePen} />
         </Btn> : ''
       }
       {
-        status === 1 ? requestUserId !== userId ? <Btn type='button' title="Request change" onClick={() => setShowRequestChange(true)}>
-          <FontAwesomeIcon style={{ color: '#F7941D' }} icon={faRotateLeft} />
+        data?.Status === 1 ? data?.UserId !== userId ? <Btn type='button' title="Request change" onClick={() => handleModal('change')}>
+          <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faRotateLeft} />
         </Btn> : '' : ''
       }
-      {
-        status === 1 ? requestUserId !== userId ? <Btn type='button' title="Revert"onClick={''}>
-          <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
-        </Btn> : '' : ''
+      {time > 1 ?
+        data?.Status === 2 || data?.Status === 1 ? data?.UserId === userId ? <Btn type='button' title="Revert" onClick={() => handleModal('revert')}>
+          <FontAwesomeIcon style={{ color: '#C66DAD', marginRight: '5px' }} icon={faClockRotateLeft} />
+        </Btn> : '' : '' : ''
       }
-      {status === 1 && requestUserId === userId ?
-        <Btn type="button" title='Delete'>
-          <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} onClick={() => handleDelete()} />
-        </Btn> : ''
-      }
+
     </div>
   );
 }

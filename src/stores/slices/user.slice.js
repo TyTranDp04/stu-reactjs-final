@@ -43,7 +43,7 @@ const userSlice = createSlice({
     },
 
     loginGoogleAction(state, action) {
-      // localStorage.removeItem(USER_INFO_KEY)
+      localStorage.removeItem(USER_INFO_KEY)
       state.userInfoState = {
         ...state.userInfoState,
         loading: true,
@@ -51,20 +51,19 @@ const userSlice = createSlice({
     },
     loginGoogleActionSuccess(state, action) {
       const data = action.payload;
-      // localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
+      localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState = {
         ...state.userInfoState,
         loading: false,
-        // token: token,
-        // data,
+        data,
       };
     },
     loginGoogleActionFailed(state, action) {
-      // localStorage.removeItem(USER_INFO_KEY)
+      localStorage.removeItem(USER_INFO_KEY)
       state.userInfoState = {
         ...state.userInfoState,
         loading: false,
-        // error: toast.error(action.payload),
+        error: toast.error(action.payload),
       };
     },
 

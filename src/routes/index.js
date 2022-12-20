@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import AdminPage from "../views/AdminPage";
-import DayOffHistoryPage from "../views/DayOffHistoryPage";
+import DayOffHistoryPage from "../views/AdminPage/DayOffHistoryPage";
 import DayOffPage from "../views/DayOffPage";
 import HomePage from "../views/HomePage";
 import LoginPage from "../views/LoginPage";

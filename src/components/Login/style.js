@@ -21,11 +21,23 @@ export const ForgotPass = styled.div`
   text-align: right;
 `
 export const StImgDiv = styled.div`
-  width: 100%;
+  width: 70px;
+  height: 70px;
+  @media (max-width:480px){
+    width: 65px;
+    height: 65px;
+  }
 `
 export const StImg = styled.img`
   max-width: 100%;
   height: auto;
+`
+export const FormHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
 `
 export const Section = styled.section`
   background: url(${logo});
@@ -45,7 +57,6 @@ export const H2 = styled.h2`
   color: #333333;
   font-size: 40px;
   line-height: 45px;
-  padding: 0px 0px 40px;
   font-weight: 700;
 @media (max-width:992px){
   padding:0px 0px 3px;

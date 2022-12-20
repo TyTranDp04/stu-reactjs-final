@@ -7,7 +7,7 @@ const TimeDayOff = (props) => {
     <Container>
       <H3>
         {
-          moment.utc(date).format('DD/MM/YYYY')
+          date?moment.utc(date).format('DD/MM/YYYY'):''
         }
       </H3>
     </Container>
