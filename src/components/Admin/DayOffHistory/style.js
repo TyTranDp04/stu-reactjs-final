@@ -39,6 +39,7 @@ export const DayOffHistoryWrapper = styled.div`
 
 export const DayOffHistoryCol = styled.div`
   background-color: #F0F4F7;
+  height:80vh;
 
 .day-off-history_form {
   margin: auto;

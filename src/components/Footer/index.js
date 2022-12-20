@@ -4,7 +4,7 @@ const Year = new Date().getFullYear();
 const Footer = () =>{
 
     return (
-        <p className='text-light text-center'>Copy right by Basic Team @{Year}</p>
+        <p className='text-light text-center text-muted'>Copy right by Basic Team @{Year}</p>
     )
 
 }
