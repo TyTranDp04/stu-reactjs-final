@@ -27,7 +27,6 @@ const ModalAddUserGroup = (props) => {
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-      .catch(err => console.log(err))
   }
   useEffect(() => {
     getDataUser()
@@ -96,7 +95,6 @@ const ModalAddUserGroup = (props) => {
           user: ''
         })
       })
-      .catch(err => console.log(err))
   }
   const {
     handleSubmit,
@@ -147,7 +145,7 @@ const ModalAddUserGroup = (props) => {
           </InPutContainer>
           <InPutContainer className="mb-6">
             <LableInput style={{ width: '120px' }} className="form-label">Enter User Name</LableInput>
-            <Input value={dataInput?.user} required type='search' id='user' name='user' onChange={(e) => handleOnchange(e)}></Input>
+            <Input autoComplete='off' value={dataInput?.user} required type='search' id='user' name='user' onChange={(e) => handleOnchange(e)}></Input>
             {
               dataUserFilter?.length !== 0 && dataUserFilter? 
                 <BoxUser style={{ margin: '5px 0', width: '50%', border: '2px solid #ccc', color: "#ccc" }}>

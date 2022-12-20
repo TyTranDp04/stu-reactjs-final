@@ -4,9 +4,12 @@ import Layout from '../../layout'
 
 const DayOffPage = () => {
   return (
-    <Layout>
-      <TableDayOff/>
-    </Layout>
+    <>
+      <Layout title="Log Off SRS - request day off">
+        <TableDayOff />
+      </Layout>
+    </>
+
   )
 }
 

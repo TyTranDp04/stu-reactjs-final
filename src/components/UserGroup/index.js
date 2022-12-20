@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Table from 'react-bootstrap/Table';
 import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import Table from 'react-bootstrap/Table';
 import Swal from "sweetalert2";
 
 import {
   Container,
-  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, H4, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
+  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
   Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
 } from './style'
 import axios from 'axios';
-import ModalAddGroup from './ModalAddGroup';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import ModalAddUserGroup from './AddUserGroup';
-import { useSelector } from 'react-redux'
+import ModalAddGroup from './ModalAddGroup';
+
 
 function UserGroup(props) {
   const [showDetail, setShowDetail] = useState(true)
@@ -26,14 +28,10 @@ function UserGroup(props) {
   const urlGetUser = process.env.REACT_APP_URL_WEBSITE + '/user'
   const urlGetGroup = process.env.REACT_APP_URL_WEBSITE + '/group'
   const urlDeleteUserGroup = process.env.REACT_APP_URL_WEBSITE + '/user-group/delete'
-  useEffect(() => {
-    getDataUser()
-    getDataGroup()
-  }, [callApiGroup])
+ 
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-      .catch(err => console.log(err))
   }
   async function getDataGroup() {
     await axios.get(urlGetGroup)
@@ -60,9 +58,11 @@ function UserGroup(props) {
 
         }
       })
-      .catch(err => console.log(err))
   }
-
+  useEffect(() => {
+    getDataUser()
+    getDataGroup()
+  }, [callApiGroup])
   async function deleteUserGroup(UserId, GroupId) {
     const form = {
       UserId: UserId,
@@ -78,7 +78,6 @@ function UserGroup(props) {
         })
         setCallApiGroup(!callApiGroup)
       })
-      .catch(err => console.log(err))
   }
 
   function handleShowDetail(group) {
@@ -163,8 +162,15 @@ function UserGroup(props) {
                           {
                             dataUser?.map((user, id) => (
                               user.GroupId.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
+                                <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user.Name}
+                                </Tooltip>
+                              }
+                            >
                                 <Avatar src={user.Avatar}></Avatar>
-                                <H4>{user.Name}</H4>
+                            </OverlayTrigger>
                               </User> : ''
                             ))
                           }
@@ -174,8 +180,15 @@ function UserGroup(props) {
                             {
                               dataUser?.map((user, id) => (
                                 user.GroupId.includes(e._id) && user.RoleId === "2" ? <User key={id}>
+                                  <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user.Name}
+                                </Tooltip>
+                              }
+                            >
                                   <Avatar src={user.Avatar}></Avatar>
-                                  <H4>{user.Name}</H4>
+                            </OverlayTrigger>
                                 </User> : ''
                               ))
                             }
@@ -196,8 +209,6 @@ function UserGroup(props) {
                   }
                 </Tbody>
               </Table>
-
-
             </Content>
           </Group>
           :
@@ -220,7 +231,7 @@ function UserGroup(props) {
             </Header>
             <Name>
               <NameText>Name</NameText>
-              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"User":userInfo?.data?.user?.RoleId === "2"?'Master':'HR'}</NameTitle>
+              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"Staff":userInfo?.data?.user?.RoleId === "2"?'Manager':'Admin'}</NameTitle>
             </Name>
             <Master>
               <NameText>Master</NameText>

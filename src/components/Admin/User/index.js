@@ -1,36 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Avatar from "../../../assets/images/avatar-default.jpg";
 import { dataAlumni } from "../../../constants/data.js";
 import {
   Body,
   Btn,
+  BtnAction,
+  BtnCancel,
   Container,
+  DivBtn,
   DivTable,
   Error,
   FooterForm,
+  H3,
   Image,
   Input,
   Label,
+  Row,
+  Search,
+  Select,
   Submit,
-  TD,
   TH,
   TR,
 } from "./style";
 
-import Swal from "sweetalert2";
-import { Modal } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
+import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
+import { useNavigate } from "react-router-dom";
 
-const ManagementUser = () => {
+const ManagementUser = (props) => {
   const URL = process.env.REACT_APP_URL_WEBSITE;
   const [data, setData] = useState();
   const [dataEdit, setDataEdit] = useState();
   const dpManagement = useSelector(
     (state) => state.dpManagement.dpManagementState
   );
+  const userInfo = useSelector(state => state.users.userInfoState);
+  const roleId = useSelector(state => state.roleId.roleIdState);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRoleId = userInfo?.data?.user?.RoleId;
+  const roleIdData = roleId?.data;
+  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const permission = filterRoleId?.RoleName;
+
+  useEffect(() => {
+    if (!permission) {
+      return
+    } else if (permission !== "Admin") {
+      navigate("/404")
+    } else {
+      navigate("/admin/user")
+    }
+  }, [permission, navigate]);
+
   useEffect(() => {
     setData(dpManagement?.data);
   }, [dpManagement]);
@@ -40,10 +69,9 @@ const ManagementUser = () => {
   }, [dispatch]);
 
   const [show, setShow] = useState(false);
-  const [edit, setEdit] = useState(false);
   const renderTableHeader = () => {
     const header = Object.keys(dataAlumni[0]);
-    return header.map((key, index) => <TH key={index}>{key.toUpperCase()}</TH>);
+    return header.map((key, index) => <TH key={index}>{key}</TH>);
   };
   const searchHandle = async (e) => {
     let key = e.target.value;
@@ -70,61 +98,26 @@ const ManagementUser = () => {
     });
   }
   const [idUser, setId] = useState();
-  async function EditData(data) {
+  const [edit, setEdit] = useState(false);
+  const EditData = async (data) => {
     await axios
       .patch(`${URL}/user/${idUser}`, data)
       .then((res) => console.log(res.body))
       .catch((err) => console.log(err));
   }
-
-  const submitEdit = (e) => {
+  async function getEdit(e) {
     setId(e);
-    async function getEdit(e) {
-      await axios
-        .get(`${URL}/user-item/${e}`)
-        .then((res) => setDataEdit(res?.data.data));
-    }
-    getEdit(e);
-    setEdit(true);
-  };
-  const [dataRole, setDataRole] = useState();
-  const [numRole, setNumRole] = useState(2);
-
-  async function submitRole() {
     await axios
-      .get(`${URL}/role`)
-      .then((res) => setDataRole(res?.data))
-      .catch((err) => console.log(err));
+      .get(`${URL}/user-item/${e}`)
+      .then((res) => {
+        setDataEdit(res?.data.data)
+      });
+    if (!edit) {
+      reset();
+    }
   }
-  useEffect(() => {
-    submitRole();
-  }, []);
 
   const [dataGroup, setDataGroup] = useState();
-  async function submitGroup() {
-    await axios
-      .get(`${URL}/group`)
-      .then(
-        (res) => setDataGroup(res?.data.data)
-        // console.log("res group", res.data.data)
-      )
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    submitGroup();
-  }, []);
-  const getRole = (event) => {
-    let RoleId = event.target.value;
-    const idRole = dataRole?.data.filter((e) => {
-      if (RoleId === e.RoleName) {
-        const id = e.Id;
-        return id;
-      }
-    });
-    setNumRole(idRole[0].Id);
-  };
-
   const [numGroup, setNumGroup] = useState();
 
   const getGroup = (event) => {
@@ -141,13 +134,44 @@ const ManagementUser = () => {
       setNumGroup(idGroup[0]._id);
     }
   };
+
+  async function submitGroup() {
+    await axios
+      .get(`${URL}/group`)
+      .then(
+        (res) => setDataGroup(res?.data.data)
+      )
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    submitGroup();
+  }, []);
+
+  const [dataRole, setDataRole] = useState();
+  const [numRole, setNumRole] = useState();
+  async function submitRole() {
+    await axios
+      .get(`${URL}/role`)
+      .then((res) => {
+        setDataRole(res?.data)
+      })
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    submitRole();
+  }, []);
+  const getRole = (event) => {
+    let RoleId = event.target.value;
+    dataRole.map((e) => e.RoleName === RoleId ? setNumRole(e.Id) : (""))
+  };
+
   return (
     <React.Fragment>
       <Container className="col-lg-10 col-sm-9 ">
-        <Body className="m-4">
-          <div className="row pt-2">
+        <Body>
+          <div className="row pt-2 m-0">
             <div className="text-center">
-              <h3>Management User</h3>
+              <H3>Management User</H3>
             </div>
             <Modal
               show={edit}
@@ -155,6 +179,11 @@ const ManagementUser = () => {
               dialogClassName="modal-90w"
               aria-labelledby="example-custom-modal-styling-title"
             >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-custom-modal-styling-title">
+                  Edit User
+                </Modal.Title>
+              </Modal.Header>
               <FooterForm
                 id="form1"
                 className="text-start"
@@ -164,37 +193,42 @@ const ManagementUser = () => {
                     RoleId: numRole,
                   };
                   Swal.fire({
-                    title: "Are you sure sent information?",
+                    title: "Are You Sure Edit User?",
                     icon: "question",
                     iconHtml: "?",
                     confirmButtonText: "OK",
                     cancelButtonText: "Cancel",
                     showCancelButton: true,
                     showCloseButton: true,
+                    confirmButtonColor:"#8000ff",
                   }).then((result) => {
                     if (result.isConfirmed) {
                       EditData(object);
                       dispatch(getListDpManagementAction());
                       reset();
                       setEdit(false);
-                      Swal.fire("Nice to meet you", "", "success");
-                    } else Swal.fire(" Cancelled", "", "error");
+                      Swal.fire("successfully", "", "success");
+                    } else {
+                      setId(null);
+                    };
                   });
                 })}
               >
                 <div>
                   <Label className="w-100">Name</Label>
-                  <Input
+                  {dataEdit?.Name && <Input
+                    type="text"
                     {...register("Name")}
                     className="w-100"
                     name="Name"
-                    defaultValue={dataEdit?.Name}
+                    defaultValue={dataEdit?.Name ? dataEdit?.Name : 'Name'}
                   />
+                  }
                   <Error className="w-100">{errors.Name?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Email</Label>
-                  <Input
+                  {dataEdit?.Gmail && <Input
                     name="Gmail"
                     type="Gmail"
                     defaultValue={dataEdit?.Gmail}
@@ -206,14 +240,12 @@ const ManagementUser = () => {
                       },
                     })}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Gmail?.message}</Error>
                 </div>
-
                 <div>
                   <Label className="w-100">Phone</Label>
-
-                  <Input
+                  {dataEdit?.Phone && <Input
                     name="Phone"
                     type="text"
                     defaultValue={dataEdit?.Phone}
@@ -228,22 +260,22 @@ const ManagementUser = () => {
                       },
                     })}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Phone?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Address</Label>
-                  <Input
+                  {dataEdit?.Address && <Input
                     name="Address"
                     defaultValue={dataEdit?.Address}
                     {...register("Address")}
                     className="w-100"
-                  />
+                  />}
                   <Error className="w-100">{errors.Address?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">RoleId</Label>
-                  <select
+                  <Select
                     id="RoleId"
                     name="RoleId"
                     {...register("RoleId", {
@@ -255,33 +287,33 @@ const ManagementUser = () => {
                       getRole(event);
                     }}
                   >
-                    {dataRole?.map((e) => (
-                      <option key={e._id}>{e.RoleName}</option>
+                    {dataRole?.map((e) => (                      
+                      <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
                     ))}
-                  </select>
+                  </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
                 <div>
                   <Label className="w-100">Group</Label>
-                  <select
+                  {dataEdit?.GroupId && <Input
                     name="GroupId"
                     {...register("Group", {
                       required: "The field is required.",
                     })}
                     className="w-100"
-                    onClick={(event) => getGroup(event)}
-                  >
-                    <option className="text-center">...</option>
-                    {dataGroup?.map((e) => (
-                      <option key={e._id} className="text-center">
-                        {e.Name}
-                      </option>
-                    ))}
-                  </select>
+                    // disabled 
+                    value={dataGroup?.map((e) => dataEdit?.GroupId.includes(e._id) ? (e.Name) : (""))}
+                  />}
                   <Error className="w-100">{errors.Group?.message}</Error>
                 </div>
-
-                <Submit value="Edit User" className="mt-2" type="submit" />
+                <div className="row">
+                  <div className="text-start col-3">
+                    <Submit value="Edit User" type="submit" />
+                  </div>
+                  <div className="text-start col-9">
+                    <BtnCancel type="button" onClick={() => setEdit(!edit)}>Cancel</BtnCancel>
+                  </div>
+                </div>
               </FooterForm>
             </Modal>
             <Modal
@@ -292,7 +324,7 @@ const ManagementUser = () => {
             >
               <Modal.Header closeButton>
                 <Modal.Title id="example-custom-modal-styling-title">
-                  ADD USER
+                  Add User
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
@@ -306,21 +338,24 @@ const ManagementUser = () => {
                       GroupId: numGroup,
                     };
                     Swal.fire({
-                      title: "Are you sure sent information?",
+                      title: "Are You Sure Add User ?",
                       icon: "question",
                       iconHtml: "?",
                       confirmButtonText: "OK",
                       cancelButtonText: "Cancel",
                       showCancelButton: true,
                       showCloseButton: true,
+                      confirmButtonColor:"#8000ff",
                     }).then((result) => {
                       if (result.isConfirmed) {
                         postData(object);
                         reset();
                         dispatch(getListDpManagementAction());
                         setShow(false);
-                        Swal.fire("Nice to meet you", "", "success");
-                      } else Swal.fire(" Cancelled", "", "error");
+                        Swal.fire("successfully", "", "success");
+                      } else {
+                        
+                      };
                     });
                   })}
                 >
@@ -352,10 +387,8 @@ const ManagementUser = () => {
                     />
                     <Error className="w-100">{errors.Gmail?.message}</Error>
                   </div>
-
                   <div>
                     <Label className="w-100">Phone</Label>
-
                     <Input
                       name="Phone"
                       type="text"
@@ -386,9 +419,8 @@ const ManagementUser = () => {
                     <Error className="w-100">{errors.Address?.message}</Error>
                   </div>
                   <div>
-                    <Label className="w-100">RoleId</Label>
-                    <select
-                      id="RoleId"
+                    <Label className="w-100">Role</Label>
+                    <Select
                       name="RoleId"
                       {...register("RoleId", {
                         required: "The field is required.",
@@ -398,15 +430,16 @@ const ManagementUser = () => {
                         getRole(event);
                       }}
                     >
+                      <option></option>
                       {dataRole?.map((e) => (
                         <option key={e._id}>{e.RoleName}</option>
                       ))}
-                    </select>
+                    </Select>
                     <Error className="w-100">{errors.RoleId?.message}</Error>
                   </div>
                   <div>
                     <Label className="w-100">Group</Label>
-                    <select
+                    <Select
                       name="GroupId"
                       {...register("Group", {
                         required: "The field is required.",
@@ -414,106 +447,139 @@ const ManagementUser = () => {
                       className="w-100"
                       onClick={(event) => getGroup(event)}
                     >
-                      <option className="text-center">...</option>
+                      <option>...</option>
                       {dataGroup?.map((e) => (
-                        <option key={e._id} className="text-center">
+                        <option key={e._id} >
                           {e.Name}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                     <Error className="w-100">{errors.Group?.message}</Error>
                   </div>
-                  <Submit value="Add User" className="mt-2" type="submit" />
+                  <div className="row">
+                    <div className="text-start col-3">
+                      <Submit value="Add User" type="submit" />
+                    </div>
+                    <div className="text-start col-9">
+                      <BtnCancel type="button" onClick={() => setShow(!show)}>Cancel</BtnCancel>
+                    </div>
+                  </div>
                 </FooterForm>
               </Modal.Body>
             </Modal>
           </div>
           <div className="container-fluid">
             <div className="row pb-5">
-              <div className="col-4 text-start">
-                <Btn onClick={() => setShow(true)}>ADD NEW USER</Btn>
-              </div>
+              <DivBtn className="col-4 text-start">
+                <Btn onClick={() => { setShow(true); reset() }}>Add New User</Btn>
+              </DivBtn>
               <div className="col-4"></div>
-              <div className="col-4">
-                <input placeholder="search" onChange={searchHandle}></input>
+              <div className="col-4 p-0 text-end" >
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id={`tooltip`}>
+                      Search Name,Phone,Address
+                    </Tooltip>
+                  }
+                >
+                  <Search placeholder="Search" onChange={searchHandle}></Search>
+                </OverlayTrigger>
               </div>
             </div>
           </div>
 
           <DivTable className="container-fluid">
-            <div className="row">
-              <table className="">
-                <tbody>
+            <Row className="row">
+              <Table bordered>
+                <thead className="text-center bgrHead">
                   <TR>{renderTableHeader()}</TR>
+                </thead>
+                <tbody className="text-start">
                   {data?.map((item, index) => (
-                    <TR key={item._id}>
-                      <TD>{index + 1}</TD>
-                      <TD>{item.Name}</TD>
-                      <TD>
-                        <Image src={item.Avatar}></Image>
-                      </TD>
-                      <TD>{item.Gmail}</TD>
-                      <TD>{item.Phone}</TD>
-                      <TD>{item.Address}</TD>
-                      <TD>
+                    <TR className="testHover" key={item._id}>
+                      <td>{index + 1}</td>
+                      <td className="testColor" style={{ textTransform: "capitalize" }}>{item.Name}</td>
+                      <td>
+                        <Image style={{ width: "70px" }} src={item.Avatar ? item.Avatar : Avatar}></Image>
+                      </td>
+                      <td>{item.Gmail}</td>
+                      <td>{item.Phone}</td>
+                      <td style={{ textTransform: "capitalize" }}>{item.Address}</td>
+                      <td style={{ textTransform: "capitalize" }}>
                         {dataRole?.map((e) =>
-                          item?.RoleId.includes(e.Id) ? (
+                          item?.RoleId?.includes(e?.Id) ? (
                             <h6 key={e._id}>{e.RoleName}</h6>
                           ) : (
                             ""
                           )
                         )}
-                      </TD>
+                      </td>
 
-                      <TD>
+                      <td>
                         {dataGroup?.map((e) =>
-                          item?.GroupId.includes(e._id) ? (
+                          item?.GroupId?.includes(e?._id) ? (
                             <h6 key={e._id}>{e.Name}</h6>
                           ) : (
                             ""
                           )
                         )}
-                      </TD>
-                      <TD>
-                        <TD>
-                          <button onClick={() => submitEdit(item._id)}>
-                            edit
-                          </button>
-                        </TD>
-                        <TD>
-                          {" "}
-                          <button
-                            onClick={() =>
-                              Swal.fire({
-                                title: "Are you sure DELETE?",
-                                text: "You will not be able to recover this USER",
-                                icon: "warning",
-                                iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "YES, DELETE IT!!!",
-                                cancelButtonText: "Cancel",
-                                showCancelButton: true,
-                                showCloseButton: true,
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  DeleteData(item._id);
-                                  setShow(false);
-                                  dispatch(getListDpManagementAction());
-                                  Swal.fire("Nice to meet you", "", "success");
-                                }
-                                // else Swal.fire(" Cancelled", "", "error");
-                              })
+                      </td>
+                      <td>
+                        <BtnAction onClick={() => {
+                          setEdit(true);
+                          getEdit(item._id);
+                        }}>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip>
+                                Edit
+                              </Tooltip>
                             }
                           >
-                            delete
-                          </button>
-                        </TD>
-                      </TD>
+                            <FontAwesomeIcon style={{ color: '#1FCE2D' }} icon={faSquarePen} />
+                          </OverlayTrigger>
+
+                        </BtnAction>
+                        {" "}
+                        <BtnAction
+                          onClick={() =>
+                            Swal.fire({
+                              title: "Are you sure DELETE?",
+                              text: "You will not be able to recover this USER",
+                              icon: "warning",
+                              iconHtml: "!",
+                              confirmButtonColor: "#DD6B55",
+                              confirmButtonText: "Oke",
+                              cancelButtonText: "Cancel",
+                              showCancelButton: true,
+                              showCloseButton: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                DeleteData(item._id);
+                                setShow(false);
+                                dispatch(getListDpManagementAction());
+                                Swal.fire("successfully", "", "success");
+                              }
+                            })
+                          }
+                        >
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip>
+                                Delete
+                              </Tooltip>
+                            }
+                          >
+                            <FontAwesomeIcon style={{ color: '#00AEEF' }} icon={faTrash} />
+                          </OverlayTrigger>
+
+                        </BtnAction>
+                      </td>
                     </TR>
                   ))}
                 </tbody>
-              </table>
-            </div>
+              </Table>
+            </Row>
           </DivTable>
         </Body>
       </Container>

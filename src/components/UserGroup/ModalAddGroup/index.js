@@ -89,7 +89,7 @@ const ModalAddGroup = (props) => {
         )}>
           <InPutContainer className="mb-6" >
             <LableInput style={{ width: '100px' }} for='dateTo' className="form-label">Name Group</LableInput>
-            <Input required type='search' id='Name' name='Name' onChange={(e) => handleOnchange(e)}></Input>
+            <Input autoComplete='off' required type='search' id='Name' name='Name' onChange={(e) => handleOnchange(e)}></Input>
             {
               dataInput ? '' : <Span>Name Group can't not be blank</Span>
             }

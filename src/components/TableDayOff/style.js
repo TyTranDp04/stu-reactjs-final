@@ -32,21 +32,19 @@ export const ButtonAddDayOff = styled.button`
     opacity: .8;
   }
 `
-export const ButtonRestoreDayOff = styled.button`
-background-color: #00AEEF;
-border-radius: 5px;
-border: none;
-padding: 5px 10px;
-color: #fff;
-margin-left: 10px;
-&:hover{
-  opacity: .8;
-}
-`
+
 export const ButtonSearchDayOff = styled.button`
   border: none;
   padding: 5px 10px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 10px;
+  height: 35px;
+  width: 36px;
+  right: 14px;
   background-color: #fff;
   &:hover{
   background-color: #8000FF;
@@ -71,13 +69,34 @@ align-items: center;
 `
 export const FormSearch = styled.form`
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     border: none;
+    position: relative;
     background-color: #fff;
     border-radius: 5px;
-    overflow: hidden;
     padding-left: 5px;
-
+    border: 2px solid #8000FF;
+    height: 40px;
+    .react-datepicker-wrapper{
+      #SearchDate{
+        border: none;
+        padding-left:8px;
+        outline: none;
+        width: 125px;
+      }
+    }
+    .react-datepicker-popper{
+      z-index: 10000;
+    }
+    
+`
+export const SearchHeaderText = styled.h3`
+  font-size: 16px;
+  display: inline-block;
+  align-items: center;
+  position: absolute;
+  left: -40%;
 `
 export const InputSearch = styled.input`
 border: none;
@@ -98,7 +117,7 @@ export const TableScroll = styled.div`
 `
 export const Thead = styled.thead`
   position: sticky;
-  top: 0;
+  top: -2px;
   background-color: #F0F4F7;
   z-index: 1;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);
@@ -121,11 +140,11 @@ export const TextArea = styled.textarea`
   
 `
 export const Tr = styled.tr`
-  border-bottom: 5px solid #F0F4F7;
-  background-color:#fff ;
-  
+border: 5px solid #ccc;
+border-width: 1px;
+
 &:hover{
-  background-color:#8000FF ;
+  background-color:#9933FF ;
   color: #fff;
   textarea{
     color: #fff;
@@ -145,9 +164,9 @@ align-Items: center;
 justify-content: center;
 `
 export const Th = styled.th`
+  border-width: 1px;
 text-align: center;
 font-weight: 400;
-border: none;
 margin: 0;
 `
 export const SelectRequest = styled.input`

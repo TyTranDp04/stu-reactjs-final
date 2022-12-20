@@ -5,17 +5,25 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  .Pending{
-    background-color: #31A24C;
-    box-shadow: 0 0 8px #0DFC0D, inset 0 0 8px #0DFC0D;
-  }
-  .Approved{
-    background-color: #ffc107;
+  .Requested{
+    background-color: #F7EA44;
     box-shadow: 0 0 8px #fde20d, inset 0 0 8px #fde20d;
   }
-  .Reject{
+  .Approved{
+    background-color: #7EC55F;
+    box-shadow: 0 0 8px #0DFC0D, inset 0 0 8px #0DFC0D;
+  }
+  .Rejected{
     background-color: #ff0000;
-    box-shadow: 0 0 8px #f63a3a, inset 0 0 8px #f63a3a;
+    box-shadow: 0 0 8px #ff0000, inset 0 0 8px #ff0000;
+  }
+  .change{
+    background-color: #85CBA6;
+    box-shadow: 0 0 8px #24F9B9, inset 0 0 8px #24F9B9;
+  }
+  .Reverted{
+    background-color: #C66DAD;
+    box-shadow: 0 0 8px #FF52FC, inset 0 0 8px #FF52FC;
   }
   `
   export const Dot = styled.div`

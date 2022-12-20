@@ -75,7 +75,7 @@ export const Item = styled.li`
    
 `
 export const Menu = styled.div`
-margin-top: 20px;
+margin-top: 0px;
 max-height: 400px;
 overflow: auto;
 a{
@@ -86,14 +86,20 @@ a{
 }
 `
 export const H3 = styled.h3`
-   color: #ccc;
+   color: #fff;
+   font-weight: 700;
    font-size: 20px;
    width: 100%;
    line-height: 10px;
 `
+export const HeadPopup = styled.div`
+border-bottom: 1px solid;
+height:100%;
+padding-bottom: 5px;
+`
+export const P = styled.div``
 
 export const B = styled.b`
-  
 `
 export const Content = styled.div`
 @keyframes growDown {
@@ -112,34 +118,67 @@ export const Content = styled.div`
   padding: 20px 0 0 0;
   top: 165%;
   right: 0;
-  width: 300px;
+  width: 250px;
    z-index: 10;
    animation: growDown 300ms ease-in-out;
    transform-origin: top center;
    background-color: #fff;
    overflow: hidden;
    box-shadow: 0 0 3px rgb(136, 135, 135);
+   background-color: #8000ff;
 `
 export const Reason = styled.div`
 text-align: start;
-max-width: 280px;
+max-width: 200px;
 max-height: 50px;
+font-size: 14px;
 overflow: hidden;
 overflow: hidden;
 display: -webkit-box;
 -webkit-box-orient: vertical;
 -webkit-line-clamp: 2;
 `
-
+export const ReasonChange = styled.div`
+text-align: start;
+max-width: 200px;
+max-height: 50px;
+font-size: 14px;
+display: inline-block;
+`
 export const ItemContent = styled.div`
+width: 100%;
 
+`
+export const ContentStatus = styled.div`
+  display: block;
+  .Rejected{
+    color: red!important;
+  }
+  .New{
+    color: #FECB09 !important;
+  }
+  .change{
+    color: #85CBA6 !important;
+  }
+  .Reverted{
+    color: #C66DAD !important;
+  }
+`
+export const ContentDayOff = styled.div`
+  border-radius: 5px;
+  width: 100%;
+  border: 2px solid #8000FF;
+  padding: 5px;
+  margin-bottom: 4px;
 `
 export const Name = styled.div`
 text-align: start;
+display:flex;
+width: 100%;
 `
 export const Date = styled.div`
   display: flex;
 `
 export const H4 = styled.h4`
-  font-size: 16px;
+  font-size: 14px;
 `
