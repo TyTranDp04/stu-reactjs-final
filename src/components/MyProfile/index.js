@@ -48,7 +48,7 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-  // const [fileIMG, setfileIMG] = useState();
+   const [, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [, setIsLoading] = useState(false);
 
@@ -69,7 +69,7 @@ const MyProfile = () => {
     Object.values(e.target.files).forEach((e) => {
       if (selectedImage !== null) {
         setSelectedImage(URL.createObjectURL(e));
-        // setfileIMG(e);
+         setfileIMG(e);
       } else {
       }
     });
@@ -155,7 +155,13 @@ const MyProfile = () => {
         });
         postData();
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };

@@ -1,5 +1,5 @@
 // import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -18,7 +18,6 @@ import {
   HeaderInner,
   HeaderLogo,
   HeaderLogoff,
-  HeaderLogoffButton,
   HeaderName,
   HeaderRow,
   HeaderWrapper,
@@ -26,14 +25,12 @@ import {
   StImg,
   StyleLink,
 } from "./style";
-import { Link } from "react-router-dom";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const dispatch = useDispatch();
   const Name = userInfo.data?.user?.Name;
   const Avatar = userInfo.data?.user?.Avatar;
-  const ID = userInfo.data?.user?.id;
   const logout = () => {
     Swal.fire({
       title: "Log out?",
@@ -48,7 +45,13 @@ const Header = () => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };

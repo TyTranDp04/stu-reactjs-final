@@ -60,6 +60,7 @@ const ChangePassword = () => {
 
   useEffect (() => {
     getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
   const {
     register,
@@ -106,7 +107,13 @@ const ChangePassword = () => {
           Swal.fire("Old Password Incorrect!", "", "error");
         }
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };
