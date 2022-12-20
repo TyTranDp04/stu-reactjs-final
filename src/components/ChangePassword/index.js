@@ -79,8 +79,6 @@ const ChangePassword = () => {
       confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("adata" ,adata.oldPassword);
-        console.log("ChangePassword" , adata.Password);
         if (adata.Password === adata.oldPassword) {
           Swal.fire(
             "Old Password and New Password cannot be the same!",
