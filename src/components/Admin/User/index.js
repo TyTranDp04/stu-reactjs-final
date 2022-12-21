@@ -53,7 +53,7 @@ const ManagementUser = (props) => {
   useEffect(() => {
     if (!permission) {
       return
-    } else if (permission !== "Admin") {
+    } else if (permission === "Staff") {
       navigate("/404")
     } else {
       navigate("/admin/user")
@@ -480,7 +480,7 @@ const ManagementUser = (props) => {
             </Modal>
           </div>
           <div className="container-fluid">
-            <div className="row pb-5">
+            <div className="row pb-3">
               <DivBtn className="col-lg-4 col-sm-4 mb-2 text-start">
                 <Btn onClick={() => { setShow(true); reset() }}>Add New User</Btn>
               </DivBtn>

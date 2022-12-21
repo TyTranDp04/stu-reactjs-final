@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SidebarCol = styled.div`
   text-align: left;
-  height:100vh;
+  height:92vh;
   position:relative;
   display:flex;
   flex-direction: column;
@@ -20,6 +20,10 @@ export const SidebarCol = styled.div`
   }
   @media (max-width: 425px) {
     padding-left: 18px;
+  }
+  .dropdown-item{
+    background-color:#8000ff;
+    width:auto;
   }
 `
 export const Fabar = styled.div`
@@ -58,7 +62,11 @@ height:50px;
 `
 export const SidebarInner = styled.div`
   margin-bottom: 30px;
-  min-width:80%;
+  min-width:100%;
+`
+export const SidebarCategoryGr = styled.div`
+min-width:100%;
+padding-left:10px;
 `
 export const SidebarCategory = styled.h4`
   font-size: 18px;

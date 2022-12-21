@@ -129,7 +129,7 @@ function UserGroup(props) {
     });
   }
   return (
-    <Container className='col-sm-9 col-lg-10'>
+    <Container>
       {
         showDetail ?
           <Group>
