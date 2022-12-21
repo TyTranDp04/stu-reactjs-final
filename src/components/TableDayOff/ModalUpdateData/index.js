@@ -40,18 +40,18 @@ const ModalUpdateData = (props) => {
     newdata.DayOffTo = null
     setData(newdata)
   }
-  useEffect(()=>{
-    if(showModalUpdate === true){
+  useEffect(() => {
+    if (showModalUpdate === true) {
       setCallApiModal(!callApiModal)
     }
-  },[showModalUpdate])
+  }, [showModalUpdate])
   function changeDate(date) {
     const dateReplace = date.replace(/-/, '/').replace(/-/, '/')
     const dateSlice = dateReplace.slice(0, 10)
     return new Date(dateSlice)
   }
   const url = URL_API + '/dayoff/' + idRequest
- function getDataUpdate() {
+  function getDataUpdate() {
     axios.get(url)
       .then(res => {
         const newdata = { ...res?.data?.data }
@@ -67,7 +67,7 @@ const ModalUpdateData = (props) => {
   }
   useEffect(() => {
     getDataUpdate()
-  }, [callApiModal])
+  }, [callApiModal, callApiTable])
   function changeDateUpdate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
     return dataDate
@@ -85,15 +85,15 @@ const ModalUpdateData = (props) => {
         setDataTime('3')
         setData(newdata3)
       }
-    setCallTotalDay(!callTotalDay)
-  }
-}, [changeData])
+      setCallTotalDay(!callTotalDay)
+    }
+  }, [changeData, callApiTable])
 
-useEffect(()=>{
-  if(data){
-    totalDay(data)
-  }
-},[callTotalDay])
+  useEffect(() => {
+    if (data) {
+      totalDay(data)
+    }
+  }, [callTotalDay])
   useEffect(() => {
     const newdata3 = { ...data }
     newdata3.Quantity = quantity
@@ -156,6 +156,7 @@ useEffect(()=>{
             timer: 1500
           })
           setCallApiTable(!callApiTable)
+          setCallApiModal(!callApiModal)
         } else {
           Swal.fire("Error!", "", "error");
         }
@@ -222,6 +223,7 @@ useEffect(()=>{
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className='modal__request'
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">

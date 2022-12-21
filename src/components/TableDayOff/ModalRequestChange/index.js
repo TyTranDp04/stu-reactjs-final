@@ -84,7 +84,7 @@ function ModalRequestChange(props) {
     resolver: yupResolver(schema)
   });
   return (
-    <Modal show={showRequestChange}>
+    <Modal className='modal__request' show={showRequestChange}>
       <Modal.Header>
         <Modal.Title>{`Reason for ${type}:`}</Modal.Title>
       </Modal.Header>

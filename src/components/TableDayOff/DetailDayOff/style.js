@@ -4,10 +4,6 @@ export const ContainerStyled = styled.div`
   .w-30{
   width: 40%!important;
   }
-  .w-70{
-  width: 60%!important;
-  }
-
 
   .col__info{
     margin-top: 10px;
@@ -81,9 +77,8 @@ export const H4 = styled.h4`
 
 export const BtnBack = styled.div`
   width: 100%;
-  margin-bottom: 30px;
   display: flex;
-  justify-content: start;
+  justify-content: end;
   align-items: center;
   position: relative;
   left: -10px;
