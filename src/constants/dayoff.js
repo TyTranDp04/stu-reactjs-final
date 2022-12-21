@@ -98,7 +98,6 @@ export const  countDate = (From, To) => {
     const time = (((From - To) / 360 / 24 / 10000) + 1)
    return Math.floor(time)
 }
-
 export const checkHoliday = (data, DayForm, DayTo)=>{
 
   const from = (From) => { 
