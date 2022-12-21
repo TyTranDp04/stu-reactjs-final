@@ -40,7 +40,7 @@ const Layout = ({ children, title }) => {
   const date = new Date();
   const current_date =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   return (
     <ContainerFluid className="container-fluid">
@@ -59,16 +59,17 @@ const Layout = ({ children, title }) => {
           <Sidebar
             Toggle={toggle}
             isOpen={isOpen}
+            setIsOpen={setIsOpen}
           />
           <Container
             className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
             style={{ width: isOpen ? "84%" : "94%" }}
           >
             {children}
-            <Footer />
           </Container>
         </LayoutRow>
       </Container>
+            <Footer />
     </ContainerFluid>
   );
 };

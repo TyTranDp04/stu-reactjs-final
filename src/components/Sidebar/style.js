@@ -21,6 +21,10 @@ export const SidebarCol = styled.div`
   @media (max-width: 425px) {
     padding-left: 18px;
   }
+  .dropdown-item{
+    background-color:#8000ff;
+    width:auto;
+  }
 `
 export const Fabar = styled.div`
 display: flex;
@@ -58,7 +62,11 @@ height:50px;
 `
 export const SidebarInner = styled.div`
   margin-bottom: 30px;
-  min-width:80%;
+  min-width:100%;
+`
+export const SidebarCategoryGr = styled.div`
+min-width:100%;
+padding-left:10px;
 `
 export const SidebarCategory = styled.h4`
   font-size: 18px;

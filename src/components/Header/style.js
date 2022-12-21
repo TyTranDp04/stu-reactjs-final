@@ -12,6 +12,9 @@ justify-content: center;
 align-items: center;
 padding:0px;
 padding-bottom:20px;
+@media (max-width:767px){
+  display:none;
+}
 `
 export const HeaderWrapper = styled.div`
 `
