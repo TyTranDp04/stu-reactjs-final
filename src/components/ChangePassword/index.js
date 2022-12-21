@@ -43,11 +43,13 @@ const ChangePassword = () => {
   const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
   const id = userInfo.data?.user?.id;
+ 
   let ChangePassword = data?.Password;
+  console.log("data",ChangePassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${id}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user-getone/${id}`;
     await axios
       .get(url)
       .then((res) => {
@@ -58,7 +60,8 @@ const ChangePassword = () => {
 
   useEffect(() => {
     getData()
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
   const {
     register,
     handleSubmit,
@@ -104,7 +107,13 @@ const ChangePassword = () => {
           Swal.fire("Old Password Incorrect!", "", "error");
         }
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };

@@ -1,27 +1,178 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner } from './style'
+import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
+import { HeaderLogo, HeaderLogoInner, HeaderLogoWrapper, StImg } from '../Header/style'
+import { Fabar, Row, SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, BtnArrow, P, SidebarCategoryGr } from './style'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight, faArrowRightLong, faArrowRightToBracket, faBars, faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
+import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
-const Sidebar = ({permission}) => {
+const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
+  const roleId = useSelector(state => state.roleId.roleIdState);
+  const userInfo = useSelector(state => state.users.userInfoState);
+  const dispatch = useDispatch()
+  const [showContent, setShowContent] = useState(false)
+  const roleIdData = roleId?.data;
+  const userRoleId = userInfo?.data?.user?.RoleId;
+  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
+  const permission = filterRoleId?.RoleName;
+
+  useEffect(() => {
+    dispatch(getListRoleIdAction())
+  }, [dispatch]);
   const accountRouter = {
-    requests: { name: "Requests", url: "/request-log-off", icon: "" },
-    daysoff: { name: "Days off", url: "/log-off", icon: "" },
-    groups: { name: "Groups", url: "/user-group", icon: "" },
+    daysoff: { name: "List", url: "/log-off", icon: faCalendar },
+    requests: { name: "Requests", url: "/request-log-off", icon: faCodePullRequest },
   };
   const managerRouter = {
-    sync: { name: "Day off history", url: `${ permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: "" },
-    User:{name:"User", url: `${ permission === "Admin" ? "/admin/user" : "/404"}`, icon: ""},
+    sync: { name: "Day off history", displayIcon: userRoleId === "1" || userRoleId === "2" ? "none" : "inline-block", display: userRoleId === "1" || userRoleId === "2" ? "none" : 'inline', url: `${permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: faList },
+    User: { name: "User", displayIcon: userRoleId === "1" ? "none" : "inline-block", url: `${permission === "Staff" ? "/404" : "/admin/user"}`, display: userRoleId === "1" ? "none" : 'inline', icon: faUser },
   };
 
   return (
-    <SidebarCol className='col-sm-3 col-lg-2'>
-      <SidebarInner>
-        {Object.entries(accountRouter).map(([index, value]) => <SidebarDesc key={index}><Link to={value.url}>{value.name}</Link></SidebarDesc>)}
+    <SidebarCol
+      style={{ width: isOpen ? "16%" : "6%" }}
+      className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}
+    >
+      <SidebarInner style={{ height: isOpen ? "150px" : "40px" }}>
+        <Dropdown
+          autoClose={isOpen ? "inside" : "outside"}
+          className={isOpen ? "" : 'end'} drop={isOpen ? "" : 'end'}
+          style={{ border: "none", width: "100%" }}
+        >
+          <Dropdown.Toggle
+            style={{ backgroundColor: "#8000ff", border: "none" }}
+          >
+            <OverlayTrigger
+              overlay={
+                <Tooltip>
+                  Day Off
+                </Tooltip>
+              }
+            >
+              <FontAwesomeIcon
+                style={{ display: "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                icon={faTableList}
+              />
+            </OverlayTrigger>
+            <SidebarCategory
+              style={{ display: isOpen ? "inline-block" : "none" }}
+            >Day Off
+            </SidebarCategory>
+          </Dropdown.Toggle>
+          <Dropdown.Menu
+            style={{ backgroundColor: "#8000ff", border: "none" }}
+            show={isOpen && true}
+          >
+            {Object.entries(accountRouter).map(([index, value]) =>
+              <Dropdown.Item>
+                <SidebarDesc key={index}>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip>
+                        {value.name}
+                      </Tooltip>
+                    }
+                  >
+                    <Link to={value.url}>
+                      <FontAwesomeIcon
+                        style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                        icon={value.icon}
+                      />
+                    </Link>
+                  </OverlayTrigger>
+                  <Link
+                    to={value.url}
+                  >{value.name}
+                  </Link>
+                </SidebarDesc>
+              </Dropdown.Item>)}
+          </Dropdown.Menu>
+        </Dropdown>
       </SidebarInner>
-      <SidebarInner>
-        <SidebarCategory>Manager</SidebarCategory>
-        {Object.entries(managerRouter).map(([index, value]) => <SidebarDesc key={index}><Link to={value.url}>{value.name}</Link></SidebarDesc>)}
+      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : isOpen ? "150px" : "40px" }}>
+        <Dropdown
+          autoClose={isOpen ? "inside" : "outside"}
+          className={isOpen ? "" : 'end'}
+          drop={isOpen ? "" : 'end'}
+          style={{ border: "none" }}
+        >
+          <Dropdown.Toggle
+            style={{  display: userRoleId === "1" ? "none" : "inline-block", backgroundColor: "#8000ff", border: "none" }}
+          >
+            <OverlayTrigger
+              overlay={
+                <Tooltip>
+                  Management
+                </Tooltip>
+              }
+            >
+              <FontAwesomeIcon
+                style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                icon={faPeopleRoof}
+              />
+            </OverlayTrigger>
+            <SidebarCategory
+              style={{ display: userRoleId === "1" ? "none" : isOpen ? "inline-block" : "none" }}
+            >
+              Management
+            </SidebarCategory>
+          </Dropdown.Toggle>
+          <Dropdown.Menu
+            show={isOpen && true}
+            style={{ backgroundColor: "#8000ff", border: "none" }}
+          >
+            {Object.entries(managerRouter).map(([index, value]) =>
+              <Dropdown.Item>
+                <SidebarDesc key={index}
+                >
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip>
+                        {value.name}
+                      </Tooltip>
+                    }
+                  >
+                    <Link to={value.url}>
+                      <FontAwesomeIcon
+                        style={{ display: value.displayIcon, color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                        icon={value.icon}
+                      />
+                    </Link>
+                  </OverlayTrigger>
+                  <Link
+                    style={{ display: value.display }}
+                    to={value.url}>{value.name}
+                  </Link>
+                </SidebarDesc>
+              </Dropdown.Item>)}
+          </Dropdown.Menu>
+        </Dropdown>
       </SidebarInner>
+      <SidebarCategoryGr style={{ paddingLeft: isOpen ? "10px" : "5px" }} >
+        <SidebarDesc >
+          <OverlayTrigger
+            overlay={
+              <Tooltip>
+                User Group
+              </Tooltip>
+            }
+          >
+            <Link to={"/user-group"}>
+              <FontAwesomeIcon
+                style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                icon={faPeopleGroup}
+              />
+            </Link>
+          </OverlayTrigger>
+          <Link
+            style={{ display: isOpen ? "" : "none" }}
+            to={"/user-group"}
+          >User Group
+          </Link>
+        </SidebarDesc>
+      </SidebarCategoryGr>
     </SidebarCol>
   )
 }

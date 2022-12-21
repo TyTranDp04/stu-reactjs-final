@@ -1,3 +1,4 @@
+
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,22 +12,26 @@ import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
 import {
+  Back,
+  DivLogo,
   DropdownLogo,
   HeaderAvatar,
-  HeaderBg,
   HeaderInner,
-  HeaderLogo,
-  HeaderLogoInner,
-  HeaderLogoWrapper,
   HeaderLogoff,
+  HeaderLogoInner,
   HeaderName,
   HeaderRow,
   HeaderWrapper,
   ResetImg,
-  StImg
+  StImg,
+  StyleLink
 } from "./style";
+import Sidebar from "../Sidebar";
+import { BtnArrow, P } from "../Sidebar/style";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight, faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Header = ({ Toggle, isOpen }) => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const dispatch = useDispatch();
   const Name = userInfo.data?.user?.Name;
@@ -45,60 +50,74 @@ const Header = () => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };
 
   return (
     <HeaderRow className="row">
-      <HeaderBg className="col-sm-12"></HeaderBg>
-      <HeaderWrapper className="container-fluid">
-        <HeaderInner className="row">
-          <HeaderLogo className="col-sm-3 col-lg-2">
-            <HeaderLogoWrapper>
-              <HeaderLogoInner><Link to="/"><StImg src={logo} /></Link></HeaderLogoInner>
-            </HeaderLogoWrapper>
-          </HeaderLogo>
-          <HeaderLogoff className="col-sm-9 col-lg-10">
-            <HeaderName className="navbar-user">
-              Hi, <span> {Name} </span>{" "}
-            </HeaderName>
-            <Notifycation></Notifycation>
-            <Dropdown>
-              <DropdownLogo>
-                <Dropdown.Toggle
-                  className="droplogo"
-                  variant="success"
-                  id="dropdown-basic"
-                >
-                  <HeaderAvatar>
-                    {Avatar ? (
-                      <StImg className="avatar" src={Avatar} />
-                    ) : (
-                      <StImg className="avatar" src={avatarnull} />
-                    )}
-                  </HeaderAvatar>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item className="content" href="/change-password">
-                    <ResetImg src={resetpassword} />
-                    Change Password
-                  </Dropdown.Item>
-                  <Dropdown.Item className="content" href="/my-profile">
-                    <ResetImg src={profile} />
-                    My Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item className="content" onClick={() => logout()}>
-                    <ResetImg src={shutdown} />
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </DropdownLogo>
-            </Dropdown>
-          </HeaderLogoff>
-        </HeaderInner>
-      </HeaderWrapper>
+      <DivLogo style={{ width: isOpen ? "16%" : "6%" }} className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
+        <div style={{ width: "60px", height: "60px" }}>
+          <Link to="/"><StImg style={{display: isOpen ? "inline-block" : "none"}} src={logo} /></Link>
+        </div>
+        <P style={{display: isOpen ? "inline-block" : "none"}}>Log Off SRS</P>
+        <BtnArrow>
+          <FontAwesomeIcon onClick={Toggle} icon={isOpen ? faBarsStaggered : faBars } />
+        </BtnArrow>
+      </DivLogo>
+      <HeaderLogoff
+        className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
+        style={{ width: isOpen ? "84%" : "94%" }}
+      >
+        <HeaderName className="navbar-user">
+          Hi, <span> {Name} </span>{" "}
+        </HeaderName>
+        <Notifycation></Notifycation>
+        <Dropdown>
+          <DropdownLogo>
+            <Dropdown.Toggle
+              className="droplogo"
+              variant="success"
+              id="dropdown-basic"
+            >
+              <HeaderAvatar>
+                {Avatar ? (
+                  <StImg className="avatar" src={Avatar} />
+                ) : (
+                  <StImg className="avatar" src={avatarnull} />
+                )}
+              </HeaderAvatar>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <StyleLink to="/change-password">
+                <Dropdown.Item className="content" href="#/action-1">
+                  <ResetImg src={resetpassword} />
+                  Change Password
+                </Dropdown.Item>
+              </StyleLink>
+              <StyleLink to="/my-profile">
+                <Dropdown.Item className="content" href="#/action-2">
+                  <ResetImg src={profile} />
+                  My Profile
+                </Dropdown.Item>
+              </StyleLink>
+              <Dropdown.Item className="content" href="#/action-3">
+                <Back onClick={() => logout()}>
+                  <ResetImg src={shutdown} />
+                  Logout
+                </Back>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </DropdownLogo>
+        </Dropdown>
+      </HeaderLogoff>
     </HeaderRow>
   );
 };

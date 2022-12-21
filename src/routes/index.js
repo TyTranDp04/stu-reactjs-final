@@ -10,7 +10,7 @@ import Management from "../views/AdminPage/UserPage";
 import MyProfilePage from "../views/MyProfilePage";
 import UserGroupPage from "../views/UserGroupPage";
 import ChangePasswordPage from "../views/ChangePasswordPage";
-import Page404 from "../views/page-404";
+import Page404 from "../views/Page404";
 
 const Wrapper = ({ children }) => {
   const location = useLocation();

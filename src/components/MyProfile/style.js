@@ -105,7 +105,7 @@ export const Clearfix = styled.div`
     display: table;
   }
   .swal2-styled.swal2-confirm {
-    background-color: #8000ff;
+    background-color: #8000ff;  
   }
 `;
 export const Cancel = styled.div`
