@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.my-modal{
+  max-width: 800px;
+}
+.modal__request{
+  background-color: rgba(60, 60, 60, 0.5)
+
+  ;
+}

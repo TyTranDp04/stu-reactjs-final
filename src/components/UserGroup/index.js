@@ -14,6 +14,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import ModalAddUserGroup from './AddUserGroup';
 import ModalAddGroup from './ModalAddGroup';
+import AvatarDefault  from '../../assets/images/avatar-default.jpg'
 
 
 function UserGroup(props) {
@@ -161,15 +162,15 @@ function UserGroup(props) {
                         <Td onClick={() => handleShowDetail(e)} style={{ display: 'flex' }}>
                           {
                             dataUser?.map((user, id) => (
-                              user.GroupId.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
+                              user?.GroupId?.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
                                 <OverlayTrigger
                               overlay={
                                 <Tooltip>
-                                {user.Name}
+                                {user?.Name}
                                 </Tooltip>
                               }
                             >
-                                <Avatar src={user.Avatar}></Avatar>
+                                <Avatar src={user?.Avatar?user?.Avatar:AvatarDefault}></Avatar>
                             </OverlayTrigger>
                               </User> : ''
                             ))
@@ -179,15 +180,15 @@ function UserGroup(props) {
                           <TdContent>
                             {
                               dataUser?.map((user, id) => (
-                                user.GroupId.includes(e._id) && user.RoleId === "2" ? <User key={id}>
+                                user?.GroupId?.includes(e._id) && user?.RoleId === "2" ? <User key={id}>
                                   <OverlayTrigger
                               overlay={
                                 <Tooltip>
-                                {user.Name}
+                                {user?.Name}
                                 </Tooltip>
                               }
                             >
-                                  <Avatar src={user.Avatar}></Avatar>
+                                  <Avatar src={user?.Avatar?user?.Avatar:AvatarDefault}></Avatar>
                             </OverlayTrigger>
                                 </User> : ''
                               ))
@@ -238,8 +239,8 @@ function UserGroup(props) {
               <MemberContainer>
                 {
                   dataUser?.map((user, id) => (
-                    user.GroupId.includes(dataDetail._id) && user.RoleId === "2" ? <MemberInfo key={id}>
-                      <Icon alt={user?.Name} src={user?.Avatar}></Icon>
+                    user?.GroupId?.includes(dataDetail._id) && user?.RoleId === "2" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar?user?.Avatar:AvatarDefault}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
                         userInfo?.data?.user?.RoleId ==="3"?
@@ -258,8 +259,8 @@ function UserGroup(props) {
               <MemberContainer>
                 {
                   dataUser?.map((user, id) => (
-                    user.GroupId.includes(dataDetail._id) && user.RoleId === "1" ? <MemberInfo key={id}>
-                      <Icon alt={user?.Name} src={user?.Avatar}></Icon>
+                    user?.GroupId.includes(dataDetail._id) && user?.RoleId === "1" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar?user?.Avatar:AvatarDefault}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
                          userInfo?.data?.user?.RoleId !=="1" && user.RoleId === "1"?

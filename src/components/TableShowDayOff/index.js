@@ -20,9 +20,10 @@ import {
 import { URL_API } from '../../api/dayoff.api';
 import DotStatus from '../TableDayOff/DotStatus';
 import TimeDayOff from '../TableDayOff/TimeDayOff';
-import { FormSearch, ButtonSearchDayOff } from '../TableDayOff/style';
+import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { totalDay } from '../../constants/dayoff';
+import ReactDatePicker from 'react-datepicker';
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
   const [dataDayOff, setDataDayOff] = useState()
@@ -32,7 +33,8 @@ const TableShowDayOff = (props) => {
   const [dataDetail, setDataDetail] = useState()
   const [showDetail, setShowDetail] = useState(false)
   const [dataAllUser, setDataAllUser] = useState()
-
+  const [dataSearch, setDataSearch] = useState()
+  const [dataFilterSearch, setDataFilterSearch] = useState()
   const dataUser = userInfo?.data?.user
   const idMaster = data?.idMaster
   const formData = {
@@ -51,6 +53,7 @@ const TableShowDayOff = (props) => {
           newData[data?.length - index - 1] = e
         ))
         setData(newData)
+        setDataFilterSearch(newData)
       }
 
       )
@@ -99,10 +102,27 @@ const TableShowDayOff = (props) => {
     await Axios.get(urlGetDataUser)
       .then(res => setDataAllUser(res?.data))
   }
-  useEffect(()=>{
+  useEffect(() => {
     getDataUser()
-  },[])
-  
+  }, [])
+  function handleSearch(e) {
+    setDataSearch(e)
+  }
+  function clearSearch() {
+    setDataSearch(null)
+    setDataDayOff(dataFilterSearch)
+  }
+  function totalDay(dataSearch, DayOffFrom) {
+    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
+    return time
+  }
+  function searchDayOff() {
+    const newData = dataFilterSearch?.filter(function (e) {
+      return (totalDay(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalDay(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalDay(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalDay(dataSearch, new Date(e?.DayOffTo)) >= 0);
+    })
+    setDataDayOff(newData)
+    console.log(newData)
+  }
   return (
     <Main id="site-main">
       {
@@ -129,8 +149,12 @@ const TableShowDayOff = (props) => {
                 </ButtonAddDayOff>
               </BoxNav>
               <FormSearch>
-                <InputSearch type="search" placeholder="Search day off..." aria-label="Search" />
-                <ButtonSearchDayOff type="submit">
+                <SearchHeaderText>Filter by:</SearchHeaderText>
+                <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
+                <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
+                  <FontAwesomeIcon style={{ color: '#8000FF', }} icon={faXmark} />
+                </ButtonSearchDayOff>
+                <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
                   <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
                 </ButtonSearchDayOff>
               </FormSearch>
