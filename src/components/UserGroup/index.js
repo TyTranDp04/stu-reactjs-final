@@ -1,11 +1,11 @@
 import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import Table from 'react-bootstrap/Table';
-import Swal from "sweetalert2";
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Table from 'react-bootstrap/Table';
 import { useSelector } from 'react-redux';
+import Swal from "sweetalert2";
 import ModalAddUserGroup from './AddUserGroup';
 import ModalAddGroup from './ModalAddGroup';
 import {
@@ -53,22 +53,22 @@ function UserGroup(props) {
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-      .catch(err => {})
+      .catch(err => { })
   }
   async function getDataGroup() {
     await axios.get(urlGetGroup)
       .then(res => {
         const dataApiGroup = res?.data?.data
-        switch (userInfo?.data?.user?.RoleId) {
+        switch (userInfo?.data?.RoleId) {
           case "1":
             const data = dataApiGroup.filter(function (e) {
-              return userInfo?.data?.user?.GroupId.includes(e._id)
+              return userInfo?.data?.GroupId.includes(e._id)
             })
             setDataGroup(data)
             break;
           case "2":
             const dataMaster = dataApiGroup.filter(function (e) {
-              return userInfo?.data?.user?.GroupId.includes(e._id)
+              return userInfo?.data?.GroupId.includes(e._id)
             })
             setDataGroup(dataMaster)
             break;
@@ -80,7 +80,7 @@ function UserGroup(props) {
 
         }
       })
-      .catch(err => {})
+      .catch(err => { })
   }
 
   async function deleteUserGroup(UserId, GroupId) {
@@ -98,12 +98,12 @@ function UserGroup(props) {
         })
         setCallApiGroup(!callApiGroup)
       })
-      .catch(err => {})
+      .catch(err => { })
   }
 
   function handleShowDetail(group) {
-      setDataDetail(group)
-      setShowDetail(false)
+    setDataDetail(group)
+    setShowDetail(false)
   }
   function handleDeleteUser(UserId, GroupId) {
     Swal.fire({
@@ -156,7 +156,7 @@ function UserGroup(props) {
           <Group>
             <Header>
               {
-                userInfo?.data?.user?.RoleId === "3" ?
+                userInfo?.data?.RoleId === "3" ?
                   <BtnAddGroup onClick={() => setShowAddNewGroup(true)}>+ New Group</BtnAddGroup> : ''
               }
               <ModalAddGroup dataGroup={dataGroup} handle={{ callApiGroup, setCallApiGroup, setShowAddNewGroup }} show={showAddNewGroup}></ModalAddGroup>
@@ -169,7 +169,7 @@ function UserGroup(props) {
                     <Th>Member(s)</Th>
                     <Th>Master(s)</Th>
                     {
-                      userInfo?.data?.user?.RoleId === "3" ?
+                      userInfo?.data?.RoleId === "3" ?
                         <Th>Action</Th> : ''
                     }
                   </Tr>
@@ -184,14 +184,14 @@ function UserGroup(props) {
                             dataUser?.map((user, id) => (
                               user.GroupId.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
                                 <OverlayTrigger
-                              overlay={
-                                <Tooltip>
-                                {user.Name}
-                                </Tooltip>
-                              }
-                            >
-                                <Avatar src={user.Avatar}></Avatar>
-                            </OverlayTrigger>
+                                  overlay={
+                                    <Tooltip>
+                                      {user.Name}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <Avatar src={user.Avatar}></Avatar>
+                                </OverlayTrigger>
                               </User> : ''
                             ))
                           }
@@ -202,28 +202,28 @@ function UserGroup(props) {
                               dataUser?.map((user, id) => (
                                 user.GroupId.includes(e._id) && user.RoleId === "2" ? <User key={id}>
                                   <OverlayTrigger
-                              overlay={
-                                <Tooltip>
-                                {user.Name}
-                                </Tooltip>
-                              }
-                            >
-                                  <Avatar src={user.Avatar}></Avatar>
-                            </OverlayTrigger>
+                                    overlay={
+                                      <Tooltip>
+                                        {user.Name}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <Avatar src={user.Avatar}></Avatar>
+                                  </OverlayTrigger>
                                 </User> : ''
                               ))
                             }
                           </TdContent>
                         </Td>
                         {
-                          userInfo?.data?.user?.RoleId === "3" ?
+                          userInfo?.data?.RoleId === "3" ?
                             <Td>
                               <TdContent>
-                          
+
                                 <BtnDeleteGroup onClick={() => handleDeleteGroup(e?._id)}>Delete</BtnDeleteGroup>
 
                               </TdContent>
-                            </Td>:''
+                            </Td> : ''
                         }
                       </Tr>
                     ))
@@ -245,8 +245,8 @@ function UserGroup(props) {
                     Back
                   </BtnAddGroup>
                   {
-                    userInfo?.data?.user?.RoleId === "1" ?'':
-                  <BtnAddGroup onClick={() => setShowAddUserGroup(true)}>+ New User</BtnAddGroup>
+                    userInfo?.data?.RoleId === "1" ? '' :
+                      <BtnAddGroup onClick={() => setShowAddUserGroup(true)}>+ New User</BtnAddGroup>
                   }
                   <ModalAddUserGroup group={dataDetail} show={showAddUserGroup} handle={{ setShowAddUserGroup, showAddUserGroup, callApiGroup, setCallApiGroup }}></ModalAddUserGroup>
                 </BtnContainer>
@@ -254,7 +254,7 @@ function UserGroup(props) {
             </Header>
             <Name>
               <NameText>Name</NameText>
-              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"Staff":userInfo?.data?.user?.RoleId === "2"?'Manager':'Admin'}</NameTitle>
+              <NameTitle>{userInfo?.data?.RoleId === "1" ? "Staff" : userInfo?.data?.RoleId === "2" ? 'Manager' : 'Admin'}</NameTitle>
             </Name>
             <Master>
               <NameText>Master</NameText>
@@ -265,12 +265,12 @@ function UserGroup(props) {
                       <Icon alt={user?.Name} src={user?.Avatar}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
-                        userInfo?.data?.user?.RoleId ==="3"?
-                        <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
-                          <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
-                        </BtnDelete>:''
+                        userInfo?.data?.RoleId === "3" ?
+                          <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                            <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                          </BtnDelete> : ''
                       }
-                      
+
                     </MemberInfo> : ''
                   ))
                 }
@@ -285,12 +285,12 @@ function UserGroup(props) {
                       <Icon alt={user?.Name} src={user?.Avatar}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
-                         userInfo?.data?.user?.RoleId !=="1" && user.RoleId === "1"?
-                         <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
-                         <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
-                       </BtnDelete>:''
+                        userInfo?.data?.RoleId !== "1" && user.RoleId === "1" ?
+                          <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                            <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                          </BtnDelete> : ''
                       }
-                     
+
                     </MemberInfo> : ''
                   ))
                 }

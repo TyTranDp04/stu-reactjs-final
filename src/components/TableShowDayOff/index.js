@@ -32,7 +32,7 @@ const TableShowDayOff = (props) => {
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApiTable, setCallApiTable] = useState(false)
   const [typeFilter, setTypeFilter] = useState('all')
-  const dataUser = userInfo?.data?.user
+  const dataUser = userInfo?.data
   const formData = {
     UserId: dataUser?.id,
     RoleId: dataUser?.RoleId,

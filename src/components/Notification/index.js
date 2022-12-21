@@ -33,7 +33,7 @@ const Notifycation = (props) => {
   const [inverseData, setInverseData] = useState(false)
 
   useEffect(() => {
-    setDataUser(userInfo?.data?.user)
+    setDataUser(userInfo?.data)
   }, [userInfo])
   const urlGetDayOff = URL_API + "/notification/" + dataUser?.id
   async function getDataDayOff() {

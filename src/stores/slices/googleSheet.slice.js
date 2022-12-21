@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 
 const initialState = {
@@ -43,12 +44,16 @@ const googleSheetSlice = createSlice({
       state.googleSheetState = {
         ...state.googleSheetState,
         loading: false,
+        data: null,
       }
     },
     updateGoogleSheetActionFailed(state, action) {
+      const data = action.payload;
       state.googleSheetState = {
         ...state.googleSheetState,
         loading: false,
+        error: toast.error(action.payload),
+        data,
       }
     },
 

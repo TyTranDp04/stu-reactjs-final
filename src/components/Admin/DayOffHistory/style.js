@@ -9,7 +9,7 @@ const rotate = keyframes`
   }
 `;
 export const DayOffHistoryExportButton = styled.div`
-  
+  width: 100%;
 `
 export const DayOffHistoryExportLoading = styled.div`
   animation: ${rotate} 2s linear infinite;

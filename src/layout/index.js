@@ -15,11 +15,10 @@ const Layout = ({ children, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userGoogle = userInfo?.data?.email;
-  const user = userInfo?.data?.user?.Gmail;
-  const lengthPass = userInfo?.data?.user?.Password?.length;
+  const user = userInfo?.data?.Gmail;
+  const lengthPass = userInfo?.data?.Password?.length;
 
-  const userRoleId = userInfo?.data?.user?.RoleId;
+  const userRoleId = userInfo?.data?.RoleId;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
@@ -29,12 +28,12 @@ const Layout = ({ children, title }) => {
   }, [dispatch]);
   
   useEffect(() => {
-    if (!user && !userGoogle) {
+    if (!user) {
       navigate('/login');
     } else if (lengthPass < 8) {
       navigate('/change-password');
     }
-  }, [user, userGoogle, lengthPass, navigate]);
+  }, [user, lengthPass, navigate]);
 
   return (
     <ContainerFluid className="container-fluid">

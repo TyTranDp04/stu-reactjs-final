@@ -3,12 +3,13 @@ import { gapi } from 'gapi-script'
 import React, { useEffect } from "react"
 import { GoogleLogin } from 'react-google-login'
 import { useForm } from "react-hook-form"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import * as yup from "yup"
 import stlogo from '../../assets/images/power_red.svg'
 import { loginAction, loginGoogleActionFailed, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
 import { Button, Container, ForgotPass, ForgotPassH4, Form, FormHeader, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
+import { getListDpManagementAction } from '../../stores/slices/ManagementUser.slice'
 
 const schema = yup.object().shape({
   Gmail: yup.string()
@@ -18,6 +19,7 @@ const schema = yup.object().shape({
 }).required();
 
 const Login = () => {
+  const dpManagement = useSelector(state => state.dpManagement.dpManagementState);
   const dispatch = useDispatch();
   const {
     register,
@@ -31,6 +33,11 @@ const Login = () => {
 
   const clientId = '432304146543-6865d8t8d9m7g4isuakferb1t5dujqma.apps.googleusercontent.com';
 
+  const data = dpManagement?.data;
+  useEffect(() => {
+    dispatch(getListDpManagementAction());
+  }, [dispatch]);
+
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -42,11 +49,15 @@ const Login = () => {
   }, []);
 
   const onSuccess = (res) => {
-    let account = res.profileObj.email.includes('@devplus.edu.vn');
-    if (account) {
-      dispatch(loginGoogleActionSuccess(res.profileObj))
+    let account = res.profileObj.email;
+    const validAccount = data?.find(item => item.Gmail === account);
+    const customAccount = {
+      ...validAccount,
+      id: validAccount?._id,
+    }
+    if (validAccount) {
+      dispatch(loginGoogleActionSuccess(customAccount))
     } else {
-      // alert('Login failed, Your account must include "...@devplus.edu.vn"');
       dispatch(loginGoogleActionFailed("Your account is invalid !!!"))
     }
   };
@@ -88,7 +99,6 @@ const Login = () => {
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
-          // isSignedIn={true}
           />
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}

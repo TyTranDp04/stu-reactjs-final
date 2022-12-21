@@ -12,7 +12,7 @@ function* getListRoleId(action) {
       getListRoleIdSuccess(roleIdData)
     );
   } catch (e) {
-    getListRoleIdFailed(e)
+    getListRoleIdFailed(e.response.data)
   }
 }
 

@@ -6,25 +6,21 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { updateAvata } from "../../stores/slices/user.slice";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 import imgnull from "../../assets/images/trend-avatar-1.jpg";
+import { DayOffHistoryCol } from "../Admin/DayOffHistory/style";
+import { Cancel, Clearfix, Input, Signupbtn, SubmitDiv } from "../ChangePassword/style";
 import { TextRed } from "../Login/style.js";
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  BtnImgRemove,
-  Cancel,
-  Clearfix,
   Container,
   H1,
-  IconRemove,
   ImgContent,
   ImgPreview,
   ImgPreviewItem,
-  Input,
   NameGroup,
-  Signupbtn,
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
@@ -35,11 +31,10 @@ const schema = yup.object().shape({
 
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
-
   const [data, setData] = useState();
 
   const form = document.getElementById("form");
-  const ID = userInfo?.data?.user?.id;
+  const ID = userInfo?.data?.id;
   const EGmail = data?.Gmail;
   const fullname = data?.Name;
   const avatar = data?.Avatar;
@@ -60,10 +55,6 @@ const MyProfile = () => {
   useEffect(() => {
     setSelectedImage(avatar);
   }, [avatar]);
-
-  const removeSelectedImage = () => {
-    setSelectedImage("");
-  };
 
   const {
     register,
@@ -152,7 +143,7 @@ const MyProfile = () => {
           },
           willClose: () => {
             clearInterval(timerInterval);
-          } ,
+          },
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
           }
@@ -188,7 +179,7 @@ const MyProfile = () => {
   });
 
   return (
-    <div className="col-sm-9">
+    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
       <form id="form" onSubmit={handleSubmit(onSubmit)}>
         <Container className="container">
           <H1>MY PROFILE</H1>
@@ -260,15 +251,8 @@ const MyProfile = () => {
                         className="img__preview-image"
                         onClick={() => addImgHandle()}
                         src={selectedImage}
-                        alt="Image Preview" 
+                        alt="Image Preview"
                       />
-                      {/* <BtnImgRemove
-                        onClick={() => removeSelectedImage()}
-                        className="btn__remove-img"
-                      >
-                        <IconRemove className="fa-solid fa-xmark">
-                        </IconRemove>
-                      </BtnImgRemove> */}
                     </ImgContent>
                   ) : (
                     <ImgContent className="img__preview-content">
@@ -307,13 +291,11 @@ const MyProfile = () => {
             </div>
           </div>
           <Clearfix>
-            <Signupbtn className="submit" type="submit">
-              Update
-            </Signupbtn>
+            <SubmitDiv>
+              <Signupbtn className="submit" type="submit">Update</Signupbtn>
+            </SubmitDiv>
             <Cancel className="submit">
-              <Link className="linkcanel" to={"/"}>
-                Cancel
-              </Link>
+              <Link className="linkcanel" to={"/"}>Cancel</Link>
             </Cancel>
           </Clearfix>
           <ToastContainer
@@ -322,7 +304,7 @@ const MyProfile = () => {
           />
         </Container>
       </form>
-    </div>
+    </DayOffHistoryCol>
   );
 };
 export default MyProfile;

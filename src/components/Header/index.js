@@ -10,27 +10,27 @@ import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
+import { SidebarDesc } from "../Sidebar/style";
 import {
-  DropdownLogo,
   HeaderAvatar,
   HeaderBg,
-  HeaderInner,
+  HeaderDropdown,
+  HeaderDropdownImg,
+  HeaderDropdownInner,
   HeaderLogo,
   HeaderLogoInner,
   HeaderLogoWrapper,
   HeaderLogoff,
-  HeaderName,
   HeaderRow,
-  HeaderWrapper,
-  ResetImg,
-  StImg
+  StImg,
+  StyleLink
 } from "./style";
 
 const Header = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const dispatch = useDispatch();
-  const Name = userInfo.data?.user?.Name;
-  const Avatar = userInfo.data?.user?.Avatar;
+  const Name = userInfo?.data?.Name;
+  const Avatar = userInfo?.data?.Avatar;
   const logout = () => {
     Swal.fire({
       title: "Log out?",
@@ -53,52 +53,52 @@ const Header = () => {
   return (
     <HeaderRow className="row">
       <HeaderBg className="col-sm-12"></HeaderBg>
-      <HeaderWrapper className="container-fluid">
-        <HeaderInner className="row">
-          <HeaderLogo className="col-sm-3 col-lg-2">
-            <HeaderLogoWrapper>
-              <HeaderLogoInner><Link to="/"><StImg src={logo} /></Link></HeaderLogoInner>
-            </HeaderLogoWrapper>
-          </HeaderLogo>
-          <HeaderLogoff className="col-sm-9 col-lg-10">
-            <HeaderName className="navbar-user">
-              Hi, <span> {Name} </span>{" "}
-            </HeaderName>
-            <Notifycation></Notifycation>
-            <Dropdown>
-              <DropdownLogo>
-                <Dropdown.Toggle
-                  className="droplogo"
-                  variant="success"
-                  id="dropdown-basic"
-                >
-                  <HeaderAvatar>
-                    {Avatar ? (
-                      <StImg className="avatar" src={Avatar} />
-                    ) : (
-                      <StImg className="avatar" src={avatarnull} />
-                    )}
-                  </HeaderAvatar>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item className="content" href="/change-password">
-                    <ResetImg src={resetpassword} />
-                    Change Password
-                  </Dropdown.Item>
-                  <Dropdown.Item className="content" href="/my-profile">
-                    <ResetImg src={profile} />
-                    My Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item className="content" onClick={() => logout()}>
-                    <ResetImg src={shutdown} />
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </DropdownLogo>
-            </Dropdown>
-          </HeaderLogoff>
-        </HeaderInner>
-      </HeaderWrapper>
+      <HeaderLogo className="col-sm-3 col-lg-2">
+        <HeaderLogoWrapper>
+          <HeaderLogoInner><Link to="/"><StImg src={logo} /></Link></HeaderLogoInner>
+        </HeaderLogoWrapper>
+      </HeaderLogo>
+      <HeaderLogoff className="col-sm-9 col-lg-10">
+        <Dropdown>
+          <div>
+            <Dropdown.Toggle>
+              <HeaderAvatar>
+                {Avatar ? (
+                  <StImg className="avatar" src={Avatar} />
+                ) : (
+                  <StImg className="avatar" src={avatarnull} />
+                )}
+              </HeaderAvatar>
+            </Dropdown.Toggle>
+          </div>
+          <Notifycation />
+          <SidebarDesc className="header-name">
+            Hi, {Name}
+          </SidebarDesc>
+          <HeaderDropdown>
+            <Dropdown.Menu>
+              <StyleLink to="/change-password">
+                <HeaderDropdownInner>
+                  <HeaderDropdownImg><StImg src={resetpassword} /></HeaderDropdownImg>
+                  <SidebarDesc>Change Password</SidebarDesc>
+                </HeaderDropdownInner>
+              </StyleLink>
+              <StyleLink to="/my-profile">
+                <HeaderDropdownInner>
+                  <HeaderDropdownImg><StImg src={profile} /></HeaderDropdownImg>
+                  <SidebarDesc>My Profile</SidebarDesc>
+                </HeaderDropdownInner>
+              </StyleLink>
+              <StyleLink onClick={() => logout()}>
+                <HeaderDropdownInner>
+                  <HeaderDropdownImg><StImg src={shutdown} /></HeaderDropdownImg>
+                  <SidebarDesc>Logout</SidebarDesc>
+                </HeaderDropdownInner>
+              </StyleLink>
+            </Dropdown.Menu>
+          </HeaderDropdown>
+        </Dropdown>
+      </HeaderLogoff>
     </HeaderRow>
   );
 };
