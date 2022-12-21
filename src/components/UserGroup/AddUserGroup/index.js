@@ -87,7 +87,7 @@ const ModalAddUserGroup = (props) => {
           icon: 'success',
           title: 'Add success',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         })
         setCallApiGroup(!callApiGroup)
         setShowAddUserGroup(false)
@@ -113,12 +113,19 @@ const ModalAddUserGroup = (props) => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+        confirmButtonColor: '#8000ff',
+
     }).then((result) => {
       if (result.isConfirmed) {
         addUserGroup()
         reset();
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }

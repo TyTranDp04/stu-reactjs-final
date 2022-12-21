@@ -1,6 +1,6 @@
 import { HeaderH4, H4, StatusContent } from "../components/TableDayOff/DetailDayOff/style";
 import moment from 'moment/moment';
-
+import React from 'react'
 
 export const checkTypeRequest = (Type, Name, secsion) => {
   switch (Type) {
@@ -67,24 +67,54 @@ export const formatDate = (date) => {
   return newDate
 }
 
+
 export const checkSameDay = (data, DayOffFrom, DayOffTo) => {
   const from = (From) => { 
-    const quantity = Math.floor(((new Date(From) - DayOffFrom) / 360 / 24 / 10000) + 1) 
+    const quantity = Math.floor(((new Date(From) - DayOffFrom) / 360 / 24 / 10000)) 
     return quantity
   }
   const to = (To) => { 
-    const quantity = Math.floor(((new Date(To) - DayOffTo) / 360 / 24 / 10000) + 1) 
+    const quantity = Math.floor(((new Date(To) - DayOffTo) / 360 / 24 / 10000) ) 
     return quantity
   }
-  for(var i = 0; i< data?.length; i++) {
-    if(from(data[i]?.DayOffFrom) === 1 || to(data[i]?.DayOffTo) === 1){
-      return true;
-    }else{
+  const fromto = (From) => { 
+    const quantity = Math.floor(((new Date(From) - DayOffTo) / 360 / 24 / 10000) ) 
+    return quantity
+  }
+  const tofrom = (To) => { 
+    const quantity = Math.floor(((new Date(To) - DayOffFrom) / 360 / 24 / 10000) ) 
+    return quantity
+  }
+  let status = false;
+  for(var i = 0; i <= data?.length -1; i++) {
+    if(from(data[i]?.DayOffFrom) === 0 ||to(data[i]?.DayOffTo) === 0 ||fromto(data[i]?.DayOffFrom) === 0 ||tofrom(data[i]?.DayOffTo) === 0){
+      status = true
+      break;
     }
   }
-  return false;
+  return status;
+}
+export const  countDate = (From, To) => {
+    const time = (((From - To) / 360 / 24 / 10000) + 1)
+   return Math.floor(time)
 }
 
-export const rederDate = (From, To) =>{
-  
+export const checkHoliday = (data, DayForm, DayTo)=>{
+
+  const from = (From) => { 
+    const quantity = Math.floor(((new Date(From) - DayForm) / 360 / 24 / 10000) ) 
+    return quantity
+  }
+  const to = (To) => { 
+    const quantity = Math.floor(((new Date(To) -  DayTo) / 360 / 24 / 10000) ) 
+    return quantity
+  }
+  let status = false
+  for(var i = 0; i <= data?.length -1; i++) {
+    if(from(data[i]) === 0 || to(data[i]) === 0){
+      status = true
+      break;
+    }
+  }
+  return status
 }

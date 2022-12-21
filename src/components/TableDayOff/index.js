@@ -28,8 +28,9 @@ import ActionMaster from './ActionMaster';
 import ModalAddData from './ModalAddData';
 import { URL_API } from '../../api/dayoff.api';
 import ModalUpdateData from './ModalUpdateData';
-import {totalDay } from '../../constants/dayoff';
+import { totalDay } from '../../constants/dayoff';
 import ReactDatePicker from "react-datepicker";
+import ShowNodata from './ShowNodata';
 
 const TableDayOff = (props) => {
   const [data, setData] = useState()
@@ -60,7 +61,7 @@ const TableDayOff = (props) => {
       .then(res => {
         setData(res?.data)
       }
-        )
+      )
   }
   async function getDataUser() {
     const urlGetDataUser = URL_API + "/user"
@@ -97,16 +98,15 @@ const TableDayOff = (props) => {
     setDataSearch(null)
     setDataDayOff(dataFilterSearch)
   }
-  function totalDate (dataSearch, DayOffFrom){
-    const time = ((( dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
+  function totalDate(dataSearch, DayOffFrom) {
+    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
     return time
   }
   function searchDayOff() {
-      const newData= dataFilterSearch?.filter(function(e){
-        return (totalDate(dataSearch ,new Date(e?.DayOffFrom)) <= 1 && totalDate(dataSearch ,new Date(e?.DayOffFrom)) >= 0) || (totalDate(dataSearch ,new Date(e?.DayOffTo)) <= 1 && totalDate(dataSearch ,new Date(e?.DayOffTo)) >= 0) ;
-      })
-      setDataDayOff(newData)
-      console.log(newData)
+    const newData = dataFilterSearch?.filter(function (e) {
+      return (totalDate(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalDate(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffTo)) >= 0);
+    })
+    setDataDayOff(newData)
   }
   return (
     <Main id="site-main">
@@ -133,6 +133,8 @@ const TableDayOff = (props) => {
               </ButtonSearchDayOff>
             </FormSearch>
           </BoxHeader>
+
+
           <FormData action="/" method="POST">
             <TableScroll>
               <Table striped bordered hover>
@@ -163,6 +165,7 @@ const TableDayOff = (props) => {
                     }
                   </TrHead>
                 </Thead>
+
                 <Tbody >
                   {
                     dataDayOff?.map((e, index) => (
@@ -220,6 +223,9 @@ const TableDayOff = (props) => {
                   }
                 </Tbody>
               </Table>
+              {dataDayOff?.length === 0 ?
+                  < ShowNodata ></ShowNodata> :''
+              }
             </TableScroll>
           </FormData>
           <ModalAddData user={formData} show={showModalAdd} handle={{ setShowModalAdd, setCallApiTable, callApiTable }}></ModalAddData>

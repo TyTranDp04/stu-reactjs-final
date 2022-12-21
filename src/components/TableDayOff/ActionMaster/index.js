@@ -32,11 +32,17 @@ const ActionMaster = (props) => {
             icon: 'success',
             title: 'Approve success',
             showConfirmButton: false,
-            timer: 1000
+            timer: 1000,
+
           })
           setCallApiTable(!callApiTable)
         } else {
-          Swal.fire("Error!", "", "error");
+          Swal.fire({
+            icon: 'error',
+            title: 'Cancel!',
+            showConfirmButton: false,
+            timer: 1000
+          })
         }
       })
   }
@@ -49,10 +55,19 @@ const ActionMaster = (props) => {
       confirmButtonText: "Approve",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
+
     }).then((result) => {
       if (result.isConfirmed) {
         Approve()
-      } else Swal.fire("Cancel", "", "error");
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
     });
   }
   function handleUpdate() {
@@ -78,7 +93,7 @@ const ActionMaster = (props) => {
         </Btn> : ''
       }
       {
-        data?.Status === 1 && data?.UserId === userId ? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
+        data?.Status === 1 && data?.UserId === userId ||  data?.Status === 5 && data?.UserId === userId ||  data?.Status === 4 && data?.UserId === userId? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
           <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faSquarePen} />
         </Btn> : ''
       }

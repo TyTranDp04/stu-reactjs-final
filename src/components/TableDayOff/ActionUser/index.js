@@ -23,7 +23,7 @@ const ActionUser = (props)=>{
     <div>
       <ModalRequestChange type={'revert'} data={data} formData={formData} handle={{ showRequestChange, setShowRequestChange, setCallApiTable, callApiTable }}></ModalRequestChange>
       {
-        data?.Status === 1 || data?.Status === 4?
+        data?.Status === 1 || data?.Status === 4 || data?.Status === 5?
           <Btn type='button' onClick={()=> handleUpdate()}>
             <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faSquarePen} />
           </Btn> : ''
