@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SidebarCol = styled.div`
   text-align: left;
-  height:92vh;
+  height:100vh;
   position:relative;
   display:flex;
   flex-direction: column;

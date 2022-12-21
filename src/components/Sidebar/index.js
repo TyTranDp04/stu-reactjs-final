@@ -52,12 +52,12 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
               }
             >
               <FontAwesomeIcon
-                style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                style={{ display: "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
                 icon={faTableList}
               />
             </OverlayTrigger>
             <SidebarCategory
-              style={{ display: userRoleId === "1" ? "none" : isOpen ? "inline-block" : "none" }}
+              style={{ display: isOpen ? "inline-block" : "none" }}
             >Day Off
             </SidebarCategory>
           </Dropdown.Toggle>
@@ -91,7 +91,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Menu>
         </Dropdown>
       </SidebarInner>
-      <SidebarInner style={{ height: isOpen ? "150px" : "40px" }}>
+      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : isOpen ? "150px" : "40px" }}>
         <Dropdown
           autoClose={isOpen ? "inside" : "outside"}
           className={isOpen ? "" : 'end'}
@@ -99,7 +99,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           style={{ border: "none" }}
         >
           <Dropdown.Toggle
-            style={{ backgroundColor: "#8000ff", border: "none" }}
+            style={{  display: userRoleId === "1" ? "none" : "inline-block", backgroundColor: "#8000ff", border: "none" }}
           >
             <OverlayTrigger
               overlay={

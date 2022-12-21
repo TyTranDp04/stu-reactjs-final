@@ -43,11 +43,13 @@ const ChangePassword = () => {
   const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
   const id = userInfo.data?.user?.id;
+ 
   let ChangePassword = data?.Password;
+  console.log("data",ChangePassword);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${id}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user-getone/${id}`;
     await axios
       .get(url)
       .then((res) => {
