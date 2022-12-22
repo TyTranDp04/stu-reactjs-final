@@ -44,7 +44,7 @@ const TableDayOff = (props) => {
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApiTable, setCallApiTable] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
-  const dataUser = userInfo?.data?.user
+  const dataUser = userInfo?.data;
   const idMaster = data?.idMaster
   const dayOffData = data?.data
   const [dataAllUser, setDataAllUser] = useState()

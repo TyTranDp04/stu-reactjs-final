@@ -1,30 +1,35 @@
-import Axios from 'axios'
-import React, { useState, useEffect } from 'react';
 import { faCheck, faClockRotateLeft, faList, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux'
-import "react-datepicker/dist/react-datepicker.css";
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import {
-  Main,
-  ContainerDefault,
-  BoxNav,
-  InputSearch,
-  FormData,
-  Thead,
-  Tbody,
-  Tr,
-  Th, BoxHeader, ButtonAddDayOff, TrHead, TableScroll, ThContent, Span,
-
-} from './style'
+import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux';
 import { URL_API } from '../../api/dayoff.api';
 import DotStatus from '../TableDayOff/DotStatus';
 import TimeDayOff from '../TableDayOff/TimeDayOff';
+import {
+  BoxHeader,
+  BoxNav,
+  ButtonAddDayOff,
+  ContainerDefault,
+  FormData,
+  Main,
+  Span,
+  TableScroll,
+  Tbody,
+  Th,
+  ThContent,
+  Thead,
+  Tr,
+  TrHead
+} from './style';
 import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { totalDay } from '../../constants/dayoff';
 import ReactDatePicker from 'react-datepicker';
 import ShowNodata from '../TableDayOff/ShowNodata';
+
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
   const [dataDayOff, setDataDayOff] = useState()
@@ -36,7 +41,7 @@ const TableShowDayOff = (props) => {
   const [dataAllUser, setDataAllUser] = useState()
   const [dataSearch, setDataSearch] = useState()
   const [dataFilterSearch, setDataFilterSearch] = useState()
-  const dataUser = userInfo?.data?.user
+  const dataUser = userInfo?.data
   const idMaster = data?.idMaster
   const formData = {
     UserId: dataUser?.id,

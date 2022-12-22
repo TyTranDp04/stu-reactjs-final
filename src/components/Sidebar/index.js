@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
-import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, SidebarCategoryGr, SidebarGroup } from './style'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useEffect, useState } from 'react'
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { SidebarCategory, SidebarCategoryGr, SidebarCol, SidebarDesc, SidebarGroup, SidebarInner } from './style'
 
-const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
-  const roleId = useSelector(state => state.roleId.roleIdState);
+const Sidebar = ({ isOpen, Toggle, setIsOpen, permission }) => {
   const userInfo = useSelector(state => state.users.userInfoState);
-  const dispatch = useDispatch()
-  const roleIdData = roleId?.data;
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
-  const permission = filterRoleId?.RoleName;
-  const [showItemSidebar, setShowItemSidebar] = useState(false)
+  const userRoleId = userInfo?.data?.RoleId;
+  
+  const [showItemSidebar,setShowItemSidebar] = useState(false)
   const handleItemSidebar = () => setShowItemSidebar(!showItemSidebar)
+
   useEffect(() => {
     setShowItemSidebar()
   }, [isOpen]);
+  
   const [showItemSidebar1, setShowItemSidebar1] = useState(false)
   const handleItemSidebar1 = () => setShowItemSidebar1(!showItemSidebar1)
+
   useEffect(() => {
     setShowItemSidebar1()
   }, [isOpen]);
-  useEffect(() => {
-    dispatch(getListRoleIdAction())
-  }, [dispatch]);
+
   const accountRouter = {
     daysoff: { name: "List", url: "/log-off", icon: faCalendar },
     requests: { name: "Requests", url: "/request-log-off", icon: faCodePullRequest },
@@ -75,9 +71,8 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "50px" }}
           >
             {Object.entries(accountRouter).map(([index, value]) =>
-              <Dropdown.Item
-              >
-                <SidebarDesc style={{ paddingLeft: isOpen ? "0px" : "40px" }} key={index}>
+              <Dropdown.Item key={index}>
+                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "40px"}}>
                   <OverlayTrigger
                     overlay={
                       <Tooltip>
@@ -93,10 +88,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
                       />
                     </Link>
                   </OverlayTrigger>
-                  <Link
-                    to={value.url}
-                  >{value.name}
-                  </Link>
+                  <Link to={value.url}>{value.name}</Link>
                 </SidebarDesc>
               </Dropdown.Item>)}
           </Dropdown.Menu>
@@ -136,9 +128,8 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "40px" }}
           >
             {Object.entries(managerRouter).map(([index, value]) =>
-              <Dropdown.Item>
-                <SidebarDesc style={{ paddingLeft: isOpen ? "0px" : "20px" }} key={index}
-                >
+              <Dropdown.Item key={index}>
+                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "20px"}}>
                   <OverlayTrigger
                     overlay={
                       <Tooltip>

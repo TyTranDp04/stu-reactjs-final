@@ -8,20 +8,19 @@ import Login from '../../components/Login/Login'
 
 const LoginPage = () => {
   const userInfo = useSelector(state => state.users.userInfoState);
-  const lengthPass = userInfo?.data?.user?.Password?.length;
-  const userGoogle = userInfo?.data?.email;
-  const user = userInfo?.data?.user?.Gmail;
+  const lengthPass = userInfo?.data?.Password?.length;
+  const user = userInfo?.data?.Gmail;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user && !userGoogle) {
+    if (!user) {
       navigate('/login');
     } else if (lengthPass < 8) {
       navigate('/change-password');
     } else {
       navigate('/');
     }
-  }, [user, userGoogle, lengthPass, navigate]);
+  }, [user, lengthPass, navigate]);
 
   return (
     <>
