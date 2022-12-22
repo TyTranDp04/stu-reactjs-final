@@ -7,9 +7,12 @@ height:25px;
 display:flex;
 justify-content:center;
 align-items:center;
-border-top:1px solid #D8D8D8;
-color:#686868;  
-background-color:#fff;
+    border-top:1px solid #D8D8D8;
+    color:#686868;  
+    background-color:#fff;
+    @media(max-width:996.5px){
+  width:76% !important;
+}
 @media(max-width:767.5px){
   width:100% !important;
   position:fixed;
@@ -24,6 +27,9 @@ background-color:#fff;
 `
 
 export const Row = styled.div`
+@media(max-width:996.5px){
+    width:24% !important;
+  }
 @media (max-width:767.5px){
   display:none;
 }

@@ -46,6 +46,9 @@ background-color: #8000ff;
   align-items: center;
   justify-content: center;
 }
+@media(max-width:996.5px){
+    width:24% !important;
+  }
 @media (max-width:767.5px){
   display:none;
 }
@@ -116,7 +119,9 @@ export const HeaderLogoff = styled.div`
   align-items: center;
   justify-content: flex-end;
   border-bottom:1px solid #8D8D8D;
-
+@media(max-width:996.5px){
+  width:76% !important;
+}
   @media (max-width:767.6px){
     background-color:#fff;
     width:100% !important;
