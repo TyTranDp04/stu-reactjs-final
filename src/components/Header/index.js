@@ -154,7 +154,7 @@ const Header = ({ Toggle, isOpen }) => {
           </DropdownLogo>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{padding:"0px"}} className="text-start">
+      <div style={{padding:"0px"}}>
         <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
         </Button>
