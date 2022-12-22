@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
-import {  SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, SidebarCategoryGr, SidebarGroup } from './style'
+import { SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, SidebarCategoryGr, SidebarGroup } from './style'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
@@ -15,12 +15,12 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
   const userRoleId = userInfo?.data?.user?.RoleId;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  const [showItemSidebar,setShowItemSidebar] = useState(false)
+  const [showItemSidebar, setShowItemSidebar] = useState(false)
   const handleItemSidebar = () => setShowItemSidebar(!showItemSidebar)
   useEffect(() => {
     setShowItemSidebar()
   }, [isOpen]);
-  const [showItemSidebar1,setShowItemSidebar1] = useState(false)
+  const [showItemSidebar1, setShowItemSidebar1] = useState(false)
   const handleItemSidebar1 = () => setShowItemSidebar1(!showItemSidebar1)
   useEffect(() => {
     setShowItemSidebar1()
@@ -42,16 +42,16 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
       style={{ width: isOpen ? "16%" : "7%" }}
       className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}
     >
-      <SidebarInner style={{ height: showItemSidebar ? "120px" : "20px", marginBottom:userRoleId === "1" ? "10px" : "30px"  }}>
+      <SidebarInner style={{ height: showItemSidebar ? "120px" : "20px", marginBottom: userRoleId === "1" ? "10px" : "30px" }}>
         <Dropdown
           autoClose={isOpen ? "inside" : "true"}
-          className={isOpen ? "" : 'end'} 
+          className={isOpen ? "" : 'end'}
           drop={isOpen ? "" : 'end'}
           style={{ border: "none", width: "100%" }}
-          onClick={isOpen? handleItemSidebar : "" }
+          onClick={isOpen ? handleItemSidebar : ""}
         >
           <Dropdown.Toggle
-            style={{ backgroundColor: "#8000ff", border: "none"}}
+            style={{ backgroundColor: "#8000ff", border: "none" }}
           >
             <OverlayTrigger
               overlay={
@@ -61,6 +61,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
               }
             >
               <FontAwesomeIcon
+                className="font-icon"
                 style={{ display: "inline-block", color: 'white', paddingRight: isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faTableList}
               />
@@ -71,12 +72,12 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             </SidebarCategory>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            style={{ backgroundColor: "#8000ff", border: "none",marginLeft: isOpen ? "0px" : "50px" }}
+            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "50px" }}
           >
             {Object.entries(accountRouter).map(([index, value]) =>
-              <Dropdown.Item 
-          >
-                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "40px"}} key={index}>
+              <Dropdown.Item
+              >
+                <SidebarDesc style={{ paddingLeft: isOpen ? "0px" : "40px" }} key={index}>
                   <OverlayTrigger
                     overlay={
                       <Tooltip>
@@ -86,6 +87,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
                   >
                     <Link to={value.url}>
                       <FontAwesomeIcon
+                        className="font-icon"
                         style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
                         icon={value.icon}
                       />
@@ -100,16 +102,16 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Menu>
         </Dropdown>
       </SidebarInner>
-      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : showItemSidebar1 ? "120px" : "20px" ,marginBottom:userRoleId === "1" && userRoleId === "2" ? "0px" : "30px"}}>
+      <SidebarInner style={{ height: userRoleId === "1" ? "0px" : showItemSidebar1 ? "120px" : "20px", marginBottom: userRoleId === "1" && userRoleId === "2" ? "0px" : "30px" }}>
         <Dropdown
           autoClose={isOpen ? "inside" : "outside"}
           className={isOpen ? "" : 'end'}
           drop={isOpen ? "" : 'end'}
           style={{ border: "none" }}
-          onClick={isOpen? handleItemSidebar1 : "" }
+          onClick={isOpen ? handleItemSidebar1 : ""}
         >
           <Dropdown.Toggle
-            style={{  display: userRoleId === "1" ? "none" : "inline-block", backgroundColor: "#8000ff", border: "none" }}
+            style={{ display: userRoleId === "1" ? "none" : "inline-block", backgroundColor: "#8000ff", border: "none" }}
           >
             <OverlayTrigger
               overlay={
@@ -119,6 +121,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
               }
             >
               <FontAwesomeIcon
+                className="font-icon"
                 style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faPeopleRoof}
               />
@@ -134,7 +137,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           >
             {Object.entries(managerRouter).map(([index, value]) =>
               <Dropdown.Item>
-                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "20px"}} key={index}
+                <SidebarDesc style={{ paddingLeft: isOpen ? "0px" : "20px" }} key={index}
                 >
                   <OverlayTrigger
                     overlay={
@@ -145,6 +148,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
                   >
                     <Link to={value.url}>
                       <FontAwesomeIcon
+                        className="font-icon"
                         style={{ display: value.displayIcon, color: 'white', paddingRight: "10px", fontSize: "20px" }}
                         icon={value.icon}
                       />
@@ -170,7 +174,8 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           >
             <Link to={"/user-group"}>
               <FontAwesomeIcon
-                style={{ color: 'white', paddingRight:isOpen ? "10px" : "0px", fontSize: "20px" }}
+                className="font-icon"
+                style={{ color: 'white', paddingRight: isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faPeopleGroup}
               />
             </Link>
