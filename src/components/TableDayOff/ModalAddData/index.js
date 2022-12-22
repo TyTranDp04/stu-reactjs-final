@@ -29,6 +29,7 @@ const ModalAddData = (props) => {
   const [quantity, setQuantity] = useState()
   const [currentQuantity, setCurrentQuantity] = useState(1)
   const [dataDayOff, setDataDayOff] = useState(1)
+  const [checked, setChecked] = useState(true)
   const [data, setData] = useState({
     UserId: user?.UserId,
     Name: user?.Name,
@@ -41,6 +42,8 @@ const ModalAddData = (props) => {
     newdata.DayOffTo = null
     setData(newdata)
     setQuantity(0)
+    setChecked(true)
+
   }
   function changeDate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
@@ -180,6 +183,12 @@ const ModalAddData = (props) => {
     const num = Number(e.target.value)
     newdata[e.target.name] = num
     setData(newdata)
+    if(num === 0){
+      setChecked(true)
+    }else{
+      setChecked(false)
+      
+    }
   }
   function handleOnChangeTime(e) {
     setDataTime(e.target.value)
@@ -257,9 +266,9 @@ const ModalAddData = (props) => {
         )}>
           <InPutContainer className="mb-6">
             <LableInput style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
-            <Form.Group style={{ display: 'flex', flexDirection: 'column' }}>
-              <Form.Check label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
-              <Form.Check label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
+            <Form.Group className='type__dayoff' style={{ display: 'flex', flexDirection: 'column' }}>
+              <Form.Check checked={checked} label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
+              <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
             </Form.Group>
           </InPutContainer>
           <InPutContainerFrom>

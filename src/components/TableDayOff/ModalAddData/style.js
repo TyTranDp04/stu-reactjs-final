@@ -52,7 +52,12 @@ const InPutContainer = styled.div`
     box-shadow: none;
     }
   }
-  
+  .type__dayoff{
+    input:checked{
+      background-color: #8000ff;
+      border-color: transparent;  
+    }
+  }
 `
 
 const LableInput = styled.label`

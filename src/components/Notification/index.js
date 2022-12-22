@@ -133,7 +133,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to="/request-log-off">
+                    <Link key={index} to={e?.Status === 1 || e?.Status === 4?"/request-log-off":"/log-off"}>
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {

@@ -9,7 +9,6 @@ import {
   Main,
   ContainerDefault,
   BoxNav,
-  InputSearch,
   FormData,
   Thead,
   Tbody,
@@ -125,125 +124,125 @@ const TableShowDayOff = (props) => {
   }
   return (
     <Main id="site-main">
-      {
-        !showDetail ?
-          <ContainerDefault >
-            <BoxHeader>
-              <BoxNav class="box-nav d-flex justify-between">
-                <Span>{dataDayOff?.length} Log-off</Span>
-                <ButtonAddDayOff onClick={() => setTypeFilter('all')}>
-                  <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faList} />
-                  {" All day off"}
-                </ButtonAddDayOff>
-                <ButtonAddDayOff onClick={() => setTypeFilter('approved')}>
-                  <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faCheck} />
-                  Approved day off
-                </ButtonAddDayOff>
-                <ButtonAddDayOff onClick={() => setTypeFilter('rejected')}>
-                  <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
-                  Rejected day off
-                </ButtonAddDayOff>
-                <ButtonAddDayOff onClick={() => setTypeFilter('reverted')}>
-                  <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
-                  Reverted day off
-                </ButtonAddDayOff>
-              </BoxNav>
-              <FormSearch>
-                <SearchHeaderText>Filter by:</SearchHeaderText>
-                <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
-                <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
-                  <FontAwesomeIcon style={{ color: '#8000FF', }} icon={faXmark} />
-                </ButtonSearchDayOff>
-                <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
-                  <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
-                </ButtonSearchDayOff>
-              </FormSearch>
-            </BoxHeader>
+      <ContainerDefault >
+        <BoxHeader>
+          <BoxNav class="box-nav d-flex justify-between">
+            <Span>{dataDayOff?.length} Log-off</Span>
+            <ButtonAddDayOff onClick={() => setTypeFilter('all')}>
+              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faList} />
+              {" All day off"}
+            </ButtonAddDayOff>
+            <ButtonAddDayOff onClick={() => setTypeFilter('approved')}>
+              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faCheck} />
+              Approved day off
+            </ButtonAddDayOff>
+            <ButtonAddDayOff onClick={() => setTypeFilter('rejected')}>
+              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+              Rejected day off
+            </ButtonAddDayOff>
+            <ButtonAddDayOff onClick={() => setTypeFilter('reverted')}>
+              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
+              Reverted day off
+            </ButtonAddDayOff>
+          </BoxNav>
+          <FormSearch>
+            <SearchHeaderText>Filter by:</SearchHeaderText>
+            <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
+            <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
+              <FontAwesomeIcon style={{ color: '#8000FF', }} icon={faXmark} />
+            </ButtonSearchDayOff>
+            <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
+              <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
+            </ButtonSearchDayOff>
+          </FormSearch>
+        </BoxHeader>
 
-            <FormData action="/" method="POST">
-              <TableScroll>
-                <Table striped bordered hover>
-                  <Thead class="thead-dark">
-                    <TrHead>
-                      <Th>
-                        <ThContent>#</ThContent>
-                      </Th>
-                      <Th>
-                        <ThContent>Request for date</ThContent>
-                      </Th>
-                      <Th>
-                        <ThContent>Quantity</ThContent>
-                      </Th>
-                      <Th>
-                        <ThContent>Requester</ThContent>
-                      </Th>
-                      <Th>
-                        <ThContent>Status</ThContent>
-                      </Th>
-                      <Th>
-                        <ThContent>Request date</ThContent>
-                      </Th>
-                    </TrHead>
-                  </Thead>
+        <FormData action="/" method="POST">
+          <TableScroll>
+            <Table striped bordered hover style={{ marginBottom: '0' }}>
+              <Thead class="thead-dark">
+                <TrHead>
+                  <Th>
+                    <ThContent>No</ThContent>
+                  </Th>
+                  <Th>
+                    <ThContent>Request for date</ThContent>
+                  </Th>
+                  <Th>
+                    <ThContent>Quantity</ThContent>
+                  </Th>
+                  <Th>
+                    <ThContent>Requester</ThContent>
+                  </Th>
+                  <Th>
+                    <ThContent>Status</ThContent>
+                  </Th>
+                  <Th>
+                    <ThContent>Request date</ThContent>
+                  </Th>
+                </TrHead>
+              </Thead>
 
-                  <Tbody >
-                    {
-                      dataDayOff?.map((e, index) => (
-                        e?.Status !== 1 && e?.Status !== 4 ?
-                          <Tr key={index} onClick={() => handleDetail(e)}>
-                            <Th style={{ padding: '12px 0', width: '50px' }} >
-                              <ThContent>
-                                {index + 1}
-                              </ThContent>
-                            </Th>
-                            <Th onClick={() => handleDetail(e)}>
-                              {e?.Quantity <= 1 ?
-                                <ThContent>
-                                  <TimeDayOff date={e.DayOffFrom}></TimeDayOff>
-                                </ThContent>
-                                : <ThContent>
-                                  <TimeDayOff date={e.DayOffFrom}></TimeDayOff> -
-                                  <TimeDayOff date={e.DayOffTo}></TimeDayOff>
-                                </ThContent>
-                              }
-                            </Th>
-                            <Th onClick={() => handleDetail(e)}>
-                              <ThContent>
-                                {e?.Quantity}
-                              </ThContent>
-                            </Th >
-                            <Th onClick={() => handleDetail(e)}>
-                              <ThContent>
-                                {e?.Name}
-                              </ThContent>
-                            </Th >
-                            <Th onClick={() => handleDetail(e)}>
-                              <ThContent>
-                                <DotStatus data={e} idMaster={idMaster} UserId={dataUser?.id}></DotStatus>
-                              </ThContent>
-                            </Th>
-                            <Th onClick={() => handleDetail(e)}>
-                              <ThContent>
-                                {
-                                  totalDay(e?.createdAt)
-                                }
-                              </ThContent>
-                            </Th >
-                          </Tr> : ''
-                      ))
-                    }
-                  </Tbody>
-
-                </Table>
+              <Tbody >
                 {
-                  dataDayOff?.length === 0 ?
-                    < ShowNodata ></ShowNodata> : ''
+                  dataDayOff?.map((e, index) => (
+                    e?.Status !== 1 && e?.Status !== 4 ?
+                      <Tr key={index} onClick={() => handleDetail(e)}>
+                        <Th style={{ padding: '12px 0', width: '50px' }} >
+                          <ThContent>
+                            {index + 1}
+                          </ThContent>
+                        </Th>
+                        <Th onClick={() => handleDetail(e)}>
+                          {e?.Quantity <= 1 ?
+                            <ThContent>
+                              <TimeDayOff date={e.DayOffFrom}></TimeDayOff>
+                            </ThContent>
+                            : <ThContent>
+                              <TimeDayOff date={e.DayOffFrom}></TimeDayOff> -
+                              <TimeDayOff date={e.DayOffTo}></TimeDayOff>
+                            </ThContent>
+                          }
+                        </Th>
+                        <Th onClick={() => handleDetail(e)}>
+                          <ThContent>
+                            {e?.Quantity}
+                          </ThContent>
+                        </Th >
+                        <Th onClick={() => handleDetail(e)}>
+                          <ThContent>
+                            {e?.Name}
+                          </ThContent>
+                        </Th >
+                        <Th onClick={() => handleDetail(e)}>
+                          <ThContent>
+                            <DotStatus data={e} idMaster={idMaster} UserId={dataUser?.id}></DotStatus>
+                          </ThContent>
+                        </Th>
+                        <Th onClick={() => handleDetail(e)}>
+                          <ThContent>
+                            {
+                              totalDay(e?.createdAt)
+                            }
+                          </ThContent>
+                        </Th >
+                      </Tr> : ''
+                  ))
                 }
-              </TableScroll>
-            </FormData>
-          </ContainerDefault>
-          : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
-      }
+              </Tbody>
+
+            </Table>
+            {
+              dataDayOff?.length === 0 ?
+                < ShowNodata ></ShowNodata> : ''
+            }
+          </TableScroll>
+        </FormData>
+        {
+          !showDetail ? ''
+            : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
+        }
+      </ContainerDefault>
     </Main >
   );
 }

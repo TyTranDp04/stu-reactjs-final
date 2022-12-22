@@ -5,7 +5,9 @@ export const Container = styled.tbody`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  border: 2px solid #ccc;
+  border-top: none;
+  height: 70px;
   svg{
     margin-bottom: 7px;
   }
@@ -13,5 +15,4 @@ export const Container = styled.tbody`
   export const H3 = styled.h3`
   font-size: 20px;
   font-weight: 500;
-  color: #ccc;
   `

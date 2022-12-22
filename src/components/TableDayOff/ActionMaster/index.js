@@ -93,7 +93,7 @@ const ActionMaster = (props) => {
         </Btn> : ''
       }
       {
-        data?.Status === 1 && data?.UserId === userId ||  data?.Status === 5 && data?.UserId === userId ||  data?.Status === 4 && data?.UserId === userId? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
+        (data?.Status === 1 && data?.UserId === userId) ||  (data?.Status === 5 && data?.UserId === userId) ||  (data?.Status === 4 && data?.UserId === userId)? <Btn type='button' title="Update" onClick={() => handleUpdate()}>
           <FontAwesomeIcon style={{ color: '#85CBA6' }} icon={faSquarePen} />
         </Btn> : ''
       }
