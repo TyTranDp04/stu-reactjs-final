@@ -114,7 +114,7 @@ export const TextArea = styled.textarea`
 export const Tr = styled.tr`
 border: 5px solid #ccc;
 border-width: 1px;
-
+cursor: pointer;
 &:hover{
   background-color:#9933FF ;
   color: #fff;

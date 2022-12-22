@@ -114,14 +114,12 @@ const Notifycation = (props) => {
         return ''
     }
   }
-
   return (
     <>
       {dataUser?.RoleId === 3 ? '' :
         <Container>
           {
             data?.length === 0 ? '' :
-
               <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
                 <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
                 <Span style={{ display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length}</Span>

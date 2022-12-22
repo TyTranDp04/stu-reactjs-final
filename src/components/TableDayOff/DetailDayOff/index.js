@@ -160,8 +160,8 @@ const DetailDayOff = (props) => {
                   </Col>
                 </Row>
               </Col>
-              <Col style={{ maxHeight: '500px', overflow: 'auto', position: 'relative'}}>
-                <H3 style={{ position: 'sticky', top: '-2px', height: '40px', backgroundColor: '#fff', width: '100%', zIndex: '1' }}>Histories</H3>
+              <Col style={{ paddingTop: '10px',borderTop:'2px solid #ccc',maxHeight: '500px', overflow: 'auto', position: 'relative'}}>
+                <H3 style={{ position: 'sticky', top: '-12px', height: '50px', backgroundColor: '#fff', width: '100%', zIndex: '1' }}>Histories</H3>
                 {
                   dataHistory?.map((e, index) => (
                     <Row style={{ marginTop: '10px' }} key={index}>
@@ -238,7 +238,7 @@ const DetailDayOff = (props) => {
         <Modal.Footer>
           <BtnBack>
             <ButtonAddDayOff style={{
-              height: '45px'
+              height: '45px', backgroundColor: '#6e7881'
             }} onClick={() => setShowDetail(false)}>
               Close
             </ButtonAddDayOff>
