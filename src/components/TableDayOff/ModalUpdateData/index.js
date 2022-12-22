@@ -38,6 +38,8 @@ const ModalUpdateData = (props) => {
   const [changeData, setChangeData] = useState(false)
   const [callTotalDay, setCallTotalDay] = useState(false)
   const  [oldData, setOldData] = useState()
+  const [checked, setChecked] = useState(true)
+
   function handleCancel() {
     setShowModalUpdate(false)
   }
@@ -65,6 +67,11 @@ const ModalUpdateData = (props) => {
         setDataTime(newdata?.Time)
         setQuantity(newdata?.Quantity)
         setChangeData(!changeData)
+        if(newdata?.Time === 0){
+          setChecked(true)
+        }else{
+          setChecked(false)
+        }
       })
   }
   useEffect(() => {
@@ -304,10 +311,10 @@ const ModalUpdateData = (props) => {
           submit(e)
         )}>
           <InPutContainer className="mb-6">
-            <LableInput style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
-            <Form.Group style={{ display: 'flex', flexDirection: 'column' }}>
-              <Form.Check label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
-              <Form.Check label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
+            <LableInput  style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
+            <Form.Group className='type__dayoff' style={{ display: 'flex', flexDirection: 'column' }}>
+              <Form.Check checked={checked} label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
+              <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
             </Form.Group>
           </InPutContainer>
           <InPutContainerFrom>

@@ -135,6 +135,7 @@ const ModalAddUserGroup = (props) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className='modal__request'
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
