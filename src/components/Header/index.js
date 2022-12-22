@@ -15,6 +15,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import {
   Back,
   DivLogo,
+  DivP,
   DropdownLogo,
   HeaderAvatar,
   HeaderLogoff,
@@ -23,10 +24,11 @@ import {
   ResetImg,
   SidebarDesc,
   SidebarHeader,
+  SidebarInner,
   StImg,
   StyleLink
 } from "./style";
-import { BtnArrow, P, SidebarCategory, SidebarInner,SidebarCategoryGr } from "../Sidebar/style";
+import { BtnArrow, P, SidebarCategory,SidebarCategoryGr } from "../Sidebar/style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faBars, faBarsStaggered, faCalendar, faCodePullRequest, faTableList, faPeopleRoof, faUser, faList,faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -94,13 +96,17 @@ const Header = ({ Toggle, isOpen }) => {
   return (
     <HeaderRow className="row">
       <DivLogo style={{ width: isOpen ? "16%" : "7%" }} className={   isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
-        <div style={{ width: "60px", height: "60px" }}>
+       <div className="row" style={{padding:"0px", margin:"0px",width:"100%"}}>
+       <div className= {isOpen? "col-6 text-center" : "col-12 text-center"} style={{padding:"0px", margin:"0px"}}>
           <Link to="/"><StImg src={logo} /></Link>
         </div>
+        <DivP className="col-6" style={{padding:"0px", margin:"0px"}}>
         <P style={{ display: isOpen ? "inline-block" : "none" }}>Log Off SRS</P>
+        </DivP>
         <BtnArrow style={{ right: isOpen ? "-10%" : "-25%" }}>
-          <FontAwesomeIcon onClick={Toggle} icon={isOpen ? faBarsStaggered : faBars} />
+          <FontAwesomeIcon onClick={Toggle} icon={ faBarsStaggered} />
         </BtnArrow>
+       </div>
       </DivLogo>
       <HeaderLogoff
         className={isOpen ? "col-sm-8 col-lg-9" : "col-sm-8 col-lg-10"}
@@ -157,13 +163,13 @@ const Header = ({ Toggle, isOpen }) => {
         <Offcanvas style={{ width: "200px" }} show={showSidebar} onHide={handleClose} responsive="sm">
           <Offcanvas.Header style={{backgroundColor:"#8000ff", borderBottom:"1px solid #D8D8D8"}}  variant="white" closeButton>
             <Offcanvas.Title>
-              <div style={{ width: "60px", height: "60px" }}>
+              <div style={{ width: "50px", height: "40px" }}>
                 <Link to="/"><StImg src={logo} /></Link>
               </div>
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
-            <SidebarInner style={{ height: showItem1? "120px" : "20px"}}>
+            <SidebarInner style={{ height: showItem1? "100px" : "20px"}}>
               <Dropdown
                 autoClose={"inside"}
                 drop={showSidebar ? "" : 'down'}
@@ -191,7 +197,7 @@ const Header = ({ Toggle, isOpen }) => {
                   </SidebarCategory>
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                  style={{ backgroundColor: "#8000ff", border: "none" }}
+                  style={{ backgroundColor: "#8000ff", border: "none",padding:"0px" }}
                 >
                   {Object.entries(accountRouter).map(([index, value]) =>
                     <Dropdown.Item>
@@ -219,7 +225,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "120px" : "30px"   }}>
+            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "100px" : "30px"   }}>
               <Dropdown
                 autoClose={"inside"}
                 drop={""}
@@ -248,7 +254,7 @@ const Header = ({ Toggle, isOpen }) => {
                   </SidebarCategory>
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                  style={{ backgroundColor: "#8000ff", border: "none" }}
+                  style={{ backgroundColor: "#8000ff", border: "none",padding:"0px" }}
                 >
                   {Object.entries(managerRouter).map(([index, value]) =>
                     <Dropdown.Item>
