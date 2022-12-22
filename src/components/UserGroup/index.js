@@ -63,9 +63,9 @@ function UserGroup(props) {
       .catch(err => { })
   }
   useEffect(() => {
-    getDataUser()
-    getDataGroup()
-  }, [callApiGroup])
+    getDataUser();
+    getDataGroup();
+  }, [callApiGroup]);
   async function deleteUserGroup(UserId, GroupId) {
     const form = {
       UserId: UserId,
@@ -88,6 +88,7 @@ function UserGroup(props) {
     setDataDetail(group)
     setShowDetail(false)
   }
+
   function handleDeleteUser(UserId, GroupId) {
     Swal.fire({
       title: "Delete this User?",
@@ -97,22 +98,22 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
-      confirmButtonColor: '#8000ff',
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteUserGroup(UserId, GroupId)
+        deleteUserGroup(UserId, GroupId);
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Cancel!',
+          icon: "error",
+          title: "Cancel!",
           showConfirmButton: false,
-          timer: 1000
-        })
+          timer: 1000,
+        });
       }
     });
   }
   function handleDeleteGroup(GroupId) {
-    const url = process.env.REACT_APP_URL_WEBSITE + '/group/' + GroupId
+    const url = process.env.REACT_APP_URL_WEBSITE + "/group/" + GroupId;
     Swal.fire({
       title: "Delete this Group?",
       icon: "question",
@@ -121,7 +122,7 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
-      confirmButtonColor: '#8000ff',
+      confirmButtonColor: "#8000ff",
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(url)
@@ -144,6 +145,7 @@ function UserGroup(props) {
       }
     });
   }
+
   return (
     <Container>
 

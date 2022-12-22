@@ -139,7 +139,7 @@ const ModalAddUserGroup = (props) => {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add Day Off
+        Add User Group
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

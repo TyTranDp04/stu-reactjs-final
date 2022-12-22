@@ -31,6 +31,10 @@ export const HeaderContainer = styled.div`
 export const BtnContainer = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: 500px){
+    font-size: 13px;
+  }
+ 
 `
 
 export const H3 = styled.h3`
@@ -106,6 +110,7 @@ export const Content = styled.div`
   flex-direction: column;
   justify-content: start;
   padding: 50px 0 0 20px;
+  overflow: auto;
 `
 export const Name = styled.div`
   display: flex;
@@ -116,14 +121,16 @@ export const Name = styled.div`
 export const NameTitle = styled.div`
   height: 35px;
   border: 2px solid #ccc;
-  width: 100px;
+  width: 20%;
   border-radius: 5px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ccc;
- 
+  @media  (max-width: 500px) and  {
+    font-size: 12px;
+  }
 `
 export const Master = styled.div`
 display: flex;
@@ -143,6 +150,7 @@ height: 150px;
 display: flex;
 flex-wrap: wrap;
 overflow: auto;
+
 @media (max-width: 768px){
 width: 100%;
   
@@ -190,6 +198,12 @@ export const NameTextInfo = styled.h5`
   font-size: 16px;
   margin: 0 0 0 3px;
   padding-right: 5px;
+  @media (max-width: 500px){
+    font-size: 12px;
+  }
+  @media (max-width: 300px){
+    font-size: 8px;
+  }
 `
 export const NameText = styled.span`
  display: block;
@@ -197,6 +211,7 @@ export const NameText = styled.span`
  font-size : 20px;
  font-weight : 500;
   width: 100px;
+
 `
 export const BtnDeleteGroup = styled.button`
   border: none;
