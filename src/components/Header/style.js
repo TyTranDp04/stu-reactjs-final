@@ -210,6 +210,11 @@ export const SidebarHeader = styled.div`
   content:none;
 }
 `
+export const DivP = styled.div`
+display:flex;
+justify-content:center;
+align-items:center;
+`
 export const SidebarDesc = styled.div`
   padding-bottom:10px;
   .dropdown-item:focus{
@@ -227,5 +232,14 @@ export const SidebarDesc = styled.div`
   }
   @media (max-width: 425px) {
     font-size: 10px;
+  }
+`
+
+export const SidebarInner = styled.div`
+  margin-bottom: 30px;
+  padding:0px;
+  min-width:100%;
+    .dropdown-toggle::after{
+    content:none;
   }
 `
