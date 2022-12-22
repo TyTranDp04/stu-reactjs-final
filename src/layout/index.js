@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { getListRoleIdAction } from "../stores/slices/roleId.slice";
-import { LayoutRow } from "./style";
+import { ContainerItem, LayoutRow } from "./style";
 
 
 const Layout = ({ children, title }) => {
@@ -25,11 +25,11 @@ const Layout = ({ children, title }) => {
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  
+
   useEffect(() => {
     dispatch(getListRoleIdAction())
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (!user && !userGoogle) {
       navigate('/login');
@@ -40,7 +40,7 @@ const Layout = ({ children, title }) => {
   const date = new Date();
   const current_date =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   return (
     <ContainerFluid className="container-fluid">
@@ -61,15 +61,18 @@ const Layout = ({ children, title }) => {
             isOpen={isOpen}
             setIsOpen={setIsOpen}
           />
-          <Container
+          <ContainerItem
             className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
-            style={{ width: isOpen ? "84%" : "94%" }}
+            style={{ width: isOpen ? "84%" : "93%" }}
           >
             {children}
-          </Container>
+          </ContainerItem>
+            <Footer
+            Toggle={toggle}
+            isOpen={isOpen}
+             />
         </LayoutRow>
       </Container>
-            <Footer />
     </ContainerFluid>
   );
 };
