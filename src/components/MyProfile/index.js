@@ -1,4 +1,3 @@
-/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,7 +24,10 @@ import {
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
-    .string(),
+    .string()
+    .required(false)
+    .min(10, "Your phone error number = 10.")
+    .max(10, "Your phone error number = 10 ."),
   Name: yup.string().max(50, "Name is required "),
   Address: yup.string().max(50, "Address is required"),
 });
@@ -85,7 +87,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
         dispatch(
           updateAvata({
             Name: data.Name,
@@ -158,7 +160,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
       }
     });
   };
@@ -176,16 +178,12 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-  // eslint-disable-next-line array-callback-return
-  groupID?.map(function (item) {
-    {
-      // eslint-disable-next-line array-callback-return
-      group?.data?.filter(function (name) {
-        if (item === name._id) {
-          groupNameID.push(name.Name);
-        }
-      });
-    }
+  groupID?.forEach(function (item) {
+    group?.data?.forEach(function (name) {
+      if (item === name._id) {
+        groupNameID.push(name.Name);
+      }
+    });
   });
 
   return (
@@ -205,17 +203,21 @@ const MyProfile = () => {
                   defaultValue={rolename}
                 />
               </div>
-              <div>
-                <span className="lableName">Group </span>
-                <NameGroup className="Name">
-                  {" "}
-                  {groupNameID?.map((NameGroup, index) => (
-                    <div className="Groupname" key={index}>
-                      <h3>{NameGroup}</h3>
-                    </div>
-                  ))}
-                </NameGroup>
-              </div>
+              {groupNameID?.length !== 0 ? (
+                <div>
+                  <span className="lableName">Group </span>
+                  <NameGroup className="Name">
+                    {" "}
+                    {groupNameID?.map((NameGroup, index) => (
+                      <div className="Groupname" key={index}>
+                        <h3>{NameGroup}</h3>
+                      </div>
+                    ))}
+                  </NameGroup>
+                </div>
+              ) : (
+                ""
+              )}
               <div>
                 <span className="lableName">Name </span>
                 <Input
@@ -290,7 +292,7 @@ const MyProfile = () => {
                 <div className="lableName">Phone Number</div> <br />
                 <div className="phoneNumber">
                   <Input
-                    type="number"
+                    type="text"
                     placeholder="Phone Number"
                     defaultValue={Phone}
                     {...register("Phone")}

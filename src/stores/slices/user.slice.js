@@ -112,8 +112,8 @@ const userSlice = createSlice({
       state.userInfoState.loading = false;
     },
     updateAvata(state, action) {
-      state.userInfoState.data.user.Avatar = action.payload.Avatar;
-      state.userInfoState.data.user.Name = action.payload.Name;
+      state.userInfoState.data.Avatar = action.payload.Avatar;
+      state.userInfoState.data.Name = action.payload.Name;
     },
   },
 });
