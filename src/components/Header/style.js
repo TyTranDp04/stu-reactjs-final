@@ -2,10 +2,20 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderRow = styled.div`
-  background-color: #00aeef;
 
   .swal2-styled.swal2-confirm {
     background-color: #8000ff;
+  background-color: #8000ff;
+  @media (max-width:767.5px){
+    .dropdown-toggle::after{
+      content:none;
+      padding:0px;
+    }
+    .dropdown-toggle{
+      padding:0px;
+    }
+    background-color:#fff;
+    border-bottom:1px solid #D8D8D8;
   }
   .dropdown {
     display: flex;
@@ -17,6 +27,18 @@ export const HeaderRow = styled.div`
     padding: 0;
     transform: translate3d(0, 66.4px, 0px) !important;
   }
+`
+export const DivLogo = styled.div`
+position:relative;
+display:flex;
+justify-content: center;
+align-items: center;
+padding:0px;
+padding-bottom:20px;
+background-color: #8000ff;
+@media (max-width:767.5px){
+  display:none;
+}
 `
 export const HeaderWrapper = styled.div`
 `
@@ -79,10 +101,21 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
+  background-color:#fff;
+  align-items: center;
   justify-content: flex-end;
+  border-bottom:1px solid #8D8D8D;
 
+  @media (max-width:767.6px){
+    background-color:#fff;
+  }
   @media (max-width: 576px) {
     width: 83.33333333%;
+  }
+  .drop-down {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
   }
   .dropdown-toggle {
     padding: 0;
@@ -91,18 +124,19 @@ export const HeaderLogoff = styled.div`
     }
   }
   .header-name {
-    color: #fff;
+    color: #8A969C;
+    font-weight: bold;
     width: 100%;
     text-align: right;
     padding-right: 5px;
+    padding-bottom: 0;
   }
 `
 export const HeaderAvatar = styled.div`
   width: 50px;
   height: 50px;
   cursor: pointer;
-  // border: 1px solid #8000ff !important;
-  // background-color: #8000ff !important;
+
   @media (max-width: 576px) {
     width: 30px;
     height: 30px;
@@ -118,6 +152,40 @@ export const HeaderAvatar = styled.div`
     border-radius: 10%;
   }
 `
+export const DropdownLogo = styled.div`
+text-decoration-line:none;
+.droplogo{
+  background-color: #8000ff;
+  border : 0px;
+  display : flex;
+  --bs-btn-active-bg: #00aeef;
+}
+.dropdown-toggle::after{
+  border-top:0;
+}
+.content{
+  text-decoration-line:none;
+  &:hover {
+    background-color : #f1c40f;
+  }
+}
+`
+
+export const Back = styled.a`
+text-decoration-line:none;
+color: var(--bs-dropdown-link-color);
+&:hover{
+  color:black;
+}
+`
+export const Backdiv = styled.div`
+text-decoration-line:none;
+color: var(--bs-dropdown-link-color);
+&:hover{
+  color:black;
+}
+`
+
 export const StyleLink = styled(Link)`
   text-decoration: none;
   &:hover {
@@ -150,4 +218,10 @@ export const HeaderName = styled.div`
 color: white;
 margin : 0;
 font-size: 18px;
+`
+
+export const SidebarHeader = styled.div`
+.dropdown-toggle::after{
+  content:none;
+}
 `

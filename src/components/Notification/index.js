@@ -11,13 +11,13 @@ import {
   Menu,
   H3,
   ItemContent,
-  Name,
   Reason,
   Date,
   H4,
-  B,
-  HeadPopup,
-  P
+  B, ContentStatus,
+  ContentDayOff,
+  ReasonChange,
+  BtnReadAll
 } from "./style";
 import { useState } from 'react';
 import { URL_API } from '../../api/dayoff.api';
@@ -39,26 +39,36 @@ const Notifycation = (props) => {
   async function getDataDayOff() {
     await axios.get(urlGetDayOff)
       .then(res => {
-        setData(res?.data?.data)
+        if (dataUser?.RoleId === '2') {
+          const newData = res?.data?.data?.filter(function (d) {
+            return d.Status === 1 || d.Status === 5
+          })
+          setData(newData)
+          setInverseData(!inverseData)
+        }
+        if (dataUser?.RoleId === '1') {
+          const newData = res?.data?.data?.filter(function (d) {
+            return d.Status === 4 || d.Status === 3
+          })
+          setData(newData)
+          setInverseData(!inverseData)
+        }
       })
       .catch(err => console.log(err))
   }
   useEffect(() => {
     if (dataUser) {
       getDataDayOff()
-        .then(() => {
-          setInverseData(!inverseData)
-        })
     }
   }, [dataUser, userInfo, callApi, showMenu])
-  useEffect(()=>{
+  useEffect(() => {
     const newDataNoti = []
-    data?.map((e, index) => {
+    data?.map((e, index) => (
       newDataNoti[data?.length - index - 1] = e
-    })
+    ))
     setData(newDataNoti)
-  },[inverseData])
-  
+  }, [inverseData])
+
   async function updateDataDayOff(e) {
     const body = {
       UserRead: dataUser.id,
@@ -70,54 +80,110 @@ const Notifycation = (props) => {
       .catch(err => { })
   }
   function handleIsRead(e) {
-    console.log("e....fini",e)
     updateDataDayOff(e)
       .then(() => {
         setCallApi(!callApi)
       })
   }
+  async function handleReadAll(){
+    const urlReadAll = URL_API + "/notification/" + dataUser?.id
+    await axios.post(urlReadAll)
+    .then((data)=>{ 
+      if(data?.data?.success){
+        setCallApi(!callApi)
+      }
+    })
+  }
+  function statusText(status) {
+    switch (status) {
+      case 1:
+        return "New Request"
+      case 3:
+        return "Rejected"
+      case 4:
+        return "Request change"
+      case 5:
+        return "Reverted"
+      default:
+        return ''
+    }
+  }
+
   return (
     <>
-      {
-        dataUser?.RoleId === '2' ? <Container>
-          <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { 
-            data?.length === 0 ? setShowMenu(false) : setShowMenu(!showMenu);
-            // setShowMenu(!showMenu)
-           }}>
-            <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
-            <Span style={{display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length }</Span>
-          </HeaderIcon>
+      {dataUser?.RoleId === 3 ? '' :
+        <Container>
           {
-            showMenu ? <Content>
-              <HeadPopup><H3>New Log Day Off</H3></HeadPopup>
+            data?.length === 0 ? '' :
+
+              <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
+                <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
+                <Span style={{ display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length}</Span>
+              </HeaderIcon>
+          }
+          {
+            data?.length !== 0 && showMenu ? <Content>
+              <H3>Notification</H3>
               <Menu>
                 {
                   data?.map((e, index) => (
                     <Link key={index} to="/request-log-off">
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
-                          <Name><B>Name: </B> {e.Name}</Name>
-                          <Date>
-                            <H4><B style={{ marginRight: '5px' }}>Day Off From:</B></H4>
-                            <TimeDayOff date={e.DayOffFrom}></TimeDayOff>
-                          </Date>
-                          <Date>
-                            <H4><B style={{ marginRight: '5px' }}>Day Off To:</B></H4>
-                            <TimeDayOff date={e.DayOffTo}></TimeDayOff>
-                          </Date>
-                          <Date>
-                            <H4><B>Type: </B> {e.Type === 1 ? "WFH" : 'OFF'}</H4>
-                          </Date>
-                          <Reason><B>Reason: </B>{e.Reason}</Reason>
+                          {
+                            <ContentStatus style={{ display: 'flex', flexDirection: 'column', marginBottom: '5px' }}>
+                              <B style={{ color: '#8000FF' }} className={statusText(e?.Status)}>
+                                {
+                                  statusText(e?.Status)
+                                }
+                              </B>
+                              {
+                                e?.Status === 1 ? '' :
+                                  <ReasonChange><B>Reason: </B>{e.ReasonChange}</ReasonChange>
+                              }
+                            </ContentStatus>
+                          }
+                          <ContentDayOff>
+                            {
+                              dataUser?.RoleId !== "2" ? '' :
+                                <Date>
+                                  <H4><B>Name: </B> {e?.Name}</H4>
+                                </Date>
+                            }
+
+                            <Date>
+                              <H4><B style={{ marginRight: '5px' }}>Day Off From:</B></H4>
+                              <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
+                            </Date>
+                            <Date>
+                              <H4><B style={{ marginRight: '5px' }}>Day Off To:</B></H4>
+                              <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
+                            </Date>
+                            {
+                              dataUser?.RoleId !== "2" ? '' :
+                                <Date>
+                                  <H4><B>Type: </B> {e?.Type === 0 ? "OFF" : 'WFH'}</H4>
+                                </Date>
+                            }
+                            {
+                              dataUser?.RoleId !== "2" ? '' :
+                                <Date>
+                                  <Reason><B>Reason: </B>{e?.Reason}</Reason>
+                                </Date>
+                            }
+                          </ContentDayOff>
                         </ItemContent>
                       </Item>
                     </Link>
                   ))
                 }
+                <BtnReadAll type='button' onClick={()=> handleReadAll()}>
+                  Read all
+                </BtnReadAll>
               </Menu>
             </Content> : ''
           }
-        </Container> : ''
+        </Container>
       }
     </>
   );

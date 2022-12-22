@@ -1,38 +1,20 @@
 import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import {
+  Container,
+  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
+  Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
+} from './style'
+import axios from 'axios';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { useSelector } from 'react-redux';
 import Swal from "sweetalert2";
 import ModalAddUserGroup from './AddUserGroup';
 import ModalAddGroup from './ModalAddGroup';
-import {
-  Avatar,
-  BtnAddGroup,
-  BtnContainer,
-  BtnDelete,
-  BtnDeleteGroup,
-  Container,
-  Content,
-  Group, GroupDetail,
-  Header,
-  HeaderContainer,
-  Icon,
-  Master, MemberContainer, MemberInfo,
-  Members,
-  Name,
-  NameText,
-  NameTextInfo,
-  NameTitle,
-  Tbody,
-  Td,
-  TdContent,
-  Th,
-  Thead, Tr,
-  User
-} from './style';
+import AvatarDefault from '../../assets/images/avatar-default.jpg'
+
 
 function UserGroup(props) {
   const [showDetail, setShowDetail] = useState(true)
@@ -46,10 +28,7 @@ function UserGroup(props) {
   const urlGetUser = process.env.REACT_APP_URL_WEBSITE + '/user'
   const urlGetGroup = process.env.REACT_APP_URL_WEBSITE + '/group'
   const urlDeleteUserGroup = process.env.REACT_APP_URL_WEBSITE + '/user-group/delete'
-  useEffect(() => {
-    getDataUser()
-    getDataGroup()
-  }, [callApiGroup])
+
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
@@ -82,7 +61,10 @@ function UserGroup(props) {
       })
       .catch(err => { })
   }
-
+  useEffect(() => {
+    getDataUser()
+    getDataGroup()
+  }, [callApiGroup])
   async function deleteUserGroup(UserId, GroupId) {
     const form = {
       UserId: UserId,
@@ -150,7 +132,7 @@ function UserGroup(props) {
     });
   }
   return (
-    <Container className='col-sm-9 col-lg-10'>
+    <Container>
       {
         showDetail ?
           <Group>
@@ -182,15 +164,15 @@ function UserGroup(props) {
                         <Td onClick={() => handleShowDetail(e)} style={{ display: 'flex' }}>
                           {
                             dataUser?.map((user, id) => (
-                              user.GroupId.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
+                              user?.GroupId?.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip>
-                                      {user.Name}
+                                      {user?.Name}
                                     </Tooltip>
                                   }
                                 >
-                                  <Avatar src={user.Avatar}></Avatar>
+                                  <Avatar src={user?.Avatar ? user?.Avatar : AvatarDefault}></Avatar>
                                 </OverlayTrigger>
                               </User> : ''
                             ))
@@ -200,15 +182,15 @@ function UserGroup(props) {
                           <TdContent>
                             {
                               dataUser?.map((user, id) => (
-                                user.GroupId.includes(e._id) && user.RoleId === "2" ? <User key={id}>
+                                user?.GroupId?.includes(e._id) && user?.RoleId === "2" ? <User key={id}>
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip>
-                                        {user.Name}
+                                        {user?.Name}
                                       </Tooltip>
                                     }
                                   >
-                                    <Avatar src={user.Avatar}></Avatar>
+                                    <Avatar src={user?.Avatar ? user?.Avatar : AvatarDefault}></Avatar>
                                   </OverlayTrigger>
                                 </User> : ''
                               ))
@@ -219,9 +201,7 @@ function UserGroup(props) {
                           userInfo?.data?.RoleId === "3" ?
                             <Td>
                               <TdContent>
-
                                 <BtnDeleteGroup onClick={() => handleDeleteGroup(e?._id)}>Delete</BtnDeleteGroup>
-
                               </TdContent>
                             </Td> : ''
                         }
@@ -230,10 +210,8 @@ function UserGroup(props) {
                   }
                 </Tbody>
               </Table>
-
-
             </Content>
-          </Group>
+          </Group >
           :
           <GroupDetail>
             <Header>
@@ -261,8 +239,8 @@ function UserGroup(props) {
               <MemberContainer>
                 {
                   dataUser?.map((user, id) => (
-                    user.GroupId.includes(dataDetail._id) && user.RoleId === "2" ? <MemberInfo key={id}>
-                      <Icon alt={user?.Name} src={user?.Avatar}></Icon>
+                    user?.GroupId?.includes(dataDetail._id) && user?.RoleId === "2" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar ? user?.Avatar : AvatarDefault}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
                         userInfo?.data?.RoleId === "3" ?
@@ -281,8 +259,8 @@ function UserGroup(props) {
               <MemberContainer>
                 {
                   dataUser?.map((user, id) => (
-                    user.GroupId.includes(dataDetail._id) && user.RoleId === "1" ? <MemberInfo key={id}>
-                      <Icon alt={user?.Name} src={user?.Avatar}></Icon>
+                    user?.GroupId.includes(dataDetail._id) && user?.RoleId === "1" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar ? user?.Avatar : AvatarDefault}></Icon>
                       <NameTextInfo>{user?.Name}</NameTextInfo>
                       {
                         userInfo?.data?.RoleId !== "1" && user.RoleId === "1" ?
@@ -298,7 +276,7 @@ function UserGroup(props) {
             </Members>
           </GroupDetail>
       }
-    </Container>
+    </Container >
   );
 }
 

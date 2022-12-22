@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,9 +45,9 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-  const [fileIMG, setfileIMG] = useState();
+  const [, setfileIMG] = useState();
   const addImg = document.getElementById("img");
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   function addImgHandle() {
     addImg.click();
@@ -97,7 +98,7 @@ const MyProfile = () => {
       .catch((err) => console.log(err));
   }
   const getData = async () => {
-    const url = process.env.REACT_APP_URL_WEBSITE + `/user/${ID}`;
+    const url = process.env.REACT_APP_URL_WEBSITE + `/user-getone/${ID}`;
     await axios
       .get(url)
       .then((res) => {
@@ -108,6 +109,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let rolename = null;
@@ -150,7 +152,13 @@ const MyProfile = () => {
         });
         postData();
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          title: "Cancel !!",
+          icon: "error",
+          confirmButtonText: "Ok",
+          showCloseButton: true,
+          confirmButtonColor: "#8000ff",
+        })
       }
     });
   };
@@ -168,9 +176,11 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
+  // eslint-disable-next-line array-callback-return
   groupID?.map(function (item) {
     {
-      group?.data?.map(function (name) {
+      // eslint-disable-next-line array-callback-return
+      group?.data?.filter(function (name) {
         if (item === name._id) {
           groupNameID.push(name.Name);
         }
@@ -199,8 +209,8 @@ const MyProfile = () => {
                 <span className="lableName">Group </span>
                 <NameGroup className="Name">
                   {" "}
-                  {groupNameID?.map((NameGroup) => (
-                    <div className="Groupname">
+                  {groupNameID?.map((NameGroup, index) => (
+                    <div className="Groupname" key={index}>
                       <h3>{NameGroup}</h3>
                     </div>
                   ))}

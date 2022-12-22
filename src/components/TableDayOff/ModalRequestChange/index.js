@@ -1,37 +1,106 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useEffect, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 import Modal from 'react-bootstrap/Modal';
+import { ButtonAddDayOff } from '../style';
+import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { InputArea, P, Form } from './style';
+const schema = yup.object({
+  reason: yup.string().required(),
+}).required();
+
 
 function ModalRequestChange(props) {
-  const {showRequestChange, setShowRequestChange} = props.handle
-  const data = props.data
-  const type = props.type
+  const { showRequestChange, setShowRequestChange, setCallApiTable, callApiTable } = props.handle
+  const [dataRequestChange, setDataRequestChange] = useState()
+  const { data, formData, type } = props
+  const [url, setUrl] = useState()
+  function handleOnchange(e) {
+    const newData = { ...data }
+    newData.ReasonChange = e.target.value
+    setDataRequestChange(newData)
+  }
+  const urlRequestChange = process.env.REACT_APP_URL_WEBSITE + '/request-change'
+  const urlRevert = process.env.REACT_APP_URL_WEBSITE + '/revert'
+  const urlReject = process.env.REACT_APP_URL_WEBSITE + '/reject'
+  useEffect(() => {
+    switch (type) {
+      case 'change':
+        setUrl(urlRequestChange)
+        break
+      case 'reject':
+        setUrl(urlReject)
+        break;
+      case 'revert':
+        setUrl(urlRevert)
+        break;
+      default:
+        break;
+    }
+  }, [type, urlRevert, urlReject, urlRequestChange])
+
+  function handleAction() {
+    const newdata = { ...dataRequestChange }
+    newdata.UserActionId = formData?.UserActionId
+    newdata.RequestId = formData?.RequestId
+    axios.post(url, newdata)
+      .then((data) => {
+        if (data?.data?.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Request change success',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          setShowRequestChange(false)
+          setCallApiTable(!callApiTable)
+        } else {
+          Swal.fire("Error!", "", "error");
+        }
+      })
+  }
+  async function submit(e) {
+    Swal.fire({
+      title: "Send this data?",
+      icon: "question",
+      iconHtml: "?",
+      confirmButtonText: "Send",
+      cancelButtonText: "Cancel",
+      showCancelButton: true,
+      showCloseButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleAction()
+        reset()
+      } else {
+        Swal.fire(" Cancel!", "", "error");
+        reset()
+      }
+    });
+  }
+  const { reset, register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
   return (
-      <Modal show={showRequestChange}>
-        <Modal.Header>
-          <Modal.Title>Request change</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label style={{fontSize: '20px'}}>Reason for change</Form.Label>
-              <Form.Control placeholder='Need more detail' as="textarea" rows={3} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type='button' variant="secondary" onClick={()=> setShowRequestChange(false)}>
+    <Modal className='modal__request' show={showRequestChange}>
+      <Modal.Header>
+        <Modal.Title>{`Reason for ${type}:`}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit(submit)}>
+          <InputArea {...register("reason")} onChange={(e) => handleOnchange(e)} />
+          <P>{errors.reason?.message}</P>
+          <ButtonAddDayOff type='button' style={{ backgroundColor: '#6e7881', height: '45px' }} onClick={() => setShowRequestChange(false)}>
             Cancel
-          </Button>
-          <Button type='button' variant="primary" onClick={''}>
+          </ButtonAddDayOff>
+          <ButtonAddDayOff type='submit' style={{ backGroundColor: '#8000FF', height: '45px' }}>
             Send
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </ButtonAddDayOff>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 

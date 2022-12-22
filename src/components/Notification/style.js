@@ -11,7 +11,7 @@ export const HeaderIcon = styled.div`
   position: relative;
   width: 25px;
   height: 25px;
-  margin: 0 30px 0 20px;
+  margin: 0 20px 0 10px;
   &:hover {
     svg{
       font-size: 22px;
@@ -38,7 +38,7 @@ export const HeaderIcon = styled.div`
     height: 0;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-bottom: 12px solid #fff;
+    border-bottom: 12px solid #8000FF;
     display: block;
     position: absolute;
   }
@@ -47,13 +47,14 @@ export const Span = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   top: -4px;
   font-weight: 500;
   left: 20px;
   border-radius: 10px;
   color: red;
+  font-size: 12px;
   text-align: center;
   position: absolute;
   background-color: #fff;
@@ -118,7 +119,7 @@ export const Content = styled.div`
   padding: 20px 0 0 0;
   top: 165%;
   right: 0;
-  width: 300px;
+  width: 250px;
    z-index: 10;
    animation: growDown 300ms ease-in-out;
    transform-origin: top center;
@@ -129,17 +130,61 @@ export const Content = styled.div`
 `
 export const Reason = styled.div`
 text-align: start;
-max-width: 280px;
+max-width: 200px;
 max-height: 50px;
-overflow: hidden;
+font-size: 14px;
 overflow: hidden;
 display: -webkit-box;
 -webkit-box-orient: vertical;
 -webkit-line-clamp: 2;
 `
-
+export const ReasonChange = styled.div`
+text-align: start;
+max-width: 230px;
+max-height: 60px;
+overflow: hidden;
+font-size: 14px;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2;
+display: -webkit-box;
+`
 export const ItemContent = styled.div`
+width: 100%;
 
+`
+export const BtnReadAll = styled.button`
+  position: sticky;
+  bottom: -2px;
+  border: none;
+  width: 100%;
+  height: 30px;
+  background-color: #8000FF;
+  color: #fff;
+  &:hover{
+    background-color: #9933FF;
+  }
+`
+export const ContentStatus = styled.div`
+  display: block;
+  .Rejected{
+    color: red!important;
+  }
+  .New{
+    color: #FECB09 !important;
+  }
+  .change{
+    color: #85CBA6 !important;
+  }
+  .Reverted{
+    color: #C66DAD !important;
+  }
+`
+export const ContentDayOff = styled.div`
+  border-radius: 5px;
+  width: 100%;
+  border: 2px solid #8000FF;
+  padding: 5px;
+  margin-bottom: 4px;
 `
 export const Name = styled.div`
 text-align: start;
@@ -150,5 +195,5 @@ export const Date = styled.div`
   display: flex;
 `
 export const H4 = styled.h4`
-  font-size: 16px;
+  font-size: 14px;
 `

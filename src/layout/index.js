@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Container, ContainerFluid } from "../assets/css/common";
 import logo from "../assets/images/power_red.svg";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { getListRoleIdAction } from "../stores/slices/roleId.slice";
-import { LayoutRow } from "./style";
+import { ContainerItem, LayoutRow } from "./style";
+
 
 const Layout = ({ children, title }) => {
   const userInfo = useSelector(state => state.users.userInfoState);
@@ -22,11 +24,11 @@ const Layout = ({ children, title }) => {
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  
+
   useEffect(() => {
     dispatch(getListRoleIdAction())
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -35,6 +37,8 @@ const Layout = ({ children, title }) => {
     }
   }, [user, lengthPass, navigate]);
 
+  const [isOpen, setIsOpen] = useState(true);
+  const toggle = () => setIsOpen(!isOpen);
   return (
     <ContainerFluid className="container-fluid">
       <HelmetProvider>
@@ -43,11 +47,28 @@ const Layout = ({ children, title }) => {
           <link rel="icon" href={logo} />
         </Helmet>
       </HelmetProvider>
+      
       <Container className="container">
-        <Header />
+        <Header
+          Toggle={toggle}
+          isOpen={isOpen}
+        />
         <LayoutRow className="row">
-          <Sidebar permission={permission}/>
-          {children}
+          <Sidebar
+            Toggle={toggle}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+          <ContainerItem
+            className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
+            style={{ width: isOpen ? "84%" : "93%" }}
+          >
+            {children}
+          </ContainerItem>
+          <Footer
+            Toggle={toggle}
+            isOpen={isOpen}
+          />
         </LayoutRow>
       </Container>
     </ContainerFluid>

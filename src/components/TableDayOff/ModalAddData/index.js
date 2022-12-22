@@ -18,11 +18,21 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Form } from 'react-bootstrap';
+import { checkSameDay } from '../../../constants/dayoff.js';
 
 const ModalAddData = (props) => {
   const { setShowModalAdd, setCallApiTable, callApiTable } = props.handle
   const { user } = props
   const [showMidDay, setShowMidDay] = useState(true)
+  const url = URL_API + '/newdayoff'
+  const [quantity, setQuantity] = useState()
+  const [currentQuantity, setCurrentQuantity] = useState(1)
+  const [dataDayOff, setDataDayOff] = useState(1)
+  const [data, setData] = useState({
+    UserId: user?.UserId,
+    Name: user?.Name,
+    RoleId: user?.RoleId,
+  })
   function handleCancel() {
     setShowModalAdd(false)
     const newdata = { ...data }
@@ -31,68 +41,98 @@ const ModalAddData = (props) => {
     setData(newdata)
     setQuantity(0)
   }
-  const url = URL_API + '/newdayoff'
-  const [dayOffFrom, setDayOffFrom] = useState()
-  const [dayOffTo, setDayOffTo] = useState()
-  const [reason, setReason] = useState()
-  const [quantity, setQuantity] = useState()
-  const [currentQuantity, setCurrentQuantity] = useState(1)
-  const [time, setTime] = useState('')
-  const [data, setData] = useState({
-    UserId: user?.UserId,
-    Name: user?.Name,
-    RoleId: user?.RoleId,
-    DayOffFrom: dayOffFrom,
-    DayOffTo: dayOffTo,
-    Reason: reason,
-    Quantity: quantity,
-    Time: time,
-  })
   function changeDate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
     return dataDate
   }
-  function addRequest() {
-    const dataFrom = changeDate(data?.DayOffFrom)
-    const dataTo = changeDate(data?.DayOffTo)
-    const newdata = { ...data }
-    newdata.DayOffFrom = dataFrom
-    newdata.DayOffTo = dataTo
-    newdata.Quantity = quantity
-    Axios.post(url, newdata)
+  useEffect(() => {
+    const urlGetDayOff = URL_API + '/dayoff-user/' + user?.UserId
+    Axios.get(urlGetDayOff)
       .then((data) => {
-        if (data?.data?.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Add request success',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          setCallApiTable(!callApiTable)
-        } else {
-          Swal.fire("Error!", "", "error");
-        }
+        setDataDayOff(data?.data)
       })
+  }, [])
+  function addRequest() {
+
+    if (checkSameDay(dataDayOff, data?.DayOffFrom, data?.DayOffTo)) {
+      const newdata = { ...data }
+      newdata.DayOffFrom = null
+      newdata.DayOffTo = null
+      setQuantity(0)
+      setData(newdata)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Day off already exist!",
+        showConfirmButton: true,
+        confirmButtonColor: '#8000ff',
+      })
+    } else {
+      const dataFrom = changeDate(data?.DayOffFrom)
+      const dataTo = changeDate(data?.DayOffTo)
+      const newdata = { ...data }
+      if (!data?.Type) {
+        newdata.Type = 0
+      }
+      newdata.DayOffFrom = dataFrom
+      newdata.DayOffTo = dataTo
+      newdata.Quantity = quantity
+      Axios.post(url, newdata)
+        .then((data) => {
+          if (data?.data?.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Add request success',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            setCallApiTable(!callApiTable)
+          } else {
+            Swal.fire("Error!", "", "error");
+          }
+        })
+    }
   }
   useEffect(() => {
     totalDay(data)
+
     if (data?.DayOffFrom - data?.DayOffTo === 0) {
       setShowMidDay(true)
     } else {
       setShowMidDay(false)
       const newdata3 = { ...data }
-        newdata3.Time = 'All day'
-        setCurrentQuantity(1)
-        setData(newdata3)
+      newdata3.Time = 'All day'
+      setCurrentQuantity(1)
+      setData(newdata3)
     }
-  }, [data?.DayOffFrom, data?.DayOffTo,data?.Time], currentQuantity)
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Time], currentQuantity)
   function totalDay(data) {
-    const { DayOffFrom, DayOffTo, Time } = data
+    const { DayOffFrom, DayOffTo } = data
     if (DayOffFrom && DayOffTo) {
       const time = (((DayOffTo - DayOffFrom) / 360 / 24 / 10000) + 1) * currentQuantity
-        setQuantity(time)
+      setQuantity(time)
     }
   }
+  useEffect(() => {
+    const date = new Date()
+    if (data?.DayOffFrom && data?.DayOffTo) {
+      if (data?.DayOffFrom - date <= 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
+        const newdata = { ...data }
+        newdata.DayOffFrom = null
+        newdata.DayOffTo = null
+        setQuantity(0)
+        setData(newdata)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Wrong date entered!",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
+        })
+      }
+    }
+
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Quantity])
 
   function handleOnChangeForm(e) {
     const newdata = { ...data }
@@ -172,6 +212,7 @@ const ModalAddData = (props) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className='modal__request'
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -192,7 +233,7 @@ const ModalAddData = (props) => {
           <InPutContainerFrom>
             <LableInput style={{ width: '51%', margin: '0', }} className="form-label">From</LableInput>
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
+              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
             </InPutContainer>
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
               <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
@@ -210,7 +251,7 @@ const ModalAddData = (props) => {
           </InPutContainerFrom>
           <InPutContainer className="mb-6">
             <LableInput style={{ width: '28.4%', margin: '0', }} className="form-label">To</LableInput>
-            <DatePicker autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
+            <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
           </InPutContainer>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
