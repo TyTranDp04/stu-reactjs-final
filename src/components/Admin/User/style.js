@@ -101,6 +101,9 @@ align-items: flex-start;
   &:hover {
     opacity: 0.8;
   }
+  @media(max-width:767.6px){
+    margin-left:20px;
+  }
 `
 export const DivModal = styled.div`
   position: absolute;
@@ -166,6 +169,9 @@ max-height:70vh;
 .bgrHead{
   background-color: #8000ff !important;
   color:#fff;
+}
+@media (max-width: 767.5px){
+  max-height:50vh;
 }
 `
 export const TextArea = styled.textarea`

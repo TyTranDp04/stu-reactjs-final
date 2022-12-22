@@ -85,14 +85,20 @@ const Notifycation = (props) => {
         setCallApi(!callApi)
       })
   }
-  async function handleReadAll(){
+  function handleReadAll() {
+    readAll()
+    .then(()=>{
+      setTimeout(()=>{
+        setCallApi(!callApi)
+      }, 500)
+    }) 
+  }
+  async function readAll(){
     const urlReadAll = URL_API + "/notification/" + dataUser?.id
     await axios.post(urlReadAll)
     .then((data)=>{ 
-      if(data?.data?.success){
-        setCallApi(!callApi)
-      }
     })
+    .catch()
   }
   function statusText(status) {
     switch (status) {

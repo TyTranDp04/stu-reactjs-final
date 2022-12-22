@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LayoutRow = styled.div`
-
+margin:0px;
   // @media(max-width: 992px) {
   //   min-height: 87vh;
   // }
@@ -16,6 +16,7 @@ export const LayoutRow = styled.div`
   // }
 `
 export const ContainerItem = styled.div`
+background-color: #F0F4F7;
 @media(max-width: 767.5px){
   width:100% !important;
 }

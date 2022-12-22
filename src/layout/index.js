@@ -58,9 +58,10 @@ const Layout = ({ children, title }) => {
             Toggle={toggle}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            permission={permission}
           />
           <ContainerItem
-            className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
+            className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-10"}
             style={{ width: isOpen ? "84%" : "93%" }}
           >
             {children}

@@ -1,33 +1,29 @@
+import { faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
-import {  SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, SidebarCategoryGr } from './style'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { SidebarCategory, SidebarCategoryGr, SidebarCol, SidebarDesc, SidebarGroup, SidebarInner } from './style'
 
-const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
-  const roleId = useSelector(state => state.roleId.roleIdState);
+const Sidebar = ({ isOpen, Toggle, setIsOpen, permission }) => {
   const userInfo = useSelector(state => state.users.userInfoState);
-  const dispatch = useDispatch()
-  const roleIdData = roleId?.data;
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
-  const permission = filterRoleId?.RoleName;
+  const userRoleId = userInfo?.data?.RoleId;
+  
   const [showItemSidebar,setShowItemSidebar] = useState(false)
   const handleItemSidebar = () => setShowItemSidebar(!showItemSidebar)
+
   useEffect(() => {
     setShowItemSidebar()
   }, [isOpen]);
+
   const [showItemSidebar1,setShowItemSidebar1] = useState(false)
   const handleItemSidebar1 = () => setShowItemSidebar1(!showItemSidebar1)
+
   useEffect(() => {
     setShowItemSidebar1()
   }, [isOpen]);
-  useEffect(() => {
-    dispatch(getListRoleIdAction())
-  }, [dispatch]);
+
   const accountRouter = {
     daysoff: { name: "List", url: "/log-off", icon: faCalendar },
     requests: { name: "Requests", url: "/request-log-off", icon: faCodePullRequest },
@@ -42,7 +38,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
       style={{ width: isOpen ? "16%" : "7%" }}
       className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}
     >
-      <SidebarInner style={{ height: showItemSidebar ? "120px" : "20px" }}>
+      <SidebarInner style={{ height: showItemSidebar ? "120px" : "20px", marginBottom:userRoleId === "1" ? "10px" : "30px"  }}>
         <Dropdown
           autoClose={isOpen ? "inside" : "true"}
           className={isOpen ? "" : 'end'} 
@@ -71,11 +67,11 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             </SidebarCategory>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            style={{ backgroundColor: "#8000ff", border: "none" }}
+            style={{ backgroundColor: "#8000ff", border: "none",marginLeft: isOpen ? "0px" : "20px" }}
           >
             {Object.entries(accountRouter).map(([index, value]) =>
               <Dropdown.Item key={index}>
-                <SidebarDesc>
+                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "40px"}}>
                   <OverlayTrigger
                     overlay={
                       <Tooltip>
@@ -96,7 +92,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Menu>
         </Dropdown>
       </SidebarInner>
-      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : showItemSidebar1 ? "120px" : "20px" }}>
+      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : showItemSidebar1 ? "120px" : "20px" ,marginBottom:userRoleId === "1" && userRoleId === "2" ? "0px" : "30px"}}>
         <Dropdown
           autoClose={isOpen ? "inside" : "outside"}
           className={isOpen ? "" : 'end'}
@@ -126,11 +122,11 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             </SidebarCategory>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            style={{ backgroundColor: "#8000ff", border: "none" }}
+            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "15px" }}
           >
             {Object.entries(managerRouter).map(([index, value]) =>
               <Dropdown.Item key={index}>
-                <SidebarDesc>
+                <SidebarDesc style={{paddingLeft: isOpen ? "0px" : "20px"}}>
                   <OverlayTrigger
                     overlay={
                       <Tooltip>
@@ -155,7 +151,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
         </Dropdown>
       </SidebarInner>
       <SidebarCategoryGr  >
-        <SidebarDesc >
+        <SidebarGroup >
           <OverlayTrigger
             overlay={
               <Tooltip>
@@ -175,7 +171,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             to={"/user-group"}
           >User Group
           </Link>
-        </SidebarDesc>
+        </SidebarGroup>
       </SidebarCategoryGr>
     </SidebarCol>
   )

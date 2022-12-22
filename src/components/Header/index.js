@@ -1,6 +1,9 @@
-
+import { faBars, faBarsStaggered, faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,28 +14,20 @@ import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import { BtnArrow, P, SidebarCategory, SidebarCategoryGr, SidebarInner } from "../Sidebar/style";
 import {
-  Back,
   DivLogo,
-  DropdownLogo,
   HeaderAvatar,
   HeaderDropdown,
   HeaderDropdownImg,
   HeaderDropdownInner,
   HeaderLogoff,
-  HeaderName,
   HeaderRow,
-  ResetImg,
+  SidebarDesc,
   SidebarHeader,
   StImg,
   StyleLink
 } from "./style";
-import { BtnArrow, P, SidebarCategory, SidebarDesc, SidebarInner, SidebarCategoryGr } from "../Sidebar/style";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faBarsStaggered, faCalendar, faCodePullRequest, faTableList, faPeopleRoof, faUser, faList, faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getListRoleIdAction } from "../../stores/slices/roleId.slice";
 
 const Header = ({ Toggle, isOpen }) => {
   const userInfo = useSelector((state) => state.users.userInfoState);
@@ -45,9 +40,6 @@ const Header = ({ Toggle, isOpen }) => {
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
 
-  useEffect(() => {
-    dispatch(getListRoleIdAction())
-  }, [dispatch]);
   const logout = () => {
     Swal.fire({
       title: "Log out?",
@@ -97,7 +89,7 @@ const Header = ({ Toggle, isOpen }) => {
   return (
     <HeaderRow className="row">
       <DivLogo style={{ width: isOpen ? "16%" : "7%" }} className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
-        <div style={{ width: "60px", height: "60px" }}>
+        <div style={{ width: "40px", height: "40px" }}>
           <Link to="/"><StImg src={logo} /></Link>
         </div>
         <P style={{ display: isOpen ? "inline-block" : "none" }}>Log Off SRS</P>
@@ -126,32 +118,32 @@ const Header = ({ Toggle, isOpen }) => {
             Hi, {Name}
           </SidebarDesc>
           <HeaderDropdown>
-            <Dropdown.Menu>
+            <Dropdown.Menu className="drop-down-item">
               <StyleLink to="/change-password">
                 <HeaderDropdownInner>
                   <HeaderDropdownImg><StImg src={resetpassword} /></HeaderDropdownImg>
-                  <SidebarDesc>Change Password</SidebarDesc>
+                  <SidebarDesc className="drop-down-item">Change Password</SidebarDesc>
                 </HeaderDropdownInner>
               </StyleLink>
               <StyleLink to="/my-profile">
                 <HeaderDropdownInner>
                   <HeaderDropdownImg><StImg src={profile} /></HeaderDropdownImg>
-                  <SidebarDesc>My Profile</SidebarDesc>
+                  <SidebarDesc className="drop-down-item">My Profile</SidebarDesc>
                 </HeaderDropdownInner>
               </StyleLink>
               <StyleLink onClick={() => logout()}>
                 <HeaderDropdownInner>
                   <HeaderDropdownImg><StImg src={shutdown} /></HeaderDropdownImg>
-                  <SidebarDesc>Logout</SidebarDesc>
+                  <SidebarDesc className="drop-down-item">Logout</SidebarDesc>
                 </HeaderDropdownInner>
               </StyleLink>
             </Dropdown.Menu>
           </HeaderDropdown>
         </Dropdown>
       </HeaderLogoff>
-      <div className="text-start">
-        <Button style={{ border: "none" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
-          <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
+      <div style={{padding:"0px"}} className="text-start">
+        <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
+          <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
         </Button>
       </div>
       <SidebarHeader style={{ display: "none" }} className="col-12">
@@ -164,7 +156,7 @@ const Header = ({ Toggle, isOpen }) => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
-            <SidebarInner style={{ height: showItem1 ? "150px" : "20px" }}>
+            <SidebarInner style={{ height: showItem1? "120px" : "20px"}}>
               <Dropdown
                 autoClose={"inside"}
                 drop={showSidebar ? "" : 'down'}
@@ -220,7 +212,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarInner style={{ height: userRoleId === "1" ? "0px" : showItem ? "150px" : "30px" }}>
+            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "120px" : "30px"   }}>
               <Dropdown
                 autoClose={"inside"}
                 drop={""}

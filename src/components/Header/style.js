@@ -2,10 +2,16 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderRow = styled.div`
-
+  .dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+}
   .swal2-styled.swal2-confirm {
-    background-color: #8000ff;
   background-color: #8000ff;
+  background-color: #8000ff;
+  margin:0px;
   @media (max-width:767.5px){
     .dropdown-toggle::after{
       content:none;
@@ -17,12 +23,7 @@ export const HeaderRow = styled.div`
     background-color:#fff;
     border-bottom:1px solid #D8D8D8;
   }
-  .dropdown {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row-reverse;
-  }
+
   .dropdown-menu {
     padding: 0;
     transform: translate3d(0, 66.4px, 0px) !important;
@@ -101,6 +102,7 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
+  padding:0px;
   background-color:#fff;
   align-items: center;
   justify-content: flex-end;
@@ -108,6 +110,8 @@ export const HeaderLogoff = styled.div`
 
   @media (max-width:767.6px){
     background-color:#fff;
+    width:100% !important;
+    border:none;
   }
   @media (max-width: 576px) {
     width: 83.33333333%;
@@ -122,6 +126,9 @@ export const HeaderLogoff = styled.div`
     &:after {
       content: none !important;
     }
+  }
+  .drop-down-item {
+    padding: 0;
   }
   .header-name {
     color: #8A969C;
@@ -224,4 +231,23 @@ export const SidebarHeader = styled.div`
 .dropdown-toggle::after{
   content:none;
 }
+`
+export const SidebarDesc = styled.div`
+  padding-bottom:10px;
+  .dropdown-item:focus{
+    background-color:#8000ff;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+  @media (max-width: 576px) {
+    font-size: 13px;
+  }
+  @media (max-width: 425px) {
+    font-size: 10px;
+  }
 `
