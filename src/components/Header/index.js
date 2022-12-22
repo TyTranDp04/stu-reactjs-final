@@ -17,6 +17,7 @@ import Notifycation from "../Notification";
 import { BtnArrow, P, SidebarCategory, SidebarCategoryGr, SidebarInner } from "../Sidebar/style";
 import {
   DivLogo,
+  DivP,
   HeaderAvatar,
   HeaderDropdown,
   HeaderDropdownImg,
@@ -89,12 +90,16 @@ const Header = ({ Toggle, isOpen }) => {
   return (
     <HeaderRow className="row">
       <DivLogo style={{ width: isOpen ? "16%" : "7%" }} className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
-        <div style={{ width: "40px", height: "40px" }}>
-          <Link to="/"><StImg src={logo} /></Link>
+        <div className="row header-logo" style={{ padding: "0px", margin: "0px", width: "100%" }}>
+          <HeaderAvatar className={isOpen ? "col-6" : "col-12"}>
+            <Link to="/"><StImg src={logo} /></Link>
+          </HeaderAvatar>
+          <DivP className="col-6" style={{ padding: "0px", margin: "0px" }}>
+            <P style={{ display: isOpen ? "inline-block" : "none" }}>Log Off SRS</P>
+          </DivP>
         </div>
-        <P style={{ display: isOpen ? "inline-block" : "none" }}>Log Off SRS</P>
         <BtnArrow style={{ right: isOpen ? "-10%" : "-25%" }}>
-          <FontAwesomeIcon onClick={Toggle} icon={isOpen ? faBarsStaggered : faBars} />
+          <FontAwesomeIcon onClick={Toggle} icon={faBarsStaggered} />
         </BtnArrow>
       </DivLogo>
       <HeaderLogoff
@@ -141,22 +146,22 @@ const Header = ({ Toggle, isOpen }) => {
           </HeaderDropdown>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{padding:"0px"}} className="text-start">
-        <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
-          <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
+      <div style={{ padding: "0px" }} className="text-start">
+        <Button style={{ border: "none" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
+          <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
         </Button>
       </div>
       <SidebarHeader style={{ display: "none" }} className="col-12">
         <Offcanvas style={{ width: "200px" }} show={showSidebar} onHide={handleClose} responsive="sm">
           <Offcanvas.Header style={{ backgroundColor: "#8000ff", borderBottom: "1px solid #D8D8D8" }} variant="white" closeButton>
             <Offcanvas.Title>
-              <div style={{ width: "60px", height: "60px" }}>
+              <div style={{ width: "50px", height: "40px" }}>
                 <Link to="/"><StImg src={logo} /></Link>
               </div>
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
-            <SidebarInner style={{ height: showItem1? "120px" : "20px"}}>
+            <SidebarInner style={{ height: showItem1 ? "100px" : "20px" }}>
               <Dropdown
                 autoClose={"inside"}
                 drop={showSidebar ? "" : 'down'}
@@ -184,7 +189,7 @@ const Header = ({ Toggle, isOpen }) => {
                   </SidebarCategory>
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                  style={{ backgroundColor: "#8000ff", border: "none" }}
+                  style={{ backgroundColor: "#8000ff", border: "none", padding: "0px" }}
                 >
                   {Object.entries(accountRouter).map(([index, value]) =>
                     <Dropdown.Item key={index}>
@@ -212,7 +217,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "120px" : "30px"   }}>
+            <SidebarInner style={{ height: userRoleId === "1" ? "0px" : showItem ? "100px" : "30px" }}>
               <Dropdown
                 autoClose={"inside"}
                 drop={""}
@@ -241,7 +246,7 @@ const Header = ({ Toggle, isOpen }) => {
                   </SidebarCategory>
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                  style={{ backgroundColor: "#8000ff", border: "none" }}
+                  style={{ backgroundColor: "#8000ff", border: "none", padding: "0px" }}
                 >
                   {Object.entries(managerRouter).map(([index, value]) =>
                     <Dropdown.Item key={index}>

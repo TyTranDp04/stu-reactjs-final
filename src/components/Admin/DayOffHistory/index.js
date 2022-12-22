@@ -94,7 +94,7 @@ const DayOffHistory = () => {
   };
 
   return (
-    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
+    <DayOffHistoryCol>
       <Form className='day-off-history_form'>
         <LoginTitle style={{ paddingBottom: "20px" }}><H2 className='day-off-history_title'>Day Off History</H2></LoginTitle>
         <label>Day off from</label>

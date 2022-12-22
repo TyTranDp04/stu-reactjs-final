@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderRow = styled.div`
+  width: 100%;
+  margin: 0;
   .dropdown {
   display: flex;
   align-items: center;
@@ -28,6 +30,7 @@ export const HeaderRow = styled.div`
     padding: 0;
     transform: translate3d(0, 66.4px, 0px) !important;
   }
+
 `
 export const DivLogo = styled.div`
 position:relative;
@@ -37,6 +40,12 @@ align-items: center;
 padding:0px;
 padding-bottom:20px;
 background-color: #8000ff;
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width:767.5px){
   display:none;
 }
@@ -140,9 +149,10 @@ export const HeaderLogoff = styled.div`
   }
 `
 export const HeaderAvatar = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  padding: 0;
 
   @media (max-width: 576px) {
     width: 30px;
@@ -232,6 +242,11 @@ export const SidebarHeader = styled.div`
   content:none;
 }
 `
+export const DivP = styled.div`
+display:flex;
+justify-content:center;
+align-items:center;
+`
 export const SidebarDesc = styled.div`
   padding-bottom:10px;
   .dropdown-item:focus{
@@ -249,5 +264,14 @@ export const SidebarDesc = styled.div`
   }
   @media (max-width: 425px) {
     font-size: 10px;
+  }
+`
+
+export const SidebarInner = styled.div`
+  margin-bottom: 30px;
+  padding:0px;
+  min-width:100%;
+    .dropdown-toggle::after{
+    content:none;
   }
 `

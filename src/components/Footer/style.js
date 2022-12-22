@@ -8,8 +8,8 @@ display:flex;
 justify-content:center;
 align-items:center;
 border-top:1px solid #D8D8D8;
-  color:#D8D8D8;  
-  background-color:#fff;
+color:#686868;  
+background-color:#fff;
 @media(max-width:767.5px){
   width:100% !important;
   position:fixed;
