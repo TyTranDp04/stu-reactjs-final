@@ -118,7 +118,7 @@ export const TableScroll = styled.div`
 export const Thead = styled.thead`
   position: sticky;
   top: -2px;
-  background-color: #F0F4F7;
+  background-color: #8000FF;
   z-index: 1;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);
 

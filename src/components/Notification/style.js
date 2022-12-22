@@ -15,7 +15,7 @@ export const HeaderIcon = styled.div`
   &:hover {
     svg{
       font-size: 22px;
-      color: #fff!important;
+      color: #8000FF!important;
       opacity: 0.8;
       cursor: pointer;
     }
@@ -26,7 +26,7 @@ export const HeaderIcon = styled.div`
   }
   svg{
     font-size: 22px;
-    color: #fff!important;
+    color: #8000FF!important;
   }
   
   &::after{
@@ -57,7 +57,7 @@ export const Span = styled.span`
   font-size: 12px;
   text-align: center;
   position: absolute;
-  background-color: #fff;
+  background-color: #8000FF;
 `
 export const Item = styled.li`
     padding: 5px 10px;
