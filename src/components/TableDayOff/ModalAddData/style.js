@@ -23,7 +23,7 @@ const InPutContainer = styled.div`
     }
     .react-datepicker-wrapper{
       #DayOffTo{
-        width: 38.5%;
+        width: 70%;
         border: 2px solid #8000ff;
         border-radius: 5px;
         height: 40px;

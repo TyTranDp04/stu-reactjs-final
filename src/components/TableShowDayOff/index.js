@@ -24,6 +24,7 @@ import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { totalDay } from '../../constants/dayoff';
 import ReactDatePicker from 'react-datepicker';
+import ShowNodata from '../TableDayOff/ShowNodata';
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
   const [dataDayOff, setDataDayOff] = useState()
@@ -112,16 +113,15 @@ const TableShowDayOff = (props) => {
     setDataSearch(null)
     setDataDayOff(dataFilterSearch)
   }
-  function totalDay(dataSearch, DayOffFrom) {
+  function totalTime(dataSearch, DayOffFrom) {
     const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
     return time
   }
   function searchDayOff() {
     const newData = dataFilterSearch?.filter(function (e) {
-      return (totalDay(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalDay(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalDay(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalDay(dataSearch, new Date(e?.DayOffTo)) >= 0);
+      return (totalTime(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalTime(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffTo)) >= 0);
     })
     setDataDayOff(newData)
-    console.log(newData)
   }
   return (
     <Main id="site-main">
@@ -159,6 +159,7 @@ const TableShowDayOff = (props) => {
                 </ButtonSearchDayOff>
               </FormSearch>
             </BoxHeader>
+
             <FormData action="/" method="POST">
               <TableScroll>
                 <Table striped bordered hover>
@@ -184,6 +185,7 @@ const TableShowDayOff = (props) => {
                       </Th>
                     </TrHead>
                   </Thead>
+
                   <Tbody >
                     {
                       dataDayOff?.map((e, index) => (
@@ -231,13 +233,18 @@ const TableShowDayOff = (props) => {
                       ))
                     }
                   </Tbody>
+
                 </Table>
+                {
+                  dataDayOff?.length === 0 ?
+                    < ShowNodata ></ShowNodata> : ''
+                }
               </TableScroll>
             </FormData>
           </ContainerDefault>
           : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
       }
-    </Main>
+    </Main >
   );
 }
 

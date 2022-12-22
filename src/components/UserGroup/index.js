@@ -94,11 +94,17 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
         deleteUserGroup(UserId, GroupId)
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }
@@ -112,6 +118,7 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(url)
@@ -124,9 +131,14 @@ function UserGroup(props) {
               timer: 1000
             })
           })
-      } else {
-        Swal.fire(" Cancel!", "", "error");
-      }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Cancel!',
+            showConfirmButton: false,
+            timer: 1000
+          })
+        }
     });
   }
   return (
