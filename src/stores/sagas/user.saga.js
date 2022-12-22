@@ -17,7 +17,7 @@ function* login(action) {
       Gmail: loginPayload.Gmail,
       Password: loginPayload.Password,
     });
-    yield put(loginActionSuccess(response.data.data));
+    yield put(loginActionSuccess(response.data.data.user));
   } catch (e) {
     yield put(loginActionFailed(e.response.data.message));
   }

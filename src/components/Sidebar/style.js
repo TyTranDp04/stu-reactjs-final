@@ -7,24 +7,45 @@ export const SidebarCol = styled.div`
   display:flex;
   flex-direction: column;
   align-items:center;
+  padding:0px;
+  padding-left:2.5%;
   background-color: #8000ff;
+  @media(max-width:996.5px){
+    width:24% !important;
+  }
+  .dropdown-toggle::after{
+    content:none;
+    padding:0px;
+   }
+   .dropdown-toggle{
+    padding:0px;
+   }
   @media (max-width: 800px) {
-    padding: 0 0 0 35px;
+   .dropdown-toggle::after{
+    content:none;
+    padding:0px;
+   }
+   .dropdown-toggle{
+    padding:0px;
+   }
+  }
+  @media(max-width:767.5px){
+    display:none;
   }
   @media (max-width: 680px) {
-    padding: 0 0 0 30px;
+    
   }
   @media (max-width: 576px) {
-    padding-left: 25px;
-    width: 25%;
   }
   @media (max-width: 425px) {
-    padding-left: 18px;
+  
   }
   .dropdown-item{
     background-color:#8000ff;
     width:auto;
+    padding:0px;
   }
+
 `
 export const Fabar = styled.div`
 display: flex;
@@ -36,12 +57,10 @@ font-size:20px;
 font-weight:700;
 color:#fff;
 margin-bottom:0px;
-
 `
 export const BtnArrow = styled.div`
 position: absolute;
 top: 20%;
-right:-10%;
 height:30px;
 width:30px;
 background-color: #fff;
@@ -63,10 +82,18 @@ height:50px;
 export const SidebarInner = styled.div`
   margin-bottom: 30px;
   min-width:100%;
+    .dropdown-toggle::after{
+    content:none;
+  }
 `
 export const SidebarCategoryGr = styled.div`
 min-width:100%;
-padding-left:10px;
+@media(max-width:800.5px){
+  padding-left:0px;
+}
+@media (max-width: 767px){
+  padding:0px;
+}
 `
 export const SidebarCategory = styled.h4`
   font-size: 18px;
@@ -74,6 +101,9 @@ export const SidebarCategory = styled.h4`
   color: #fff;
   margin-right: 5px;
   cursor: pointer;
+  @media(max-width:1050px){
+    font-size:16px !important;
+  }
   &:hover {
     color: rgb(247,148,29);
   }
@@ -97,8 +127,26 @@ export const SidebarCategory = styled.h4`
     font-size: 10px;
   }
 `
+export const SidebarGroup = styled.div`
+a {
+  color: #fff;
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+  }
+}
+@media (max-width: 576px) {
+  font-size: 13px;
+}
+@media (max-width: 425px) {
+  font-size: 10px;
+}
+`
 export const SidebarDesc = styled.div`
   padding-bottom:20px;
+  .dropdown-item:focus{
+    background-color:#8000ff;
+  }
   a {
     color: #fff;
     text-decoration: none;

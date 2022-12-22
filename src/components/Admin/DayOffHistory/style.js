@@ -9,7 +9,7 @@ const rotate = keyframes`
   }
 `;
 export const DayOffHistoryExportButton = styled.div`
-  
+  width: 100%;
 `
 export const DayOffHistoryExportLoading = styled.div`
   animation: ${rotate} 2s linear infinite;
@@ -39,7 +39,7 @@ export const DayOffHistoryWrapper = styled.div`
 
 export const DayOffHistoryCol = styled.div`
   background-color: #F0F4F7;
-
+  margin: auto;
 .day-off-history_form {
   margin: auto;
   background-color: #F0F4F7;

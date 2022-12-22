@@ -1,9 +1,8 @@
-import { faAngleLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
-import Swal from "sweetalert2";
 import {
   Container,
   User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
@@ -12,6 +11,7 @@ import {
 import axios from 'axios';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import Swal from "sweetalert2";
 import ModalAddUserGroup from './AddUserGroup';
 import ModalAddGroup from './ModalAddGroup';
 import AvatarDefault from '../../assets/images/avatar-default.jpg'
@@ -33,21 +33,22 @@ function UserGroup(props) {
   async function getDataUser() {
     await axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
+      .catch(err => { })
   }
   async function getDataGroup() {
     await axios.get(urlGetGroup)
       .then(res => {
         const dataApiGroup = res?.data?.data
-        switch (userInfo?.data?.user?.RoleId) {
+        switch (userInfo?.data?.RoleId) {
           case "1":
             const data = dataApiGroup.filter(function (e) {
-              return userInfo?.data?.user?.GroupId.includes(e._id)
+              return userInfo?.data?.GroupId.includes(e._id)
             })
             setDataGroup(data)
             break;
           case "2":
             const dataMaster = dataApiGroup.filter(function (e) {
-              return userInfo?.data?.user?.GroupId.includes(e._id)
+              return userInfo?.data?.GroupId.includes(e._id)
             })
             setDataGroup(dataMaster)
             break;
@@ -59,6 +60,7 @@ function UserGroup(props) {
 
         }
       })
+      .catch(err => { })
   }
   useEffect(() => {
     getDataUser()
@@ -79,6 +81,7 @@ function UserGroup(props) {
         })
         setCallApiGroup(!callApiGroup)
       })
+      .catch(err => { })
   }
 
   function handleShowDetail(group) {
@@ -238,7 +241,7 @@ function UserGroup(props) {
 
                       {
                         userInfo?.data?.user?.RoleId === "1" ? '' :
-                          <BtnAddGroup onClick={() => setShowAddUserGroup(true)}>+ New User</BtnAddGroup>
+                          <BtnAddGroup style={{ width: "100px" }} onClick={() => setShowAddUserGroup(true)}>+ New User</BtnAddGroup>
                       }
                       <ModalAddUserGroup group={dataDetail} show={showAddUserGroup} handle={{ setShowAddUserGroup, showAddUserGroup, callApiGroup, setCallApiGroup }}></ModalAddUserGroup>
                     </BtnContainer>

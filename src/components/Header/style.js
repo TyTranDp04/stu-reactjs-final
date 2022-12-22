@@ -2,8 +2,35 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderRow = styled.div`
+  width: 100%;
+  margin: 0;
+  .dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+}
+  .swal2-styled.swal2-confirm {
   background-color: #8000ff;
-  
+  background-color: #8000ff;
+  margin:0px;
+  @media (max-width:767.5px){
+    .dropdown-toggle::after{
+      content:none;
+      padding:0px;
+    }
+    .dropdown-toggle{
+      padding:0px;
+    }
+    background-color:#fff;
+    border-bottom:1px solid #D8D8D8;
+  }
+
+  .dropdown-menu {
+    padding: 0;
+    transform: translate3d(0, 66.4px, 0px) !important;
+  }
+
 `
 export const DivLogo = styled.div`
 position:relative;
@@ -12,7 +39,17 @@ justify-content: center;
 align-items: center;
 padding:0px;
 padding-bottom:20px;
-@media (max-width:767px){
+background-color: #8000ff;
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media(max-width:996.5px){
+    width:24% !important;
+  }
+@media (max-width:767.5px){
   display:none;
 }
 `
@@ -77,64 +114,64 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
-  background-color:#8000ff;
+  padding:0px;
+  background-color:#fff;
   align-items: center;
   justify-content: flex-end;
-
+  border-bottom:1px solid #8D8D8D;
+@media(max-width:996.5px){
+  width:76% !important;
+}
+  @media (max-width:767.6px){
+    background-color:#fff;
+    width:100% !important;
+    border:none;
+  }
   @media (max-width: 576px) {
     width: 83.33333333%;
   }
-`
-export const HeaderLogoffButton = styled.button`
-  padding: 5px 15px;
-  border-radius: 5px;
-  border: 1px solid rgb(247, 148, 29);
-  background-color: rgb(247, 148, 29);
-  color: #fff;
-  opacity: 1;
-
-  @media (max-width: 576px) {
-    padding: 5px;
-    font-size: 13px;
+  .drop-down {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
   }
-
-  @media (max-width: 425px) {
-    padding: 5px;
-    font-size: 10px;
+  .dropdown-toggle {
+    padding: 0;
+    &:after {
+      content: none !important;
+    }
   }
-  &:hover {
-    opacity: 0.8;
+  .drop-down-item {
+    padding: 0;
+  }
+  .header-name {
+    color: #8A969C;
+    font-weight: bold;
+    width: 100%;
+    text-align: right;
+    padding-right: 5px;
+    padding-bottom: 0;
   }
 `
 export const HeaderAvatar = styled.div`
-  width: 50px;
-  height: 50px;
-  border: 1px solid #4B5C6B;
-  border-radius: 50%;
-  margin: 0 30px 0 20px;
-
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  background-color: #fff;
+  padding: 0;
 
   @media (max-width: 576px) {
     width: 30px;
     height: 30px;
-    padding: 3px;
-    margin: 0 10px 0 10px;
   }
 
-  @media (max-width: 425px) {
-    margin: 0 0 0 10px;
-  }
   &:hover {
     color: #8000FF;
   }
+
   .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    margin : -1px 10px 10px -1px;  
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: 10%;
   }
 `
 export const DropdownLogo = styled.div`
@@ -172,17 +209,74 @@ color: var(--bs-dropdown-link-color);
 `
 
 export const StyleLink = styled(Link)`
-text-decoration-line:none;
+  text-decoration: none;
+  &:hover {
+    background-color: #8000ff;
+    color: #fff;
+  }
 `
-
-export const ResetImg = styled.img`
-width: 30px;
-height: auto;
-padding-right:5px;
+export const HeaderDropdown = styled.div`
+  width: 170px;
+  height: 100%;
 `
+export const HeaderDropdownInner = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0;
+  &:hover {
+    background-color: #8000ff;
+  }
+`
+export const HeaderDropdownImg = styled.div`
+  width: 30px;
+  height: 30px;
+  padding-right: 5px;
+`
+export const HeaderDropdownTitle = styled.div`
 
-export const HeaderName = styled.p`
+`
+export const HeaderName = styled.div`
 color: white;
 margin : 0;
 font-size: 18px;
+`
+
+export const SidebarHeader = styled.div`
+.dropdown-toggle::after{
+  content:none;
+}
+`
+export const DivP = styled.div`
+display:flex;
+justify-content:center;
+align-items:center;
+`
+export const SidebarDesc = styled.div`
+  padding-bottom:10px;
+  .dropdown-item:focus{
+    background-color:#8000ff;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+  @media (max-width: 576px) {
+    font-size: 13px;
+  }
+  @media (max-width: 425px) {
+    font-size: 10px;
+  }
+`
+
+export const SidebarInner = styled.div`
+  margin-bottom: 30px;
+  padding:0px;
+  min-width:100%;
+    .dropdown-toggle::after{
+    content:none;
+  }
 `

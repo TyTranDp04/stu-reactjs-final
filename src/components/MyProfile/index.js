@@ -7,23 +7,21 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { updateAvata } from "../../stores/slices/user.slice";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 import imgnull from "../../assets/images/trend-avatar-1.jpg";
+import { DayOffHistoryCol } from "../Admin/DayOffHistory/style";
+import { Cancel, Clearfix, Input, Signupbtn, SubmitDiv } from "../ChangePassword/style";
 import { TextRed } from "../Login/style.js";
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  Cancel,
-  Clearfix,
   Container,
   H1,
   ImgContent,
   ImgPreview,
   ImgPreviewItem,
-  Input,
   NameGroup,
-  Signupbtn,
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
@@ -34,11 +32,10 @@ const schema = yup.object().shape({
 
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
-
   const [data, setData] = useState();
 
   const form = document.getElementById("form");
-  const ID = userInfo?.data?.user?.id;
+  const ID = userInfo?.data?.id;
   const EGmail = data?.Gmail;
   const fullname = data?.Name;
   const avatar = data?.Avatar;
@@ -48,7 +45,7 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-   const [, setfileIMG] = useState();
+  const [, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [, setIsLoading] = useState(false);
 
@@ -59,7 +56,7 @@ const MyProfile = () => {
   useEffect(() => {
     setSelectedImage(avatar);
   }, [avatar]);
-  
+
   const {
     register,
     handleSubmit,
@@ -69,7 +66,7 @@ const MyProfile = () => {
     Object.values(e.target.files).forEach((e) => {
       if (selectedImage !== null) {
         setSelectedImage(URL.createObjectURL(e));
-         setfileIMG(e);
+        setfileIMG(e);
       } else {
       }
     });
@@ -112,7 +109,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let rolename = null;
@@ -148,7 +145,7 @@ const MyProfile = () => {
           },
           willClose: () => {
             clearInterval(timerInterval);
-          } ,
+          },
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
           }
@@ -179,20 +176,20 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-   // eslint-disable-next-line array-callback-return
-  groupID?.map(function(item)  {
+  // eslint-disable-next-line array-callback-return
+  groupID?.map(function (item) {
     {
       // eslint-disable-next-line array-callback-return
-      group?.data?.filter( function (name)  {
+      group?.data?.filter(function (name) {
         if (item === name._id) {
-           groupNameID.push(name.Name);
+          groupNameID.push(name.Name);
         }
       });
     }
   });
 
   return (
-    <div className="col-sm-9">
+    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
       <form id="form" onSubmit={handleSubmit(onSubmit)}>
         <Container className="container">
           <H1>MY PROFILE</H1>
@@ -264,7 +261,7 @@ const MyProfile = () => {
                         className="img__preview-image"
                         onClick={() => addImgHandle()}
                         src={selectedImage}
-                        alt="Image Preview" 
+                        alt="Image Preview"
                       />
                     </ImgContent>
                   ) : (
@@ -304,13 +301,11 @@ const MyProfile = () => {
             </div>
           </div>
           <Clearfix>
-            <Signupbtn className="submit" type="submit">
-              Update
-            </Signupbtn>
+            <SubmitDiv>
+              <Signupbtn className="submit" type="submit">Update</Signupbtn>
+            </SubmitDiv>
             <Cancel className="submit">
-              <Link className="linkcanel" to={"/"}>
-                Cancel
-              </Link>
+              <Link className="linkcanel" to={"/"}>Cancel</Link>
             </Cancel>
           </Clearfix>
           <ToastContainer
@@ -319,7 +314,7 @@ const MyProfile = () => {
           />
         </Container>
       </form>
-    </div>
+    </DayOffHistoryCol>
   );
 };
 export default MyProfile;

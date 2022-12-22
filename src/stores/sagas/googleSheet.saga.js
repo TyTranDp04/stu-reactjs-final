@@ -5,10 +5,10 @@ import { updateGoogleSheetAction, updateGoogleSheetActionFailed, updateGoogleShe
 function* updateGoogleSheet(action) {
   try {
     const dataPayload = action.payload;
-    yield GoogleSheetAPI.updateRows(dataPayload.DayOffFrom, dataPayload.DayOffTo);
+    yield GoogleSheetAPI.updateRows(dataPayload.dayOffFrom, dataPayload.dayOffTo, dataPayload.idGooleSheets);
     yield put(updateGoogleSheetActionSuccess());
   } catch (e) {
-    yield put(updateGoogleSheetActionFailed(e));
+    yield put(updateGoogleSheetActionFailed(e.response.data.message));
   }
 }
 

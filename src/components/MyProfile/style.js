@@ -66,12 +66,17 @@ export const Cancelbtn = styled.button`
 `;
 
 export const Container = styled.div`
-   {
-    padding: 16px;
+    padding: 30px 0;
     .lableName{
       font-size: 16px;
       font-weight: bold;
       float:left;
+      @media (max-width: 576px) {
+        font-size: 13px;
+      }
+      @media (max-width: 425px) {
+        font-size: 10px;
+      }
     }
     .phoneNumber{
       display: flex;
@@ -81,10 +86,18 @@ export const Container = styled.div`
     }
     .container_top{
       display:flex;
-      width : 100%;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
       .container_left{
         margin-right: 50px;
-        width : 50%;
+        width: 50%;
+        @media (max-width: 767px) {
+          margin-right: 20px;
+        }
+        @media (max-width: 555px) {
+          margin-right: 10px;
+        }
       }
       .container_right{
         width: 50%;
@@ -162,9 +175,7 @@ border-radius: 5px;
   opacity: .8;
   cursor: pointer;
 }
-
 `
-
 export const ImgPreview = styled.div`
 width: 100%;
 height: ;
@@ -175,7 +186,6 @@ align-items: center;
 font-weight: bold;
 color: #cccccc;
 position: relative;
-
 `
 export const ImgContentButton = styled.button`
   background-color: #fff;
@@ -195,14 +205,21 @@ position: relative;
 left: 0px;
 width: 150px;
 height: 150px;
+@media (max-width: 767px) {
+  width: 100px;
+  height: 100px;
+}
+@media (max-width: 480px) {
+  width: 80px;
+  height: 80px;
+}
 `
 export const ImgPreviewItem = styled.img`
 width: 100%;
 height: 100%;
 border: 0.5px solid #0F1C3F;
 border-radius: 50%;
-object-fit : cover;
-
+object-fit: cover;
 `
 export const BtnImgRemove = styled.button`
   top: 2px;
@@ -233,10 +250,9 @@ border-radius: 15px;
 border: 1px solid;
 flex-direction : column;
 .Groupname{
+  text-align : left;
+}
 
-text-align : left;
-}
-}
 &:hover {
   border: 2px solid #8000ff;
 }

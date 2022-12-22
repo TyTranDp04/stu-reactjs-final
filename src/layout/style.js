@@ -1,17 +1,14 @@
 import styled from "styled-components";
 
 export const LayoutRow = styled.div`
-
-  // @media(max-width: 992px) {
-  //   min-height: 87vh;
-  // }
-  // @media(max-width: 767px) {
-  //   min-height: 87vh;
-  // }
-  // @media(max-width: 550px) {
-  //   min-height: 89vh;
-  // }
-  // @media(max-width: 425px) {
-  //   min-height: 90vh;
-  // }
+margin:0px;
+`
+export const ContainerItem = styled.div`
+background-color: #F0F4F7;
+@media(max-width:996.5px){
+  width:76% !important;
+}
+@media(max-width: 767.5px){
+  width:100% !important;
+}
 `

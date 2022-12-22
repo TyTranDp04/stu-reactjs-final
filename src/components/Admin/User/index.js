@@ -28,6 +28,7 @@ import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import 'react-responsive-modal/styles.css';
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
@@ -45,8 +46,8 @@ const ManagementUser = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const id = userInfo?.data?.user?.id;
+  const userRoleId = userInfo?.data?.RoleId;
+  const id = userInfo?.data?.id;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
@@ -179,6 +180,7 @@ const ManagementUser = (props) => {
             onHide={() => setEdit(false)}
             dialogClassName="modal-90w"
             aria-labelledby="example-custom-modal-styling-title"
+            center
           >
             <Modal.Header closeButton>
               <Modal.Title id="example-custom-modal-styling-title">
@@ -209,7 +211,7 @@ const ManagementUser = (props) => {
                     reset();
                     setEdit(false);
                     Swal.fire({
-                      title: "successfully",
+                      title: "Update User Successfully",
                       icon: "success",
                       confirmButtonText: "OK",
                       confirmButtonColor: "#8000ff",
@@ -333,7 +335,7 @@ const ManagementUser = (props) => {
               </div>
               <div className="row">
                 <div className="text-start col-3">
-                  <Submit value="Edit User" type="submit" />
+                  <Submit value="Edit" type="submit" />
                 </div>
                 <div className="text-start col-9 p-0">
                   <BtnCancel type="button" onClick={() => setEdit(!edit)}>
@@ -380,7 +382,7 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       setShow(false);
                       Swal.fire({
-                        title: "successfully",
+                        title: "Add User Successfully",
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#8000ff",
@@ -478,7 +480,7 @@ const ManagementUser = (props) => {
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
-                <div>
+                <div style={{display: roleName === "Admin" ? "none" : "" }}>
                   <Label className="w-100">Group</Label>
                   <Select
                     name="GroupId"
@@ -497,7 +499,7 @@ const ManagementUser = (props) => {
                 </div>
                 <div className="row">
                   <div className="text-start col-3">
-                    <Submit value="Add User" type="submit" />
+                    <Submit value="Add" type="submit" />
                   </div>
                   <div className="text-start col-9 p-0">
                     <BtnCancel type="button" onClick={() => setShow(!show)}>
@@ -511,8 +513,9 @@ const ManagementUser = (props) => {
         </div>
         <div className="container-fluid">
           <div className="row pb-5">
-            <DivBtn className="col-lg-4 col-sm-4 mb-2 text-start">
+            <DivBtn className="col-lg-2 col-sm-4 mb-2 text-start">
               <Btn
+              style={{width:"100%"}}
                 onClick={() => {
                   setShow(true);
                   reset();
@@ -521,8 +524,8 @@ const ManagementUser = (props) => {
                 Add New User
               </Btn>
             </DivBtn>
-            <div className="col-lg-5 col-sm-2"></div>
-            <div className="col-lg-3 col-sm-3 p-0 text-end">
+            <div className="col-lg-7 col-sm-4"></div>
+            <div className="col-lg-3 col-sm-4 p-0 text-end">
               <OverlayTrigger
                 overlay={
                   <Tooltip id={`tooltip`}>Search Name,Phone,Address</Tooltip>

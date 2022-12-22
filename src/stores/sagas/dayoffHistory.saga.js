@@ -6,11 +6,11 @@ function* exportExcel(action) {
   try {
     yield delay(500);
     const dataPayload = action.payload;
-    const response = yield GoogleSheetAPI.export(dataPayload.DayOffFrom, dataPayload.DayOffTo);
+    const response = yield GoogleSheetAPI.export(dataPayload.dayOffFrom, dataPayload.dayOffTo);
     const data = response.data;
     yield put(exportExcelActionSuccess(data));
   } catch (e) {
-    yield put(exportExcelActionFailed(e));
+    yield put(exportExcelActionFailed(e.response.data));
   }
 };
 
