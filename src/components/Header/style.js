@@ -3,7 +3,17 @@ import styled from "styled-components";
 
 export const HeaderRow = styled.div`
   background-color: #8000ff;
-  
+  @media (max-width:767.5px){
+    .dropdown-toggle::after{
+      content:none;
+      padding:0px;
+     }
+     .dropdown-toggle{
+      padding:0px;
+     }
+     background-color:#fff;
+     border-bottom:1px solid #D8D8D8;
+  }
 `
 export const DivLogo = styled.div`
 position:relative;
@@ -12,7 +22,7 @@ justify-content: center;
 align-items: center;
 padding:0px;
 padding-bottom:20px;
-@media (max-width:767px){
+@media (max-width:767.5px){
   display:none;
 }
 `
@@ -77,10 +87,14 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
-  background-color:#8000ff;
+  background-color:#fff;
   align-items: center;
   justify-content: flex-end;
+  border-bottom:1px solid #8D8D8D;
 
+  @media (max-width:767.6px){
+     background-color:#fff;
+  }
   @media (max-width: 576px) {
     width: 83.33333333%;
   }
@@ -185,4 +199,10 @@ export const HeaderName = styled.p`
 color: white;
 margin : 0;
 font-size: 18px;
+`
+
+export const SidebarHeader = styled.div`
+.dropdown-toggle::after{
+  content:none;
+}
 `

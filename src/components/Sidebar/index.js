@@ -2,22 +2,29 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getListRoleIdAction } from '../../stores/slices/roleId.slice'
-import { HeaderLogo, HeaderLogoInner, HeaderLogoWrapper, StImg } from '../Header/style'
-import { Fabar, Row, SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, BtnArrow, P, SidebarCategoryGr } from './style'
+import {  SidebarCategory, SidebarCol, SidebarDesc, SidebarInner, SidebarCategoryGr } from './style'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight, faArrowRightLong, faArrowRightToBracket, faBars, faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faTrash, faUser } from '@fortawesome/free-solid-svg-icons'
+import {  faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Dropdown, OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
   const roleId = useSelector(state => state.roleId.roleIdState);
   const userInfo = useSelector(state => state.users.userInfoState);
   const dispatch = useDispatch()
-  const [showContent, setShowContent] = useState(false)
   const roleIdData = roleId?.data;
   const userRoleId = userInfo?.data?.user?.RoleId;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-
+  const [showItemSidebar,setShowItemSidebar] = useState(false)
+  const handleItemSidebar = () => setShowItemSidebar(!showItemSidebar)
+  useEffect(() => {
+    setShowItemSidebar()
+  }, [isOpen]);
+  const [showItemSidebar1,setShowItemSidebar1] = useState(false)
+  const handleItemSidebar1 = () => setShowItemSidebar1(!showItemSidebar1)
+  useEffect(() => {
+    setShowItemSidebar1()
+  }, [isOpen]);
   useEffect(() => {
     dispatch(getListRoleIdAction())
   }, [dispatch]);
@@ -32,17 +39,19 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
 
   return (
     <SidebarCol
-      style={{ width: isOpen ? "16%" : "6%" }}
+      style={{ width: isOpen ? "16%" : "7%" }}
       className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}
     >
-      <SidebarInner style={{ height: isOpen ? "150px" : "40px" }}>
+      <SidebarInner style={{ height: showItemSidebar ? "120px" : "20px" }}>
         <Dropdown
-          autoClose={isOpen ? "inside" : "outside"}
-          className={isOpen ? "" : 'end'} drop={isOpen ? "" : 'end'}
+          autoClose={isOpen ? "inside" : "true"}
+          className={isOpen ? "" : 'end'} 
+          drop={isOpen ? "" : 'end'}
           style={{ border: "none", width: "100%" }}
+          onClick={isOpen? handleItemSidebar : "" }
         >
           <Dropdown.Toggle
-            style={{ backgroundColor: "#8000ff", border: "none" }}
+            style={{ backgroundColor: "#8000ff", border: "none"}}
           >
             <OverlayTrigger
               overlay={
@@ -52,7 +61,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
               }
             >
               <FontAwesomeIcon
-                style={{ display: "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                style={{ display: "inline-block", color: 'white', paddingRight: isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faTableList}
               />
             </OverlayTrigger>
@@ -63,10 +72,10 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Toggle>
           <Dropdown.Menu
             style={{ backgroundColor: "#8000ff", border: "none" }}
-            show={isOpen && true}
           >
             {Object.entries(accountRouter).map(([index, value]) =>
-              <Dropdown.Item>
+              <Dropdown.Item 
+          >
                 <SidebarDesc key={index}>
                   <OverlayTrigger
                     overlay={
@@ -91,12 +100,13 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Menu>
         </Dropdown>
       </SidebarInner>
-      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : isOpen ? "150px" : "40px" }}>
+      <SidebarInner style={{ height:  userRoleId === "1" ? "0px" : showItemSidebar1 ? "120px" : "20px" }}>
         <Dropdown
           autoClose={isOpen ? "inside" : "outside"}
           className={isOpen ? "" : 'end'}
           drop={isOpen ? "" : 'end'}
           style={{ border: "none" }}
+          onClick={isOpen? handleItemSidebar1 : "" }
         >
           <Dropdown.Toggle
             style={{  display: userRoleId === "1" ? "none" : "inline-block", backgroundColor: "#8000ff", border: "none" }}
@@ -109,7 +119,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
               }
             >
               <FontAwesomeIcon
-                style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faPeopleRoof}
               />
             </OverlayTrigger>
@@ -120,7 +130,6 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
             </SidebarCategory>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            show={isOpen && true}
             style={{ backgroundColor: "#8000ff", border: "none" }}
           >
             {Object.entries(managerRouter).map(([index, value]) =>
@@ -150,7 +159,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           </Dropdown.Menu>
         </Dropdown>
       </SidebarInner>
-      <SidebarCategoryGr style={{ paddingLeft: isOpen ? "10px" : "5px" }} >
+      <SidebarCategoryGr  >
         <SidebarDesc >
           <OverlayTrigger
             overlay={
@@ -161,7 +170,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen }) => {
           >
             <Link to={"/user-group"}>
               <FontAwesomeIcon
-                style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
+                style={{ color: 'white', paddingRight:isOpen ? "10px" : "0px", fontSize: "20px" }}
                 icon={faPeopleGroup}
               />
             </Link>

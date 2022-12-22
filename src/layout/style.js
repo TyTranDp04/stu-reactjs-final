@@ -15,3 +15,8 @@ export const LayoutRow = styled.div`
   //   min-height: 90vh;
   // }
 `
+export const ContainerItem = styled.div`
+@media(max-width: 767.5px){
+  width:100% !important;
+}
+`
