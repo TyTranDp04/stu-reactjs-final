@@ -23,9 +23,6 @@ justify-content: center;
 align-items: center;
 padding:0px;
 padding-bottom:20px;
-@media(max-width:996.5px){
-    width:24% !important;
-  }
 @media (max-width:767.5px){
   display:none;
 }
@@ -96,9 +93,7 @@ export const HeaderLogoff = styled.div`
   align-items: center;
   justify-content: flex-end;
   border-bottom:1px solid #8D8D8D;
-@media(max-width:996.5px){
-  width:76% !important;
-}
+
   @media (max-width:767.6px){
      background-color:#fff;
      width:100% !important;
@@ -222,22 +217,21 @@ align-items:center;
 `
 export const SidebarDesc = styled.div`
   padding-bottom:10px;
+  .dropdown-item{
+    padding-left:11px !important;
+  }
   .dropdown-item:focus{
     background-color:#8000ff;
   }
   a {
     color: #fff;
     text-decoration: none;
+    font-weight:700;
     &:hover {
       font-weight: bold;
     }
   }
-  @media (max-width: 576px) {
-    font-size: 13px;
-  }
-  @media (max-width: 425px) {
-    font-size: 10px;
-  }
+
 `
 
 export const SidebarInner = styled.div`

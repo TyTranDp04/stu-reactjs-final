@@ -154,7 +154,7 @@ const Header = ({ Toggle, isOpen }) => {
           </DropdownLogo>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{padding:"0px"}}>
+      <div style={{padding:"0px"}} className="text-start">
         <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
         </Button>
@@ -187,6 +187,7 @@ const Header = ({ Toggle, isOpen }) => {
                     }
                   >
                     <FontAwesomeIcon
+                    className="font-icon"
                       style={{ display: "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
                       icon={faTableList}
                     />
@@ -211,6 +212,7 @@ const Header = ({ Toggle, isOpen }) => {
                         >
                           <Link to={value.url}>
                             <FontAwesomeIcon
+                            className="font-icon"
                               style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
                               icon={value.icon}
                             />
@@ -243,6 +245,7 @@ const Header = ({ Toggle, isOpen }) => {
                     }
                   >
                     <FontAwesomeIcon
+                    className="font-icon"
                       style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
                       icon={faPeopleRoof}
                     />
@@ -269,6 +272,7 @@ const Header = ({ Toggle, isOpen }) => {
                         >
                           <Link to={value.url}>
                             <FontAwesomeIcon
+                            className="font-icon"
                               style={{ display: value.displayIcon, color: 'white', paddingRight: "10px", fontSize: "20px" }}
                               icon={value.icon}
                             />
@@ -283,7 +287,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarCategoryGr  >
+            <SidebarInner  >
               <SidebarDesc >
                 <OverlayTrigger
                   overlay={
@@ -294,6 +298,7 @@ const Header = ({ Toggle, isOpen }) => {
                 >
                   <Link to={"/user-group"}>
                     <FontAwesomeIcon
+                    className="font-icon"
                       style={{ color: 'white', paddingLeft:  "10px",paddingRight:  "10px" , fontSize: "20px" }}
                       icon={faPeopleGroup}
                     />
@@ -302,10 +307,13 @@ const Header = ({ Toggle, isOpen }) => {
                 <Link
                   style={{ display:"" }}
                   to={"/user-group"}
-                >User Group
+                >
+                  <SidebarCategory style={{display:"inline-block"}}>
+                    User Group
+                  </SidebarCategory>
                 </Link>
               </SidebarDesc>
-            </SidebarCategoryGr>
+            </SidebarInner>
           </Offcanvas.Body>
         </Offcanvas>
       </SidebarHeader>

@@ -10,9 +10,6 @@ export const SidebarCol = styled.div`
   padding:0px;
   padding-left:2.5%;
   background-color: #8000ff;
-  @media(max-width:996.5px){
-    width:24% !important;
-  }
   .dropdown-toggle::after{
     content:none;
     padding:0px;
@@ -102,7 +99,7 @@ export const SidebarCategory = styled.h4`
   margin-right: 5px;
   cursor: pointer;
   @media(max-width:1050px){
-    font-size:16px !important;
+    font-size:11px !important;
   }
   &:hover {
     color: rgb(247,148,29);

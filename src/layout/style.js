@@ -16,9 +16,6 @@ margin:0px;
   // }
 `
 export const ContainerItem = styled.div`
-@media(max-width:996.5px){
-  width:76% !important;
-}
 @media(max-width: 767.5px){
   width:100% !important;
 }
