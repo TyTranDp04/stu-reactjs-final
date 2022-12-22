@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LayoutRow = styled.div`
-
+margin:0px;
   // @media(max-width: 992px) {
   //   min-height: 87vh;
   // }

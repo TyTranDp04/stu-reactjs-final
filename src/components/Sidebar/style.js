@@ -121,6 +121,21 @@ export const SidebarCategory = styled.h4`
     font-size: 10px;
   }
 `
+export const SidebarGroup = styled.div`
+a {
+  color: #fff;
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+  }
+}
+@media (max-width: 576px) {
+  font-size: 13px;
+}
+@media (max-width: 425px) {
+  font-size: 10px;
+}
+`
 export const SidebarDesc = styled.div`
   padding-bottom:20px;
   .dropdown-item:focus{

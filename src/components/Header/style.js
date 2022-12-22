@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const HeaderRow = styled.div`
   background-color: #8000ff;
+  margin:0px;
   @media (max-width:767.5px){
     .dropdown-toggle::after{
       content:none;
@@ -87,6 +88,7 @@ export const StImg = styled.img`
 `
 export const HeaderLogoff = styled.div`
   display: flex;
+  padding:0px;
   background-color:#fff;
   align-items: center;
   justify-content: flex-end;
@@ -94,6 +96,8 @@ export const HeaderLogoff = styled.div`
 
   @media (max-width:767.6px){
      background-color:#fff;
+     width:100% !important;
+     border:none;
   }
   @media (max-width: 576px) {
     width: 83.33333333%;
@@ -205,4 +209,23 @@ export const SidebarHeader = styled.div`
 .dropdown-toggle::after{
   content:none;
 }
+`
+export const SidebarDesc = styled.div`
+  padding-bottom:10px;
+  .dropdown-item:focus{
+    background-color:#8000ff;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+  @media (max-width: 576px) {
+    font-size: 13px;
+  }
+  @media (max-width: 425px) {
+    font-size: 10px;
+  }
 `
