@@ -44,7 +44,7 @@ const TableDayOff = (props) => {
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApiTable, setCallApiTable] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
-  const dataUser = userInfo?.data?.user
+  const dataUser = userInfo?.data;
   const idMaster = data?.idMaster
   const dayOffData = data?.data
   const [dataAllUser, setDataAllUser] = useState()
@@ -110,7 +110,7 @@ const TableDayOff = (props) => {
   }
   return (
     <Main id="site-main">
-      {!showDetail ?
+    
         <ContainerDefault >
           <BoxHeader>
             <BoxNav class="box-nav d-flex justify-between">
@@ -137,29 +137,29 @@ const TableDayOff = (props) => {
 
           <FormData action="/" method="POST">
             <TableScroll>
-              <Table striped bordered hover>
+              <Table striped bordered hover style={{ marginBottom: '0' }}>
                 <Thead class="thead-dark">
                   <TrHead>
-                    <Th>
-                      <ThContent>#</ThContent>
+                    <Th  style={{ color: '#fff' }}>
+                      <ThContent>No</ThContent>
                     </Th>
-                    <Th>
+                    <Th style={{ color: '#fff' }}>
                       <ThContent>Request for date</ThContent>
                     </Th>
-                    <Th>
+                    <Th style={{ color: '#fff' }}>
                       <ThContent>Quantity</ThContent>
                     </Th>
-                    <Th>
+                    <Th style={{ color: '#fff' }}>
                       <ThContent>Requester</ThContent>
                     </Th>
-                    <Th>
+                    <Th style={{ color: '#fff' }}>
                       <ThContent>Status</ThContent>
                     </Th>
-                    <Th>
+                    <Th style={{ color: '#fff' }} >
                       <ThContent>Request date</ThContent>
                     </Th>
                     {
-                      dataUser?.RoleId === "3" ? '' : <Th>
+                      dataUser?.RoleId === "3" ? '' : <Th style={{ color: '#fff' }}>
                         <ThContent>Action</ThContent>
                       </Th>
                     }
@@ -230,9 +230,10 @@ const TableDayOff = (props) => {
           </FormData>
           <ModalAddData user={formData} show={showModalAdd} handle={{ setShowModalAdd, setCallApiTable, callApiTable }}></ModalAddData>
           <ModalUpdateData user={formData} show={showModalUpdate} handle={{ setShowModalUpdate, setCallApiTable, callApiTable, showModalUpdate }} idRequest={idRequest}></ModalUpdateData>
-        </ContainerDefault>
-        : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable, setShowModalUpdate, showModalUpdate, setIdRequest }} ></DetailDayOff>
-      }
+          {!showDetail ?'':
+          <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable, setShowModalUpdate, showModalUpdate, setIdRequest }} ></DetailDayOff>
+            }
+          </ContainerDefault>
     </Main>
   );
 }

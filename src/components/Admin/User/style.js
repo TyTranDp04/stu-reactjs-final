@@ -101,6 +101,9 @@ align-items: flex-start;
   &:hover {
     opacity: 0.8;
   }
+  @media(max-width:767.6px){
+    margin-left:20px;
+  }
 `
 export const DivModal = styled.div`
   position: absolute;
@@ -111,7 +114,7 @@ export const DivModal = styled.div`
 export const FooterForm = styled.form`
   padding: 10px;
   @media (max-width: 768px) {
-    padding-bottom: 0px;
+    padding-bottom: 10px;
     margin: 0px;
   }`
   export const Label = styled.label`
@@ -167,6 +170,9 @@ max-height:70vh;
   background-color: #8000ff !important;
   color:#fff;
 }
+@media (max-width: 767.5px){
+  max-height:50vh;
+}
 `
 export const TextArea = styled.textarea`
   background-color: #ffffff;
@@ -200,7 +206,7 @@ export const Submit = styled.input`
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  padding: 11px 15px;
+  padding: 11px 30px;
   text-align: center;
   &:hover {
     opacity: 0.8;

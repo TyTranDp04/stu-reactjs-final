@@ -134,11 +134,12 @@ const ModalAddUserGroup = (props) => {
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      centered    
+      centered
+      className='modal__request'
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add Day Off
+        Add User Group
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -148,7 +149,7 @@ const ModalAddUserGroup = (props) => {
             <Form.Select id='RoleId' required style={{ width: '50%', border: '2px solid #ccc', color: "#ccc" }} onChange={(e) => handleOnchange(e)}>
               <Option  value="1">Member</Option>
               {
-                userInfo?.data?.user?.RoleId ==="3"?<Option   value="2">Master</Option>:''
+                userInfo?.data?.RoleId ==="3"?<Option   value="2">Master</Option>:''
               }
             </Form.Select>
           </InPutContainer>

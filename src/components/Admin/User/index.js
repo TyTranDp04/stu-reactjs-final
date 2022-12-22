@@ -46,8 +46,8 @@ const ManagementUser = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const id = userInfo?.data?.user?.id;
+  const userRoleId = userInfo?.data?.RoleId;
+  const id = userInfo?.data?.id;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
@@ -211,7 +211,7 @@ const ManagementUser = (props) => {
                     reset();
                     setEdit(false);
                     Swal.fire({
-                      title: "successfully",
+                      title: "Update User Successfully",
                       icon: "success",
                       confirmButtonText: "OK",
                       confirmButtonColor: "#8000ff",
@@ -335,7 +335,7 @@ const ManagementUser = (props) => {
               </div>
               <div className="row">
                 <div className="text-start col-3">
-                  <Submit value="Edit User" type="submit" />
+                  <Submit value="Edit" type="submit" />
                 </div>
                 <div className="text-start col-9 p-0">
                   <BtnCancel type="button" onClick={() => setEdit(!edit)}>
@@ -382,7 +382,7 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       setShow(false);
                       Swal.fire({
-                        title: "successfully",
+                        title: "Add User Successfully",
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#8000ff",
@@ -480,7 +480,7 @@ const ManagementUser = (props) => {
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
-                <div>
+                <div style={{display: roleName === "Admin" ? "none" : "" }}>
                   <Label className="w-100">Group</Label>
                   <Select
                     name="GroupId"
@@ -499,7 +499,7 @@ const ManagementUser = (props) => {
                 </div>
                 <div className="row">
                   <div className="text-start col-3">
-                    <Submit value="Add User" type="submit" />
+                    <Submit value="Add" type="submit" />
                   </div>
                   <div className="text-start col-9 p-0">
                     <BtnCancel type="button" onClick={() => setShow(!show)}>

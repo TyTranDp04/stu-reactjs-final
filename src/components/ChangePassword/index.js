@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { TextRed } from "../Login/style";
-import { changePasswordAction } from "../../stores/slices/user.slice";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
+import * as yup from "yup";
+import { changePasswordAction } from "../../stores/slices/user.slice";
+import { DayOffHistoryCol } from "../Admin/DayOffHistory/style";
+import { Form, TextRed } from "../Login/style";
 import {
   Cancel,
   Clearfix,
   Container,
+  FormInner,
   H1,
   Input,
   P,
   Signupbtn,
+  SubmitDiv,
 } from "./style.js";
-import Swal from "sweetalert2";
-import axios from "axios";
 const schema = yup
   .object()
   .shape({
@@ -42,8 +44,8 @@ const schema = yup
 const ChangePassword = () => {
   const [data, setData] = useState();
   const userInfo = useSelector((state) => state.users.userInfoState);
-  const id = userInfo.data?.user?.id;
- 
+  const id = userInfo?.data?.id;
+
   let ChangePassword = data?.Password;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -92,7 +94,6 @@ const ChangePassword = () => {
               Password: adata.Password,
             })
           );
-          navigate("/");
           Swal.fire({
             title: "Update success",
             icon: "success",
@@ -101,6 +102,7 @@ const ChangePassword = () => {
             confirmButtonColor: "#8000ff",
           })
           ChangePassword = adata.Password;
+          navigate("/");
         } else {
           toast.error("Old Password Incorrect");
           Swal.fire("Old Password Incorrect!", "", "error");
@@ -118,55 +120,55 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="col-sm-9">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <DayOffHistoryCol className='col-sm-9 col-lg-10'>
+      <Form style={{ padding: "0", margin: "auto", backgroundColor: "#f0f4f7" }} onSubmit={handleSubmit(onSubmit)}>
         <Container className="container">
           <H1>CHANGE PASSWORD</H1>
           <P>Please enter the information below.</P>
           <hr />
-          <Input
-            type="password"
-            placeholder="Old Password"
-            {...register("oldPassword")}
-          />
-          <TextRed>{errors.oldPassword?.message}</TextRed>
-
-          <div className="container_show">
+          <FormInner>
             <Input
               type="password"
-              placeholder="New Password"
-              {...register("Password")}
+              placeholder="Old Password"
+              {...register("oldPassword")}
             />
-            <TextRed >{errors.Password?.message}</TextRed>
-            <span className="show-btn">
-              <i className="fas fa-eye"></i>
-            </span>
-          </div>
+            <TextRed>{errors.oldPassword?.message}</TextRed>
 
-          <Input
-            type="password"
-            placeholder="Confirm New Password"
-            {...register("confirmPassword")}
-          />
-          <TextRed>{errors.confirmPassword?.message}</TextRed>
+            <div className="container_show">
+              <Input
+                type="password"
+                placeholder="New Password"
+                {...register("Password")}
+              />
+              <TextRed >{errors.Password?.message}</TextRed>
+              <span className="show-btn">
+                <i className="fas fa-eye"></i>
+              </span>
+            </div>
 
-          <Clearfix>
-            <Signupbtn className="submit" type="submit">
-              Change Password
-            </Signupbtn>
-            <Cancel className="submit">
-              <Link className="linkcanel" to={"/"}>
-                Cancel
-              </Link>
-            </Cancel>
-          </Clearfix>
+            <Input
+              type="password"
+              placeholder="Confirm New Password"
+              {...register("confirmPassword")}
+            />
+            <TextRed>{errors.confirmPassword?.message}</TextRed>
+
+            <Clearfix>
+              <SubmitDiv>
+                <Signupbtn className="submit" type="submit">Change Password</Signupbtn>
+              </SubmitDiv>
+              <Cancel className="submit">
+                <Link className="linkcanel" to={"/"}>Cancel</Link>
+              </Cancel>
+            </Clearfix>
+          </FormInner>
           <ToastContainer
             style={{ display: "block", position: "fixed", zIndex: "99999" }}
             autoClose={1000}
           />
         </Container>
-      </form>
-    </div>
+      </Form>
+    </DayOffHistoryCol>
   );
 };
 

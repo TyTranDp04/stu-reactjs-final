@@ -33,7 +33,7 @@ const Notifycation = (props) => {
   const [inverseData, setInverseData] = useState(false)
 
   useEffect(() => {
-    setDataUser(userInfo?.data?.user)
+    setDataUser(userInfo?.data)
   }, [userInfo])
   const urlGetDayOff = URL_API + "/notification/" + dataUser?.id
   async function getDataDayOff() {
@@ -133,7 +133,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to="/request-log-off">
+                    <Link key={index} to={e?.Status === 1 || e?.Status === 4?"/request-log-off":"/log-off"}>
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {

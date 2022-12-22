@@ -20,8 +20,7 @@ export const Group = styled.div`
 
 `
 export const GroupDetail = styled.div`
-padding : 50px 30px 30px 30px; 
-  
+  padding: 0 15px;
 `
 export const HeaderContainer = styled.div`
   display: flex;
@@ -124,7 +123,6 @@ export const NameTitle = styled.div`
   border: 2px solid #ccc;
   width: 20%;
   border-radius: 5px;
-
   text-align: center;
   display: flex;
   align-items: center;
@@ -138,19 +136,25 @@ export const Master = styled.div`
 display: flex;
 
 justify-content: start;
-
+@media (max-width: 768px){
+  flex-direction: column;
+}
 `
 
 export const MemberContainer = styled.div`
 border: 2px solid #ccc;
 border-radius: 5px;
 margin: 5px 0;
-width: 70%;
+width: 75%;
 height: 150px;
 display: flex;
 flex-wrap: wrap;
 overflow: auto;
 
+@media (max-width: 768px){
+width: 100%;
+  
+}
 `
 export const MemberInfo = styled.div`
 margin: 3px 5px 0 5px;
@@ -185,7 +189,9 @@ border-radius: 13px;
 export const Members = styled.div`
 display: flex;
 justify-content: start;
-
+@media (max-width: 768px){
+  flex-direction: column;
+}
 `
 
 export const NameTextInfo = styled.h5`

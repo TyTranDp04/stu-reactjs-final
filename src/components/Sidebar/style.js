@@ -8,8 +8,11 @@ export const SidebarCol = styled.div`
   flex-direction: column;
   align-items:center;
   padding:0px;
-  padding-left:2%;
+  padding-left:2.5%;
   background-color: #8000ff;
+  @media(max-width:996.5px){
+    width:24% !important;
+  }
   .dropdown-toggle::after{
     content:none;
     padding:0px;
@@ -42,6 +45,7 @@ export const SidebarCol = styled.div`
     width:auto;
     padding:0px;
   }
+
 `
 export const Fabar = styled.div`
 display: flex;
@@ -53,7 +57,6 @@ font-size:20px;
 font-weight:700;
 color:#fff;
 margin-bottom:0px;
-
 `
 export const BtnArrow = styled.div`
 position: absolute;
@@ -98,6 +101,9 @@ export const SidebarCategory = styled.h4`
   color: #fff;
   margin-right: 5px;
   cursor: pointer;
+  @media(max-width:1050px){
+    font-size:16px !important;
+  }
   &:hover {
     color: rgb(247,148,29);
   }
@@ -120,6 +126,21 @@ export const SidebarCategory = styled.h4`
   @media (max-width: 425px) {
     font-size: 10px;
   }
+`
+export const SidebarGroup = styled.div`
+a {
+  color: #fff;
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+  }
+}
+@media (max-width: 576px) {
+  font-size: 13px;
+}
+@media (max-width: 425px) {
+  font-size: 10px;
+}
 `
 export const SidebarDesc = styled.div`
   padding-bottom:20px;
