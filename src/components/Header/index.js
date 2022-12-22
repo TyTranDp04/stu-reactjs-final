@@ -21,11 +21,12 @@ import {
   HeaderName,
   HeaderRow,
   ResetImg,
+  SidebarDesc,
   SidebarHeader,
   StImg,
   StyleLink
 } from "./style";
-import { BtnArrow, P, SidebarCategory, SidebarDesc, SidebarInner,SidebarCategoryGr } from "../Sidebar/style";
+import { BtnArrow, P, SidebarCategory, SidebarInner,SidebarCategoryGr } from "../Sidebar/style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faBars, faBarsStaggered, faCalendar, faCodePullRequest, faTableList, faPeopleRoof, faUser, faList,faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -147,7 +148,7 @@ const Header = ({ Toggle, isOpen }) => {
           </DropdownLogo>
         </Dropdown>
       </HeaderLogoff>
-      <div className="text-start">
+      <div style={{padding:"0px"}} className="text-start">
         <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
         </Button>
@@ -162,7 +163,7 @@ const Header = ({ Toggle, isOpen }) => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
-            <SidebarInner style={{ height: showItem1? "150px" : "20px"}}>
+            <SidebarInner style={{ height: showItem1? "120px" : "20px"}}>
               <Dropdown
                 autoClose={"inside"}
                 drop={showSidebar ? "" : 'down'}
@@ -218,7 +219,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "150px" : "30px"   }}>
+            <SidebarInner style={{ height: userRoleId === "1" ? "0px" :  showItem? "120px" : "30px"   }}>
               <Dropdown
                 autoClose={"inside"}
                 drop={""}
