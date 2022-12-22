@@ -109,7 +109,7 @@ const Header = ({ Toggle, isOpen }) => {
         style={{ width: isOpen ? "84%" : "93%" }}
       >
         <Dropdown>
-          <div>
+          <div style={{paddingRight:"20px"}}>
             <Dropdown.Toggle>
               <HeaderAvatar>
                 {Avatar ? (
@@ -120,7 +120,7 @@ const Header = ({ Toggle, isOpen }) => {
               </HeaderAvatar>
             </Dropdown.Toggle>
           </div>
-          <Notifycation />
+          <Notifycation ></Notifycation>
           <SidebarDesc className="header-name">
             Hi, {Name}
           </SidebarDesc>
@@ -149,7 +149,7 @@ const Header = ({ Toggle, isOpen }) => {
         </Dropdown>
       </HeaderLogoff>
       <div style={{ padding: "0px",position:"absolute" }} className="text-start">
-        <Button style={{ border: "none" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
+        <Button style={{ border: "none",paddingBottom:"0px" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
         </Button>
       </div>

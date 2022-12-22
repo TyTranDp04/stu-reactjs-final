@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen, permission }) => {
             </ToggleDrop>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "10px" }}
+            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "-10px" }}
           >
             {Object.entries(accountRouter).map(([index, value]) =>
               <Dropdown.Item key={index}>
@@ -137,7 +137,7 @@ const Sidebar = ({ isOpen, Toggle, setIsOpen, permission }) => {
             </ToggleDrop>
           </Dropdown.Toggle>
           <Dropdown.Menu
-            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "30px" }}
+            style={{ backgroundColor: "#8000ff", border: "none", marginLeft: isOpen ? "0px" : "10px" }}
           >
             {Object.entries(managerRouter).map(([index, value]) =>
               <Dropdown.Item key={index}>
