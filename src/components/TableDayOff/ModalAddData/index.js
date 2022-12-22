@@ -15,9 +15,11 @@ import {
   FormDataInput, Input, InPutContainerFrom, Option
 } from './style.js'
 import DatePicker from "react-datepicker";
-
+import { dataHoliday } from '../../../constants/holiday.js';
 import "react-datepicker/dist/react-datepicker.css";
 import { Form } from 'react-bootstrap';
+import { checkHoliday, checkSameDay } from '../../../constants/dayoff.js';
+import SelectTime from './SelectTime/index.js';
 
 const ModalAddData = (props) => {
   const { setShowModalAdd, setCallApiTable, callApiTable } = props.handle
@@ -26,6 +28,7 @@ const ModalAddData = (props) => {
   const url = URL_API + '/newdayoff'
   const [quantity, setQuantity] = useState()
   const [currentQuantity, setCurrentQuantity] = useState(1)
+  const [dataDayOff, setDataDayOff] = useState(1)
   const [data, setData] = useState({
     UserId: user?.UserId,
     Name: user?.Name,
@@ -43,50 +46,119 @@ const ModalAddData = (props) => {
     const dataDate = moment(date).format('YYYY-MM-DD')
     return dataDate
   }
-  function addRequest() {
-    const dataFrom = changeDate(data?.DayOffFrom)
-    const dataTo = changeDate(data?.DayOffTo)
-    const newdata = { ...data }
-    if(!data?.Type){
-      newdata.Type = 0
-    }
-    newdata.DayOffFrom = dataFrom
-    newdata.DayOffTo = dataTo
-    newdata.Quantity = quantity
-    Axios.post(url, newdata)
+  useEffect(() => {
+    const urlGetDayOff = URL_API + '/dayoff-user/' + user?.UserId
+    Axios.get(urlGetDayOff)
       .then((data) => {
-        if (data?.data?.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Add request success',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          setCallApiTable(!callApiTable)
-        } else {
-          Swal.fire("Error!", "", "error");
-        }
+        const newdata = data?.data?.filter(function (e) {
+          return e?.Status !== 3
+        })
+        setDataDayOff(newdata)
       })
+  }, [])
+  function addRequest() {
+    const checkSameDate = checkSameDay(dataDayOff, data?.DayOffFrom, data?.DayOffTo)
+    const checkHolidate = checkHoliday(dataHoliday, data?.DayOffFrom, data?.DayOffTo)
+    if (checkSameDate || checkHolidate) {
+      if (checkSameDate) {
+        const newdata = { ...data }
+        newdata.DayOffFrom = null
+        newdata.DayOffTo = null
+        setQuantity(0)
+        setData(newdata)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Day off already exist!",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
+        })
+      }
+      if (checkHolidate) {
+        const newdata = { ...data }
+        newdata.DayOffFrom = null
+        newdata.DayOffTo = null
+        setQuantity(0)
+        setData(newdata)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Coincide with Saturday, Sunday and holidays!",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
+        })
+      }
+    } else {
+      const dataFrom = changeDate(data?.DayOffFrom)
+      const dataTo = changeDate(data?.DayOffTo)
+      const newdata = { ...data }
+      if (!data?.Type) {
+        newdata.Type = 0
+      }
+      newdata.DayOffFrom = dataFrom
+      newdata.DayOffTo = dataTo
+      newdata.Quantity = quantity
+      Axios.post(url, newdata)
+        .then((data) => {
+          if (data?.data?.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Add request success',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            setCallApiTable(!callApiTable)
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Cancel!',
+              showConfirmButton: false,
+              timer: 1000
+            })
+          }
+        })
+    }
   }
   useEffect(() => {
     totalDay(data)
+
     if (data?.DayOffFrom - data?.DayOffTo === 0) {
       setShowMidDay(true)
     } else {
       setShowMidDay(false)
       const newdata3 = { ...data }
-        newdata3.Time = 'All day'
-        setCurrentQuantity(1)
-        setData(newdata3)
+      newdata3.Time = 'All day'
+      setCurrentQuantity(1)
+      setData(newdata3)
     }
-  }, [data?.DayOffFrom, data?.DayOffTo,data?.Time], currentQuantity)
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Time, currentQuantity])
   function totalDay(data) {
     const { DayOffFrom, DayOffTo } = data
     if (DayOffFrom && DayOffTo) {
       const time = (((DayOffTo - DayOffFrom) / 360 / 24 / 10000) + 1) * currentQuantity
-        setQuantity(time)
+      setQuantity(time)
     }
   }
+  useEffect(() => {
+    const date = new Date()
+    if (data?.DayOffFrom && data?.DayOffTo) {
+      if (data?.DayOffFrom - date <= 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
+        const newdata = { ...data }
+        newdata.DayOffFrom = null
+        newdata.DayOffTo = null
+        setQuantity(0)
+        setData(newdata)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Wrong date entered!",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
+        })
+      }
+    }
+
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Quantity])
 
   function handleOnChangeForm(e) {
     const newdata = { ...data }
@@ -150,13 +222,19 @@ const ModalAddData = (props) => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
         addRequest()
         reset();
         setShowModalAdd(false)
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }
@@ -166,6 +244,7 @@ const ModalAddData = (props) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className='modal__request'
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -191,21 +270,26 @@ const ModalAddData = (props) => {
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
               <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
                 {
-                  showMidDay === false ? '' :
+                  showMidDay === false || quantity > 0.5 ? '' :
                     <Option value={1}>Morning</Option>
                 }
                 {
-                  showMidDay === false ? '' :
+                  showMidDay === false || quantity > 0.5 ? '' :
                     <Option value={2} >Afternoon</Option>
                 }
-                <Option value={3}>All day</Option>
+                 {
+                  quantity > 0.5?<Option value={3}>All day</Option>:''
+                }
               </Form.Select>
             </InPutContainer>
           </InPutContainerFrom>
-          <InPutContainer className="mb-6">
-            <LableInput style={{ width: '28.4%', margin: '0', }} className="form-label">To</LableInput>
-            <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
-          </InPutContainer>
+          <InPutContainerFrom>
+            <LableInput style={{ width: '51%', margin: '0', }} className="form-label">To</LableInput>
+            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
+              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
+            </InPutContainer>
+            <SelectTime quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
+          </InPutContainerFrom>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
             <Input value={quantity} disabled autoComplete='off' id='Quantity' name='Quantity' />

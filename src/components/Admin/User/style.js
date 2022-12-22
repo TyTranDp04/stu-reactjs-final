@@ -32,6 +32,9 @@ color: #333333;
 font-size: 40px;
 line-height: 45px;
 font-weight: 700;
+@media (max-width: 767px){
+  font-size:25px;
+}
 `
 
 export const Image = styled.img`
@@ -108,8 +111,6 @@ export const DivModal = styled.div`
 export const FooterForm = styled.form`
   padding: 10px;
   @media (max-width: 768px) {
-    padding-left: 48px;
-    padding-right: 48px;
     padding-bottom: 0px;
     margin: 0px;
   }`
@@ -156,7 +157,7 @@ padding: 6px 15px;
 `
 export const DivTable = styled.div`
 overflow:auto;
-max-height:60vh;
+max-height:70vh;
 .testHover:hover{
   background-color: #8000ff;
   opacity: 0.8;

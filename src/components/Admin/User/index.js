@@ -28,6 +28,7 @@ import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import 'react-responsive-modal/styles.css';
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
@@ -179,6 +180,7 @@ const ManagementUser = (props) => {
             onHide={() => setEdit(false)}
             dialogClassName="modal-90w"
             aria-labelledby="example-custom-modal-styling-title"
+            center
           >
             <Modal.Header closeButton>
               <Modal.Title id="example-custom-modal-styling-title">
@@ -209,7 +211,7 @@ const ManagementUser = (props) => {
                     reset();
                     setEdit(false);
                     Swal.fire({
-                      title: "succesfully",
+                      title: "successfully",
                       icon: "success",
                       confirmButtonText: "OK",
                       confirmButtonColor: "#8000ff",
@@ -287,7 +289,7 @@ const ManagementUser = (props) => {
                 <Error className="w-100">{errors.Address?.message}</Error>
               </div>
               <div>
-                <Label className="w-100">RoleId</Label>
+                <Label className="w-100">Role</Label>
                 <Select
                   id="RoleId"
                   name="RoleId"
@@ -300,15 +302,19 @@ const ManagementUser = (props) => {
                     getRole(event);
                   }}
                 >
-                  {dataRole?.map((e) => (
-                    <option
-                      selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""}
-                      value={e.RoleName}
-                      key={e._id}
-                    >
-                      {e.RoleName}
-                    </option>
-                  ))}
+                  {dataRole?.map((e) =>
+                  roleName === "Admin" ? (
+                    <option key={e._id}>{e.RoleName}</option>
+                  ) :( roleName === "Manager" ? (
+                    e.RoleName !== "Admin" && e.RoleName !== "Manager" ? (
+                      <option>Staff</option>
+                    ) : (
+                     ""
+                    )
+                  ) : (
+                    ""
+                  ))
+                  )}
                 </Select>
                 <Error className="w-100">{errors.RoleId?.message}</Error>
               </div>
@@ -376,7 +382,7 @@ const ManagementUser = (props) => {
                       dispatch(getListDpManagementAction());
                       setShow(false);
                       Swal.fire({
-                        title: "succesfully",
+                        title: "successfully",
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#8000ff",
@@ -507,8 +513,9 @@ const ManagementUser = (props) => {
         </div>
         <div className="container-fluid">
           <div className="row pb-5">
-            <DivBtn className="col-lg-4 col-sm-4 mb-2 text-start">
+            <DivBtn className="col-lg-2 col-sm-4 mb-2 text-start">
               <Btn
+              style={{width:"100%"}}
                 onClick={() => {
                   setShow(true);
                   reset();
@@ -517,8 +524,8 @@ const ManagementUser = (props) => {
                 Add New User
               </Btn>
             </DivBtn>
-            <div className="col-lg-5 col-sm-2"></div>
-            <div className="col-lg-3 col-sm-3 p-0 text-end">
+            <div className="col-lg-7 col-sm-4"></div>
+            <div className="col-lg-3 col-sm-4 p-0 text-end">
               <OverlayTrigger
                 overlay={
                   <Tooltip id={`tooltip`}>Search Name,Phone,Address</Tooltip>
@@ -601,7 +608,7 @@ const ManagementUser = (props) => {
                                 text: "You will not be able to recover this USER",
                                 icon: "warning",
                                 iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
+                                confirmButtonColor: "#8000ff",
                                 confirmButtonText: "Oke",
                                 cancelButtonText: "Cancel",
                                 showCancelButton: true,
@@ -611,7 +618,14 @@ const ManagementUser = (props) => {
                                   DeleteData(item._id);
                                   setShow(false);
                                   dispatch(getListDpManagementAction());
-                                  Swal.fire("successfully", "", "success");
+                                  Swal.fire(
+                                    {
+                                      title: "successfully",
+                                      icon: "success",
+                                      confirmButtonText: "OK",
+                                      confirmButtonColor: "#8000ff",
+                                    }
+                                  );
                                 }
                               })
                             }
@@ -624,8 +638,7 @@ const ManagementUser = (props) => {
                             </OverlayTrigger>
                           </BtnAction>
                         </td>
-                      ) : (
-                        ""
+                      ) : (<td></td>
                       )
                     ) : roleName === "Manager" ? (
                       item.RoleId === "1" || item._id === id ? (
@@ -650,7 +663,7 @@ const ManagementUser = (props) => {
                                 text: "You will not be able to recover this USER",
                                 icon: "warning",
                                 iconHtml: "!",
-                                confirmButtonColor: "#DD6B55",
+                                confirmButtonColor: "#8000ff",
                                 confirmButtonText: "Oke",
                                 cancelButtonText: "Cancel",
                                 showCancelButton: true,
@@ -660,7 +673,14 @@ const ManagementUser = (props) => {
                                   DeleteData(item._id);
                                   setShow(false);
                                   dispatch(getListDpManagementAction());
-                                  Swal.fire("successfully", "", "success");
+                                  Swal.fire(
+                                    {
+                                      title: "successfully",
+                                      icon: "success",
+                                      confirmButtonText: "OK",
+                                      confirmButtonColor: "#8000ff",
+                                    }
+                                  );
                                 }
                               })
                             }
@@ -674,10 +694,10 @@ const ManagementUser = (props) => {
                           </BtnAction>
                         </td>
                       ) : (
-                        ""
+                        <td></td>
                       )
                     ) : (
-                      ""
+                      <td></td>
                     )}
                   </TR>
                 ))}

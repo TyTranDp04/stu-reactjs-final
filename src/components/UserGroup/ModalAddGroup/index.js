@@ -17,9 +17,9 @@ const ModalAddGroup = (props) => {
   }
   function checkNameGroup(dataGroup, inputName){
     const arrayName = []
-    dataGroup?.map((e)=>{
+    dataGroup?.map((e)=>(
       arrayName.push(e.Name)
-    })
+    ))
     return arrayName.includes(inputName)
   }
   function handleOnchange(e) {
@@ -36,7 +36,7 @@ const ModalAddGroup = (props) => {
           icon: 'success',
           title: 'Add success',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         })
         setCallApiGroup(!callApiGroup)
       })
@@ -56,6 +56,8 @@ const ModalAddGroup = (props) => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
+
     }).then((result) => {
       if (result.isConfirmed) {
         if (checkNameGroup(dataGroup, dataInput)){
@@ -67,7 +69,12 @@ const ModalAddGroup = (props) => {
           setShowAddNewGroup(false)
         }
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }

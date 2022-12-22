@@ -6,39 +6,16 @@ import Swal from "sweetalert2";
 
 import {
   Container,
-  User,
-  Group,
-  GroupDetail,
-  HeaderContainer,
-  BtnContainer,
-  Avatar,
-  Header,
-  TdContent,
-  BtnAddGroup,
-  Thead,
-  Tr,
-  Th,
-  Td,
-  Tbody,
-  Content,
-  Name,
-  NameTitle,
-  Master,
-  MemberContainer,
-  MemberInfo,
-  BtnDelete,
-  Icon,
-  Members,
-  NameTextInfo,
-  NameText,
-  BtnDeleteGroup,
-} from "./style";
-import axios from "axios";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import ModalAddUserGroup from "./AddUserGroup";
-import ModalAddGroup from "./ModalAddGroup";
-import avatarnull from "../../assets/images/avatar-default.jpg";
+  User, Group, GroupDetail, HeaderContainer, BtnContainer, Avatar, Header, TdContent, BtnAddGroup, Thead, Tr, Th, Td, Tbody,
+  Content, Name, NameTitle, Master, MemberContainer, MemberInfo, BtnDelete, Icon, Members, NameTextInfo, NameText, BtnDeleteGroup
+} from './style'
+import axios from 'axios';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import ModalAddUserGroup from './AddUserGroup';
+import ModalAddGroup from './ModalAddGroup';
+import AvatarDefault  from '../../assets/images/avatar-default.jpg'
+
 
 function UserGroup(props) {
   const [showDetail, setShowDetail] = useState(true);
@@ -114,11 +91,17 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
         deleteUserGroup(UserId, GroupId);
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }
@@ -132,238 +115,176 @@ function UserGroup(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(url).then((data) => {
-          setCallApiGroup(!callApiGroup);
+        axios.delete(url)
+          .then((data) => {
+            setCallApiGroup(!callApiGroup)
+            Swal.fire({
+              icon: 'success',
+              title: 'Delete success',
+              showConfirmButton: false,
+              timer: 1000
+            })
+          })
+        } else {
           Swal.fire({
-            icon: "success",
-            title: "Delete success",
+            icon: 'error',
+            title: 'Cancel!',
             showConfirmButton: false,
-            timer: 1000,
-          });
-        });
-      } else {
-        Swal.fire(" Cancel!", "", "error");
-      }
+            timer: 1000
+          })
+        }
     });
   }
   return (
-    <Container className="col-sm-9 col-lg-10">
-      {showDetail ? (
-        <Group>
-          <Header>
-            {userInfo?.data?.user?.RoleId === "3" ? (
-              <BtnAddGroup onClick={() => setShowAddNewGroup(true)}>
-                + New Group
-              </BtnAddGroup>
-            ) : (
-              ""
-            )}
-            <ModalAddGroup
-              dataGroup={dataGroup}
-              handle={{ callApiGroup, setCallApiGroup, setShowAddNewGroup }}
-              show={showAddNewGroup}
-            ></ModalAddGroup>
-          </Header>
-          <Content>
-            <Table striped bordered hover>
-              <Thead>
-                <Tr>
-                  <Th>Group</Th>
-                  <Th>Member(s)</Th>
-                  <Th>Master(s)</Th>
-                  {userInfo?.data?.user?.RoleId === "3" ? <Th>Action</Th> : ""}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {dataGroup?.map((e, index) => (
-                  <Tr key={index}>
-                    <Td onClick={() => handleShowDetail(e)}>
-                      <TdContent>{e.Name} </TdContent>
-                    </Td>
-                    <Td
-                      onClick={() => handleShowDetail(e)}
-                      style={{ display: "flex" }}
-                    >
-                      {dataUser?.map((user, id) =>
-                        user.GroupId.includes(e._id) && user.RoleId !== "3" ? (
-                          <User key={id}>
-                            <OverlayTrigger
-                              overlay={<Tooltip>{user.Name}</Tooltip>}
-                            >
-                              {user?.Avatar ? (
-                                <Avatar src={user.Avatar}></Avatar>
-                              ) : (
-                                <Avatar src={avatarnull}></Avatar>
-                              )}
-                            </OverlayTrigger>
-                          </User>
-                        ) : (
-                          ""
-                        )
-                      )}
-                    </Td>
-                    <Td onClick={() => handleShowDetail(e)}>
-                      <TdContent>
-                        {dataUser?.map((user, id) =>
-                          user.GroupId.includes(e._id) &&
-                          user.RoleId === "2" ? (
-                            <User key={id}>
-                              <OverlayTrigger
-                                overlay={<Tooltip>{user.Name}</Tooltip>}
-                              >
-                               {user?.Avatar ? (
-                                <Avatar src={user.Avatar}></Avatar>
-                              ) : (
-                                <Avatar src={avatarnull}></Avatar>
-                              )}
-                              </OverlayTrigger>
-                            </User>
-                          ) : (
-                            ""
-                          )
-                        )}
-                      </TdContent>
-                    </Td>
-                    {userInfo?.data?.user?.RoleId === "3" ? (
-                      <Td>
-                        <TdContent>
-                          <BtnDeleteGroup
-                            onClick={() => handleDeleteGroup(e?._id)}
-                          >
-                            Delete
-                          </BtnDeleteGroup>
-                        </TdContent>
-                      </Td>
-                    ) : (
-                      ""
-                    )}
+    <Container>
+      {
+        showDetail ?
+          <Group>
+            <Header>
+              {
+                userInfo?.data?.user?.RoleId === "3" ?
+                  <BtnAddGroup onClick={() => setShowAddNewGroup(true)}>+ New Group</BtnAddGroup> : ''
+              }
+              <ModalAddGroup dataGroup={dataGroup} handle={{ callApiGroup, setCallApiGroup, setShowAddNewGroup }} show={showAddNewGroup}></ModalAddGroup>
+            </Header>
+            <Content>
+              <Table striped bordered hover>
+                <Thead>
+                  <Tr>
+                    <Th>Group</Th>
+                    <Th>Member(s)</Th>
+                    <Th>Master(s)</Th>
+                    {
+                      userInfo?.data?.user?.RoleId === "3" ?
+                        <Th>Action</Th> : ''
+                    }
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Content>
-        </Group>
-      ) : (
-        <GroupDetail>
-          <Header>
-            <HeaderContainer>
-              <NameText style={{ fontWeight: "bold", width: "50%" }}>
-                {dataDetail?.Name} infomation
-              </NameText>
-              <BtnContainer>
-                <BtnAddGroup
-                  style={{ marginRight: "20px", width: "70px" }}
-                  onClick={() => setShowDetail(true)}
-                >
-                  <FontAwesomeIcon
-                    style={{ color: "#fff", marginRight: "5px" }}
-                    icon={faAngleLeft}
-                  />
-                  Back
-                </BtnAddGroup>
-                {userInfo?.data?.user?.RoleId === "1" ? (
-                  ""
-                ) : (
-                  <BtnAddGroup onClick={() => setShowAddUserGroup(true)}>
-                    + New User
+                </Thead>
+                <Tbody>
+                  {
+                    dataGroup?.map((e, index) => (
+                      <Tr key={index}>
+                        <Td onClick={() => handleShowDetail(e)}><TdContent>{e.Name} </TdContent></Td>
+                        <Td onClick={() => handleShowDetail(e)} style={{ display: 'flex' }}>
+                          {
+                            dataUser?.map((user, id) => (
+                              user?.GroupId?.includes(e._id) && user.RoleId !== "3" ? <User key={id}>
+                                <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user?.Name}
+                                </Tooltip>
+                              }
+                            >
+                                <Avatar src={user?.Avatar?user?.Avatar:AvatarDefault}></Avatar>
+                            </OverlayTrigger>
+                              </User> : ''
+                            ))
+                          }
+                        </Td>
+                        <Td onClick={() => handleShowDetail(e)}>
+                          <TdContent>
+                            {
+                              dataUser?.map((user, id) => (
+                                user?.GroupId?.includes(e._id) && user?.RoleId === "2" ? <User key={id}>
+                                  <OverlayTrigger
+                              overlay={
+                                <Tooltip>
+                                {user?.Name}
+                                </Tooltip>
+                              }
+                            >
+                                  <Avatar src={user?.Avatar?user?.Avatar:AvatarDefault}></Avatar>
+                            </OverlayTrigger>
+                                </User> : ''
+                              ))
+                            }
+                          </TdContent>
+                        </Td>
+                        {
+                          userInfo?.data?.user?.RoleId === "3" ?
+                            <Td>
+                              <TdContent>
+                          
+                                <BtnDeleteGroup onClick={() => handleDeleteGroup(e?._id)}>Delete</BtnDeleteGroup>
+
+                              </TdContent>
+                            </Td>:''
+                        }
+                      </Tr>
+                    ))
+                  }
+                </Tbody>
+              </Table>
+            </Content>
+          </Group>
+          :
+          <GroupDetail>
+            <Header>
+              <HeaderContainer>
+                <NameText style={{ fontWeight: 'bold', width: '50%' }}>{dataDetail?.Name} infomation</NameText>
+                <BtnContainer>
+                  <BtnAddGroup style={{ marginRight: '20px', width: "70px" }} onClick={() => setShowDetail(true)}>
+                    <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faAngleLeft} />
+                    Back
                   </BtnAddGroup>
-                )}
-                <ModalAddUserGroup
-                  group={dataDetail}
-                  show={showAddUserGroup}
-                  handle={{
-                    setShowAddUserGroup,
-                    showAddUserGroup,
-                    callApiGroup,
-                    setCallApiGroup,
-                  }}
-                ></ModalAddUserGroup>
-              </BtnContainer>
-            </HeaderContainer>
-          </Header>
-          <Name>
-            <NameText>Name</NameText>
-            <NameTitle>
-              {userInfo?.data?.user?.RoleId === "1"
-                ? "Staff"
-                : userInfo?.data?.user?.RoleId === "2"
-                ? "Manager"
-                : "Admin"}
-            </NameTitle>
-          </Name>
-          <Master>
-            <NameText>Master</NameText>
-            <MemberContainer>
-              {dataUser?.map((user, id) =>
-                user.GroupId.includes(dataDetail._id) && user.RoleId === "2" ? (
-                  <MemberInfo key={id}>
-                    {user?.Avatar ? (
-                                <Icon alt={user?.Name} src={user?.Avatar}></Icon>
-                              ) : (
-                                <Icon alt={user?.Name} src={avatarnull}></Icon>
-                              )}
-                   
-                    <NameTextInfo>{user?.Name}</NameTextInfo>
-                    {userInfo?.data?.user?.RoleId === "3" ? (
-                      <BtnDelete
-                        onClick={() =>
-                          handleDeleteUser(user?._id, dataDetail?._id)
-                        }
-                      >
-                        <FontAwesomeIcon
-                          style={{ color: "#fff", marginRight: "5px" }}
-                          icon={faXmark}
-                        />
-                      </BtnDelete>
-                    ) : (
-                      ""
-                    )}
-                  </MemberInfo>
-                ) : (
-                  ""
-                )
-              )}
-            </MemberContainer>
-          </Master>
-          <Members>
-            <NameText>Members</NameText>
-            <MemberContainer>
-              {dataUser?.map((user, id) =>
-                user.GroupId.includes(dataDetail._id) && user.RoleId === "1" ? (
-                  <MemberInfo key={id}>
-                    {user?.Avatar ? (
-                               <Icon alt={user?.Name} src={user?.Avatar}></Icon>
-                              ) : (
-                                <Icon alt={user?.Name} src={avatarnull}></Icon>
-                              )}
-                    
-                    <NameTextInfo>{user?.Name}</NameTextInfo>
-                    {userInfo?.data?.user?.RoleId !== "1" &&
-                    user.RoleId === "1" ? (
-                      <BtnDelete
-                        onClick={() =>
-                          handleDeleteUser(user?._id, dataDetail?._id)
-                        }
-                      >
-                        <FontAwesomeIcon
-                          style={{ color: "#fff", marginRight: "5px" }}
-                          icon={faXmark}
-                        />
-                      </BtnDelete>
-                    ) : (
-                      ""
-                    )}
-                  </MemberInfo>
-                ) : (
-                  ""
-                )
-              )}
-            </MemberContainer>
-          </Members>
-        </GroupDetail>
-      )}
+                  {
+                    userInfo?.data?.user?.RoleId === "1" ?'':
+                  <BtnAddGroup onClick={() => setShowAddUserGroup(true)}>+ New User</BtnAddGroup>
+                  }
+                  <ModalAddUserGroup group={dataDetail} show={showAddUserGroup} handle={{ setShowAddUserGroup, showAddUserGroup, callApiGroup, setCallApiGroup }}></ModalAddUserGroup>
+                </BtnContainer>
+              </HeaderContainer>
+            </Header>
+            <Name>
+              <NameText>Name</NameText>
+              <NameTitle>{userInfo?.data?.user?.RoleId === "1"?"Staff":userInfo?.data?.user?.RoleId === "2"?'Manager':'Admin'}</NameTitle>
+            </Name>
+            <Master>
+              <NameText>Master</NameText>
+              <MemberContainer>
+                {
+                  dataUser?.map((user, id) => (
+                    user?.GroupId?.includes(dataDetail._id) && user?.RoleId === "2" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar?user?.Avatar:AvatarDefault}></Icon>
+                      <NameTextInfo>{user?.Name}</NameTextInfo>
+                      {
+                        userInfo?.data?.user?.RoleId ==="3"?
+                        <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                          <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                        </BtnDelete>:''
+                      }
+                      
+                    </MemberInfo> : ''
+                  ))
+                }
+              </MemberContainer>
+            </Master>
+            <Members>
+              <NameText>Members</NameText>
+              <MemberContainer>
+                {
+                  dataUser?.map((user, id) => (
+                    user?.GroupId.includes(dataDetail._id) && user?.RoleId === "1" ? <MemberInfo key={id}>
+                      <Icon alt={user?.Name} src={user?.Avatar?user?.Avatar:AvatarDefault}></Icon>
+                      <NameTextInfo>{user?.Name}</NameTextInfo>
+                      {
+                         userInfo?.data?.user?.RoleId !=="1" && user.RoleId === "1"?
+                         <BtnDelete onClick={() => handleDeleteUser(user?._id, dataDetail?._id)}>
+                         <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+                       </BtnDelete>:''
+                      }
+                     
+                    </MemberInfo> : ''
+                  ))
+                }
+              </MemberContainer>
+            </Members>
+          </GroupDetail>
+      }
     </Container>
   );
 }
