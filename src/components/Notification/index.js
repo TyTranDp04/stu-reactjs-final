@@ -16,7 +16,8 @@ import {
   H4,
   B, ContentStatus,
   ContentDayOff,
-  ReasonChange
+  ReasonChange,
+  BtnReadAll
 } from "./style";
 import { useState } from 'react';
 import { URL_API } from '../../api/dayoff.api';
@@ -32,21 +33,21 @@ const Notifycation = (props) => {
   const [inverseData, setInverseData] = useState(false)
 
   useEffect(() => {
-    setDataUser(userInfo?.data?.user)
+    setDataUser(userInfo?.data)
   }, [userInfo])
   const urlGetDayOff = URL_API + "/notification/" + dataUser?.id
   async function getDataDayOff() {
     await axios.get(urlGetDayOff)
       .then(res => {
         if (dataUser?.RoleId === '2') {
-          const newData = res?.data?.data.filter(function (d) {
+          const newData = res?.data?.data?.filter(function (d) {
             return d.Status === 1 || d.Status === 5
           })
           setData(newData)
           setInverseData(!inverseData)
         }
         if (dataUser?.RoleId === '1') {
-          const newData = res?.data?.data.filter(function (d) {
+          const newData = res?.data?.data?.filter(function (d) {
             return d.Status === 4 || d.Status === 3
           })
           setData(newData)
@@ -79,11 +80,25 @@ const Notifycation = (props) => {
       .catch(err => { })
   }
   function handleIsRead(e) {
-    console.log("e....fini",e)
     updateDataDayOff(e)
       .then(() => {
         setCallApi(!callApi)
       })
+  }
+  function handleReadAll() {
+    readAll()
+    .then(()=>{
+      setTimeout(()=>{
+        setCallApi(!callApi)
+      }, 500)
+    }) 
+  }
+  async function readAll(){
+    const urlReadAll = URL_API + "/notification/" + dataUser?.id
+    await axios.post(urlReadAll)
+    .then((data)=>{ 
+    })
+    .catch()
   }
   function statusText(status) {
     switch (status) {
@@ -95,21 +110,26 @@ const Notifycation = (props) => {
         return "Request change"
       case 5:
         return "Reverted"
-        default:
+      default:
         return ''
     }
   }
+
   return (
     <>
       {dataUser?.RoleId === 3 ? '' :
         <Container>
-          <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
-            <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
-            <Span style={{display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length }</Span>
-          </HeaderIcon>
           {
-            showMenu ? <Content>
-              <H3>Notifycation</H3>
+            data?.length === 0 ? '' :
+
+              <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
+                <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
+                <Span style={{ display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length}</Span>
+              </HeaderIcon>
+          }
+          {
+            data?.length !== 0 && showMenu ? <Content>
+              <H3>Notification</H3>
               <Menu>
                 {
                   data?.map((e, index) => (
@@ -117,7 +137,7 @@ const Notifycation = (props) => {
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {
-                            <ContentStatus style={{ display: 'flex',flexDirection: 'column', marginBottom: '5px' }}>
+                            <ContentStatus style={{ display: 'flex', flexDirection: 'column', marginBottom: '5px' }}>
                               <B style={{ color: '#8000FF' }} className={statusText(e?.Status)}>
                                 {
                                   statusText(e?.Status)
@@ -163,6 +183,9 @@ const Notifycation = (props) => {
                     </Link>
                   ))
                 }
+                <BtnReadAll type='button' onClick={()=> handleReadAll()}>
+                  Read all
+                </BtnReadAll>
               </Menu>
             </Content> : ''
           }

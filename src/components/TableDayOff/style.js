@@ -36,8 +36,7 @@ export const ButtonAddDayOff = styled.button`
 export const ButtonSearchDayOff = styled.button`
   border: none;
   padding: 5px 10px;
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
+  border-radius: 3px;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -89,6 +88,7 @@ export const FormSearch = styled.form`
     .react-datepicker-popper{
       z-index: 10000;
     }
+  
     
 `
 export const SearchHeaderText = styled.h3`

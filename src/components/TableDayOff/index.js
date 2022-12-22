@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from 'react';
-import {  faCalendarDays, faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faXmark, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DotStatus from './DotStatus';
 import { useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import TimeDayOff from './TimeDayOff';
 import "react-datepicker/dist/react-datepicker.css";
 import Table from 'react-bootstrap/Table';
 import DetailDayOff from './DetailDayOff';
+
 import {
   Main,
   ContainerDefault,
@@ -28,7 +29,8 @@ import ModalAddData from './ModalAddData';
 import { URL_API } from '../../api/dayoff.api';
 import ModalUpdateData from './ModalUpdateData';
 import { totalDay } from '../../constants/dayoff';
-import  ReactDatePicker from "react-datepicker";
+import ReactDatePicker from "react-datepicker";
+import ShowNodata from './ShowNodata';
 
 const TableDayOff = (props) => {
   const [data, setData] = useState()
@@ -36,11 +38,13 @@ const TableDayOff = (props) => {
   const [idRequest, setIdRequest] = useState()
   const [dataDetail, setDataDetail] = useState()
   const [showModalAdd, setShowModalAdd] = useState(false)
+  const [dataSearch, setDataSearch] = useState()
+  const [dataFilterSearch, setDataFilterSearch] = useState()
   const [showModalUpdate, setShowModalUpdate] = useState(false)
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApiTable, setCallApiTable] = useState(false)
   const [showDetail, setShowDetail] = useState(false)
-  const dataUser = userInfo?.data?.user
+  const dataUser = userInfo?.data;
   const idMaster = data?.idMaster
   const dayOffData = data?.data
   const [dataAllUser, setDataAllUser] = useState()
@@ -54,7 +58,10 @@ const TableDayOff = (props) => {
   async function getDataDayOff() {
     const urlGetDayOff = URL_API + "/dayoff"
     await Axios.post(urlGetDayOff, formData)
-      .then(res => setData(res?.data))
+      .then(res => {
+        setData(res?.data)
+      }
+      )
   }
   async function getDataUser() {
     const urlGetDataUser = URL_API + "/user"
@@ -78,10 +85,28 @@ const TableDayOff = (props) => {
       return e.Status !== 2 && e.Status !== 5
     })
     setDataDayOff(dataDayOffFilter)
+    setDataFilterSearch(dataDayOffFilter)
   }, [data])
   function handleDetail(data) {
     setDataDetail(data)
     setShowDetail(true)
+  }
+  function handleSearch(e) {
+    setDataSearch(e)
+  }
+  function clearSearch() {
+    setDataSearch(null)
+    setDataDayOff(dataFilterSearch)
+  }
+  function totalDate(dataSearch, DayOffFrom) {
+    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
+    return time
+  }
+  function searchDayOff() {
+    const newData = dataFilterSearch?.filter(function (e) {
+      return (totalDate(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalDate(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffTo)) >= 0);
+    })
+    setDataDayOff(newData)
   }
   return (
     <Main id="site-main">
@@ -99,13 +124,17 @@ const TableDayOff = (props) => {
             </BoxNav>
             <FormSearch>
               <SearchHeaderText>Filter by:</SearchHeaderText>
-              <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='SearchDate' name='dateFrom' onChange={''} dateFormat='dd/MM/yyyy' />
-              <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faCalendarDays} />
-              <ButtonSearchDayOff type="submit">
+              <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
+              <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
+                <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faXmark} />
+              </ButtonSearchDayOff>
+              <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
                 <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
               </ButtonSearchDayOff>
             </FormSearch>
           </BoxHeader>
+
+
           <FormData action="/" method="POST">
             <TableScroll>
               <Table striped bordered hover>
@@ -136,6 +165,7 @@ const TableDayOff = (props) => {
                     }
                   </TrHead>
                 </Thead>
+
                 <Tbody >
                   {
                     dataDayOff?.map((e, index) => (
@@ -193,6 +223,9 @@ const TableDayOff = (props) => {
                   }
                 </Tbody>
               </Table>
+              {dataDayOff?.length === 0 ?
+                  < ShowNodata ></ShowNodata> :''
+              }
             </TableScroll>
           </FormData>
           <ModalAddData user={formData} show={showModalAdd} handle={{ setShowModalAdd, setCallApiTable, callApiTable }}></ModalAddData>

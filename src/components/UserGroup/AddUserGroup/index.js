@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { BtnAdd, BtnCancel, FormDataInput, InPutContainer, LableInput, ModalBtn } from '../../TableDayOff/ModalAddData/style';
 import { Input, Option, BoxUser, OptionUser, IconUser, NameUser } from './style';
@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useSelector } from 'react-redux'
+import AvatarDefault  from '../../../assets/images/avatar-default.jpg'
+
 
 const ModalAddUserGroup = (props) => {
   const { setShowAddUserGroup, callApiGroup, setCallApiGroup } = props.handle;
@@ -24,23 +26,23 @@ const ModalAddUserGroup = (props) => {
   const [dataAddUser, setDataAddUser ] = useState();
   const url = process.env.REACT_APP_URL_WEBSITE
   const urlGetUser = process.env.REACT_APP_URL_WEBSITE + '/user'
-  async function getDataUser() {
-    await axios.get(urlGetUser)
+  const  getDataUser = useCallback(()=>{
+      axios.get(urlGetUser)
       .then(res => setDataUser(res?.data))
-  }
+  },[])
   useEffect(() => {
     getDataUser()
-  }, [callApiGroup])
+  }, [callApiGroup, getDataUser])
   useEffect(()=>{
     const ArrayId = []
     const data = dataUser?.filter(function(e){
-        return e.GroupId.includes(group._id)
+        return e?.GroupId?.includes(group?._id)
     })
-    data?.map((user)=>{
-      ArrayId.push(user._id)
-    })
+    data?.map((user)=>(
+      ArrayId.push(user?._id)
+    ))
     setArrayIdUser(ArrayId)
-  },[dataUser])
+  },[dataUser, group?._id])
   function handleCancel() {
     setShowAddUserGroup(false)
     setDataUserUpdate([])
@@ -85,7 +87,7 @@ const ModalAddUserGroup = (props) => {
           icon: 'success',
           title: 'Add success',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1000
         })
         setCallApiGroup(!callApiGroup)
         setShowAddUserGroup(false)
@@ -111,12 +113,19 @@ const ModalAddUserGroup = (props) => {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+        confirmButtonColor: '#8000ff',
+
     }).then((result) => {
       if (result.isConfirmed) {
         addUserGroup()
         reset();
       } else {
-        Swal.fire(" Cancel!", "", "error");
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }
@@ -139,7 +148,7 @@ const ModalAddUserGroup = (props) => {
             <Form.Select id='RoleId' required style={{ width: '50%', border: '2px solid #ccc', color: "#ccc" }} onChange={(e) => handleOnchange(e)}>
               <Option  value="1">Member</Option>
               {
-                userInfo?.data?.user?.RoleId ==="3"?<Option   value="2">Master</Option>:''
+                userInfo?.data?.RoleId ==="3"?<Option   value="2">Master</Option>:''
               }
             </Form.Select>
           </InPutContainer>
@@ -152,8 +161,8 @@ const ModalAddUserGroup = (props) => {
                   {
                     dataUserFilter?.map((e, index) => (
                       <OptionUser key={index} onClick={() => chooseData(e)}>
-                        <IconUser src={e.Avatar} alt={e.Name}></IconUser>
-                        <NameUser>{e.Name}</NameUser>
+                        <IconUser src={e?.Avatar?e?.Avatar:AvatarDefault} alt={e?.Name}></IconUser>
+                        <NameUser>{e?.Name}</NameUser>
                       </OptionUser>
                     ))
                   }
@@ -163,7 +172,7 @@ const ModalAddUserGroup = (props) => {
           <InPutContainer className="mb-6" style={{ height: '50px' }}>
             {
               dataUserUpdate?.length!== 0 && dataUserUpdate?<OptionUser>
-              <IconUser src={dataUserUpdate?.Avatar} alt={dataUserUpdate?.Name}></IconUser>
+              <IconUser src={dataUserUpdate?.Avatar?dataUserUpdate?.Avatar: AvatarDefault} alt={dataUserUpdate?.Name}></IconUser>
               <NameUser><b>Name: </b> {dataUserUpdate?.Name}</NameUser>
               <NameUser><b>Email: </b> {dataUserUpdate?.Gmail}</NameUser>
               <NameUser><b>Phone: </b>{dataUserUpdate?.Phone}</NameUser>

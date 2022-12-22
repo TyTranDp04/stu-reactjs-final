@@ -46,8 +46,8 @@ const ManagementUser = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userRoleId = userInfo?.data?.user?.RoleId;
-  const id = userInfo?.data?.user?.id;
+  const userRoleId = userInfo?.data?.RoleId;
+  const id = userInfo?.data?.id;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;

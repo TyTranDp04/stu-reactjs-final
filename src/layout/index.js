@@ -17,11 +17,10 @@ const Layout = ({ children, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userGoogle = userInfo?.data?.email;
-  const user = userInfo?.data?.user?.Gmail;
-  const lengthPass = userInfo?.data?.user?.Password?.length;
+  const user = userInfo?.data?.Gmail;
+  const lengthPass = userInfo?.data?.Password?.length;
 
-  const userRoleId = userInfo?.data?.user?.RoleId;
+  const userRoleId = userInfo?.data?.RoleId;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
@@ -31,15 +30,13 @@ const Layout = ({ children, title }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!user && !userGoogle) {
+    if (!user) {
       navigate('/login');
     } else if (lengthPass < 8) {
       navigate('/change-password');
     }
-  }, [user, userGoogle, navigate]);
-  const date = new Date();
-  const current_date =
-    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  }, [user, lengthPass, navigate]);
+
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   return (
@@ -50,6 +47,7 @@ const Layout = ({ children, title }) => {
           <link rel="icon" href={logo} />
         </Helmet>
       </HelmetProvider>
+      
       <Container className="container">
         <Header
           Toggle={toggle}
@@ -60,17 +58,18 @@ const Layout = ({ children, title }) => {
             Toggle={toggle}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            permission={permission}
           />
           <ContainerItem
-            className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-11"}
+            className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-10"}
             style={{ width: isOpen ? "84%" : "93%" }}
           >
             {children}
           </ContainerItem>
-            <Footer
+          <Footer
             Toggle={toggle}
             isOpen={isOpen}
-             />
+          />
         </LayoutRow>
       </Container>
     </ContainerFluid>

@@ -1,28 +1,35 @@
-import Axios from 'axios'
-import React, { useState, useEffect } from 'react';
 import { faCheck, faClockRotateLeft, faList, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux'
-import "react-datepicker/dist/react-datepicker.css";
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import {
-  Main,
-  ContainerDefault,
-  BoxNav,
-  InputSearch,
-  FormData,
-  Thead,
-  Tbody,
-  Tr,
-  Th, BoxHeader, ButtonAddDayOff, TrHead, TableScroll, ThContent, Span,
-
-} from './style'
+import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux';
 import { URL_API } from '../../api/dayoff.api';
 import DotStatus from '../TableDayOff/DotStatus';
 import TimeDayOff from '../TableDayOff/TimeDayOff';
-import { FormSearch, ButtonSearchDayOff } from '../TableDayOff/style';
+import {
+  BoxHeader,
+  BoxNav,
+  ButtonAddDayOff,
+  ContainerDefault,
+  FormData,
+  Main,
+  Span,
+  TableScroll,
+  Tbody,
+  Th,
+  ThContent,
+  Thead,
+  Tr,
+  TrHead
+} from './style';
+import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { totalDay } from '../../constants/dayoff';
+import ReactDatePicker from 'react-datepicker';
+import ShowNodata from '../TableDayOff/ShowNodata';
+
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
   const [dataDayOff, setDataDayOff] = useState()
@@ -32,8 +39,9 @@ const TableShowDayOff = (props) => {
   const [dataDetail, setDataDetail] = useState()
   const [showDetail, setShowDetail] = useState(false)
   const [dataAllUser, setDataAllUser] = useState()
-
-  const dataUser = userInfo?.data?.user
+  const [dataSearch, setDataSearch] = useState()
+  const [dataFilterSearch, setDataFilterSearch] = useState()
+  const dataUser = userInfo?.data
   const idMaster = data?.idMaster
   const formData = {
     UserId: dataUser?.id,
@@ -51,6 +59,7 @@ const TableShowDayOff = (props) => {
           newData[data?.length - index - 1] = e
         ))
         setData(newData)
+        setDataFilterSearch(newData)
       }
 
       )
@@ -99,10 +108,26 @@ const TableShowDayOff = (props) => {
     await Axios.get(urlGetDataUser)
       .then(res => setDataAllUser(res?.data))
   }
-  useEffect(()=>{
+  useEffect(() => {
     getDataUser()
-  },[])
-  
+  }, [])
+  function handleSearch(e) {
+    setDataSearch(e)
+  }
+  function clearSearch() {
+    setDataSearch(null)
+    setDataDayOff(dataFilterSearch)
+  }
+  function totalTime(dataSearch, DayOffFrom) {
+    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
+    return time
+  }
+  function searchDayOff() {
+    const newData = dataFilterSearch?.filter(function (e) {
+      return (totalTime(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalTime(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffTo)) >= 0);
+    })
+    setDataDayOff(newData)
+  }
   return (
     <Main id="site-main">
       {
@@ -129,12 +154,17 @@ const TableShowDayOff = (props) => {
                 </ButtonAddDayOff>
               </BoxNav>
               <FormSearch>
-                <InputSearch type="search" placeholder="Search day off..." aria-label="Search" />
-                <ButtonSearchDayOff type="submit">
+                <SearchHeaderText>Filter by:</SearchHeaderText>
+                <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
+                <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
+                  <FontAwesomeIcon style={{ color: '#8000FF', }} icon={faXmark} />
+                </ButtonSearchDayOff>
+                <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
                   <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
                 </ButtonSearchDayOff>
               </FormSearch>
             </BoxHeader>
+
             <FormData action="/" method="POST">
               <TableScroll>
                 <Table striped bordered hover>
@@ -160,6 +190,7 @@ const TableShowDayOff = (props) => {
                       </Th>
                     </TrHead>
                   </Thead>
+
                   <Tbody >
                     {
                       dataDayOff?.map((e, index) => (
@@ -207,13 +238,18 @@ const TableShowDayOff = (props) => {
                       ))
                     }
                   </Tbody>
+
                 </Table>
+                {
+                  dataDayOff?.length === 0 ?
+                    < ShowNodata ></ShowNodata> : ''
+                }
               </TableScroll>
             </FormData>
           </ContainerDefault>
           : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
       }
-    </Main>
+    </Main >
   );
 }
 

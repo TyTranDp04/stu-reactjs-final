@@ -57,7 +57,12 @@ function ModalRequestChange(props) {
           setShowRequestChange(false)
           setCallApiTable(!callApiTable)
         } else {
-          Swal.fire("Error!", "", "error");
+          Swal.fire({
+            icon: 'error',
+            title: 'Cancel!',
+            showConfirmButton: false,
+            timer: 1000
+          })
         }
       })
   }
@@ -70,13 +75,18 @@ function ModalRequestChange(props) {
       cancelButtonText: "Cancel",
       showCancelButton: true,
       showCloseButton: true,
+      confirmButtonColor: '#8000ff',
     }).then((result) => {
       if (result.isConfirmed) {
         handleAction()
         reset()
       } else {
-        Swal.fire(" Cancel!", "", "error");
-        reset()
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancel!',
+          showConfirmButton: false,
+          timer: 1000
+        })
       }
     });
   }
@@ -84,7 +94,7 @@ function ModalRequestChange(props) {
     resolver: yupResolver(schema)
   });
   return (
-    <Modal show={showRequestChange}>
+    <Modal className='modal__request' show={showRequestChange}>
       <Modal.Header>
         <Modal.Title>{`Reason for ${type}:`}</Modal.Title>
       </Modal.Header>

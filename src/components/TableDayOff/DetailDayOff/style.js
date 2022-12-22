@@ -1,41 +1,36 @@
 import styled from "styled-components";
 
 export const ContainerStyled = styled.div`
-  .w-30{
-  width: 40%!important;
-  }
-  .w-70{
-  width: 60%!important;
-  }
 
-
-  .col__info{
-    margin-top: 10px;
-    .row__info{
-      width: 200px;
-     .text__start{
-      display: flex;
-      align-items: center;
-      justify-content: start;
-     }
+  `
+export const ContainerRepository = styled.div`
+  display: flex;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  .detail__title{
+    width: 100px;
+    span{
+      font-size: 16px;
+      font-weight: 500;
     }
-    
   }
-  .btn__container{
-    margin-top: 10px;
+`
+export const BtnContainer = styled.div`
     button{
-      margin: 0 10px;
+      font-size: 16px;
+      margin: 10px 10px 0 10px;
       svg{
-        font-size: 30px;
+      font-size: 30px;
       }
     }
-  }
-
-
-
   
   `
-
+export const CustomCssDate = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+`
 export const H3 = styled.h3`
     text-align: start;
     font-size: 20px;
@@ -74,16 +69,15 @@ align-items: center;
 `
 export const H4 = styled.h4`
   text-align: start;
+  display: inline-block;
   font-size: 16px;
-  margin: 10px 0;
 
 `
 
 export const BtnBack = styled.div`
   width: 100%;
-  margin-bottom: 30px;
   display: flex;
-  justify-content: start;
+  justify-content: end;
   align-items: center;
   position: relative;
   left: -10px;
