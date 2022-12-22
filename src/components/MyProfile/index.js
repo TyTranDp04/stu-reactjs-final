@@ -26,14 +26,13 @@ import {
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
-    .number()
-      .min(10, "Your phone error number = 10.")
-      .max(10, "Your phone error number = 10 ."),
+    .string()
+    .required(false)
+    .min(10, "Your phone error number = 10.")
+    .max(10, "Your phone error number = 10 ."),
   Name: yup.string().max(50, "Name is required "),
   Address: yup.string().max(50, "Address is required"),
 });
-
-
 
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
@@ -51,7 +50,7 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-   const [, setfileIMG] = useState();
+  const [, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [, setIsLoading] = useState(false);
 
@@ -62,7 +61,7 @@ const MyProfile = () => {
   useEffect(() => {
     setSelectedImage(avatar);
   }, [avatar]);
-  
+
   const {
     register,
     handleSubmit,
@@ -72,7 +71,7 @@ const MyProfile = () => {
     Object.values(e.target.files).forEach((e) => {
       if (selectedImage !== null) {
         setSelectedImage(URL.createObjectURL(e));
-         setfileIMG(e);
+        setfileIMG(e);
       } else {
       }
     });
@@ -91,7 +90,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
         dispatch(
           updateAvata({
             Name: data.Name,
@@ -115,8 +114,8 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let rolename = null;
   if (roleID === "1") {
@@ -151,7 +150,7 @@ const MyProfile = () => {
           },
           willClose: () => {
             clearInterval(timerInterval);
-          } ,
+          },
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.timer) {
           }
@@ -164,7 +163,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
       }
     });
   };
@@ -182,12 +181,12 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-  groupID?.forEach(function(item)  {
-      group?.data?.forEach( function(name)  {
-        if (item === name._id) {
-          groupNameID.push(name.Name);
-        }
-      });    
+  groupID?.forEach(function (item) {
+    group?.data?.forEach(function (name) {
+      if (item === name._id) {
+        groupNameID.push(name.Name);
+      }
+    });
   });
 
   return (
@@ -207,17 +206,21 @@ const MyProfile = () => {
                   defaultValue={rolename}
                 />
               </div>
-              <div>
-                <span className="lableName">Group </span>
-                <NameGroup className="Name">
-             {" "}
-                  {groupNameID?.map((NameGroup, index) => (
-                    <div className="Groupname" key={index}>
-                      <h3>{NameGroup}</h3>
-                    </div>
-                  ))}
-                </NameGroup>
-              </div>
+              {groupNameID?.length !== 0 ? (
+                <div>
+                  <span className="lableName">Group </span>
+                  <NameGroup className="Name">
+                    {" "}
+                    {groupNameID?.map((NameGroup, index) => (
+                      <div className="Groupname" key={index}>
+                        <h3>{NameGroup}</h3>
+                      </div>
+                    ))}
+                  </NameGroup>
+                </div>
+              ) : (
+                ""
+              )}
               <div>
                 <span className="lableName">Name </span>
                 <Input
@@ -263,7 +266,7 @@ const MyProfile = () => {
                         className="img__preview-image"
                         onClick={() => addImgHandle()}
                         src={selectedImage}
-                        alt="Image Preview" 
+                        alt="Image Preview"
                       />
                     </ImgContent>
                   ) : (

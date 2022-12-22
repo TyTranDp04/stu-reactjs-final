@@ -261,7 +261,7 @@ const ManagementUser = (props) => {
                     name="Phone"
                     type="text"
                     defaultValue={dataEdit?.Phone ? dataEdit?.Phone : ""}
-                    {...register("Phone", {
+                    {...register( "Phone", {
                       minLength: {
                         value: 10,
                         message: "Your phone error number = 10",

@@ -20,6 +20,7 @@ export const Group = styled.div`
 
 `
 export const GroupDetail = styled.div`
+padding : 50px 30px 30px 30px; 
   
 `
 export const HeaderContainer = styled.div`
@@ -31,6 +32,10 @@ export const HeaderContainer = styled.div`
 export const BtnContainer = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: 500px){
+    font-size: 13px;
+  }
+ 
 `
 
 export const H3 = styled.h3`
@@ -106,6 +111,7 @@ export const Content = styled.div`
   flex-direction: column;
   justify-content: start;
   padding: 50px 0 0 20px;
+  overflow: auto;
 `
 export const Name = styled.div`
   display: flex;
@@ -116,7 +122,7 @@ export const Name = styled.div`
 export const NameTitle = styled.div`
   height: 35px;
   border: 2px solid #ccc;
-  width: 10%;
+  width: 20%;
   border-radius: 5px;
 
   text-align: center;
@@ -124,6 +130,9 @@ export const NameTitle = styled.div`
   align-items: center;
   justify-content: center;
   color: #ccc;
+  @media  (max-width: 500px) and  {
+    font-size: 12px;
+  }
 `
 export const Master = styled.div`
 display: flex;
@@ -136,11 +145,12 @@ export const MemberContainer = styled.div`
 border: 2px solid #ccc;
 border-radius: 5px;
 margin: 5px 0;
-width: 50%;
+width: 70%;
 height: 150px;
 display: flex;
 flex-wrap: wrap;
 overflow: auto;
+
 `
 export const MemberInfo = styled.div`
 margin: 3px 5px 0 5px;
@@ -182,6 +192,12 @@ export const NameTextInfo = styled.h5`
   font-size: 16px;
   margin: 0 0 0 3px;
   padding-right: 5px;
+  @media (max-width: 500px){
+    font-size: 12px;
+  }
+  @media (max-width: 300px){
+    font-size: 8px;
+  }
 `
 export const NameText = styled.span`
  display: block;
@@ -189,6 +205,7 @@ export const NameText = styled.span`
  font-size : 20px;
  font-weight : 500;
   width: 100px;
+
 `
 export const BtnDeleteGroup = styled.button`
   border: none;
