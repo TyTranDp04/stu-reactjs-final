@@ -145,9 +145,9 @@ const Header = ({ Toggle, isOpen }) => {
               <div style={{width:"30px",height:"30px",fontSize:"12px",margin:"0px"}}>
               <Link to="/"><StImg src={logo} /></Link>
               </div>
-              <div style={{display: "flex",justifyContent:"center",alignItems:"center" }}>
-                <p style={{margin:"0px"}}>Day Off SRS</p>
-              </div>
+              <Link to="/" style={{display: "flex",justifyContent:"center",alignItems:"center", textDecoration: "none" }}>
+                <p style={{margin:"0px"}}>Log Off SRS</p>
+              </Link>
             </div>
             <Offcanvas.Header style={{ backgroundColor: "#8000ff", flex:"0 0 auto", width:"25px", height:"25px" }} variant="white" closeButton />
           </Offcanvas.Title>
