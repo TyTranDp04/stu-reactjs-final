@@ -26,10 +26,6 @@ export const HeaderRow = styled.div`
     border-bottom:1px solid #D8D8D8;
   }
 
-  .dropdown-menu {
-    padding: 0;
-    transform: translate3d(0, 66.4px, 0px) !important;
-  }
 
 `
 export const DivLogo = styled.div`
@@ -242,6 +238,82 @@ font-size: 18px;
 export const SidebarHeader = styled.div`
 .dropdown-toggle::after{
   content:none;
+}
+.dropdown-menu {
+  padding: 0;
+  transform: translate3d(0, 66.4px, 0px) !important;
+}
+.ant-layout-sider{
+  background-color:#8000ff;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title{
+  border-bottom: 1px solid #fff;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title:hover{
+  background-color: #fff;
+  color:#8000ff;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title >.ant-menu-title-content {
+  flex:none;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-item >.ant-menu-title-content{
+  flex:none;
+}
+.ant-layout .ant-layout-sider-trigger{
+  background-color:#8000ff;
+}
+.ant-menu-light.ant-menu-root.ant-menu-inline{
+  background-color:#8000ff;
+}
+.ant-menu-light.ant-menu-root.ant-menu-inline li{
+  color:#fff;
+}
+.ant-menu-light.ant-menu-inline .ant-menu-item{
+  border-bottom:1px outset #fff;
+  border-right:1px outset #fff;
+}
+.ant-menu-item:not(.ant-menu-item-selected):hover:hover{
+  background-color: #fff;
+  color:#8000ff;
+}
+.ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-submenu-title{
+  background-color:#8000ff;
+  border-bottom:1px solid #fff;
+}
+.ant-layout .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed{
+  background-color:#8000ff;
+}
+.ant-menu-submenu-title:hover{
+  background-color:#fff;
+  color:#8000ff;
+}
+.ant-menu-vertical .ant-menu-submenu{
+  color:#fff;
+}
+.ant-menu-light.ant-menu-submenu>.ant-menu{
+  background-color:#8000ff !important;
+}
+.ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-submenu-title:hover{
+  background-color:#fff;
+  color:#8000ff;
+}
+.ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-light.ant-menu-inline .ant-menu-item{
+  background-color:#8000ff;
+}
+.ant-menu .ant-menu-item .ant-menu-item-icon svg{
+  color:#fff;
+}
+.ant-menu-inline .ant-menu-submenu-arrow::before {
+  display:none;
+}
+.ant-menu-inline .ant-menu-submenu-arrow::after{
+  display:none;
+} 
+.ant-menu .ant-menu-submenu-open.ant-menu-submenu-inline>.ant-menu-submenu-title>.ant-menu-submenu-arrow::before{
+  display:none;
+}
+.ant-menu .ant-menu-submenu-open.ant-menu-submenu-inline>.ant-menu-submenu-title>.ant-menu-submenu-arrow::after{
+  display:none;
 }
 `
 export const DivP = styled.div`
