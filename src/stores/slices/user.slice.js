@@ -63,7 +63,7 @@ const userSlice = createSlice({
       state.userInfoState = {
         ...state.userInfoState,
         loading: false,
-        error: toast.error(action.payload),
+        // error: toast.error(action.payload),
       };
     },
 
