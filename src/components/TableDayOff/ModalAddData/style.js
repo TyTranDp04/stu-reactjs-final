@@ -106,9 +106,13 @@ margin-top:30px;
 display: flex;
 padding: 0 30px;
 `
-const Input = styled.input`
+const Input = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
 `
-
+const Span = styled.span`
+`
 const BtnAdd = styled.button`
 position: relative;
 border: none;
@@ -149,5 +153,5 @@ export {
   LableInput,
   InPutContainer,
   FormDataInput,
-  InputArea, LableInputReason, Input, InPutContainerFrom, Option
+  InputArea, LableInputReason, Input, InPutContainerFrom, Option, Span
 }

@@ -7,7 +7,6 @@ import moment from 'moment/moment';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form } from 'react-bootstrap';
-
 import {
   InputArea,
   BtnAdd,
@@ -19,11 +18,10 @@ import {
   InPutContainerFrom,
   Option,
   Input,
-
+  Span
 } from '../ModalAddData/style.js'
 import axios from 'axios';
-import { checkHoliday, checkSameDay, countDate } from '../../../constants/dayoff.js';
-import { dataHoliday } from '../../../constants/holiday.js';
+import { checkHoliday, checkSameDay, countDate, returnQuantity } from '../../../constants/dayoff.js';
 import SelectTime from '../ModalAddData/SelectTime/index.js';
 
 const ModalUpdateData = (props) => {
@@ -37,7 +35,7 @@ const ModalUpdateData = (props) => {
   const [callApiModal, setCallApiModal] = useState(false)
   const [changeData, setChangeData] = useState(false)
   const [callTotalDay, setCallTotalDay] = useState(false)
-  const  [oldData, setOldData] = useState()
+  const [oldData, setOldData] = useState()
   const [checked, setChecked] = useState(true)
 
   function handleCancel() {
@@ -67,15 +65,17 @@ const ModalUpdateData = (props) => {
         setDataTime(newdata?.Time)
         setQuantity(newdata?.Quantity)
         setChangeData(!changeData)
-        if(newdata?.Time === 0){
+        if (newdata?.Time === 0) {
           setChecked(true)
-        }else{
+        } else {
           setChecked(false)
         }
       })
   }
   useEffect(() => {
-    getDataUpdate()
+    if(idRequest){
+      getDataUpdate()
+    }
   }, [callApiModal, callApiTable])
   function changeDateUpdate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
@@ -112,15 +112,31 @@ const ModalUpdateData = (props) => {
   }, [data?.DayOffFrom, data?.DayOffTo, data?.Time, currentQuantity])
   function totalDate(data) {
     if (data?.DayOffFrom && data?.DayOffTo) {
-      const time = (((data?.DayOffTo - data?.DayOffFrom) / 360 / 24 / 10000) + 1) * currentQuantity
+      const time = ((returnQuantity(data?.DayOffFrom, data?.DayOffTo) * currentQuantity))
       setQuantity(time)
     }
   }
   useEffect(() => {
+    const checkHolidate = checkHoliday(data?.DayOffFrom, data?.DayOffTo)
+    if (checkHolidate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Coincide with Saturday, Sunday and holidays!",
+        showConfirmButton: true,
+        confirmButtonColor: '#8000ff',
+      })
+      const newData = { ...data }
+      newData.DayOffTo = oldData?.DayOffTo
+      newData.DayOffFrom = oldData?.DayOffFrom
+      setData(newData)
+    }
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Quantity])
+  useEffect(() => {
     const date = new Date()
     if (data?.DayOffFrom && data?.DayOffTo) {
-      if (countDate(data?.DayOffFrom,date) < 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
-        const newData = {...data}
+      if (countDate(data?.DayOffFrom, date) < 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
+        const newData = { ...data }
         newData.DayOffTo = oldData?.DayOffTo
         newData.DayOffFrom = oldData?.DayOffFrom
         setData(newData)
@@ -179,57 +195,59 @@ const ModalUpdateData = (props) => {
       })
   }, [callApiTable])
   function UpdateData() {
-    const check = checkSameDay(dataDayOff, data?.DayOffFrom, data?.DayOffTo)
-    const checkHolidate = checkHoliday(dataHoliday, data?.DayOffFrom, data?.DayOffTo)
-    if (check || checkHolidate) {
-      if(check){
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: "Day off already exist!",
-          showConfirmButton: true,
-          confirmButtonColor: '#8000ff',
-        })
-      }
-      if(checkHolidate){
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: "Coincide with Saturday, Sunday and holidays!",
-          showConfirmButton: true,
-          confirmButtonColor: '#8000ff',
-        })
-      }
-      
+    const checkSameDate = checkSameDay(data?.DayOffFrom, data?.DayOffTo, dataDayOff)
+    if (checkSameDate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Day off already exist!",
+        showConfirmButton: true,
+        confirmButtonColor: '#8000ff',
+      })
+      const newData = { ...data }
+      newData.DayOffTo = oldData?.DayOffTo
+      newData.DayOffFrom = oldData?.DayOffFrom
+      setData(newData)
     } else {
-      const dataFrom = changeDateUpdate(data?.DayOffFrom)
-      const dataTo = changeDateUpdate(data?.DayOffTo)
-      const newdata = { ...data }
-      newdata.Quantity = quantity
-      newdata.DayOffFrom = dataFrom
-      newdata.DayOffTo = dataTo
-      axios.patch(url, newdata)
-        .then((data) => {
-          if (data?.data?.success) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Update request success',
-              showConfirmButton: false,
-              timer: 1000
-            })
-            setTimeout(() => {
-              setCallApiTable(!callApiTable)
-              setCallApiModal(!callApiModal)
-            }, 500)
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Cancel!',
-              showConfirmButton: false,
-              timer: 1000
-            })
-          }
+      if (quantity > 5) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Maximum 5 days",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
         })
+      } else {
+        const dataFrom = changeDateUpdate(data?.DayOffFrom)
+        const dataTo = changeDateUpdate(data?.DayOffTo)
+        const newdata = { ...data }
+        newdata.Quantity = quantity
+        newdata.DayOffFrom = dataFrom
+        newdata.DayOffTo = dataTo
+        axios.patch(url, newdata)
+          .then((data) => {
+            if (data?.data?.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Update request success',
+                showConfirmButton: false,
+                timer: 1000
+              })
+              setTimeout(() => {
+                setCallApiTable(!callApiTable)
+                setCallApiModal(!callApiModal)
+              }, 500)
+              setShowModalUpdate(false)
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Cancel!',
+                showConfirmButton: false,
+                timer: 1000
+              })
+            }
+          })
+      }
     }
   }
 
@@ -282,7 +300,6 @@ const ModalUpdateData = (props) => {
       if (result.isConfirmed) {
         UpdateData()
         reset();
-        setShowModalUpdate(false)
       } else {
         Swal.fire({
           icon: 'error',
@@ -311,7 +328,7 @@ const ModalUpdateData = (props) => {
           submit(e)
         )}>
           <InPutContainer className="mb-6">
-            <LableInput  style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
+            <LableInput style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
             <Form.Group className='type__dayoff' style={{ display: 'flex', flexDirection: 'column' }}>
               <Form.Check checked={checked} label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
               <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
@@ -324,7 +341,7 @@ const ModalUpdateData = (props) => {
             </InPutContainer>
             <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
               <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
-              {
+                {
                   showMidDay === false || quantity > 0.5 ? '' :
                     <Option value={1}>Morning</Option>
                 }
@@ -333,7 +350,7 @@ const ModalUpdateData = (props) => {
                     <Option value={2} >Afternoon</Option>
                 }
                 {
-                  quantity > 0.5?<Option value={3}>All day</Option>:''
+                  quantity > 0.5 ? <Option value={3}>All day</Option> : ''
                 }
               </Form.Select>
             </InPutContainer>
@@ -347,14 +364,16 @@ const ModalUpdateData = (props) => {
           </InPutContainerFrom>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
-            <Input value={quantity} disabled autoComplete='off' id='Quantity' name='Quantity' />
+            <Input id='Quantity'>
+              <Span>{quantity}</Span>
+            </Input>
           </InPutContainer>
           <InPutContainer className="mb-6">
             <LableInput for='reason' className="form-label">Reason</LableInput>
             <InputArea value={data?.Reason} required type='text' id='Reason' name='reason' onChange={(e) => handleOnChangeReason(e)} />
           </InPutContainer>
           <ModalBtn className='modal__btn'>
-            <BtnAdd type="submit">Add</BtnAdd>
+            <BtnAdd type="submit">Update</BtnAdd>
             <BtnCancel type="button" onClick={() => handleCancel()}>Cancel</BtnCancel>
           </ModalBtn>
         </ FormDataInput>
