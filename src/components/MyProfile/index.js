@@ -41,13 +41,14 @@ const MyProfile = () => {
   const EGmail = data?.Gmail;
   const fullname = data?.Name;
   const avatar = data?.Avatar;
+  console.log("avatar",avatar);
   let roleID = data?.RoleId;
   const address = data?.Address;
   const Phone = data?.Phone;
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-  const [, setfileIMG] = useState();
+  const [FileIMG, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [, setIsLoading] = useState(false);
 
@@ -66,9 +67,10 @@ const MyProfile = () => {
   } = useForm({ resolver: yupResolver(schema) });
   function handleOnChange(e) {
     Object.values(e.target.files).forEach((e) => {
-      if (selectedImage !== null) {
+      if (selectedImage !== null) { 
         setSelectedImage(URL.createObjectURL(e));
         setfileIMG(e);
+        console.log(FileIMG);
       } else {
       }
     });
@@ -111,7 +113,6 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let rolename = null;

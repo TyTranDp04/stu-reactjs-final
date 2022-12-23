@@ -15,11 +15,78 @@ export const BoxHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (min-width : 951px) and (max-width: 1250px){
+    flex-direction: column;
+  }
+  @media  (max-width: 445px){
+    flex-direction: column;
+  }
+ 
   `
 export const BoxNav = styled.div`
-  justify-content: space-between;
+justify-content: space-between;
   display: flex;
-    flex-wrap: wrap;
+  flex-wrap: wrap;
+  @media (min-width : 950px) and (max-width: 1250px) {
+    margin-bottom : 30px;  
+  }
+  @media  (max-width: 951px){
+    flex-direction: column;
+  }
+`
+export const ContentSearch = styled.div`
+display: flex;
+
+@media (min-width:445px) and (max-width: 522px){
+  flex-direction: column;
+  margin-bottom : 15px;
+}
+@media (min-width : 340px) and (max-width: 445px){
+  flex-direction: row;
+}
+@media  (max-width: 340px){
+  flex-direction: column;
+}
+`
+export const TittleSearch = styled.h3`
+margin: 0px 10px 0px 0px;
+text-align: center;
+padding-top: 5px;
+font-size: 18px;
+@media (max-width: 522px){
+  margin-bottom : 10px;
+  text-align : left;
+  font-size: 18px;
+  width: 100%;
+}
+`
+export const FormSearch = styled.form`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+    padding-left: 5px;
+    border: 2px solid #8000FF;
+    height: 40px;
+    .react-datepicker-wrapper{
+      #SearchDate{
+        border: none;
+        padding-left:8px;
+        outline: none;
+        width: 125px;
+      }
+    }
+    .react-datepicker-popper{
+      z-index: 10000;
+    }
+    @media (max-width:340px){
+    
+    }
+  
+    
 `
 export const ButtonAddDayOff = styled.button`
   background-color: #8000FF;
@@ -31,6 +98,10 @@ export const ButtonAddDayOff = styled.button`
   &:hover{
     opacity: .8;
   }
+  @media  (max-width: 951px){
+    margin-bottom : 10px;
+  }
+  
 `
 export const ButtonRestoreDayOff = styled.button`
 background-color: #00AEEF;

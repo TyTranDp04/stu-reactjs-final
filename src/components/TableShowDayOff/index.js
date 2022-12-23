@@ -13,7 +13,9 @@ import {
   BoxNav,
   ButtonAddDayOff,
   ContainerDefault,
+  ContentSearch,
   FormData,
+  FormSearch,
   Main,
   Span,
   TableScroll,
@@ -21,10 +23,11 @@ import {
   Th,
   ThContent,
   Thead,
+  TittleSearch,
   Tr,
-  TrHead
+  TrHead,
 } from './style';
-import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
+import {  ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { totalDay } from '../../constants/dayoff';
 import ReactDatePicker from 'react-datepicker';
@@ -135,24 +138,26 @@ const TableShowDayOff = (props) => {
           <BoxNav class="box-nav d-flex justify-between">
             <Span>{dataDayOff?.length} Log-off</Span>
             <ButtonAddDayOff onClick={() => setTypeFilter('all')}>
-              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faList} />
+              <FontAwesomeIcon className='IconFontAwesome' style={{ color: '#fff', marginRight: '5px' }} icon={faList} />
               {" All day off"}
             </ButtonAddDayOff>
             <ButtonAddDayOff onClick={() => setTypeFilter('approved')}>
-              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faCheck} />
+              <FontAwesomeIcon className='IconFontAwesome' style={{ color: '#fff', marginRight: '5px' }} icon={faCheck} />
               Approved day off
             </ButtonAddDayOff>
             <ButtonAddDayOff onClick={() => setTypeFilter('rejected')}>
-              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
+              <FontAwesomeIcon className='IconFontAwesome' style={{ color: '#fff', marginRight: '5px' }} icon={faXmark} />
               Rejected day off
             </ButtonAddDayOff>
             <ButtonAddDayOff onClick={() => setTypeFilter('reverted')}>
-              <FontAwesomeIcon style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
+              <FontAwesomeIcon className='IconFontAwesome' style={{ color: '#fff', marginRight: '5px' }} icon={faClockRotateLeft} />
               Reverted day off
             </ButtonAddDayOff>
           </BoxNav>
+          <ContentSearch>
+          <TittleSearch>Filter by:</TittleSearch>
           <FormSearch>
-            <SearchHeaderText>Filter by:</SearchHeaderText>
+          
             <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
             <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
               <FontAwesomeIcon style={{ color: '#8000FF', }} icon={faXmark} />
@@ -161,6 +166,7 @@ const TableShowDayOff = (props) => {
               <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faMagnifyingGlass} />
             </ButtonSearchDayOff>
           </FormSearch>
+          </ContentSearch>
         </BoxHeader>
 
         <FormData action="/" method="POST">

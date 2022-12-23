@@ -68,7 +68,6 @@ const userSlice = createSlice({
     },
 
     logoutAction(state, action) {
-      console.log('logout');
       localStorage.removeItem(USER_INFO_KEY);
       state.userInfoState = {
         ...state.userInfoState,
