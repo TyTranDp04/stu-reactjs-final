@@ -104,6 +104,7 @@ export const StImg = styled.img`
   max-width: 100%;
 `
 export const HeaderLogoff = styled.div`
+height:52px;
   display: flex;
   padding:0px;
   background-color:#fff;
