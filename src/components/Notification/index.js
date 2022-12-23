@@ -31,7 +31,7 @@ const Notifycation = (props) => {
   const userInfo = useSelector(state => state.users.userInfoState);
   const [callApi, setCallApi] = useState(false)
   const [inverseData, setInverseData] = useState(false)
-
+  const [dataGroup, setDataGroup] = useState()
   useEffect(() => {
     setDataUser(userInfo?.data)
   }, [userInfo])
@@ -48,14 +48,22 @@ const Notifycation = (props) => {
         }
         if (dataUser?.RoleId === '1') {
           const newData = res?.data?.data?.filter(function (d) {
-            return d.Status === 4 || d.Status === 3
+            return d.Status === 4 || d.Status === 3 || d.Status === 6
           })
           setData(newData)
           setInverseData(!inverseData)
         }
       })
-      .catch(err => console.log(err))
+      .catch()
   }
+  useEffect(() => {
+    const urlGetDayOff = URL_API + "/group"
+    axios.get(urlGetDayOff)
+      .then(res => {
+        setDataGroup(res?.data?.data)
+      })
+  }, [dataUser])
+
   useEffect(() => {
     if (dataUser) {
       getDataDayOff()
@@ -110,10 +118,19 @@ const Notifycation = (props) => {
         return "Request change"
       case 5:
         return "Reverted"
+      case 6:
+        return "New group"
       default:
         return ''
     }
   }
+  function checkGroup(dataGroup, id) {
+    const group = dataGroup?.filter(function (data) {
+      return data?._id === id
+    })
+    return group[0]?.Name
+  }
+  
   return (
     <>
       {dataUser?.RoleId === 3 ? '' :
@@ -142,7 +159,7 @@ const Notifycation = (props) => {
                                 }
                               </B>
                               {
-                                e?.Status === 1 ? '' :
+                                e?.Status === 1 || e?.Status === 6 ? '' :
                                   <ReasonChange><B>Reason: </B>{e.ReasonChange}</ReasonChange>
                               }
                             </ContentStatus>
@@ -154,15 +171,24 @@ const Notifycation = (props) => {
                                   <H4><B>Name: </B> {e?.Name}</H4>
                                 </Date>
                             }
-
-                            <Date>
-                              <H4><B style={{ marginRight: '5px' }}>Day Off From:</B></H4>
-                              <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
-                            </Date>
-                            <Date>
-                              <H4><B style={{ marginRight: '5px' }}>Day Off To:</B></H4>
-                              <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
-                            </Date>
+                            {
+                              e?.Status === 6 ? <ReasonChange><B>You have been added to the group </B>
+                                <B>{
+                                  checkGroup(dataGroup, e?.GroupId)
+                                }</B>
+                              </ReasonChange> :
+                                <Date>
+                                  <H4><B style={{ marginRight: '5px' }}>Day Off From:</B></H4>
+                                  <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
+                                </Date>
+                            }
+                            {
+                              e?.Status === 6 ? '' :
+                                <Date>
+                                  <H4><B style={{ marginRight: '5px' }}>Day Off To:</B></H4>
+                                  <TimeDayOff date={e?.DayOffFrom}></TimeDayOff>
+                                </Date>
+                            }
                             {
                               dataUser?.RoleId !== "2" ? '' :
                                 <Date>

@@ -12,7 +12,7 @@ import {
   ModalBtn,
   LableInput,
   InPutContainer,
-  FormDataInput, Input, InPutContainerFrom, Option, Span, InputContainerStyle,FormContainer
+  FormDataInput, Input, InPutContainerFrom, Option, Span, InputContainerStyle, FormContainer
 } from './style.js'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -31,6 +31,7 @@ const ModalAddData = (props) => {
   const [currentQuantity, setCurrentQuantity] = useState(1)
   const [dataDayOff, setDataDayOff] = useState()
   const [checked, setChecked] = useState(true)
+  const [showType, setShowType] = useState(true)
   const [data, setData] = useState({
     UserId: user?.UserId,
     Name: user?.Name,
@@ -45,7 +46,8 @@ const ModalAddData = (props) => {
     setData(newdata)
     setQuantity(0)
     setChecked(true)
-
+    setShowType(true)
+    setCurrentQuantity(1)
   }
   function changeDate(date) {
     const dataDate = moment(date).format('YYYY-MM-DD')
@@ -160,7 +162,7 @@ const ModalAddData = (props) => {
   useEffect(() => {
     const date = new Date()
     if (data?.DayOffFrom && data?.DayOffTo) {
-      if (data?.DayOffFrom - date <= 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
+      if (data?.DayOffTo - data?.DayOffFrom < 0) {
         const newdata = { ...data }
         newdata.DayOffFrom = null
         newdata.DayOffTo = null
@@ -204,6 +206,13 @@ const ModalAddData = (props) => {
       setChecked(false)
 
     }
+    if (newdata?.Type === 1) {
+      setShowType(false)
+      setQuantity(0.5)
+      setShowMidDay(true)
+    } else {
+      setShowType(true)
+    }
   }
   function handleOnChangeTime(e) {
     setDataTime(e.target.value)
@@ -214,19 +223,24 @@ const ModalAddData = (props) => {
         const newdata1 = { ...data }
         newdata1.Time = 'Morning'
         setData(newdata1)
-        setCurrentQuantity(0.5)
+        if(quantity > 0.5){      
+            setCurrentQuantity(0.5)
+        }
         break;
       case '2':
         const newdata2 = { ...data }
         newdata2.Time = 'Afternoon'
-        setCurrentQuantity(0.5)
-        setData(newdata2)
+        if(quantity > 0.5){
+          if(showType){
+            setCurrentQuantity(0.5)
+          }
+        }
         break;
       case '3':
         const newdata3 = { ...data }
-        newdata3.Time = 'All day'
-        setCurrentQuantity(1)
+        newdata3.Time = 'All day'   
         setData(newdata3)
+        setCurrentQuantity(1)
         break;
       default:
         break;
@@ -284,43 +298,47 @@ const ModalAddData = (props) => {
         )}>
           <InPutContainer className="mb-6">
             <LableInput style={{ marginBottom: '22px', }} className="form-label">Type of day off</LableInput>
+
             <Form.Group className='type__dayoff' style={{ display: 'flex', flexDirection: 'column' }}>
               <Form.Check checked={checked} label="OFF" value={0} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
               <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
             </Form.Group>
           </InPutContainer>
           <FormContainer>
-            <InPutContainerFrom style={{marginLeft: '0', width: '70%'}}>
+            <InPutContainerFrom style={{ marginLeft: '0', width: '70%' }}>
               <InputContainerStyle>
-                <LableInput style={{width: '153px', textAlign: 'start'}} className="form-label lable-w50">From</LableInput>
+                <LableInput style={{ width: '153px', textAlign: 'start' }} className="form-label lable-w50">From</LableInput>
                 <InPutContainer style={{ margin: '0', }} className="mb-6">
                   <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
                 </InPutContainer>
               </InputContainerStyle>
               <InputContainerStyle>
-                <LableInput style={{ width: '153px'}} className="form-label lable-w50">To</LableInput>
-                <InPutContainer style={{  margin: '0', }} className="mb-6">
+                <LableInput style={{ width: '153px' }} className="form-label lable-w50">To</LableInput>
+                <InPutContainer style={{ margin: '0', }} className="mb-6">
                   <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
                 </InPutContainer>
               </InputContainerStyle>
             </InPutContainerFrom>
-            <InPutContainerFrom className='input__container-css' style={{  top: '10px', position: 'relative', width:'23%' }} >
-              <SelectTime   quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
-              <InPutContainer style={{ width: '100%', margin: '10px 0 0 0', }} className="mb-6 input__select">
-                <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+            <InPutContainerFrom  className={`input__container-css ${showType?'':'top-25'}`} style={{ top: '10px', position: 'relative', width: '25%', marginLeft: '0' }} >   
+              <InPutContainer style={{ width: '100%'}} className="mb-6 input__select">
+                <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example" >
+                <Option value={3}>All day</Option> 
                   {
-                    showMidDay === false || quantity > 0.5 ? '' :
-                      <Option value={1}>Morning</Option>
+                    showMidDay === true || quantity <= 0.5 ?
+                      <Option value={1}>Morning</Option>:''
                   }
                   {
-                    showMidDay === false || quantity > 0.5 ? '' :
-                      <Option value={2} >Afternoon</Option>
+                    showMidDay === true || quantity <= 0.5 ? 
+                      <Option value={2} >Afternoon</Option>:''
                   }
-                  {
-                    quantity > 0.5 ? <Option value={3}>All day</Option> : ''
-                  }
+                  
+                  
                 </Form.Select>
               </InPutContainer>
+              {
+                showType ?
+                  <SelectTime quantity={quantity} handle={{ setCurrentQuantity, currentQuantity }}></SelectTime> : ''
+              }
             </InPutContainerFrom>
           </FormContainer>
           <InPutContainer className="mb-6">

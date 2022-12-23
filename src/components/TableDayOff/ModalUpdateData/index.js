@@ -31,19 +31,28 @@ const ModalUpdateData = (props) => {
   const { setShowModalUpdate, setCallApiTable, callApiTable, showModalUpdate } = props.handle
   const { idRequest } = props
   const [data, setData] = useState()
-  const [currentQuantity, setCurrentQuantity] = useState(1)
   const [quantity, setQuantity] = useState()
+  const [currentQuantity, setCurrentQuantity] = useState()
   const [dataDayOff, setDataDayOff] = useState()
   const [showMidDay, setShowMidDay] = useState(true)
   const [callApiModal, setCallApiModal] = useState(false)
   const [changeData, setChangeData] = useState(false)
-  const [callTotalDay, setCallTotalDay] = useState(false)
   const [oldData, setOldData] = useState()
   const [checked, setChecked] = useState(true)
+  const [showType, setShowType] = useState(true)
 
   function handleCancel() {
     setShowModalUpdate(false)
+    setShowType(true)
   }
+  useEffect(() => {
+    if (data?.Type === 1) {
+      setShowType(false)
+      setCurrentQuantity(0.5)
+    } else {
+      setShowType(true)
+    }
+  }, [data?.Type])
   useEffect(() => {
     setCallApiModal(!callApiModal)
   }, [showModalUpdate])
@@ -71,6 +80,12 @@ const ModalUpdateData = (props) => {
         } else {
           setChecked(false)
         }
+        if(newdata?.Quantity < 1){
+          setCurrentQuantity(newdata?.Quantity)
+        }
+        if(newdata?.Quantity >= 1){
+          setCurrentQuantity(1)
+        }
       })
   }
   useEffect(() => {
@@ -84,24 +99,8 @@ const ModalUpdateData = (props) => {
   }
 
   useEffect(() => {
-    if (data) {
-      if (data?.DayOffTo - data?.DayOffFrom === 0) {
-        setShowMidDay(true)
-      } else {
-        setShowMidDay(false)
-        const newdata3 = { ...data }
-        newdata3.Time = 'All day'
-        setCurrentQuantity(1)
-        setDataTime('3')
-        setData(newdata3)
-      }
-      setCallTotalDay(!callTotalDay)
-    }
-  }, [changeData, callApiTable])
-
-  useEffect(() => {
     totalDate(data)
-    if (data?.DayOffFrom - data?.DayOffTo === 0) {
+    if ((new Date(data?.DayOffFrom) - new Date(data?.DayOffTo)) === 0) {
       setShowMidDay(true)
     } else {
       setShowMidDay(false)
@@ -134,9 +133,8 @@ const ModalUpdateData = (props) => {
     }
   }, [data?.DayOffFrom, data?.DayOffTo, data?.Quantity])
   useEffect(() => {
-    const date = new Date()
     if (data?.DayOffFrom && data?.DayOffTo) {
-      if (countDate(data?.DayOffFrom, date) < 0 || data?.DayOffTo - data?.DayOffFrom < 0) {
+      if ( data?.DayOffTo - data?.DayOffFrom < 0) {
         const newData = { ...data }
         newData.DayOffTo = oldData?.DayOffTo
         newData.DayOffFrom = oldData?.DayOffFrom
@@ -173,13 +171,13 @@ const ModalUpdateData = (props) => {
         setData(newdata3)
         break;
       case 'Morning':
-        setCurrentQuantity(0.5)
+        setCurrentQuantity(data?.Quantity)
         break;
       case 'Afternoon':
-        setCurrentQuantity(0.5)
+        setCurrentQuantity(data?.Quantity)
         break;
       case 'All day':
-        setCurrentQuantity(1)
+        setCurrentQuantity(data?.Quantity)
         break;
       default:
         break;
@@ -281,7 +279,6 @@ const ModalUpdateData = (props) => {
       setChecked(false)
 
     }
-    console.log(newdata)
 
   }
 
@@ -361,23 +358,25 @@ const ModalUpdateData = (props) => {
                 </InPutContainer>
               </InputContainerStyle>
             </InPutContainerFrom>
-            <InPutContainerFrom className='input__container-css' style={{ top: '10px', position: 'relative', width: '23%' }} >
-              <SelectTime quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
-              <InPutContainer style={{ width: '100%', margin: '10px 0 0 0', }} className="mb-6 input__select">
+            <InPutContainerFrom className={`input__container-css ${showType?'':'top-25'}`} style={{ top: '10px', position: 'relative', width: '23%' }} >
+             
+              <InPutContainer style={{ width: '100%'}} className="mb-6 input__select">
                 <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+                  <Option value={3}>All day</Option> 
                   {
-                    showMidDay === false || quantity > 0.5 ? '' :
-                      <Option value={1}>Morning</Option>
+                    showMidDay === true || quantity <= 0.5 ?
+                      <Option value={1}>Morning</Option>:''
                   }
                   {
-                    showMidDay === false || quantity > 0.5 ? '' :
-                      <Option value={2} >Afternoon</Option>
-                  }
-                  {
-                    quantity > 0.5 ? <Option value={3}>All day</Option> : ''
+                    showMidDay === true || quantity <= 0.5 ? 
+                      <Option value={2} >Afternoon</Option>:''
                   }
                 </Form.Select>
               </InPutContainer>
+              {
+                showType ?
+                  <SelectTime quantity={quantity} handle={{ setCurrentQuantity, currentQuantity }}></SelectTime> : ''
+              }
             </InPutContainerFrom>
           </FormContainer>
           <InPutContainer className="mb-6">

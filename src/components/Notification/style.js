@@ -178,6 +178,9 @@ export const ContentStatus = styled.div`
   .Reverted{
     color: #C66DAD !important;
   }
+  .group{
+    color: #8000FF !important;
+  }
 `
 export const ContentDayOff = styled.div`
   border-radius: 5px;
