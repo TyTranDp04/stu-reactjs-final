@@ -15,6 +15,15 @@ export const ContainerRepository = styled.div`
       font-weight: 500;
     }
   }
+  .col__history{
+    @media (max-width: 600px){
+      border-top: 2px solid #ccc;
+      padding-top: 15px;
+      h3{
+        top: -15px!important;
+      }
+    }
+  }
 `
 export const BtnContainer = styled.div`
     button{

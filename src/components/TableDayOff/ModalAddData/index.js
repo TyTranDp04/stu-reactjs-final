@@ -12,14 +12,15 @@ import {
   ModalBtn,
   LableInput,
   InPutContainer,
-  FormDataInput, Input, InPutContainerFrom, Option
+  FormDataInput, Input, InPutContainerFrom, Option, Span, InputContainerStyle,FormContainer
 } from './style.js'
 import DatePicker from "react-datepicker";
-import { dataHoliday } from '../../../constants/holiday.js';
 import "react-datepicker/dist/react-datepicker.css";
 import { Form } from 'react-bootstrap';
-import { checkHoliday, checkSameDay } from '../../../constants/dayoff.js';
+import { checkHoliday, checkSameDay, returnQuantity } from '../../../constants/dayoff.js';
 import SelectTime from './SelectTime/index.js';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ModalAddData = (props) => {
   const { setShowModalAdd, setCallApiTable, callApiTable } = props.handle
@@ -28,13 +29,14 @@ const ModalAddData = (props) => {
   const url = URL_API + '/newdayoff'
   const [quantity, setQuantity] = useState()
   const [currentQuantity, setCurrentQuantity] = useState(1)
-  const [dataDayOff, setDataDayOff] = useState(1)
+  const [dataDayOff, setDataDayOff] = useState()
   const [checked, setChecked] = useState(true)
   const [data, setData] = useState({
     UserId: user?.UserId,
     Name: user?.Name,
     RoleId: user?.RoleId,
   })
+
   function handleCancel() {
     setShowModalAdd(false)
     const newdata = { ...data }
@@ -49,6 +51,7 @@ const ModalAddData = (props) => {
     const dataDate = moment(date).format('YYYY-MM-DD')
     return dataDate
   }
+
   useEffect(() => {
     const urlGetDayOff = URL_API + '/dayoff-user/' + user?.UserId
     Axios.get(urlGetDayOff)
@@ -58,73 +61,68 @@ const ModalAddData = (props) => {
         })
         setDataDayOff(newdata)
       })
-  }, [])
+  }, [callApiTable])
   function addRequest() {
-    const checkSameDate = checkSameDay(dataDayOff, data?.DayOffFrom, data?.DayOffTo)
-    const checkHolidate = checkHoliday(dataHoliday, data?.DayOffFrom, data?.DayOffTo)
-    if (checkSameDate || checkHolidate) {
-      if (checkSameDate) {
-        const newdata = { ...data }
-        newdata.DayOffFrom = null
-        newdata.DayOffTo = null
-        setQuantity(0)
-        setData(newdata)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: "Day off already exist!",
-          showConfirmButton: true,
-          confirmButtonColor: '#8000ff',
-        })
-      }
-      if (checkHolidate) {
-        const newdata = { ...data }
-        newdata.DayOffFrom = null
-        newdata.DayOffTo = null
-        setQuantity(0)
-        setData(newdata)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: "Coincide with Saturday, Sunday and holidays!",
-          showConfirmButton: true,
-          confirmButtonColor: '#8000ff',
-        })
-      }
-    } else {
-      const dataFrom = changeDate(data?.DayOffFrom)
-      const dataTo = changeDate(data?.DayOffTo)
+    const checkSameDate = checkSameDay(data?.DayOffFrom, data?.DayOffTo, dataDayOff)
+
+    if (checkSameDate) {
       const newdata = { ...data }
-      if (!data?.Type) {
-        newdata.Type = 0
-      }
-      newdata.DayOffFrom = dataFrom
-      newdata.DayOffTo = dataTo
-      newdata.Quantity = quantity
-      Axios.post(url, newdata)
-        .then((data) => {
-          if (data?.data?.success) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Add request success',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            setCallApiTable(!callApiTable)
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Cancel!',
-              showConfirmButton: false,
-              timer: 1000
-            })
-          }
+      newdata.DayOffFrom = null
+      newdata.DayOffTo = null
+      setQuantity(0)
+      setData(newdata)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Day off already exist!",
+        showConfirmButton: true,
+        confirmButtonColor: '#8000ff',
+      })
+    }
+    else {
+      if (quantity > 5) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "Maximum 5 days",
+          showConfirmButton: true,
+          confirmButtonColor: '#8000ff',
         })
+      } else {
+        const dataFrom = changeDate(data?.DayOffFrom)
+        const dataTo = changeDate(data?.DayOffTo)
+        const newdata = { ...data }
+        if (!data?.Type) {
+          newdata.Type = 0
+        }
+        newdata.DayOffFrom = dataFrom
+        newdata.DayOffTo = dataTo
+        newdata.Quantity = quantity
+        Axios.post(url, newdata)
+          .then((data) => {
+            if (data?.data?.success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Add request success',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              setCallApiTable(!callApiTable)
+              setShowModalAdd(false)
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Cancel!',
+                showConfirmButton: false,
+                timer: 1000
+              })
+            }
+          })
+      }
     }
   }
   useEffect(() => {
     totalDay(data)
-
     if (data?.DayOffFrom - data?.DayOffTo === 0) {
       setShowMidDay(true)
     } else {
@@ -138,10 +136,27 @@ const ModalAddData = (props) => {
   function totalDay(data) {
     const { DayOffFrom, DayOffTo } = data
     if (DayOffFrom && DayOffTo) {
-      const time = (((DayOffTo - DayOffFrom) / 360 / 24 / 10000) + 1) * currentQuantity
+      const time = ((returnQuantity(DayOffFrom, DayOffTo) * currentQuantity))
       setQuantity(time)
     }
   }
+  useEffect(() => {
+    const checkHolidate = checkHoliday(data?.DayOffFrom, data?.DayOffTo)
+    if (checkHolidate) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: "Coincide with Saturday, Sunday and holidays!",
+        showConfirmButton: true,
+        confirmButtonColor: '#8000ff',
+      })
+      const newdata = { ...data }
+      newdata.DayOffFrom = null
+      newdata.DayOffTo = null
+      setQuantity(0)
+      setData(newdata)
+    }
+  }, [data?.DayOffFrom, data?.DayOffTo, data?.Quantity])
   useEffect(() => {
     const date = new Date()
     if (data?.DayOffFrom && data?.DayOffTo) {
@@ -183,11 +198,11 @@ const ModalAddData = (props) => {
     const num = Number(e.target.value)
     newdata[e.target.name] = num
     setData(newdata)
-    if(num === 0){
+    if (num === 0) {
       setChecked(true)
-    }else{
+    } else {
       setChecked(false)
-      
+
     }
   }
   function handleOnChangeTime(e) {
@@ -236,7 +251,6 @@ const ModalAddData = (props) => {
       if (result.isConfirmed) {
         addRequest()
         reset();
-        setShowModalAdd(false)
       } else {
         Swal.fire({
           icon: 'error',
@@ -249,16 +263,20 @@ const ModalAddData = (props) => {
   }
   return (
     <Modal
+      dialogClassName="modal__add-request"
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      className='modal__request'
+      className='modal__request '
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           Add Day Off
         </Modal.Title>
+        <BtnCancel type="button" style={{ backgroundColor: 'transparent' }} onClick={() => handleCancel()}>
+          <FontAwesomeIcon style={{ color: '#8000ff', fontSize: '28px' }} icon={faXmark} />
+        </BtnCancel>
       </Modal.Header>
       <Modal.Body>
         < FormDataInput id='form' method="POST" onSubmit={(e) => handleSubmit(
@@ -271,37 +289,45 @@ const ModalAddData = (props) => {
               <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
             </Form.Group>
           </InPutContainer>
-          <InPutContainerFrom>
-            <LableInput style={{ width: '51%', margin: '0', }} className="form-label">From</LableInput>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
-            </InPutContainer>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
-              <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
-                {
-                  showMidDay === false || quantity > 0.5 ? '' :
-                    <Option value={1}>Morning</Option>
-                }
-                {
-                  showMidDay === false || quantity > 0.5 ? '' :
-                    <Option value={2} >Afternoon</Option>
-                }
-                 {
-                  quantity > 0.5?<Option value={3}>All day</Option>:''
-                }
-              </Form.Select>
-            </InPutContainer>
-          </InPutContainerFrom>
-          <InPutContainerFrom>
-            <LableInput style={{ width: '51%', margin: '0', }} className="form-label">To</LableInput>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
-            </InPutContainer>
-            <SelectTime quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
-          </InPutContainerFrom>
+          <FormContainer>
+            <InPutContainerFrom style={{marginLeft: '0', width: '70%'}}>
+              <InputContainerStyle>
+                <LableInput style={{width: '153px', textAlign: 'start'}} className="form-label lable-w50">From</LableInput>
+                <InPutContainer style={{ margin: '0', }} className="mb-6">
+                  <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
+                </InPutContainer>
+              </InputContainerStyle>
+              <InputContainerStyle>
+                <LableInput style={{ width: '153px'}} className="form-label lable-w50">To</LableInput>
+                <InPutContainer style={{  margin: '0', }} className="mb-6">
+                  <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
+                </InPutContainer>
+              </InputContainerStyle>
+            </InPutContainerFrom>
+            <InPutContainerFrom className='input__container-css' style={{  top: '10px', position: 'relative', width:'23%' }} >
+              <SelectTime   quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
+              <InPutContainer style={{ width: '100%', margin: '10px 0 0 0', }} className="mb-6 input__select">
+                <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+                  {
+                    showMidDay === false || quantity > 0.5 ? '' :
+                      <Option value={1}>Morning</Option>
+                  }
+                  {
+                    showMidDay === false || quantity > 0.5 ? '' :
+                      <Option value={2} >Afternoon</Option>
+                  }
+                  {
+                    quantity > 0.5 ? <Option value={3}>All day</Option> : ''
+                  }
+                </Form.Select>
+              </InPutContainer>
+            </InPutContainerFrom>
+          </FormContainer>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
-            <Input value={quantity} disabled autoComplete='off' id='Quantity' name='Quantity' />
+            <Input id='Quantity' className=' Quantity__text'>
+              <Span>{quantity}</Span>
+            </Input>
           </InPutContainer>
           <InPutContainer className="mb-6">
             <LableInput value={data?.Reason} for='reason' className="form-label">Reason</LableInput>

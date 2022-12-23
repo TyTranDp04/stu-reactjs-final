@@ -87,18 +87,18 @@ const Notifycation = (props) => {
   }
   function handleReadAll() {
     readAll()
-    .then(()=>{
-      setTimeout(()=>{
-        setCallApi(!callApi)
-      }, 500)
-    }) 
+      .then(() => {
+        setTimeout(() => {
+          setCallApi(!callApi)
+        }, 500)
+      })
   }
-  async function readAll(){
+  async function readAll() {
     const urlReadAll = URL_API + "/notification/" + dataUser?.id
     await axios.post(urlReadAll)
-    .then((data)=>{ 
-    })
-    .catch()
+      .then((data) => {
+      })
+      .catch()
   }
   function statusText(status) {
     switch (status) {
@@ -114,14 +114,12 @@ const Notifycation = (props) => {
         return ''
     }
   }
-
   return (
     <>
       {dataUser?.RoleId === 3 ? '' :
         <Container>
           {
             data?.length === 0 ? '' :
-
               <HeaderIcon className={showMenu ? '' : 'hideAffter'} onClick={() => { setShowMenu(!showMenu) }}>
                 <FontAwesomeIcon style={{ color: '#FECC09' }} icon={faBell} />
                 <Span style={{ display: data?.length === 0 ? "none" : "" }} >{data?.length === 0 ? "" : data?.length}</Span>
@@ -133,7 +131,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to={e?.Status === 1 || e?.Status === 4?"/request-log-off":"/log-off"}>
+                    <Link key={index} to={e?.Status === 1 || e?.Status === 4 ? "/request-log-off" : "/log-off"}>
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {
@@ -183,9 +181,11 @@ const Notifycation = (props) => {
                     </Link>
                   ))
                 }
-                <BtnReadAll type='button' onClick={()=> handleReadAll()}>
-                  Read all
-                </BtnReadAll>
+                <Link to={'/request-log-off'}>
+                  <BtnReadAll type='button' onClick={() => handleReadAll()}>
+                    Read all
+                  </BtnReadAll>
+                </Link>
               </Menu>
             </Content> : ''
           }

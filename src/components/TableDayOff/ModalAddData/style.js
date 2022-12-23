@@ -2,38 +2,73 @@ import styled from "styled-components";
 
 const FormDataInput = styled.form``;
 const InPutContainerFrom = styled.div`
+@media (max-width: 570px) {
+}
+  flex-direction: column;
+
+display: flex;
+margin: 30px;
+width: 100%;
+`
+const InputContainerStyle = styled.div`
   display: flex;
-  margin: 30px;
-  width: 100%;
-`;
-const InPutContainer = styled.div`
+  align-items: center;
+  margin-top: 10px;
+`
+const FormContainer = styled.div`
   display: flex;
-  position: relative;
-  margin: 30px;
-  #Quantity {
-    width: 30%;
-    border: 2px solid #8000ff;
-    border-radius: 5px;
-    height: 40px;
-    padding-left: 8px;
-    outline: none;
-  }
-  .react-datepicker-wrapper {
-    #DayOffTo {
-      width: 70%;
-      border: 2px solid #8000ff;
-      border-radius: 5px;
-      height: 40px;
-      padding-left: 8px;
-      outline: none;
+  @media (max-width: 570px) {
+    flex-direction: column;
+    .lable-w50{
+      width:50px!important;
     }
-    #DayOffFrom {
-      width: 70%;
-      border: 2px solid #8000ff;
-      border-radius: 5px;
-      height: 40px;
-      padding-left: 8px;
-      outline: none;
+    .input__container-css{
+      margin-left: 50px!important;
+      width: 55%!important;
+    }
+  }
+`
+const InPutContainer = styled.div`
+@media (max-width: 570px) {
+  flex-direction: column;
+  .form-label{
+    width: 200px;
+  }
+  textarea{
+    width: 84%;
+  }
+  .Quantity__text{
+      width: 15%!important;
+  }
+}
+    display: flex;
+    position: relative;
+    #Quantity{
+      width: 24.5%;
+        border: 2px solid #8000ff;
+        border-radius: 5px;
+        height: 40px;
+        padding-left:8px;
+        outline: none;
+        margin-bottom: 10px;
+    }
+    .react-datepicker-wrapper{
+      #DayOffTo{
+        width: 100%;
+        border: 2px solid #8000ff;
+        border-radius: 5px;
+        height: 40px;
+        padding-left:8px;
+        outline: none;
+      }
+      #DayOffFrom{
+        width: 100%;
+        border: 2px solid #8000ff;
+        border-radius: 5px;
+        height: 40px;
+        padding-left:8px;
+        outline: none;
+      }
     }
   }
 
@@ -91,7 +126,7 @@ const LableInputReason = styled.label`
 const InputArea = styled.textarea`
   border: 2px solid #8000ff;
   border-radius: 5px;
-  width: 30%;
+  width: 67%;
   outline: none;
   &:focus {
     border-color: #8000ff;
@@ -100,12 +135,17 @@ const InputArea = styled.textarea`
 `;
 const Option = styled.option``;
 const ModalBtn = styled.div`
-  margin-top: 30px;
+margin-top:30px;
+display: flex;
+padding: 0 30px;
+`
+const Input = styled.div`
   display: flex;
-  padding: 0 30px;
-`;
-const Input = styled.input``;
-
+  align-items: center;
+  text-align: center;
+`
+const Span = styled.span`
+`
 const BtnAdd = styled.button`
   position: relative;
   border: none;
@@ -140,9 +180,5 @@ export {
   LableInput,
   InPutContainer,
   FormDataInput,
-  InputArea,
-  LableInputReason,
-  Input,
-  InPutContainerFrom,
-  Option,
-};
+  InputArea, LableInputReason, Input, InPutContainerFrom, Option, Span, InputContainerStyle, FormContainer
+}

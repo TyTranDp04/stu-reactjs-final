@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Main = styled.main`
   margin-top: 50px;
   font-family: 'Barlow', sans-serif;
+  padding: 0 10px;
 `
 export const ContainerDefault = styled.div`
   margin: auto;
@@ -159,12 +160,12 @@ export const TableScroll = styled.div`
  height: 60vh;
 `
 export const Thead = styled.thead`
-  position: sticky;
+  position: sticky; 
   top: -2px;
-  background-color: #F0F4F7;
+  background-color: #8000ff;
   z-index: 1;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);
-
+  color: #fff;
 `
 export const Tbody = styled.tbody`
 
@@ -185,7 +186,7 @@ export const TextArea = styled.textarea`
 export const Tr = styled.tr`
 border: 5px solid #ccc;
 border-width: 1px;
-
+cursor: pointer;
 &:hover{
   background-color:#9933FF ;
   color: #fff;

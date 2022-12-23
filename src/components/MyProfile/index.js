@@ -35,13 +35,11 @@ const schema = yup.object().shape({
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const [data, setData] = useState();
-
   const form = document.getElementById("form");
   const ID = userInfo?.data?.id;
   const EGmail = data?.Gmail;
   const fullname = data?.Name;
   const avatar = data?.Avatar;
-  console.log("avatar",avatar);
   let roleID = data?.RoleId;
   const address = data?.Address;
   const Phone = data?.Phone;
@@ -70,7 +68,7 @@ const MyProfile = () => {
       if (selectedImage !== null) { 
         setSelectedImage(URL.createObjectURL(e));
         setfileIMG(e);
-        console.log(FileIMG);
+        console.log(setfileIMG);
       } else {
       }
     });
@@ -92,10 +90,10 @@ const MyProfile = () => {
         });
         dispatch(
           updateAvata({
-            Name: data.Name,
-            Address: res.data.Address,
-            Avatar: res.data.Avatar,
-            Phone: res.data.Phone,
+            Name: data?.Name,
+            Address: res?.data?.Address,
+            Avatar: res?.data?.Avatar,
+            Phone: res?.data?.Phone,
           })
         );
       })
@@ -117,13 +115,13 @@ const MyProfile = () => {
 
   let rolename = null;
   if (roleID === "1") {
-    rolename = "User";
+    rolename = "Staff";
   }
   if (roleID === "2") {
-    rolename = "Master";
+    rolename = "Manager";
   }
   if (roleID === "3") {
-    rolename = "Hr";
+    rolename = "Admin";
   }
   const onSubmit = () => {
     let timerInterval;
@@ -193,7 +191,67 @@ const MyProfile = () => {
         <Container className="container">
           <H1>MY PROFILE</H1>
           <hr />
-          <div className="container_top">
+          <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              
+            <div className="container_right">
+              <div className="container_avatar">
+                <span className="lableName">Avatar </span>
+                <Input
+                  type="file"
+                  hidden
+                  id="img"
+                  name="img"
+                  onChange={(e) => handleOnChange(e)}
+                  accept="image/*"
+                />
+                <ImgPreview className="img__preview">
+                  {selectedImage ? (
+                    <ImgContent className="img__preview-content">
+                      <ImgPreviewItem
+                        className="img__preview-image"
+                        onClick={() => addImgHandle()}
+                        src={selectedImage}
+                        alt="Image Preview"
+                      />
+                    </ImgContent>
+                  ) : (
+                    <ImgContent className="img__preview-content">
+                      <ImgPreviewItem
+                        className="img__preview-image"
+                        onClick={() => addImgHandle()}
+                        src={imgnull}
+                        alt="Image Preview"
+                      />
+                    </ImgContent>  
+                  )}
+                </ImgPreview>
+              </div>
+              <div>
+                <span className="lableName">Address</span>
+                <Input
+                  type="text"
+                  placeholder="Address"
+                  defaultValue={address}
+                  {...register("Address")}
+                />
+                <TextRed>{errors.Address?.message}</TextRed>
+              </div>
+              <div>
+                <div className="lableName">Phone Number</div> <br />
+                <div className="phoneNumber">
+                  <Input
+                    type="text"
+                    placeholder="Phone Number"
+                    defaultValue={Phone}
+                    {...register("Phone")}
+                  />
+                </div>
+                <TextRed>{errors.Phone?.message}</TextRed>
+              </div>
+            </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12">
             <div className="container_left">
               <div className="container_show1">
                 <span className="lableName">Role </span>
@@ -245,63 +303,9 @@ const MyProfile = () => {
                 </span>
               </div>
             </div>
-
-            <div className="container_right">
-              <div className="container_avatar">
-                <span className="lableName">Avatar </span>
-                <Input
-                  type="file"
-                  hidden
-                  id="img"
-                  name="img"
-                  onChange={(e) => handleOnChange(e)}
-                  accept="image/*"
-                />
-                <ImgPreview className="img__preview">
-                  {selectedImage ? (
-                    <ImgContent className="img__preview-content">
-                      <ImgPreviewItem
-                        className="img__preview-image"
-                        onClick={() => addImgHandle()}
-                        src={selectedImage}
-                        alt="Image Preview"
-                      />
-                    </ImgContent>
-                  ) : (
-                    <ImgContent className="img__preview-content">
-                      <ImgPreviewItem
-                        className="img__preview-image"
-                        onClick={() => addImgHandle()}
-                        src={imgnull}
-                        alt="Image Preview"
-                      />
-                    </ImgContent>
-                  )}
-                </ImgPreview>
-              </div>
-              <div>
-                <span className="lableName">Address</span>
-                <Input
-                  type="text"
-                  placeholder="Address"
-                  defaultValue={address}
-                  {...register("Address")}
-                />
-                <TextRed>{errors.Address?.message}</TextRed>
-              </div>
-              <div>
-                <div className="lableName">Phone Number</div> <br />
-                <div className="phoneNumber">
-                  <Input
-                    type="text"
-                    placeholder="Phone Number"
-                    defaultValue={Phone}
-                    {...register("Phone")}
-                  />
-                </div>
-                <TextRed>{errors.Phone?.message}</TextRed>
-              </div>
             </div>
+          </div>
+          <div className="container_top">
           </div>
           <Clearfix>
             <SubmitDiv>

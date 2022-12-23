@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Main = styled.main`
   margin-top: 50px;
   font-family: 'Barlow', sans-serif;
+  padding: 0 10px;
 `
 export const ContainerDefault = styled.div`
   margin: auto;
@@ -142,7 +143,7 @@ export const TextArea = styled.textarea`
 export const Tr = styled.tr`
 border: 5px solid #ccc;
 border-width: 1px;
-
+cursor: pointer;
 &:hover{
   background-color:#9933FF ;
   color: #fff;

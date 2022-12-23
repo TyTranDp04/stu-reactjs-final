@@ -28,7 +28,7 @@ import ActionMaster from './ActionMaster';
 import ModalAddData from './ModalAddData';
 import { URL_API } from '../../api/dayoff.api';
 import ModalUpdateData from './ModalUpdateData';
-import { totalDay } from '../../constants/dayoff';
+import { searchDataDayOff, totalDay } from '../../constants/dayoff';
 import ReactDatePicker from "react-datepicker";
 import ShowNodata from './ShowNodata';
 
@@ -98,16 +98,11 @@ const TableDayOff = (props) => {
     setDataSearch(null)
     setDataDayOff(dataFilterSearch)
   }
-  function totalDate(dataSearch, DayOffFrom) {
-    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
-    return time
-  }
   function searchDayOff() {
-    const newData = dataFilterSearch?.filter(function (e) {
-      return (totalDate(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalDate(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalDate(dataSearch, new Date(e?.DayOffTo)) >= 0);
-    })
+    const newData =  searchDataDayOff(dataFilterSearch, dataSearch)
     setDataDayOff(newData)
   }
+  
   return (
     <Main id="site-main">
     
@@ -124,8 +119,8 @@ const TableDayOff = (props) => {
             </BoxNav>
             <FormSearch>
               <SearchHeaderText>Filter by:</SearchHeaderText>
-              <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
-              <ButtonSearchDayOff style={{ width: '45px' }} type="button" onClick={() => clearSearch()}>
+              <ReactDatePicker required autoComplete='off' placeholderText="DD/MM/YYYY"  selected={dataSearch} id='SearchDate' name='dateFrom' onChange={(e) => handleSearch(e)} dateFormat='dd/MM/yyyy' />
+              <ButtonSearchDayOff style={{ width: '45px' }} type="button"  onClick={() => clearSearch()}>
                 <FontAwesomeIcon style={{ color: '#8000FF' }} icon={faXmark} />
               </ButtonSearchDayOff>
               <ButtonSearchDayOff type="button" onClick={() => searchDayOff()}>
