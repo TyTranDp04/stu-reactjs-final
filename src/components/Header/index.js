@@ -14,7 +14,7 @@ import resetpassword from "../../assets/images/reset-password.png";
 import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
-import { BtnArrow, P, SidebarCategory, SidebarCategoryGr, SidebarInner } from "../Sidebar/style";
+import { BtnArrow, P } from "../Sidebar/style";
 import {
   DivLogo,
   DivP,
@@ -27,7 +27,9 @@ import {
   SidebarDesc,
   SidebarHeader,
   StImg,
-  StyleLink
+  StyleLink,
+  SidebarCategory,
+  SidebarInner
 } from "./style";
 
 const Header = ({ Toggle, isOpen }) => {
@@ -90,8 +92,8 @@ const Header = ({ Toggle, isOpen }) => {
   return (
     <HeaderRow className="row">
       <DivLogo style={{ width: isOpen ? "16%" : "7%" }} className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
-        <div className="row header-logo" style={{ padding: "0px", margin: "0px", width: "100%" }}>
-          <HeaderAvatar className={isOpen ? "col-6" : "col-12"}>
+        <div className="row header-logo" style={{ padding: "0px", margin: "0px", width: "100%",justifyContent:"center" }}>
+          <HeaderAvatar className={isOpen ? "col-6" : "col-12"} style={{width: isOpen? "" : "51%"}}>
             <Link to="/"><StImg src={logo} /></Link>
           </HeaderAvatar>
           <DivP className="col-6" style={{ padding: "0px", margin: "0px" }}>
@@ -107,7 +109,7 @@ const Header = ({ Toggle, isOpen }) => {
         style={{ width: isOpen ? "84%" : "93%" }}
       >
         <Dropdown>
-          <div>
+          <div style={{paddingRight:"20px"}}>
             <Dropdown.Toggle>
               <HeaderAvatar>
                 {Avatar ? (
@@ -118,7 +120,7 @@ const Header = ({ Toggle, isOpen }) => {
               </HeaderAvatar>
             </Dropdown.Toggle>
           </div>
-          <Notifycation />
+          <Notifycation ></Notifycation>
           <SidebarDesc className="header-name">
             Hi, {Name}
           </SidebarDesc>
@@ -146,20 +148,24 @@ const Header = ({ Toggle, isOpen }) => {
           </HeaderDropdown>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{padding:"0px"}}>
-        <Button style={{border:"none"}} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
-          <FontAwesomeIcon style={{color:"#8000ff",fontSize:"20px"}} icon={faBars} />
+      <div style={{ padding: "0px",position:"absolute" }} className="text-start">
+        <Button style={{ border: "none",paddingBottom:"0px" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
+          <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
         </Button>
       </div>
       <SidebarHeader style={{ display: "none" }} className="col-12">
         <Offcanvas style={{ width: "200px" }} show={showSidebar} onHide={handleClose} responsive="sm">
-          <Offcanvas.Header style={{ backgroundColor: "#8000ff", borderBottom: "1px solid #D8D8D8" }} variant="white" closeButton>
-            <Offcanvas.Title>
-              <div style={{ width: "50px", height: "40px" }}>
+          <Offcanvas.Title style={{display:"flex", borderBottom: "1px solid #D8D8D8" , justifyContent:"space-between",backgroundColor: "#8000ff"}}>
+            <div style={{flex:"0 0 auto", width:"70%", display:"flex", justifyContent:"center", alignItems:"center"}}>
+              <div style={{ width: "25px", height: "35px" }}>
                 <Link to="/"><StImg src={logo} /></Link>
               </div>
-            </Offcanvas.Title>
-          </Offcanvas.Header>
+              <div>
+                <h6 style={{fontSize: "12px", margin:"0px",color:"#fff",paddingLeft:"5px"}}>Log Off SRS</h6>
+              </div>
+            </div>
+            <Offcanvas.Header style={{ backgroundColor: "#8000ff", flex:"0 0 auto", width:"25px", height:"25px" }} variant="white" closeButton />
+          </Offcanvas.Title>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
             <SidebarInner style={{ height: showItem1 ? "100px" : "20px" }}>
               <Dropdown
@@ -179,6 +185,7 @@ const Header = ({ Toggle, isOpen }) => {
                     }
                   >
                     <FontAwesomeIcon
+                      className="font-icon"
                       style={{ display: "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
                       icon={faTableList}
                     />
@@ -203,6 +210,7 @@ const Header = ({ Toggle, isOpen }) => {
                         >
                           <Link to={value.url}>
                             <FontAwesomeIcon
+                              className="font-icon"
                               style={{ color: 'white', paddingRight: "10px", fontSize: "20px" }}
                               icon={value.icon}
                             />
@@ -235,6 +243,7 @@ const Header = ({ Toggle, isOpen }) => {
                     }
                   >
                     <FontAwesomeIcon
+                      className="font-icon"
                       style={{ display: userRoleId === "1" ? "none" : "inline-block", color: 'white', paddingRight: "10px", fontSize: "20px" }}
                       icon={faPeopleRoof}
                     />
@@ -260,6 +269,7 @@ const Header = ({ Toggle, isOpen }) => {
                         >
                           <Link to={value.url}>
                             <FontAwesomeIcon
+                              className="font-icon"
                               style={{ display: value.displayIcon, color: 'white', paddingRight: "10px", fontSize: "20px" }}
                               icon={value.icon}
                             />
@@ -274,7 +284,7 @@ const Header = ({ Toggle, isOpen }) => {
                 </Dropdown.Menu>
               </Dropdown>
             </SidebarInner>
-            <SidebarCategoryGr  >
+            <SidebarInner  >
               <SidebarDesc >
                 <OverlayTrigger
                   overlay={
@@ -285,6 +295,7 @@ const Header = ({ Toggle, isOpen }) => {
                 >
                   <Link to={"/user-group"}>
                     <FontAwesomeIcon
+                      className="font-icon"
                       style={{ color: 'white', paddingLeft: "10px", paddingRight: "10px", fontSize: "20px" }}
                       icon={faPeopleGroup}
                     />
@@ -293,10 +304,13 @@ const Header = ({ Toggle, isOpen }) => {
                 <Link
                   style={{ display: "" }}
                   to={"/user-group"}
-                >User Group
+                >
+                  <SidebarCategory style={{ display: "inline-block" }}>
+                    User Group
+                  </SidebarCategory>
                 </Link>
               </SidebarDesc>
-            </SidebarCategoryGr>
+            </SidebarInner>
           </Offcanvas.Body>
         </Offcanvas>
       </SidebarHeader>

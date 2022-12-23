@@ -182,6 +182,8 @@ height: ;
 min-height: 100px;
 margin-top: 15px;
 display: flex;
+justify-content:center;
+align-items:center;
 align-items: center;
 font-weight: bold;
 color: #cccccc;

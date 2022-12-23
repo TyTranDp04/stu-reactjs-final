@@ -52,8 +52,14 @@ const ManagementUser = (props) => {
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
   const roleName = filterRoleId?.RoleName;
-
-
+  const [RoleGroupId,setRoleGroupId] = useState();
+  const RoleGroup =  userInfo?.data?.GroupId;
+  const RoleGroupMap = () => {
+    RoleGroup.map((e) => setRoleGroupId(e))
+  } 
+  useEffect(() =>{
+    RoleGroupMap()
+  },[RoleGroup])
   useEffect(() => {
     if (!permission) {
       return;
@@ -640,7 +646,7 @@ const ManagementUser = (props) => {
                         </td>
                       ) : (<td></td>
                       )
-                    ) : roleName === "Manager" ? (
+                    ) : roleName === "Manager" && item?.GroupId.includes(RoleGroupId) ? (
                       item.RoleId === "1" || item._id === id ? (
                         <td>
                           <BtnAction

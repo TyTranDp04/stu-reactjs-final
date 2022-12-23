@@ -1,4 +1,3 @@
-/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,7 +24,10 @@ import {
 } from "./style.js";
 const schema = yup.object().shape({
   Phone: yup
-    .string(),
+    .string()
+    .required(false)
+    .min(10, "Your phone error number = 10.")
+    .max(10, "Your phone error number = 10 ."),
   Name: yup.string().max(50, "Name is required "),
   Address: yup.string().max(50, "Address is required"),
 });
@@ -85,7 +87,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
         dispatch(
           updateAvata({
             Name: data.Name,
@@ -158,7 +160,7 @@ const MyProfile = () => {
           confirmButtonText: "Ok",
           showCloseButton: true,
           confirmButtonColor: "#8000ff",
-        })
+        });
       }
     });
   };
@@ -176,16 +178,12 @@ const MyProfile = () => {
   }, []);
   const groupNameID = [];
   let groupID = data?.GroupId;
-  // eslint-disable-next-line array-callback-return
-  groupID?.map(function (item) {
-    {
-      // eslint-disable-next-line array-callback-return
-      group?.data?.filter(function (name) {
-        if (item === name._id) {
-          groupNameID.push(name.Name);
-        }
-      });
-    }
+  groupID?.forEach(function (item) {
+    group?.data?.forEach(function (name) {
+      if (item === name._id) {
+        groupNameID.push(name.Name);
+      }
+    });
   });
 
   return (
@@ -194,55 +192,9 @@ const MyProfile = () => {
         <Container className="container">
           <H1>MY PROFILE</H1>
           <hr />
-          <div className="container_top">
-            <div className="container_left">
-              <div className="container_show1">
-                <span className="lableName">Role </span>
-                <Input
-                  type="text"
-                  disabled
-                  placeholder="RoleName"
-                  defaultValue={rolename}
-                />
-              </div>
-              <div>
-                <span className="lableName">Group </span>
-                <NameGroup className="Name">
-                  {" "}
-                  {groupNameID?.map((NameGroup, index) => (
-                    <div className="Groupname" key={index}>
-                      <h3>{NameGroup}</h3>
-                    </div>
-                  ))}
-                </NameGroup>
-              </div>
-              <div>
-                <span className="lableName">Name </span>
-                <Input
-                  type="text"
-                  placeholder="Name"
-                  defaultValue={fullname}
-                  {...register("Name")}
-                  disabled
-                />
-                <TextRed>{errors.Name?.message}</TextRed>
-              </div>
-
-              <div className="container_show">
-                <span className="lableName">Email </span>
-                <Input
-                  disabled
-                  type="email"
-                  placeholder="Gmail Address"
-                  defaultValue={EGmail}
-                  {...register("Gmail")}
-                />
-                <span className="show-btn">
-                  <i className="fas fa-eye"></i>
-                </span>
-              </div>
-            </div>
-
+          <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              
             <div className="container_right">
               <div className="container_avatar">
                 <span className="lableName">Avatar </span>
@@ -290,7 +242,7 @@ const MyProfile = () => {
                 <div className="lableName">Phone Number</div> <br />
                 <div className="phoneNumber">
                   <Input
-                    type="number"
+                    type="text"
                     placeholder="Phone Number"
                     defaultValue={Phone}
                     {...register("Phone")}
@@ -299,6 +251,62 @@ const MyProfile = () => {
                 <TextRed>{errors.Phone?.message}</TextRed>
               </div>
             </div>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12">
+            <div className="container_left">
+              <div className="container_show1">
+                <span className="lableName">Role </span>
+                <Input
+                  type="text"
+                  disabled
+                  placeholder="RoleName"
+                  defaultValue={rolename}
+                />
+              </div>
+              {groupNameID?.length !== 0 ? (
+                <div>
+                  <span className="lableName">Group </span>
+                  <NameGroup className="Name">
+                    {" "}
+                    {groupNameID?.map((NameGroup, index) => (
+                      <div className="Groupname" key={index}>
+                        <h3>{NameGroup}</h3>
+                      </div>
+                    ))}
+                  </NameGroup>
+                </div>
+              ) : (
+                ""
+              )}
+              <div>
+                <span className="lableName">Name </span>
+                <Input
+                  type="text"
+                  placeholder="Name"
+                  defaultValue={fullname}
+                  {...register("Name")}
+                  disabled
+                />
+                <TextRed>{errors.Name?.message}</TextRed>
+              </div>
+
+              <div className="container_show">
+                <span className="lableName">Email </span>
+                <Input
+                  disabled
+                  type="email"
+                  placeholder="Gmail Address"
+                  defaultValue={EGmail}
+                  {...register("Gmail")}
+                />
+                <span className="show-btn">
+                  <i className="fas fa-eye"></i>
+                </span>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div className="container_top">
           </div>
           <Clearfix>
             <SubmitDiv>

@@ -39,16 +39,7 @@ justify-content: center;
 align-items: center;
 padding:0px;
 padding-bottom:20px;
-background-color: #8000ff;
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-@media(max-width:996.5px){
-    width:24% !important;
-  }
+background-color:#8000ff;
 @media (max-width:767.5px){
   display:none;
 }
@@ -119,9 +110,7 @@ export const HeaderLogoff = styled.div`
   align-items: center;
   justify-content: flex-end;
   border-bottom:1px solid #8D8D8D;
-@media(max-width:996.5px){
-  width:76% !important;
-}
+
   @media (max-width:767.6px){
     background-color:#fff;
     width:100% !important;
@@ -137,12 +126,17 @@ export const HeaderLogoff = styled.div`
   }
   .dropdown-toggle {
     padding: 0;
+      background-color:white;
+  border:none;
     &:after {
       content: none !important;
     }
   }
   .drop-down-item {
-    padding: 0;
+    padding: 10px;
+  }
+  .drop-down-item:hover{
+    color:#fff;
   }
   .header-name {
     color: #8A969C;
@@ -158,7 +152,9 @@ export const HeaderAvatar = styled.div`
   height: 40px;
   cursor: pointer;
   padding: 0;
+.dropdown-toggle{
 
+}
   @media (max-width: 576px) {
     width: 30px;
     height: 30px;
@@ -171,7 +167,7 @@ export const HeaderAvatar = styled.div`
   .avatar {
     min-width: 100%;
     min-height: 100%;
-    border-radius: 10%;
+    border-radius: 50%;
   }
 `
 export const DropdownLogo = styled.div`
@@ -223,7 +219,7 @@ export const HeaderDropdownInner = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 0;
+  padding: 0px;
   &:hover {
     background-color: #8000ff;
   }
@@ -254,22 +250,23 @@ align-items:center;
 `
 export const SidebarDesc = styled.div`
   padding-bottom:10px;
+  color:#8000ff;
+  .dropdown-item{
+    padding-left:11px !important;
+  }
   .dropdown-item:focus{
     background-color:#8000ff;
+    color:#fff;
   }
   a {
     color: #fff;
     text-decoration: none;
+    font-weight:700;
     &:hover {
       font-weight: bold;
     }
   }
-  @media (max-width: 576px) {
-    font-size: 13px;
-  }
-  @media (max-width: 425px) {
-    font-size: 10px;
-  }
+
 `
 
 export const SidebarInner = styled.div`
@@ -279,4 +276,27 @@ export const SidebarInner = styled.div`
     .dropdown-toggle::after{
     content:none;
   }
+  .dropdown-item a{
+    padding-left:0px;
+  }
+`
+export const SidebarCategory = styled.div`
+font-size: 18px;
+  padding-bottom:10px;
+  color: #fff;
+  margin-right: 5px;
+  cursor: pointer;
+  font-weight:700;
+  &:hover {
+    color: rgb(247,148,29);
+  }
+  a {
+    color: #111111;
+    text-decoration: none;
+    &:hover {
+      color: rgb(247,148,29);
+    }
+  }
+ 
+
 `
