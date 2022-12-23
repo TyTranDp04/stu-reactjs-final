@@ -31,6 +31,7 @@ import {
   NameTextInfo,
   NameText,
   BtnDeleteGroup,
+  BtncloseGroup,
 } from "./style";
 import axios from "axios";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -175,9 +176,9 @@ function UserGroup(props) {
     <Container>
       <Group>
         <Header>
-          {userInfo?.data?.user?.RoleId === "3" ? (
-            <BtnAddGroup onClick={() => setShowAddNewGroup(true)}>
-              + New Group
+          {userInfo?.data?.RoleId === "3" ? (
+            <BtnAddGroup style={{width : "120px"}} onClick={() => setShowAddNewGroup(true)}>
+               New Group
             </BtnAddGroup>
           ) : (
             ""
@@ -246,7 +247,7 @@ function UserGroup(props) {
                       )}
                     </TdContent>
                   </Td>
-                  {userInfo?.data?.user?.RoleId === "3" ? (
+                  {userInfo?.data?.RoleId === "3" ? (
                     <Td>
                       <TdContent>
                         <BtnDeleteGroup
@@ -292,10 +293,10 @@ function UserGroup(props) {
                       ""
                     ) : (
                       <BtnAddGroup
-                        style={{ width: "100px" }}
+                        style={{ width: "120px" }}
                         onClick={() => setShowAddUserGroup(true)}
                       >
-                        + New User
+                         New User
                       </BtnAddGroup>
                     )}
                     <ModalAddUserGroup
@@ -390,12 +391,12 @@ function UserGroup(props) {
               </Members>
             </GroupDetail>
             <Modal.Footer>
-              <BtnAddGroup
+              <BtncloseGroup
                 style={{ marginRight: "20px", width: "70px" }}
                 onClick={() => setShowDetail(true)}
               >
                 Close
-              </BtnAddGroup>
+              </BtncloseGroup>
             </Modal.Footer>
           </Modal>
         )}

@@ -1,8 +1,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { BtnAdd, BtnCancel, FormDataInput, InPutContainer, LableInput, ModalBtn } from '../../TableDayOff/ModalAddData/style';
-import { Input, Option, BoxUser, OptionUser, IconUser, NameUser } from './style';
+import { BtnAdd, BtnCancel, FormDataInput,  ModalBtn } from '../../TableDayOff/ModalAddData/style';
+import { Input, Option, BoxUser, OptionUser, IconUser,InPutContainer, NameUser,LableInput } from './style';
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import Form from 'react-bootstrap/Form';
@@ -145,8 +145,8 @@ const ModalAddUserGroup = (props) => {
       <Modal.Body>
         < FormDataInput id='form' onSubmit={(e) => handleSubmit(submit(e))}>
           <InPutContainer className="mb-6">
-            <LableInput style={{ width: '120px' }} className="form-label">Select position</LableInput>
-            <Form.Select id='RoleId' required style={{ width: '50%', border: '2px solid #ccc', color: "#ccc" }} onChange={(e) => handleOnchange(e)}>
+            <LableInput  className="form-label">Select position</LableInput>
+            <Form.Select id='RoleId' required style={{ width: '75%', border: '2px solid #ccc', color: "#ccc" }} onChange={(e) => handleOnchange(e)}>
               <Option  value="1">Member</Option>
               {
                 userInfo?.data?.RoleId ==="3"?<Option   value="2">Master</Option>:''
@@ -154,11 +154,11 @@ const ModalAddUserGroup = (props) => {
             </Form.Select>
           </InPutContainer>
           <InPutContainer className="mb-6">
-            <LableInput style={{ width: '120px' }} className="form-label">Enter User Name</LableInput>
+            <LableInput  className="form-label">Enter User Name</LableInput>
             <Input autoComplete='off' value={dataInput?.user} required type='search' id='user' name='user' onChange={(e) => handleOnchange(e)}></Input>
             {
               dataUserFilter?.length !== 0 && dataUserFilter? 
-                <BoxUser style={{ margin: '5px 0', width: '50%', border: '2px solid #ccc', color: "#ccc" }}>
+                <BoxUser style={{ margin: '5px 0', width: '75%', border: '2px solid #ccc', color: "#ccc" }}>
                   {
                     dataUserFilter?.map((e, index) => (
                       <OptionUser key={index} onClick={() => chooseData(e)}>
