@@ -87,18 +87,18 @@ const Notifycation = (props) => {
   }
   function handleReadAll() {
     readAll()
-    .then(()=>{
-      setTimeout(()=>{
-        setCallApi(!callApi)
-      }, 500)
-    }) 
+      .then(() => {
+        setTimeout(() => {
+          setCallApi(!callApi)
+        }, 500)
+      })
   }
-  async function readAll(){
+  async function readAll() {
     const urlReadAll = URL_API + "/notification/" + dataUser?.id
     await axios.post(urlReadAll)
-    .then((data)=>{ 
-    })
-    .catch()
+      .then((data) => {
+      })
+      .catch()
   }
   function statusText(status) {
     switch (status) {
@@ -131,7 +131,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to={e?.Status === 1 || e?.Status === 4?"/request-log-off":"/log-off"}>
+                    <Link key={index} to={e?.Status === 1 || e?.Status === 4 ? "/request-log-off" : "/log-off"}>
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {
@@ -181,9 +181,11 @@ const Notifycation = (props) => {
                     </Link>
                   ))
                 }
-                <BtnReadAll type='button' onClick={()=> handleReadAll()}>
-                  Read all
-                </BtnReadAll>
+                <Link to={'/request-log-off'}>
+                  <BtnReadAll type='button' onClick={() => handleReadAll()}>
+                    Read all
+                  </BtnReadAll>
+                </Link>
               </Menu>
             </Content> : ''
           }

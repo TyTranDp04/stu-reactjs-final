@@ -20,6 +20,10 @@ code {
 
   ;
 }
+.modal__add-request{
+  max-width: 580px;
+
+}
 @media only screen and (max-width: 1031px) {
   .my-modal-group{
     max-width: 500px;
