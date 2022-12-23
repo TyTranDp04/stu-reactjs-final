@@ -165,7 +165,7 @@ const ModalAddUserGroup = (props) => {
             </Form.Select>
           </InPutContainer>
           <InPutContainer className="mb-6">
-            <LableInput className="form-label">Enter User Name</LableInput>
+            <LableInput className="form-label">User Name</LableInput>
             <Input
               autoComplete="off"
               value={dataInput?.user}

@@ -32,6 +32,7 @@ import {
   NameText,
   BtnDeleteGroup,
   BtncloseGroup,
+  TdDesc,
 } from "./style";
 import axios from "axios";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
