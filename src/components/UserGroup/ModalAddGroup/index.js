@@ -87,7 +87,7 @@ const ModalAddGroup = (props) => {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add Day Off
+          Add Group
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -95,7 +95,7 @@ const ModalAddGroup = (props) => {
           submit(e)
         )}>
           <InPutContainer className="mb-6" >
-            <LableInput style={{ width: '100px' }} for='dateTo' className="form-label">Name Group</LableInput>
+            <LableInput style={{ width: '120px' }} for='dateTo' className="form-label">Name Group</LableInput>
             <Input autoComplete='off' required type='search' id='Name' name='Name' onChange={(e) => handleOnchange(e)}></Input>
             {
               dataInput ? '' : <Span>Name Group can't not be blank</Span>
