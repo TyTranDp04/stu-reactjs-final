@@ -10,7 +10,6 @@ export const ContainerFluid = styled.div`
   }
   .ant-menu-inline.ant-menu-root .ant-menu-submenu-title{
     border-bottom: 1px solid #fff;
-    font-weight:700;
   }
   .ant-menu-inline.ant-menu-root .ant-menu-submenu-title:hover{
     background-color: #fff;
@@ -62,6 +61,9 @@ export const ContainerFluid = styled.div`
   }
   .ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-light.ant-menu-inline .ant-menu-item{
     background-color:#8000ff;
+  }
+  .ant-menu .ant-menu-item .ant-menu-item-icon svg{
+    color:#fff;
   }
   .ant-layout .ant-layout-sider-children{
    @media(max-width:767.5px){
