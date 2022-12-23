@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Main = styled.main`
   margin-top: 50px;
   font-family: 'Barlow', sans-serif;
+  padding: 0 10px;
 `
 export const ContainerDefault = styled.div`
   margin: auto;
