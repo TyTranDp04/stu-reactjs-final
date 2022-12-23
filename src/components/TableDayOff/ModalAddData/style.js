@@ -5,11 +5,26 @@ const FormDataInput = styled.form`
 
 `
 const InPutContainerFrom = styled.div`
+@media (max-width: 570px) {
+  flex-direction: column;
+}
 display: flex;
 margin: 30px;
 width: 100%;
 `
 const InPutContainer = styled.div`
+@media (max-width: 570px) {
+  flex-direction: column;
+  .form-label{
+    width: 200px;
+  }
+  textarea{
+    width: 84%;
+  }
+  .Quantity__text{
+      width: 84%!important;
+  }
+}
     display: flex;
     position: relative;
     margin: 30px;
