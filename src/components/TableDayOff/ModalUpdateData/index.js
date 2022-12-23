@@ -18,7 +18,8 @@ import {
   InPutContainerFrom,
   Option,
   Input,
-  Span
+  Span,
+  FormContainer, InputContainerStyle
 } from '../ModalAddData/style.js'
 import axios from 'axios';
 import { checkHoliday, checkSameDay, countDate, returnQuantity } from '../../../constants/dayoff.js';
@@ -32,7 +33,7 @@ const ModalUpdateData = (props) => {
   const [data, setData] = useState()
   const [currentQuantity, setCurrentQuantity] = useState(1)
   const [quantity, setQuantity] = useState()
-  const [dataDayOff, setDataDayOff] = useState(1)
+  const [dataDayOff, setDataDayOff] = useState()
   const [showMidDay, setShowMidDay] = useState(true)
   const [callApiModal, setCallApiModal] = useState(false)
   const [changeData, setChangeData] = useState(false)
@@ -44,9 +45,7 @@ const ModalUpdateData = (props) => {
     setShowModalUpdate(false)
   }
   useEffect(() => {
-    if (showModalUpdate === true) {
-      setCallApiModal(!callApiModal)
-    }
+    setCallApiModal(!callApiModal)
   }, [showModalUpdate])
   function changeDate(date) {
     const dateReplace = date.replace(/-/, '/').replace(/-/, '/')
@@ -75,7 +74,7 @@ const ModalUpdateData = (props) => {
       })
   }
   useEffect(() => {
-    if(idRequest){
+    if (idRequest) {
       getDataUpdate()
     }
   }, [callApiModal, callApiTable])
@@ -195,7 +194,7 @@ const ModalUpdateData = (props) => {
         })
         setDataDayOff(newdata)
       })
-  }, [callApiTable])
+  }, [callApiTable, callApiModal, data])
   function UpdateData() {
     const checkSameDate = checkSameDay(data?.DayOffFrom, data?.DayOffTo, dataDayOff)
     if (checkSameDate) {
@@ -326,13 +325,14 @@ const ModalUpdateData = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className='modal__request'
+      dialogClassName="modal__add-request"
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           Update Day Off
         </Modal.Title>
         <BtnCancel type="button" style={{ backgroundColor: 'transparent' }} onClick={() => handleCancel()}>
-          <FontAwesomeIcon style={{ color: '#8000ff', fontSize: '28px'  }} icon={faXmark} />
+          <FontAwesomeIcon style={{ color: '#8000ff', fontSize: '28px' }} icon={faXmark} />
         </BtnCancel>
       </Modal.Header>
       <Modal.Body>
@@ -346,34 +346,40 @@ const ModalUpdateData = (props) => {
               <Form.Check checked={!checked} label="WFH" value={1} name="Type" type='radio' onChange={(e) => handleOnChangeType(e)} />
             </Form.Group>
           </InPutContainer>
-          <InPutContainerFrom>
-            <LableInput style={{ width: '51%', margin: '0', }} className="form-label">From</LableInput>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
-            </InPutContainer>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
-              <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
-                {
-                  showMidDay === false || quantity > 0.5 ? '' :
-                    <Option value={1}>Morning</Option>
-                }
-                {
-                  showMidDay === false || quantity > 0.5 ? '' :
-                    <Option value={2} >Afternoon</Option>
-                }
-                {
-                  quantity > 0.5 ? <Option value={3}>All day</Option> : ''
-                }
-              </Form.Select>
-            </InPutContainer>
-          </InPutContainerFrom>
-          <InPutContainerFrom>
-            <LableInput style={{ width: '51%', margin: '0', }} className="form-label">To</LableInput>
-            <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6">
-              <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
-            </InPutContainer>
-            <SelectTime quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
-          </InPutContainerFrom>
+          <FormContainer>
+            <InPutContainerFrom style={{ marginLeft: '0', width: '70%' }}>
+              <InputContainerStyle>
+                <LableInput style={{ width: '153px', textAlign: 'start' }} className="form-label lable-w50">From</LableInput>
+                <InPutContainer style={{ margin: '0', }} className="mb-6">
+                  <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
+                </InPutContainer>
+              </InputContainerStyle>
+              <InputContainerStyle>
+                <LableInput style={{ width: '153px' }} className="form-label lable-w50">To</LableInput>
+                <InPutContainer style={{ margin: '0', }} className="mb-6">
+                  <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
+                </InPutContainer>
+              </InputContainerStyle>
+            </InPutContainerFrom>
+            <InPutContainerFrom className='input__container-css' style={{ top: '10px', position: 'relative', width: '23%' }} >
+              <SelectTime quantity={quantity} handle={{ setCurrentQuantity }}></SelectTime>
+              <InPutContainer style={{ width: '100%', margin: '10px 0 0 0', }} className="mb-6 input__select">
+                <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+                  {
+                    showMidDay === false || quantity > 0.5 ? '' :
+                      <Option value={1}>Morning</Option>
+                  }
+                  {
+                    showMidDay === false || quantity > 0.5 ? '' :
+                      <Option value={2} >Afternoon</Option>
+                  }
+                  {
+                    quantity > 0.5 ? <Option value={3}>All day</Option> : ''
+                  }
+                </Form.Select>
+              </InPutContainer>
+            </InPutContainerFrom>
+          </FormContainer>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
             <Input id='Quantity'>

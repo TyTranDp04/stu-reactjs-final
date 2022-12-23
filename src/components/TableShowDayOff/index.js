@@ -26,7 +26,7 @@ import {
 } from './style';
 import { FormSearch, ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
-import { totalDay } from '../../constants/dayoff';
+import { searchDataDayOff, totalDay } from '../../constants/dayoff';
 import ReactDatePicker from 'react-datepicker';
 import ShowNodata from '../TableDayOff/ShowNodata';
 
@@ -118,14 +118,8 @@ const TableShowDayOff = (props) => {
     setDataSearch(null)
     setDataDayOff(dataFilterSearch)
   }
-  function totalTime(dataSearch, DayOffFrom) {
-    const time = (((dataSearch - new Date(DayOffFrom)) / 360 / 24 / 10000) + 1)
-    return time
-  }
   function searchDayOff() {
-    const newData = dataFilterSearch?.filter(function (e) {
-      return (totalTime(dataSearch, new Date(e?.DayOffFrom)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffFrom)) >= 0) || (totalTime(dataSearch, new Date(e?.DayOffTo)) <= 1 && totalTime(dataSearch, new Date(e?.DayOffTo)) >= 0);
-    })
+    const newData =  searchDataDayOff(dataFilterSearch, dataSearch)
     setDataDayOff(newData)
   }
   return (

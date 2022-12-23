@@ -6,11 +6,30 @@ const FormDataInput = styled.form`
 `
 const InPutContainerFrom = styled.div`
 @media (max-width: 570px) {
-  flex-direction: column;
 }
+  flex-direction: column;
+
 display: flex;
 margin: 30px;
 width: 100%;
+`
+const InputContainerStyle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`
+const FormContainer = styled.div`
+  display: flex;
+  @media (max-width: 570px) {
+    flex-direction: column;
+    .lable-w50{
+      width:50px!important;
+    }
+    .input__container-css{
+      margin-left: 50px!important;
+      width: 55%!important;
+    }
+  }
 `
 const InPutContainer = styled.div`
 @media (max-width: 570px) {
@@ -22,23 +41,23 @@ const InPutContainer = styled.div`
     width: 84%;
   }
   .Quantity__text{
-      width: 84%!important;
+      width: 15%!important;
   }
 }
     display: flex;
     position: relative;
-    margin: 30px;
     #Quantity{
-      width: 30%;
+      width: 24.5%;
         border: 2px solid #8000ff;
         border-radius: 5px;
         height: 40px;
         padding-left:8px;
         outline: none;
+        margin-bottom: 10px;
     }
     .react-datepicker-wrapper{
       #DayOffTo{
-        width: 70%;
+        width: 100%;
         border: 2px solid #8000ff;
         border-radius: 5px;
         height: 40px;
@@ -46,7 +65,7 @@ const InPutContainer = styled.div`
         outline: none;
       }
       #DayOffFrom{
-        width: 70%;
+        width: 100%;
         border: 2px solid #8000ff;
         border-radius: 5px;
         height: 40px;
@@ -82,7 +101,7 @@ const LableInput = styled.label`
   font-weight: 500;
   padding-bottom: 3px;
   align-items: center;
-  width: 22%;
+  width: 150px;
 `
 const LableInputReason = styled.label`
 position: absolute;
@@ -106,7 +125,7 @@ border-right: 2px solid #8000FF
 const InputArea = styled.textarea`
   border: 2px solid #8000FF;
   border-radius: 5px;
-  width: 30%;
+  width: 67%;
   outline: none;
   &:focus{
     border-color: #8000FF;
@@ -150,6 +169,9 @@ color: #fff;
 padding: 8px;
 width: 80px;
 border-radius: 5px;
+svg{
+  margin-left: 15px;
+}
 &:hover{
   opacity: .8;
   cursor: pointer;
@@ -168,5 +190,5 @@ export {
   LableInput,
   InPutContainer,
   FormDataInput,
-  InputArea, LableInputReason, Input, InPutContainerFrom, Option, Span
+  InputArea, LableInputReason, Input, InPutContainerFrom, Option, Span, InputContainerStyle, FormContainer
 }

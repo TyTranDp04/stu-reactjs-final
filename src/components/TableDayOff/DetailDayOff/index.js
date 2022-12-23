@@ -212,7 +212,7 @@ const DetailDayOff = (props) => {
                           <FormDetailcontainer>
                             <H4>{
                               dataAllUser?.map((user) => (
-                                user?._id === e?.UserActionId ?
+                                user?._id === e?.UserId ?
                                   checkTypeRequest(e?.Status, user?.Name) : ''
                               ))
                             }

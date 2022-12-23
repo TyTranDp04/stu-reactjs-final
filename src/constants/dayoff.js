@@ -164,3 +164,18 @@ export const returnQuantity = (From, To) => {
   })
   return arrayDate?.length
 } 
+
+export const searchDataDayOff = (data, search) => {
+  const arrayData = []
+  data?.map((date)=> {
+    const dateFrom = new Date(date?.DayOffFrom)
+    const dateTo = new Date(date?.DayOffTo)
+    const quantity = getDateBetween(dateFrom, dateTo)
+    quantity?.forEach((e)=> {
+      if (render(e) === render(search)) {
+        arrayData.push(date)
+      } else {}
+    })
+  })
+  return arrayData
+} 

@@ -32,7 +32,7 @@ const SelectTime = (props) => {
 
   return (
     <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
-      <Form.Select style={{ width: '70%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+      <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
         {
           quantity <= 1 ?
             <Option value={1}>1 hour</Option> : ''
