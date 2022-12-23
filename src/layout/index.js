@@ -58,10 +58,13 @@ const LayoutMain = ({ children, title }) => {
 
       <Container className="container">
         <Layout>
-          <Sider style={{ height: "100vh" }} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+          <Sider style={{ height: "100vh" }} className="responsiveSidebar" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
             <div style={{ height: "32px", margin: "10px",width:"90%",display:"flex", justifyContent:"space-evenly", background: '#fff' }}>
               <div style={{width:"30px",height:"30px",fontSize:"12px",margin:"0px"}}>
               <Link to="/"><StImg src={logo} /></Link>
+              </div>
+              <div style={{display: collapsed? "none" : "inline-block" }}>
+                <p>Day Off SRS</p>
               </div>
        
             </div>

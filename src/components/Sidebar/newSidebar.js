@@ -19,8 +19,8 @@ const NewSideBar = () => {
                 { label: "List", key: "/log-off", icon: <UnorderedListOutlined /> },
                 { label: "Requests", key: "/request-log-off", icon: <PullRequestOutlined /> } 
                 ] },
-                { label: userRoleId === "1"? "" : "Management" , icon: <ApartmentOutlined />, children:[
-                { label: "Day Off History", key: "/admin/day-off-history" , icon: <HistoryOutlined /> },
+                userRoleId === "1"? "" : { label:"Management" , icon: <ApartmentOutlined />, children:[
+                userRoleId === "2"? "":{ label: "Day Off History", key: "/admin/day-off-history" , icon: <HistoryOutlined /> },
                 { label: "User", key: "/admin/user", icon: <UserOutlined /> }
                 ] },
                 { label: "User Group", key: "/user-group", icon: <UsergroupAddOutlined />,children:[{}] },

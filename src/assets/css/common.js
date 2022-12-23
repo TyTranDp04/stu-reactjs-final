@@ -54,7 +54,36 @@ export const ContainerFluid = styled.div`
     color:#fff;
   }
   .ant-menu-light.ant-menu-submenu>.ant-menu{
+    background-color:#8000ff !important;
+  }
+  .ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-submenu-title:hover{
+    background-color:#fff;
+    color:#8000ff;
+  }
+  .ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-light.ant-menu-inline .ant-menu-item{
     background-color:#8000ff;
+  }
+  .ant-layout .ant-layout-sider-children{
+   @media(max-width:767.5px){
+    display: none;
+   } 
+   .ant-layout .ant-layout-sider-has-trigger{
+    @media(max-width:767.5px){
+      display: none!important;
+   }
+   .aside{
+    @media(max-width:767.5px){
+      display: none!important;
+   }
+   }
+   .ant-layout-sider .ant-layout-sider-dark .ant-layout-sider-has-trigger{
+    @media(max-width:767.5px){
+      display: none!important;
+    }
+    .ant-menu-submenu-popup{
+      background-color:#8000ff;
+    }
+   }
   }
 `
 export const Container = styled.div`
@@ -66,5 +95,10 @@ export const Container = styled.div`
   }
   @media (min-width: 400px) {
     max-width: 100%;
+  }
+  .responsiveSidebar{
+    @media (max-width:767.5px){
+      display: none !important;
+    }
   }
 `

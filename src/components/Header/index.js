@@ -132,7 +132,7 @@ const Header = ({ Toggle, isOpen }) => {
           </HeaderDropdown>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{ padding: "0px",position:"absolute" }} className="text-start">
+      <div style={{ padding: "0px",position:"absolute",width:"auto" }} className="text-start">
         <Button style={{ border: "none",paddingBottom:"0px" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
         </Button>
