@@ -20,7 +20,7 @@ export const P = styled.p`
 `;
 export const Input = styled.input`
   padding: 10px;
-  margin: 5px 0 22px 0;
+  margin: 5px 0 13px 0;
   display: inline-block;
   width: 100%;
   resize: vertical;
