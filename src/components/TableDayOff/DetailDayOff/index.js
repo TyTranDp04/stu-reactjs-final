@@ -160,7 +160,7 @@ const DetailDayOff = (props) => {
                   </Col>
                 </Row>
               </Col>
-              <Col style={{ paddingTop: '10px',borderTop:'2px solid #ccc',maxHeight: '500px', overflow: 'auto', position: 'relative'}}>
+              <Col className='col__history' style={{ maxHeight: '500px', overflow: 'auto', position: 'relative'}}>
                 <H3 style={{ position: 'sticky', top: '-12px', height: '50px', backgroundColor: '#fff', width: '100%', zIndex: '1' }}>Histories</H3>
                 {
                   dataHistory?.map((e, index) => (
