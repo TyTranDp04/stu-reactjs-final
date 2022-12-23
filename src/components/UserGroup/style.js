@@ -66,6 +66,9 @@ export const TdContent = styled.div`
   // justify-content: center;
   // align-items: center;
   height: 100%;
+  .tdDesc{
+    margin-top:5%;
+  }
 `;
 export const BtnAddGroup = styled.button`
   border-radius: 5px;
@@ -74,6 +77,7 @@ export const BtnAddGroup = styled.button`
   height: 40px;
   color: #ffffff;
   font-weight: bold;
+  margin-right : 20px;
   &:hover {
     opacity: 0.8;
   }
