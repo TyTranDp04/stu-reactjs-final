@@ -63,9 +63,9 @@ const LayoutMain = ({ children, title }) => {
               <div style={{width:"30px",height:"30px",fontSize:"12px",margin:"0px"}}>
               <Link to="/"><StImg src={logo} /></Link>
               </div>
-              <div style={{display: collapsed? "none" : "flex",justifyContent:"center",alignItems:"center" }}>
-                <p style={{margin:"0px"}}>Day Off SRS</p>
-              </div>
+              <Link to="/" style={{display: collapsed? "none" : "flex",justifyContent:"center",alignItems:"center", textDecoration: "none" }}>
+                <p style={{margin:"0px"}}>Log Off SRS</p>
+              </Link>
             </div>
             <NewSideBar
               collapsed={collapsed}
