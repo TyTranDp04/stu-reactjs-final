@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const URL_API = 'http://localhost:3636';
+export const URL_API = process.env.REACT_APP_URL_WEBSITE;
 
 export const API = {
   get: (url) => axios.get(url),

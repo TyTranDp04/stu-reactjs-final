@@ -6,8 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import Swal from 'sweetalert2'
+import { URL_API } from '../../../api/const.api'
 import { updateGoogleSheetAction } from '../../../stores/slices/googleSheet.slice'
 import { Button, Form, H2, Input, LoginTitle, TextRed } from '../../Login/style'
 import CSVButton from './CSVButton'
@@ -30,12 +29,15 @@ const DayOffHistory = () => {
     idGooleSheets: "",
   });
   const [csvData, setCsvData] = useState([]);
-
+  const [disable, setDisable] = useState(false);
+  const [disableGS, setDisableGS] = useState(false);
+  const [loadingCSV, setLoadingCSV] = useState(false);
+  const [loading, setLoading] = useState(false);
   const userRoleId = userInfo?.data?.RoleId;
   const roleIdData = roleId?.data;
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
-  const loading = googleSheetData?.loading;
+  const error = googleSheetData?.data;
 
   useEffect(() => {
     if (!permission) {
@@ -47,50 +49,49 @@ const DayOffHistory = () => {
     }
   }, [permission, navigate]);
 
+  useEffect(() => {
+    if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '' || dayOff.dayOffFrom > dayOff.dayOffTo) {
+      setDisable(true)
+    } else {
+      setDisable(false)
+    }
+  }, [dayOff.dayOffFrom, dayOff.dayOffTo])
+
+  useEffect(() => {
+    dispatch(updateGoogleSheetAction(dayOff));
+  }, [dayOff.idGooleSheets]);
+
+  useEffect(() => {
+    if (error) {
+      setDisableGS(true)
+    } else {
+      setDisableGS(false)
+    }
+  }, [error]);
+
   const newDay = format('dd-MM-yyyy', new Date());
   const dayTime = JSON.stringify(newDay);
   const fileName = `export_day_off_history_${dayTime}.csv`;
   const csvHeaders = ["No", "Name", "Reason", "DayOffFrom", "DayOffTo", "Type", "Time", "Quantity", "Status"];
 
   const linkGoogleSheet = `https://docs.google.com/spreadsheets/d/${dayOff.idGooleSheets}/edit#gid=0`;
-  const URL = process.env.REACT_APP_URL_WEBSITE;
 
   const handleExportCSV = async () => {
-    const allDayOff = await axios.get(`${URL}/export?DayOffFrom=${dayOff.dayOffFrom}&DayOffTo=${dayOff.dayOffTo}`)
+    setLoadingCSV(true);
+    const allDayOff = await axios.get(`${URL_API}/export?DayOffFrom=${dayOff.dayOffFrom}&DayOffTo=${dayOff.dayOffTo}`)
     let csvDataResponse = allDayOff?.data;
     setCsvData(csvDataResponse);
+    setLoadingCSV(false);
   }
 
   const handleExportGoogleSheet = () => {
-    if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '') {
-      Swal.fire({
-        text: "Please select a day to export !!!",
-        icon: 'warning',
-        confirmButtonColor: '#8000FF',
-        confirmButtonText: 'OK'
-      })
-    } else if (dayOff.dayOffFrom > dayOff.dayOffTo) {
-      Swal.fire({
-        text: "Day Off From can't be bigger than Day Off To !!!",
-        icon: 'warning',
-        confirmButtonColor: '#8000FF',
-        confirmButtonText: 'OK'
-      })
-    } else if (dayOff.idGooleSheets === '' || dayOff.idGooleSheets.length !== 44) {
-      Swal.fire({
-        text: "Your ID Google Sheets is invalid !!!",
-        icon: 'warning',
-        confirmButtonColor: '#8000FF',
-        confirmButtonText: 'OK'
-      })
-    } else {
-      dispatch(updateGoogleSheetAction(dayOff));
-      setTimeout(openInNewTab, 2000)
-    }
+    setLoading(true);
+    setTimeout(openInNewTab, 2000)
   };
 
   const openInNewTab = () => {
     window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
+    setLoading(false);
   };
 
   return (
@@ -132,24 +133,29 @@ const DayOffHistory = () => {
         <DayOffHistoryWrapper>
           <DayOffHistoryWrapperButton style={{ paddingLeft: "0" }}>
             <DayOffHistoryExportButton>
-              <CSVButton
-                csvData={csvData?.map((item, index) => ({
-                  ...item,
-                  No: index + 1,
-                  DayOffFrom: item?.DayOffFrom && format('dd-MM-yyyy', new Date(item?.DayOffFrom)),
-                  DayOffTo: item?.DayOffTo && format('dd-MM-yyyy', new Date(item?.DayOffTo)),
-                  Type: item?.Type === 1 ? "OFF" : "WFH"
-                }))}
-                filename={fileName}
-                csvHeaders={csvHeaders}
-                dayOff={dayOff}
-                onClick={handleSubmit(handleExportCSV)}
-              />
+              {disable ?
+                <Button className='day-off-history_button' style={{ opacity: disable && "0.4" }} disabled={disable}>
+                  <DayOffHistoryExportCsv>
+                    <DayOffHistoryExportButton>Export CSV</DayOffHistoryExportButton>
+                  </DayOffHistoryExportCsv>
+                </Button> :
+                <CSVButton
+                  csvData={csvData?.map((item, index) => ({
+                    ...item,
+                    No: index + 1,
+                    DayOffFrom: item?.DayOffFrom && format('dd-MM-yyyy', new Date(item?.DayOffFrom)),
+                    DayOffTo: item?.DayOffTo && format('dd-MM-yyyy', new Date(item?.DayOffTo)),
+                    Type: item?.Type === 1 ? "OFF" : "WFH"
+                  }))}
+                  filename={fileName}
+                  csvHeaders={csvHeaders}
+                  loadingCSV={loadingCSV}
+                  onClick={handleSubmit(handleExportCSV)}
+                />}
             </DayOffHistoryExportButton>
           </DayOffHistoryWrapperButton>
-
           <DayOffHistoryWrapperButton style={{ paddingRight: "0" }}>
-            <Button className='day-off-history_button' type='submit' onClick={handleSubmit(handleExportGoogleSheet)}>
+            <Button className='day-off-history_button' type='submit' onClick={handleSubmit(handleExportGoogleSheet)} disabled={disableGS} style={{ opacity: disableGS && "0.4" }}>
               <DayOffHistoryExportCsv>
                 <DayOffHistoryExportLoading>{loading && <FontAwesomeIcon icon={faSpinner} />}</DayOffHistoryExportLoading>
                 <DayOffHistoryExportButton>Export Google Sheet</DayOffHistoryExportButton>
@@ -157,10 +163,6 @@ const DayOffHistory = () => {
             </Button>
           </DayOffHistoryWrapperButton>
         </DayOffHistoryWrapper>
-        <ToastContainer
-          style={{ display: "block", position: "fixed", zIndex: "99999" }}
-          autoClose={1000}
-        />
       </Form>
     </DayOffHistoryCol>
   )
