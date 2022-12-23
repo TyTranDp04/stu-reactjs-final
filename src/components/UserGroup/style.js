@@ -78,6 +78,17 @@ export const BtnAddGroup = styled.button`
     opacity: 0.8;
   }
 `;
+export const BtncloseGroup = styled.button`
+  border-radius: 5px;
+  border: none;
+  background-color: #6e7881;
+  height: 40px;
+  color: #ffffff;
+  font-weight: bold;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 export const Thead = styled.thead`
   background-color: #8000ff;
   color: #fff;

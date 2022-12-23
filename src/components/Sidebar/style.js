@@ -10,9 +10,6 @@ export const SidebarCol = styled.div`
   padding:0px;
   padding-left:2.5%;
   background-color: #8000ff;
-  @media(max-width:996.5px){
-    width:24% !important;
-  }
   .dropdown-toggle::after{
     content:none;
     padding:0px;
@@ -53,7 +50,7 @@ justify-content:center;
 align-items: center;
 `
 export const P = styled.p`
-font-size:20px;
+font-size:18px;
 font-weight:700;
 color:#fff;
 margin-bottom:0px;
@@ -82,12 +79,18 @@ height:50px;
 export const SidebarInner = styled.div`
   margin-bottom: 30px;
   min-width:100%;
+  display:flex;
+  justify-content:space-end;
     .dropdown-toggle::after{
     content:none;
+  }
+  .dropdown-toggle{
+    width:100%;
   }
 `
 export const SidebarCategoryGr = styled.div`
 min-width:100%;
+display:flex;
 @media(max-width:800.5px){
   padding-left:0px;
 }
@@ -102,7 +105,7 @@ export const SidebarCategory = styled.h4`
   margin-right: 5px;
   cursor: pointer;
   @media(max-width:1050px){
-    font-size:16px !important;
+    font-size:11px !important;
   }
   &:hover {
     color: rgb(247,148,29);
@@ -128,6 +131,7 @@ export const SidebarCategory = styled.h4`
   }
 `
 export const SidebarGroup = styled.div`
+display:flex;
 a {
   color: #fff;
   text-decoration: none;
@@ -160,4 +164,10 @@ export const SidebarDesc = styled.div`
   @media (max-width: 425px) {
     font-size: 10px;
   }
+`
+
+export const ToggleDrop = styled.div`
+display:flex;
+justify-content:space-between;
+width:60%;
 `
