@@ -1,13 +1,13 @@
 import React from 'react'
 import Home from '../../components/Home'
-import Layout from '../../layout'
+import LayoutMain from '../../layout'
 
 const HomePage = () => {
   return (
-    <Layout title="Log Off SRS">
+    <LayoutMain title="Log Off SRS">
       <Home
       />
-    </Layout>
+    </LayoutMain>
   )
 }
 

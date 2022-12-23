@@ -1,11 +1,11 @@
 import MyProfile from "../../components/MyProfile";
-import Layout from "../../layout";
+import LayoutMain from "../../layout";
 
 const MyProfilePage = () => {
   return (
-    <Layout title="Log Off SRS - My Profile">
+    <LayoutMain title="Log Off SRS - My Profile">
       <MyProfile />
-    </Layout>
+    </LayoutMain>
   );
 };
 

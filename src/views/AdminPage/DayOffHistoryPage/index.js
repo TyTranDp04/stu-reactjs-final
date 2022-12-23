@@ -1,12 +1,13 @@
 import React from 'react'
 import DayOffHistory from '../../../components/Admin/DayOffHistory'
-import Layout from '../../../layout'
+import LayoutMain from '../../../layout'
+
 
 const DayOffHistoryPage = () => {
   return (
-    <Layout title="Log Off SRS - Day off history">
+    <LayoutMain title="Log Off SRS - Day off history">
       <DayOffHistory/>
-    </Layout>
+    </LayoutMain>
   )
 }
 

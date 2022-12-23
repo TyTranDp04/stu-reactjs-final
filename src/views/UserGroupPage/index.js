@@ -1,12 +1,12 @@
 import React from 'react'
 import UserGroup from '../../components/UserGroup'
-import Layout from '../../layout'
+import LayoutMain from '../../layout'
 
 const UserGroupPage = () => {
   return (
-    <Layout title="Log Off SRS - User group">
+    <LayoutMain title="Log Off SRS - User group">
       <UserGroup/>
-    </Layout>
+    </LayoutMain>
   )
 }
 
