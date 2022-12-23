@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { InPutContainer, Option } from '../style';
 
 const SelectTime = (props) => {
-  const { setSelectHour, setCurrentQuantity } = props.handle
+  const {  setCurrentQuantity, currentQuantity } = props.handle
   const [hour, setHour] = useState()
   const { quantity } = props
   function handleOnChangeTime(e) {
@@ -29,42 +29,45 @@ const SelectTime = (props) => {
       setCurrentQuantity(1)
     }
   },[hour])
-
   return (
-    <InPutContainer style={{ width: '100%', margin: '0', }} className="mb-6 input__select">
+    <InPutContainer style={{ width: '100%', margin: '10px 0 0 0', }} className="mb-6 input__select">
       <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
+       
         {
-          quantity <= 1 ?
-            <Option value={1}>1 hour</Option> : ''
+         currentQuantity >0.5?
+            <Option value={8}>8 hour</Option> : ''
         }
         {
-          quantity <= 1 ?
-            <Option value={2}>2 hour</Option>
-            : ''
+          quantity <= 1 && currentQuantity >0.5?
+            <Option value={7}>7 hour</Option> : ''
         }
-        {
-          quantity <= 1 ?
-            <Option value={3}>3 hour</Option>
-            : ''
+         {
+          quantity <= 1 && currentQuantity >0.5?
+            <Option value={6}>6 hour</Option> : ''
         }
-        {
-          quantity <= 1 ?
-            <Option value={4}>4 hour</Option>
-            : ''
-        }
-        {
-          quantity <= 1 ?
+         {
+          quantity <= 1 && currentQuantity >0.5?
             <Option value={5}>5 hour</Option> : ''
         }
         {
-          quantity <= 1 ?
-            <Option value={6}>6 hour</Option> : ''
+          quantity <= 1 && currentQuantity <=0.5?
+            <Option value={4}>4 hour</Option>
+            : ''
         }
-        {
-          quantity <= 1 ?
-            <Option value={7}>7 hour</Option> : ''
+         {
+          quantity <= 1 && currentQuantity <=0.5?
+            <Option value={3}>3 hour</Option>
+            : ''
         }
-            <Option value={8}>8 hour</Option>
+         {
+          quantity <= 1 && currentQuantity <=0.5?
+            <Option value={2}>2 hour</Option>
+            : ''
+        }
+         {
+          quantity <= 1 && currentQuantity <=0.5?
+            <Option value={1}>1 hour</Option> : ''
+        }
       </Form.Select>
     </InPutContainer>
   );

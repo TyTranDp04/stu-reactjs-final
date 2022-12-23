@@ -30,6 +30,9 @@ const FormContainer = styled.div`
       width: 55%!important;
     }
   }
+  .top-25{
+    top: 25px!important;
+  }
 `
 const InPutContainer = styled.div`
 @media (max-width: 570px) {
