@@ -91,23 +91,7 @@ const Header = ({ Toggle, isOpen }) => {
   }, [showSidebar]);
   return (
     <HeaderRow className="row">
-      <DivLogo style={{ width: isOpen ? "16%" : "7%" }} className={isOpen ? "col-sm-3 col-lg-2" : "col-sm-3 col-lg-2"}>
-        <div className="row header-logo" style={{ padding: "0px", margin: "0px", width: "100%",justifyContent:"center" }}>
-          <HeaderAvatar className={isOpen ? "col-6" : "col-12"} style={{width: isOpen? "" : "51%"}}>
-            <Link to="/"><StImg src={logo} /></Link>
-          </HeaderAvatar>
-          <DivP className="col-6" style={{ padding: "0px", margin: "0px" }}>
-            <P style={{ display: isOpen ? "inline-block" : "none" }}>Log Off SRS</P>
-          </DivP>
-        </div>
-        <BtnArrow style={{ right: isOpen ? "-10%" : "-25%" }}>
-          <FontAwesomeIcon onClick={Toggle} icon={faBarsStaggered} />
-        </BtnArrow>
-      </DivLogo>
-      <HeaderLogoff
-        className={isOpen ? "col-sm-9 col-lg-10" : "col-sm-9 col-lg-10"}
-        style={{ width: isOpen ? "84%" : "93%" }}
-      >
+      <HeaderLogoff >
         <Dropdown>
           <div style={{paddingRight:"20px"}}>
             <Dropdown.Toggle>

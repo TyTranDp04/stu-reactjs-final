@@ -1,12 +1,12 @@
 import React from 'react'
 import ChangePassword from '../../components/ChangePassword'
-import Layout from '../../layout'
+import LayoutMain from '../../layout'
 
 const ChangePasswordPage = () => {
   return (
-    <Layout title="Log Off SRS - Change Password">
+    <LayoutMain title="Log Off SRS - Change Password">
       <ChangePassword/>
-    </Layout>
+    </LayoutMain>
   )
 }
 

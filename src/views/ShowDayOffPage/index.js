@@ -1,12 +1,12 @@
 import React from 'react'
 import TableShowDayOff from '../../components/TableShowDayOff'
-import Layout from '../../layout'
+import LayoutMain from '../../layout'
 
 const ShowDayOffPage = () => {
   return (
-      <Layout title="Log Off SRS - Day off">
+      <LayoutMain title="Log Off SRS - Day off">
         <TableShowDayOff />
-      </Layout>
+      </LayoutMain>
   )
 }
 
