@@ -23,6 +23,8 @@ import {
 import axios from 'axios';
 import { checkHoliday, checkSameDay, countDate, returnQuantity } from '../../../constants/dayoff.js';
 import SelectTime from '../ModalAddData/SelectTime/index.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const ModalUpdateData = (props) => {
   const { setShowModalUpdate, setCallApiTable, callApiTable, showModalUpdate } = props.handle
@@ -65,7 +67,7 @@ const ModalUpdateData = (props) => {
         setDataTime(newdata?.Time)
         setQuantity(newdata?.Quantity)
         setChangeData(!changeData)
-        if (newdata?.Time === 0) {
+        if (newdata?.Type === 0) {
           setChecked(true)
         } else {
           setChecked(false)
@@ -274,6 +276,13 @@ const ModalUpdateData = (props) => {
     const num = Number(e.target.value)
     newdata[e.target.name] = num
     setData(newdata)
+    if (num === 0) {
+      setChecked(true)
+    } else {
+      setChecked(false)
+
+    }
+    console.log(newdata)
 
   }
 
@@ -322,6 +331,9 @@ const ModalUpdateData = (props) => {
         <Modal.Title id="contained-modal-title-vcenter">
           Update Day Off
         </Modal.Title>
+        <BtnCancel type="button" style={{ backgroundColor: 'transparent' }} onClick={() => handleCancel()}>
+          <FontAwesomeIcon style={{ color: '#8000ff', fontSize: '28px'  }} icon={faXmark} />
+        </BtnCancel>
       </Modal.Header>
       <Modal.Body>
         < FormDataInput id='form' method="POST" onSubmit={(e) => handleSubmit(

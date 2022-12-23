@@ -19,6 +19,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Form } from 'react-bootstrap';
 import { checkHoliday, checkSameDay, returnQuantity } from '../../../constants/dayoff.js';
 import SelectTime from './SelectTime/index.js';
+import {  faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ModalAddData = (props) => {
   const { setShowModalAdd, setCallApiTable, callApiTable } = props.handle
@@ -270,6 +272,9 @@ const ModalAddData = (props) => {
         <Modal.Title id="contained-modal-title-vcenter">
           Add Day Off
         </Modal.Title>
+        <BtnCancel type="button" style={{ backgroundColor: 'transparent' }} onClick={() => handleCancel()}>
+          <FontAwesomeIcon style={{ color: '#8000ff', fontSize: '28px'  }} icon={faXmark} />
+        </BtnCancel>
       </Modal.Header>
       <Modal.Body>
         < FormDataInput id='form' method="POST" onSubmit={(e) => handleSubmit(
@@ -312,7 +317,7 @@ const ModalAddData = (props) => {
           </InPutContainerFrom>
           <InPutContainer className="mb-6">
             <LableInput className="form-label">Quantity</LableInput>
-            <Input id='Quantity'>
+            <Input id='Quantity' className=' Quantity__text'>
               <Span>{quantity}</Span>
             </Input>
           </InPutContainer>

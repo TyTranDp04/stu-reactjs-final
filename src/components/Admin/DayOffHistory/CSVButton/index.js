@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { Button } from '../../../Login/style'
+import { DayOffHistoryExportButton, DayOffHistoryExportCsv, DayOffHistoryExportLoading } from '../style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-const CSVButton = ({ csvHeaders, csvData, onClick, dayOff, ...rest }) => {
+const CSVButton = ({ csvHeaders, csvData, onClick, loadingCSV, ...rest }) => {
   const [disable, setDisable] = useState(false)
   const csvLink = useRef(null)
   if (!csvData) return null
@@ -19,7 +22,12 @@ const CSVButton = ({ csvHeaders, csvData, onClick, dayOff, ...rest }) => {
           })
         }}
         disabled={disable}
-      >Export CSV </Button>
+      >
+        <DayOffHistoryExportCsv>
+          <DayOffHistoryExportLoading>{loadingCSV && <FontAwesomeIcon icon={faSpinner} />}</DayOffHistoryExportLoading>
+          <DayOffHistoryExportButton>Export CSV</DayOffHistoryExportButton>
+        </DayOffHistoryExportCsv>
+      </Button>
 
       {csvData && <CSVLink
         data={csvData}
