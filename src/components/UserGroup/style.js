@@ -111,7 +111,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  padding: 50px 0 0 20px;
+  padding: 50px 20px 0 20px;
   overflow: auto;
 `;
 export const Name = styled.div`

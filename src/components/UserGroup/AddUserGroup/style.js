@@ -58,6 +58,7 @@ width: 25%;
 @media (min-width: 501px) and (max-width: 992px) {
   width: 50%;
 }
+.la
 }
 `;
 export const InPutContainer = styled.div`
@@ -113,3 +114,4 @@ export const InPutContainer = styled.div`
     flex-direction: column;
   }
 `;
+

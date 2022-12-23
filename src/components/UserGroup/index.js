@@ -196,7 +196,7 @@ function UserGroup(props) {
                 <Th>Group</Th>
                 <Th>Member(s)</Th>
                 <Th>Master(s)</Th>
-                {userInfo?.data?.user?.RoleId === "3" ? <Th>Action</Th> : ""}
+                {userInfo?.data?.RoleId === "3" ? <Th>Action</Th> : ""}
               </Tr>
             </Thead>
             <Tbody>

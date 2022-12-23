@@ -35,7 +35,6 @@ const schema = yup.object().shape({
 const MyProfile = () => {
   const userInfo = useSelector((state) => state.users.userInfoState);
   const [data, setData] = useState();
-
   const form = document.getElementById("form");
   const ID = userInfo?.data?.id;
   const EGmail = data?.Gmail;
@@ -47,7 +46,7 @@ const MyProfile = () => {
   const [group, setGroup] = useState();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState();
-  const [, setfileIMG] = useState();
+  const [FileIMG, setfileIMG] = useState();
   const addImg = document.getElementById("img");
   const [, setIsLoading] = useState(false);
 
@@ -66,9 +65,10 @@ const MyProfile = () => {
   } = useForm({ resolver: yupResolver(schema) });
   function handleOnChange(e) {
     Object.values(e.target.files).forEach((e) => {
-      if (selectedImage !== null) {
+      if (selectedImage !== null) { 
         setSelectedImage(URL.createObjectURL(e));
         setfileIMG(e);
+        console.log(setfileIMG);
       } else {
       }
     });
@@ -90,10 +90,10 @@ const MyProfile = () => {
         });
         dispatch(
           updateAvata({
-            Name: data.Name,
-            Address: res.data.Address,
-            Avatar: res.data.Avatar,
-            Phone: res.data.Phone,
+            Name: data?.Name,
+            Address: res?.data?.Address,
+            Avatar: res?.data?.Avatar,
+            Phone: res?.data?.Phone,
           })
         );
       })
@@ -111,18 +111,17 @@ const MyProfile = () => {
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let rolename = null;
   if (roleID === "1") {
-    rolename = "User";
+    rolename = "Staff";
   }
   if (roleID === "2") {
-    rolename = "Master";
+    rolename = "Manager";
   }
   if (roleID === "3") {
-    rolename = "Hr";
+    rolename = "Admin";
   }
   const onSubmit = () => {
     let timerInterval;
@@ -224,7 +223,7 @@ const MyProfile = () => {
                         src={imgnull}
                         alt="Image Preview"
                       />
-                    </ImgContent>
+                    </ImgContent>  
                   )}
                 </ImgPreview>
               </div>
