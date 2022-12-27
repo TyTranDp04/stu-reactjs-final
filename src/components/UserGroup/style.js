@@ -111,6 +111,7 @@ export const Td = styled.td`
 export const Tbody = styled.tbody``;
 
 export const Content = styled.div`
+max-height:60vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -223,7 +224,7 @@ export const BtnDeleteGroup = styled.button`
   border: none;
   border-radius: 5px;
   background-color: #ed5e68;
-  height: 40px;
+    : 40px;
   color: #fff;
   width: 70px;
 `;
