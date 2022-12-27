@@ -205,7 +205,7 @@ function UserGroup(props) {
               {dataGroup?.map((e, index) => (
                 <Tr key={index}>
                   <Td onClick={() => handleShowDetail(e)}>
-                    <TdContent>{e.Name} </TdContent>
+                    <TdContent style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>{e.Name} </TdContent>
                   </Td>
                   <Td
                     onClick={() => handleShowDetail(e)}
@@ -251,7 +251,7 @@ function UserGroup(props) {
                   </Td>
                   {userInfo?.data?.RoleId === "3" ? (
                     <Td>
-                      <TdContent>
+                      <TdContent   style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
                         <BtnDeleteGroup
                           onClick={() => handleDeleteGroup(e?._id)}
                         >
