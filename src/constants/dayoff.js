@@ -179,3 +179,14 @@ export const searchDataDayOff = (data, search) => {
   })
   return arrayData
 } 
+export const checkTime = (time)=>{
+  if(time ===1){
+    return "Morning"
+  }
+  if(time ===2){
+    return "afternoon"
+  }
+  if(time ===3){
+    return "All day"
+  }
+}

@@ -105,7 +105,7 @@ const ModalUpdateData = (props) => {
     } else {
       setShowMidDay(false)
       const newdata3 = { ...data }
-      newdata3.Time = 'All day'
+      newdata3.Time = 3
       setCurrentQuantity(1)
       setData(newdata3)
     }
@@ -154,30 +154,21 @@ const ModalUpdateData = (props) => {
     switch (value) {
       case '1':
         const newdata1 = { ...data }
-        newdata1.Time = 'Morning'
+        newdata1.Time = 1
         setData(newdata1)
         setCurrentQuantity(0.5)
         break;
       case '2':
         const newdata2 = { ...data }
-        newdata2.Time = 'Afternoon'
+        newdata2.Time = 2
         setCurrentQuantity(0.5)
         setData(newdata2)
         break;
       case '3':
         const newdata3 = { ...data }
-        newdata3.Time = 'All day'
+        newdata3.Time = 3
         setCurrentQuantity(1)
         setData(newdata3)
-        break;
-      case 'Morning':
-        setCurrentQuantity(data?.Quantity)
-        break;
-      case 'Afternoon':
-        setCurrentQuantity(data?.Quantity)
-        break;
-      case 'All day':
-        setCurrentQuantity(data?.Quantity)
         break;
       default:
         break;
@@ -346,19 +337,19 @@ const ModalUpdateData = (props) => {
           <FormContainer>
             <InPutContainerFrom style={{ marginLeft: '0', width: '70%' }}>
               <InputContainerStyle>
-                <LableInput style={{ width: '153px', textAlign: 'start' }} className="form-label lable-w50">From</LableInput>
+                <LableInput style={{ width: '120px', textAlign: 'start' }} className="form-label lable-w50">From</LableInput>
                 <InPutContainer style={{ margin: '0', }} className="mb-6">
                   <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffFrom} id='DayOffFrom' name='dateFrom' onChange={(e) => handleOnChangeForm(e)} dateFormat='dd/MM/yyyy' />
                 </InPutContainer>
               </InputContainerStyle>
               <InputContainerStyle>
-                <LableInput style={{ width: '153px' }} className="form-label lable-w50">To</LableInput>
+                <LableInput style={{ width: '120px' }} className="form-label lable-w50">To</LableInput>
                 <InPutContainer style={{ margin: '0', }} className="mb-6">
                   <DatePicker required autoComplete='off' placeholderText="DD/MM/YYYY" selected={data?.DayOffTo} id='DayOffTo' name='dateTo' onChange={(e) => handleOnChangeTo(e)} dateFormat='dd/MM/yyyy' />
                 </InPutContainer>
               </InputContainerStyle>
             </InPutContainerFrom>
-            <InPutContainerFrom className={`input__container-css ${showType?'':'top-25'}`} style={{ top: '10px', position: 'relative', width: '23%' }} >
+            <InPutContainerFrom className={`input__container-css ${showType?'':'top-25'}`} style={{ top: '10px', position: 'relative', width: '25%', marginRight: '58px' }} >
              
               <InPutContainer style={{ width: '100%'}} className="mb-6 input__select">
                 <Form.Select style={{ width: '100%', margin: '0', }} id='Quantity' onChange={(e) => handleOnChangeTime(e)} aria-label="Default select example">
