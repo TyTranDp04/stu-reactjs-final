@@ -27,11 +27,12 @@ import {
   Tr,
   TrHead,
 } from './style';
-import {  ButtonSearchDayOff, SearchHeaderText } from '../TableDayOff/style';
+import {  ButtonSearchDayOff } from '../TableDayOff/style';
 import DetailDayOff from '../TableDayOff/DetailDayOff';
 import { searchDataDayOff, totalDay } from '../../constants/dayoff';
 import ReactDatePicker from 'react-datepicker';
 import ShowNodata from '../TableDayOff/ShowNodata';
+import ModalUpdateData from '../TableDayOff/ModalUpdateData';
 
 const TableShowDayOff = (props) => {
   const [data, setData] = useState()
@@ -40,10 +41,12 @@ const TableShowDayOff = (props) => {
   const [callApiTable, setCallApiTable] = useState(false)
   const [typeFilter, setTypeFilter] = useState('all')
   const [dataDetail, setDataDetail] = useState()
+  const [idRequest, setIdRequest] = useState()
   const [showDetail, setShowDetail] = useState(false)
   const [dataAllUser, setDataAllUser] = useState()
   const [dataSearch, setDataSearch] = useState()
   const [dataFilterSearch, setDataFilterSearch] = useState()
+  const [showModalUpdate, setShowModalUpdate] = useState(false)
   const dataUser = userInfo?.data
   const idMaster = data?.idMaster
   const formData = {
@@ -244,9 +247,11 @@ const TableShowDayOff = (props) => {
             }
           </TableScroll>
         </FormData>
+        <ModalUpdateData user={formData} show={showModalUpdate} handle={{ setShowModalUpdate, setCallApiTable, callApiTable, showModalUpdate }} idRequest={idRequest}></ModalUpdateData>
+
         {
           !showDetail ? ''
-            : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable }} ></DetailDayOff>
+            : <DetailDayOff dataAllUser={dataAllUser} formData={formData} data={dataDetail} idMaster={idMaster} dataUser={dataUser} handle={{ setShowDetail, callApiTable, setCallApiTable, setIdRequest, setShowModalUpdate }} ></DetailDayOff>
         }
       </ContainerDefault>
     </Main >

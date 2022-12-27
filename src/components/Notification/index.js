@@ -41,14 +41,14 @@ const Notifycation = (props) => {
       .then(res => {
         if (dataUser?.RoleId === '2') {
           const newData = res?.data?.data?.filter(function (d) {
-            return d.Status === 1 || d.Status === 5
+            return d?.Status === 1 || d?.Status === 5
           })
           setData(newData)
           setInverseData(!inverseData)
         }
         if (dataUser?.RoleId === '1') {
           const newData = res?.data?.data?.filter(function (d) {
-            return d.Status === 4 || d.Status === 3 || d.Status === 6
+            return d?.Status === 4 || d?.Status === 3 || d?.Status === 6 || d?.Status === 2
           })
           setData(newData)
           setInverseData(!inverseData)
@@ -112,6 +112,8 @@ const Notifycation = (props) => {
     switch (status) {
       case 1:
         return "New Request"
+      case 2:
+        return "Approved"
       case 3:
         return "Rejected"
       case 4:
@@ -130,7 +132,7 @@ const Notifycation = (props) => {
     })
     return group[0]?.Name
   }
-  
+
   return (
     <>
       {dataUser?.RoleId === 3 ? '' :
@@ -159,7 +161,7 @@ const Notifycation = (props) => {
                                 }
                               </B>
                               {
-                                e?.Status === 1 || e?.Status === 6 ? '' :
+                                e?.Status === 1 || e?.Status === 6 ? '' : e?.Status === 2?'':
                                   <ReasonChange><B>Reason: </B>{e.ReasonChange}</ReasonChange>
                               }
                             </ContentStatus>

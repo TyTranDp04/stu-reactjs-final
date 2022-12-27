@@ -181,6 +181,9 @@ export const ContentStatus = styled.div`
   .group{
     color: #8000FF !important;
   }
+  .Approved{
+    color: #5BD646 !important;
+  }
 `
 export const ContentDayOff = styled.div`
   border-radius: 5px;
