@@ -62,7 +62,7 @@ export const ContainerFluid = styled.div`
   .ant-menu-inline-collapsed >.ant-menu-submenu>.ant-menu-light.ant-menu-inline .ant-menu-item{
     background-color:#8000ff;
   }
-  .ant-menu .ant-menu-item .ant-menu-item-icon svg{
+  .ant-menu-inline-collapsed >.ant-menu-item .ant-menu-item-icon{
     color:#fff;
   }
   .ant-layout .ant-layout-sider-children{
