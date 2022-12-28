@@ -8,7 +8,7 @@ function* updateGoogleSheet(action) {
     yield GoogleSheetAPI.updateRows(dataPayload.dayOffFrom, dataPayload.dayOffTo, dataPayload.idGooleSheets);
     yield put(updateGoogleSheetActionSuccess());
   } catch (e) {
-    yield put(updateGoogleSheetActionFailed(e.response.data.message));
+    yield put(updateGoogleSheetActionFailed(e?.response?.data?.message));
   }
 }
 

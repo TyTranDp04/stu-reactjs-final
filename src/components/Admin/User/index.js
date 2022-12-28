@@ -7,7 +7,6 @@ import {
   Btn,
   BtnAction,
   BtnCancel,
-  Container,
   DivBtn,
   DivTable,
   Error,
@@ -28,13 +27,13 @@ import { faSquarePen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
-import 'react-responsive-modal/styles.css';
 import { useDispatch, useSelector } from "react-redux";
+import 'react-responsive-modal/styles.css';
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getListDpManagementAction } from "../../../stores/slices/ManagementUser.slice.js";
-import { useNavigate } from "react-router-dom";
 
-const ManagementUser = (props) => {
+const ManagementUser = () => {
   const URL = process.env.REACT_APP_URL_WEBSITE;
   const [data, setData] = useState();
   const [dataEdit, setDataEdit] = useState();
@@ -52,14 +51,14 @@ const ManagementUser = (props) => {
   const filterRoleId = roleIdData?.find((item) => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
   const roleName = filterRoleId?.RoleName;
-  const [RoleGroupId,setRoleGroupId] = useState();
-  const RoleGroup =  userInfo?.data?.GroupId;
+  const [RoleGroupId, setRoleGroupId] = useState();
+  const RoleGroup = userInfo?.data?.GroupId;
   const RoleGroupMap = () => {
-    RoleGroup.map((e) => setRoleGroupId(e))
-  } 
-  useEffect(() =>{
+    RoleGroup?.map((e) => setRoleGroupId(e))
+  }
+  useEffect(() => {
     RoleGroupMap()
-  },[RoleGroup])
+  }, [RoleGroup])
   useEffect(() => {
     if (!permission) {
       return;
@@ -99,7 +98,7 @@ const ManagementUser = (props) => {
     await axios
       .post(`${URL}/user`, data)
       .then((res) => console.log(res.body))
-      .catch((err) => console.log(err));
+      .catch((err) => { });
   }
   async function DeleteData(e) {
     await fetch(`${URL}/user/${e}`, { method: "DELETE" }).then((res) => {
@@ -109,10 +108,7 @@ const ManagementUser = (props) => {
   const [idUser, setId] = useState();
   const [edit, setEdit] = useState(false);
   const EditData = async (data) => {
-    await axios
-      .patch(`${URL}/user/${idUser}`, data)
-      .then((res) => console.log(res.body))
-      .catch((err) => console.log(err));
+    await axios.patch(`${URL}/user/${idUser}`, data)
   };
   async function getEdit(e) {
     setId(e);
@@ -146,7 +142,7 @@ const ManagementUser = (props) => {
     await axios
       .get(`${URL}/group`)
       .then((res) => setDataGroup(res?.data.data))
-      .catch((err) => console.log(err));
+      .catch((err) => { });
   }
   useEffect(() => {
     submitGroup();
@@ -160,7 +156,7 @@ const ManagementUser = (props) => {
       .then((res) => {
         setDataRole(res?.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => { });
   }
   useEffect(() => {
     submitRole();
@@ -174,11 +170,8 @@ const ManagementUser = (props) => {
     dataEdit?.GroupId?.includes(item._id) ? item.Name : ""
   );
 
-  console.log("dataEdit",dataEdit)
-  console.log("dataRole",dataRole)
   return (
     <React.Fragment>
-      {/* <Container className="col-lg-10 col-sm-9 "> */}
       <Body>
         <div className="row pt-2 m-0">
           <div className="text-center">
@@ -299,26 +292,26 @@ const ManagementUser = (props) => {
               </div>
               <div>
                 <Label className="w-100">Role</Label>
-               {dataEdit?.RoleId && (
-                 <Select
-                 id="RoleId"
-                 name="RoleId"
-                 {...register("RoleId", {
-                   required: "The field is required.",
-                 })}
-                 className="w-100"
-                 defaultValue={dataEdit?.RoleId ? dataEdit?.RoleId : ""}
-                 onClick={(event) => {
-                   getRole(event);
-                 }}
-               >
-                {dataRole?.map((e) => (                      
-                     <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
-                   ))}
-               </Select>
-               )
+                {dataEdit?.RoleId && (
+                  <Select
+                    id="RoleId"
+                    name="RoleId"
+                    {...register("RoleId", {
+                      required: "The field is required.",
+                    })}
+                    className="w-100"
+                    defaultValue={dataEdit?.RoleId ? dataEdit?.RoleId : ""}
+                    onClick={(event) => {
+                      getRole(event);
+                    }}
+                  >
+                    {dataRole?.map((e) => (
+                      <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
+                    ))}
+                  </Select>
+                )
 
-               }
+                }
                 <Error className="w-100">{errors.RoleId?.message}</Error>
               </div>
               <div>
@@ -327,7 +320,6 @@ const ManagementUser = (props) => {
                   <Input
                     name="GroupId"
                     {...register("Group", {
-                      // required: "The field is required.",
                       required: false,
                     })}
                     className="w-100"
@@ -470,11 +462,11 @@ const ManagementUser = (props) => {
                     {dataRole?.map((e) =>
                       roleName === "Admin" ? (
                         <option key={e._id}>{e.RoleName}</option>
-                      ) :( roleName === "Manager" ? (
+                      ) : (roleName === "Manager" ? (
                         e.RoleName !== "Admin" && e.RoleName !== "Manager" ? (
                           <option>Staff</option>
                         ) : (
-                         ""
+                          ""
                         )
                       ) : (
                         ""
@@ -483,7 +475,7 @@ const ManagementUser = (props) => {
                   </Select>
                   <Error className="w-100">{errors.RoleId?.message}</Error>
                 </div>
-                <div style={{display: roleName === "Admin" ? "none" : "" }}>
+                <div style={{ display: roleName === "Admin" ? "none" : "" }}>
                   <Label className="w-100">Group</Label>
                   <Select
                     name="GroupId"
@@ -518,7 +510,7 @@ const ManagementUser = (props) => {
           <div className="row pb-5">
             <DivBtn className="col-lg-2 col-sm-4 mb-2 text-start">
               <Btn
-              style={{width:"100%"}}
+                style={{ width: "100%" }}
                 onClick={() => {
                   setShow(true);
                   reset();
@@ -559,7 +551,7 @@ const ManagementUser = (props) => {
                     <td>
                       <Image
                         style={{ width: "70px" }}
-                        src={item.Avatar  ? item.Avatar : Avatar}
+                        src={item.Avatar ? item.Avatar : Avatar}
                       ></Image>
                     </td>
                     <td>{item.Gmail}</td>
@@ -588,8 +580,8 @@ const ManagementUser = (props) => {
                     </td>
                     {roleName === "Admin" ? (
                       item._id === id ||
-                      item.RoleId === "1" ||
-                      item.RoleId === "2" ? (
+                        item.RoleId === "1" ||
+                        item.RoleId === "2" ? (
                         <td>
                           <BtnAction
                             onClick={() => {
@@ -709,7 +701,6 @@ const ManagementUser = (props) => {
           </Row>
         </DivTable>
       </Body>
-      {/* </Container> */}
     </React.Fragment>
   );
 };
