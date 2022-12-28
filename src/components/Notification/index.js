@@ -150,7 +150,7 @@ const Notifycation = (props) => {
               <Menu>
                 {
                   data?.map((e, index) => (
-                    <Link key={index} to={e?.Status === 1 || e?.Status === 4 ? "/request-log-off" : "/log-off"}>
+                    <Link key={index} to={ e?.Status === 6?'/user-group':e?.Status === 1 || e?.Status === 4 ? "/request-log-off" : "/log-off"}>
                       <Item onClick={() => handleIsRead(e)}>
                         <ItemContent>
                           {
@@ -209,11 +209,9 @@ const Notifycation = (props) => {
                     </Link>
                   ))
                 }
-                <Link to={'/request-log-off'}>
                   <BtnReadAll type='button' onClick={() => handleReadAll()}>
                     Read all
                   </BtnReadAll>
-                </Link>
               </Menu>
             </Content> : ''
           }

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { URL_API } from '../../../api/const.api'
 import { updateGoogleSheetAction } from '../../../stores/slices/googleSheet.slice'
-import { Button, Form, H2, Input, LoginTitle, TextRed } from '../../Login/style'
+import { Button, Form, H2, Input, LoginTitle } from '../../Login/style'
 import CSVButton from './CSVButton'
 import { DayOffHistoryCol, DayOffHistoryExportButton, DayOffHistoryExportCsv, DayOffHistoryExportLoading, DayOffHistoryWrapper, DayOffHistoryWrapperButton } from './style'
 
@@ -29,6 +29,7 @@ const DayOffHistory = () => {
     dayOffTo: "",
     idGooleSheets: "",
   });
+  
   const [csvData, setCsvData] = useState([]);
   const [disable, setDisable] = useState(false);
   const [disableGS, setDisableGS] = useState(false);
@@ -47,14 +48,34 @@ const DayOffHistory = () => {
     } else if (permission !== "Admin") {
       navigate("/404")
     } else {
-      navigate("/admin/day-off-history")
+      navigate("/admin/day-off-history");
     }
   }, [permission, navigate]);
 
+  const handleDayOffFromChange = (e) => {
+    setDayOff({
+      ...dayOff,
+      dayOffFrom: e.target.value
+    })
+  }
+
+  const handleDayOffToChange = (e) => {
+    setDayOff({
+      ...dayOff,
+      dayOffTo: e.target.value
+    })
+  }
+
+  const dataDayFrom = new Date(dayOff.dayOffFrom);
+  const dataDayTo = new Date(dayOff.dayOffTo);
+  const subtractDay = dataDayFrom - dataDayTo;
+
   useEffect(() => {
-    if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '' || dayOff.dayOffFrom > dayOff.dayOffTo) {
+    if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '') {
+      setDisable(true)
+    } else if (subtractDay > 0) {
       Swal.fire({
-        text: "Day Off From, Day Off To is required and Day Off From can't be bigger than Day Off To !!!",
+        text: "Day Off From can't be bigger than Day Off To !!!",
         icon: 'warning',
         confirmButtonColor: '#8000FF',
         confirmButtonText: 'OK'
@@ -63,7 +84,7 @@ const DayOffHistory = () => {
     } else {
       setDisable(false)
     }
-  }, [dayOff.dayOffFrom, dayOff.dayOffTo])
+  }, [subtractDay])
 
   useEffect(() => {
     dispatch(updateGoogleSheetAction(dayOff));
@@ -71,12 +92,6 @@ const DayOffHistory = () => {
 
   useEffect(() => {
     if (error) {
-      Swal.fire({
-        text: "Your ID Google Sheets isn't conrrect or Google Sheets don't be shared anyone with the link !!!",
-        icon: 'warning',
-        confirmButtonColor: '#8000FF',
-        confirmButtonText: 'OK'
-      })
       setDisableGS(true)
     } else {
       setDisableGS(false)
@@ -85,7 +100,7 @@ const DayOffHistory = () => {
 
   const dayFrom = format('dd-MM-yyyy', new Date(dayOff.dayOffFrom));
   const dayTo = format('dd-MM-yyyy', new Date(dayOff.dayOffTo));
-  
+
   const fileName = `export_day_off_history_${dayFrom}-${dayTo}.csv`;
   const csvHeaders = ["No", "Name", "Reason", "DayOffFrom", "DayOffTo", "Type", "Time", "Quantity"];
 
@@ -107,6 +122,13 @@ const DayOffHistory = () => {
         confirmButtonColor: '#8000FF',
         confirmButtonText: 'OK'
       })
+    } else if (error) {
+      Swal.fire({
+        text: "Your ID Google Sheets isn't conrrect or Google Sheets don't be shared anyone with the link !!!",
+        icon: 'warning',
+        confirmButtonColor: '#8000FF',
+        confirmButtonText: 'OK'
+      })
     } else {
       setLoading(true);
       window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
@@ -121,20 +143,14 @@ const DayOffHistory = () => {
         <label>Day off from</label>
         <Input
           value={dayOff.dayOffFrom}
-          onChange={e => setDayOff({
-            ...dayOff,
-            dayOffFrom: e.target.value
-          })}
+          onChange={handleDayOffFromChange}
           type="date"
         />
         <br />
         <label>Day off to</label>
         <Input
           value={dayOff.dayOffTo}
-          onChange={e => setDayOff({
-            ...dayOff,
-            dayOffTo: e.target.value
-          })}
+          onChange={handleDayOffToChange}
           type="date"
         />
         <br />

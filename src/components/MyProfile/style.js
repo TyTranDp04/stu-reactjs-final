@@ -79,7 +79,6 @@ export const Container = styled.div`
       }
     }
     .phoneNumber{
-      display: flex;
       .phonedefault{
         width:80px
       }

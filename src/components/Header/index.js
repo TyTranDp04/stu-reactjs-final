@@ -1,7 +1,7 @@
-import { faBars, faBarsStaggered, faCalendar, faCodePullRequest, faList, faPeopleGroup, faPeopleRoof, faTableList, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useDispatch, useSelector } from "react-redux";
@@ -15,10 +15,7 @@ import shutdown from "../../assets/images/shutdown.png";
 import { logoutAction } from "../../stores/slices/user.slice";
 import Notifycation from "../Notification";
 import NewSideBar from "../Sidebar/newSidebar";
-import { BtnArrow, P } from "../Sidebar/style";
 import {
-  DivLogo,
-  DivP,
   HeaderAvatar,
   HeaderDropdown,
   HeaderDropdownImg,
@@ -28,9 +25,7 @@ import {
   SidebarDesc,
   SidebarHeader,
   StImg,
-  StyleLink,
-  SidebarCategory,
-  SidebarInner
+  StyleLink
 } from "./style";
 
 const Header = ({ Toggle, isOpen }) => {
@@ -68,33 +63,16 @@ const Header = ({ Toggle, isOpen }) => {
       }
     });
   };
-  const accountRouter = {
-    daysoff: { name: "List", url: "/log-off", icon: faCalendar },
-    requests: { name: "Requests", url: "/request-log-off", icon: faCodePullRequest },
-  };
-  const managerRouter = {
-    sync: { name: "Day off history", displayIcon: userRoleId === "1" || userRoleId === "2" ? "none" : "inline-block", display: userRoleId === "1" || userRoleId === "2" ? "none" : 'inline', url: `${permission === "Admin" ? "/admin/day-off-history" : "/404"}`, icon: faList },
-    User: { name: "User", displayIcon: userRoleId === "1" ? "none" : "inline-block", url: `${permission === "Staff" ? "/404" : "/admin/user"}`, display: userRoleId === "1" ? "none" : 'inline', icon: faUser },
-  };
+
   const [showSidebar, setShowSidebar] = useState(false);
   const handleShow = () => setShowSidebar(true);
   const handleClose = () => setShowSidebar(false);
-  const [showItem, setShowItem] = useState(false);
-  const handleItem = () => setShowItem(!showItem);
-  const [showItem1, setShowItem1] = useState(false);
-  const handleItem1 = () => setShowItem1(!showItem1);
-  useEffect(() => {
-    setShowItem()
-  }, [showSidebar]);
 
-  useEffect(() => {
-    setShowItem1()
-  }, [showSidebar]);
   return (
     <HeaderRow className="row">
       <HeaderLogoff >
         <Dropdown>
-          <div style={{paddingRight:"20px"}}>
+          <div style={{ paddingRight: "20px" }}>
             <Dropdown.Toggle>
               <HeaderAvatar>
                 {Avatar ? (
@@ -110,7 +88,7 @@ const Header = ({ Toggle, isOpen }) => {
             Hi, {Name}
           </SidebarDesc>
           <HeaderDropdown>
-            <Dropdown.Menu className="drop-down-item">
+            <Dropdown.Menu className="drop-down-item" style={{padding: "0"}}>
               <StyleLink to="/change-password">
                 <HeaderDropdownInner>
                   <HeaderDropdownImg><StImg src={resetpassword} /></HeaderDropdownImg>
@@ -133,27 +111,27 @@ const Header = ({ Toggle, isOpen }) => {
           </HeaderDropdown>
         </Dropdown>
       </HeaderLogoff>
-      <div style={{ padding: "0px",position:"absolute",width:"auto" }} className="text-start">
-        <Button style={{ border: "none",paddingBottom:"0px" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
+      <div style={{ padding: "0px", position: "absolute", width: "auto" }} className="text-start">
+        <Button style={{ border: "none", paddingBottom: "0px" }} variant="primary" className="d-md-none bg-white" onClick={handleShow}>
           <FontAwesomeIcon style={{ color: "#8000ff", fontSize: "20px" }} icon={faBars} />
         </Button>
       </div>
       <SidebarHeader style={{ display: "none" }} className="col-12">
         <Offcanvas style={{ width: "200px" }} show={showSidebar} onHide={handleClose} responsive="sm">
-          <Offcanvas.Title style={{display:"flex", borderBottom: "1px solid #D8D8D8" , justifyContent:"space-between",backgroundColor: "#8000ff"}}>
-          <div style={{ height: "32px", margin: "10px",width:"90%",display:"flex", justifyContent:"space-evenly", color:"#fff" }}>
-              <div style={{width:"30px",height:"30px",fontSize:"12px",margin:"0px"}}>
-              <Link to="/"><StImg src={logo} /></Link>
+          <Offcanvas.Title style={{ display: "flex", borderBottom: "1px solid #D8D8D8", justifyContent: "space-between", backgroundColor: "#8000ff" }}>
+            <div style={{ height: "32px", margin: "10px", width: "90%", display: "flex", justifyContent: "space-evenly", color: "#fff" }}>
+              <div style={{ width: "30px", height: "30px", fontSize: "12px", margin: "0px" }}>
+                <Link to="/"><StImg src={logo} /></Link>
               </div>
-              <Link to="/" style={{display: "flex",justifyContent:"center",alignItems:"center", textDecoration: "none" }}>
-                <p style={{margin:"0px"}}>Log Off SRS</p>
+              <Link to="/" style={{ display: "flex", justifyContent: "center", alignItems: "center", textDecoration: "none", backgroundColor: "#8000ff", color: "#fff" }}>
+                <p style={{ margin: "0px" }}>Log Off SRS</p>
               </Link>
             </div>
-            <Offcanvas.Header style={{ backgroundColor: "#8000ff", flex:"0 0 auto", width:"25px", height:"25px" }} variant="white" closeButton />
+            <Offcanvas.Header style={{ backgroundColor: "#8000ff", flex: "0 0 auto", width: "25px", height: "25px" }} variant="white" closeButton />
           </Offcanvas.Title>
           <Offcanvas.Body style={{ backgroundColor: "#8000ff" }}>
             <SidebarHeader>
-              <NewSideBar/>
+              <NewSideBar />
             </SidebarHeader>
           </Offcanvas.Body>
         </Offcanvas>
