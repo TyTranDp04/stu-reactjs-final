@@ -99,6 +99,17 @@ export const StImg = styled.img`
   height: auto;
   max-width: 100%;
 `
+export const StyleLink = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    color: #fff;
+  }
+`
+export const HeaderDropdownImg = styled.div`
+  width: 30px;
+  height: 30px;
+  padding-right: 5px;
+`
 export const HeaderLogoff = styled.div`
 height:52px;
   display: flex;
@@ -149,9 +160,7 @@ export const HeaderAvatar = styled.div`
   height: 40px;
   cursor: pointer;
   padding: 0;
-.dropdown-toggle{
-
-}
+  
   @media (max-width: 576px) {
     width: 30px;
     height: 30px;
@@ -200,14 +209,6 @@ color: var(--bs-dropdown-link-color);
   color:black;
 }
 `
-
-export const StyleLink = styled(Link)`
-  text-decoration: none;
-  &:hover {
-    background-color: #8000ff;
-    color: #fff;
-  }
-`
 export const HeaderDropdown = styled.div`
   width: 170px;
   height: 100%;
@@ -220,11 +221,6 @@ export const HeaderDropdownInner = styled.div`
   &:hover {
     background-color: #8000ff;
   }
-`
-export const HeaderDropdownImg = styled.div`
-  width: 30px;
-  height: 30px;
-  padding-right: 5px;
 `
 export const HeaderDropdownTitle = styled.div`
 
