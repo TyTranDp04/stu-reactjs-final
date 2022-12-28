@@ -209,11 +209,9 @@ const Notifycation = (props) => {
                     </Link>
                   ))
                 }
-                <Link to={'/request-log-off'}>
                   <BtnReadAll type='button' onClick={() => handleReadAll()}>
                     Read all
                   </BtnReadAll>
-                </Link>
               </Menu>
             </Content> : ''
           }
