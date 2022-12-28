@@ -111,6 +111,8 @@ const userSlice = createSlice({
       state.userInfoState.loading = false;
     },
     updateAvata(state, action) {
+      const data = action.payload;
+      localStorage.setItem(USER_INFO_KEY, JSON.stringify(data));
       state.userInfoState.data.Avatar = action.payload.Avatar;
       state.userInfoState.data.Name = action.payload.Name;
     },

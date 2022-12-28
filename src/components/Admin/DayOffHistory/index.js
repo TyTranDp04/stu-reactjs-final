@@ -87,7 +87,7 @@ const DayOffHistory = () => {
   const dayTo = format('dd-MM-yyyy', new Date(dayOff.dayOffTo));
   
   const fileName = `export_day_off_history_${dayFrom}-${dayTo}.csv`;
-  const csvHeaders = ["No", "Name", "Reason", "DayOffFrom", "DayOffTo", "Type", "Time", "Quantity", "Status"];
+  const csvHeaders = ["No", "Name", "Reason", "DayOffFrom", "DayOffTo", "Type", "Time", "Quantity"];
 
   const linkGoogleSheet = `https://docs.google.com/spreadsheets/d/${dayOff.idGooleSheets}/edit#gid=0`;
 
