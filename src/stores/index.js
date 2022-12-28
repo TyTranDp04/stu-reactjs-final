@@ -3,13 +3,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { mySaga } from "./sagas";
+import { DpManagementReducer } from "./slices/ManagementUser.slice.js";
 import { userReducer } from "./slices/user.slice";
+import { googleSheetReducer } from "./slices/googleSheet.slice";
+import { exportExcelReducer } from "./slices/dayoffHistory.slice";
+import { roleIdReducer } from "./slices/roleId.slice";
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
 const rootReducer = {
-  users: userReducer
+  users: userReducer,
+  dpManagement: DpManagementReducer,
+  googleSheet: googleSheetReducer,
+  exportExcel: exportExcelReducer,
+  roleId: roleIdReducer,
 };
 
 export const appStore = configureStore({

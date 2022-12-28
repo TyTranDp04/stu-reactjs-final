@@ -1,22 +1,40 @@
 import { put, takeEvery } from "redux-saga/effects";
 import { AuthAPI } from "../../api";
-import { loginAction, loginActionFailed, loginActionSuccess } from "../slices/user.slice";
+import { changePasswordAPI } from "../../api/changePassword.api.js";
+import {
+  changePasswordAction,
+  changePasswordActionFailed,
+  changePasswordActionSuccess,
+  loginAction,
+  loginActionFailed,
+  loginActionSuccess
+} from "../slices/user.slice";
 
 function* login(action) {
   try {
     const loginPayload = action.payload;
     const response = yield AuthAPI.login({
-      username: loginPayload.username,
-      password: loginPayload.password,
+      Gmail: loginPayload.Gmail,
+      Password: loginPayload.Password,
     });
-    document.cookie = `accesToken=${response.data.data.accessToken}`
-
-    yield put(loginActionSuccess(response.data));
+    yield put(loginActionSuccess(response.data.data.user));
   } catch (e) {
-    console.log("token",e);
-    yield put(loginActionFailed(e.response.statusText));
+    yield put(loginActionFailed(e.response.data.message));
   }
 }
+
+function* changePassword(action) {
+  try {
+    yield changePasswordAPI.updateChangePassword(action.payload.id, {
+      Password: action.payload.Password,
+    });
+    yield put(changePasswordActionSuccess(action.payload));
+  } catch (error) {
+    yield put(changePasswordActionFailed(action));
+  }
+}
+
 export function* userSaga() {
   yield takeEvery(loginAction, login);
+  yield takeEvery(changePasswordAction, changePassword);
 }
