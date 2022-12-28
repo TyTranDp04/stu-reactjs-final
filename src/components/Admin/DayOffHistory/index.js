@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { URL_API } from '../../../api/const.api'
 import { updateGoogleSheetAction } from '../../../stores/slices/googleSheet.slice'
 import { Button, Form, H2, Input, LoginTitle, TextRed } from '../../Login/style'
@@ -38,6 +39,7 @@ const DayOffHistory = () => {
   const filterRoleId = roleIdData?.find(item => item.Id === userRoleId);
   const permission = filterRoleId?.RoleName;
   const error = googleSheetData?.data;
+  const loadingGS = googleSheetData?.loading;
 
   useEffect(() => {
     if (!permission) {
@@ -51,6 +53,12 @@ const DayOffHistory = () => {
 
   useEffect(() => {
     if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '' || dayOff.dayOffFrom > dayOff.dayOffTo) {
+      Swal.fire({
+        text: "Day Off From, Day Off To is required and Day Off From can't be bigger than Day Off To !!!",
+        icon: 'warning',
+        confirmButtonColor: '#8000FF',
+        confirmButtonText: 'OK'
+      })
       setDisable(true)
     } else {
       setDisable(false)
@@ -59,19 +67,26 @@ const DayOffHistory = () => {
 
   useEffect(() => {
     dispatch(updateGoogleSheetAction(dayOff));
-  }, [dayOff.idGooleSheets]);
+  }, [dayOff.idGooleSheets, dispatch]);
 
   useEffect(() => {
     if (error) {
+      Swal.fire({
+        text: "Your ID Google Sheets isn't conrrect or Google Sheets don't be shared anyone with the link !!!",
+        icon: 'warning',
+        confirmButtonColor: '#8000FF',
+        confirmButtonText: 'OK'
+      })
       setDisableGS(true)
     } else {
       setDisableGS(false)
     }
   }, [error]);
 
-  const newDay = format('dd-MM-yyyy', new Date());
-  const dayTime = JSON.stringify(newDay);
-  const fileName = `export_day_off_history_${dayTime}.csv`;
+  const dayFrom = format('dd-MM-yyyy', new Date(dayOff.dayOffFrom));
+  const dayTo = format('dd-MM-yyyy', new Date(dayOff.dayOffTo));
+  
+  const fileName = `export_day_off_history_${dayFrom}-${dayTo}.csv`;
   const csvHeaders = ["No", "Name", "Reason", "DayOffFrom", "DayOffTo", "Type", "Time", "Quantity", "Status"];
 
   const linkGoogleSheet = `https://docs.google.com/spreadsheets/d/${dayOff.idGooleSheets}/edit#gid=0`;
@@ -85,13 +100,18 @@ const DayOffHistory = () => {
   }
 
   const handleExportGoogleSheet = () => {
-    setLoading(true);
-    setTimeout(openInNewTab, 2000)
-  };
-
-  const openInNewTab = () => {
-    window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
-    setLoading(false);
+    if (dayOff.dayOffFrom === '' || dayOff.dayOffTo === '' || dayOff.dayOffFrom > dayOff.dayOffTo) {
+      Swal.fire({
+        text: "Day Off From, Day Off To is required and Day Off From can't be bigger than Day Off To !!!",
+        icon: 'warning',
+        confirmButtonColor: '#8000FF',
+        confirmButtonText: 'OK'
+      })
+    } else {
+      setLoading(true);
+      window.open(linkGoogleSheet, '_blank', 'noopener,noreferrer');
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,7 +127,6 @@ const DayOffHistory = () => {
           })}
           type="date"
         />
-        <TextRed></TextRed>
         <br />
         <label>Day off to</label>
         <Input
@@ -118,7 +137,6 @@ const DayOffHistory = () => {
           })}
           type="date"
         />
-        <TextRed></TextRed>
         <br />
         <label>ID Google Sheets</label>
         <Input
@@ -157,7 +175,7 @@ const DayOffHistory = () => {
           <DayOffHistoryWrapperButton style={{ paddingRight: "0" }}>
             <Button className='day-off-history_button' type='submit' onClick={handleSubmit(handleExportGoogleSheet)} disabled={disableGS} style={{ opacity: disableGS && "0.4" }}>
               <DayOffHistoryExportCsv>
-                <DayOffHistoryExportLoading>{loading && <FontAwesomeIcon icon={faSpinner} />}</DayOffHistoryExportLoading>
+                <DayOffHistoryExportLoading>{(loading || loadingGS) && <FontAwesomeIcon icon={faSpinner} />}</DayOffHistoryExportLoading>
                 <DayOffHistoryExportButton>Export Google Sheet</DayOffHistoryExportButton>
               </DayOffHistoryExportCsv>
             </Button>
