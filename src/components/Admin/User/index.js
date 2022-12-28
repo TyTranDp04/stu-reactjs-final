@@ -63,10 +63,10 @@ const ManagementUser = (props) => {
   useEffect(() => {
     if (!permission) {
       return;
-    } else if (permission === "Staff") {
-      navigate("/404");
-    } else {
+    } else if (permission === "Admin") {
       navigate("/admin/user");
+    } else {
+      navigate("/404");
     }
   }, [permission, navigate]);
 
@@ -173,6 +173,9 @@ const ManagementUser = (props) => {
   const filterData = dataGroup?.filter((item) =>
     dataEdit?.GroupId?.includes(item._id) ? item.Name : ""
   );
+
+  console.log("dataEdit",dataEdit)
+  console.log("dataRole",dataRole)
   return (
     <React.Fragment>
       {/* <Container className="col-lg-10 col-sm-9 "> */}
@@ -296,32 +299,26 @@ const ManagementUser = (props) => {
               </div>
               <div>
                 <Label className="w-100">Role</Label>
-                <Select
-                  id="RoleId"
-                  name="RoleId"
-                  {...register("RoleId", {
-                    required: "The field is required.",
-                  })}
-                  className="w-100"
-                  defaultValue={dataEdit?.RoleId ? dataEdit?.RoleId : ""}
-                  onClick={(event) => {
-                    getRole(event);
-                  }}
-                >
-                  {dataRole?.map((e) =>
-                  roleName === "Admin" ? (
-                    <option key={e._id}>{e.RoleName}</option>
-                  ) :( roleName === "Manager" ? (
-                    e.RoleName !== "Admin" && e.RoleName !== "Manager" ? (
-                      <option>Staff</option>
-                    ) : (
-                     ""
-                    )
-                  ) : (
-                    ""
-                  ))
-                  )}
-                </Select>
+               {dataEdit?.RoleId && (
+                 <Select
+                 id="RoleId"
+                 name="RoleId"
+                 {...register("RoleId", {
+                   required: "The field is required.",
+                 })}
+                 className="w-100"
+                 defaultValue={dataEdit?.RoleId ? dataEdit?.RoleId : ""}
+                 onClick={(event) => {
+                   getRole(event);
+                 }}
+               >
+                {dataRole?.map((e) => (                      
+                     <option selected={dataEdit?.RoleId === e?.Id ? e.RoleName : ""} value={e.RoleName} key={e._id}>{e.RoleName}</option>
+                   ))}
+               </Select>
+               )
+
+               }
                 <Error className="w-100">{errors.RoleId?.message}</Error>
               </div>
               <div>
@@ -562,7 +559,7 @@ const ManagementUser = (props) => {
                     <td>
                       <Image
                         style={{ width: "70px" }}
-                        src={item.Avatar ? item.Avatar : Avatar}
+                        src={item.Avatar  ? item.Avatar : Avatar}
                       ></Image>
                     </td>
                     <td>{item.Gmail}</td>

@@ -140,6 +140,7 @@ function UserGroup(props) {
       }
     });
   }
+
   function handleDeleteGroup(GroupId) {
     const url = process.env.REACT_APP_URL_WEBSITE + "/group/" + GroupId;
     Swal.fire({
@@ -204,7 +205,7 @@ function UserGroup(props) {
               {dataGroup?.map((e, index) => (
                 <Tr key={index}>
                   <Td onClick={() => handleShowDetail(e)}>
-                    <TdContent>{e.Name} </TdContent>
+                    <TdContent style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>{e.Name} </TdContent>
                   </Td>
                   <Td
                     onClick={() => handleShowDetail(e)}
@@ -250,7 +251,7 @@ function UserGroup(props) {
                   </Td>
                   {userInfo?.data?.RoleId === "3" ? (
                     <Td>
-                      <TdContent>
+                      <TdContent   style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
                         <BtnDeleteGroup
                           onClick={() => handleDeleteGroup(e?._id)}
                         >
@@ -290,7 +291,7 @@ function UserGroup(props) {
                     {dataDetail?.Name} infomation
                   </NameText>
                   <BtnContainer>
-                    {userInfo?.data?.user?.RoleId === "1" ? (
+                    {userInfo?.data?.RoleId === "1" ? (
                       ""
                     ) : (
                       <BtnAddGroup
@@ -316,9 +317,9 @@ function UserGroup(props) {
               <Name>
                 <NameText>Name</NameText>
                 <NameTitle>
-                  {userInfo?.data?.user?.RoleId === "1"
+                  {userInfo?.data?.RoleId === "1"
                     ? "Staff"
-                    : userInfo?.data?.user?.RoleId === "2"
+                    : userInfo?.data?.RoleId === "2"
                     ? "Manager"
                     : "Admin"}
                 </NameTitle>
@@ -335,7 +336,7 @@ function UserGroup(props) {
                           src={user?.Avatar ? user?.Avatar : AvatarDefault}
                         ></Icon>
                         <NameTextInfo>{user?.Name}</NameTextInfo>
-                        {userInfo?.data?.user?.RoleId === "3" ? (
+                        {userInfo?.data?.RoleId === "3" ? 
                           <BtnDelete
                             onClick={() =>
                               handleDeleteUser(user?._id, dataDetail?._id)
@@ -346,9 +347,9 @@ function UserGroup(props) {
                               icon={faXmark}
                             />
                           </BtnDelete>
-                        ) : (
+                        : 
                           ""
-                        )}
+                        }
                       </MemberInfo>
                     ) : (
                       ""
@@ -368,7 +369,7 @@ function UserGroup(props) {
                           src={user?.Avatar ? user?.Avatar : AvatarDefault}
                         ></Icon>
                         <NameTextInfo>{user?.Name}</NameTextInfo>
-                        {userInfo?.data?.user?.RoleId !== "1" &&
+                        {userInfo?.data?.RoleId !== "1" &&
                         user.RoleId === "1" ? (
                           <BtnDelete
                             onClick={() =>

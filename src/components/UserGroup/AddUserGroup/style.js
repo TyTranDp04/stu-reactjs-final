@@ -15,8 +15,6 @@ export const Option = styled.option`
 export const OptionUser = styled.div`
   height: 50px;
   display: flex;
-  width: 100%;
-  justify-content: start;
   align-items: center;
   padding: 5px;
   border-bottom: 1px solid #ccc;
@@ -34,6 +32,14 @@ export const BoxUser = styled.div`
   z-index: 10;
   max-height: 300px;
   overflow: auto;
+  left: 25%;
+  top: 93%;
+  @media (max-width: 995px){
+    left: 40%;
+  }
+  @media (max-width: 500px){
+    left: 0;
+  }
 `;
 export const IconUser = styled.img`
   height: 40px;
@@ -42,6 +48,7 @@ export const IconUser = styled.img`
 `;
 export const NameUser = styled.span`
   margin-left: 10px;
+  display: block;
   color: #000;
 `;
 export const LableInput = styled.label`

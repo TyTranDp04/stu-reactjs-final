@@ -174,12 +174,12 @@ const ModalAddUserGroup = (props) => {
               id="user"
               name="user"
               onChange={(e) => handleOnchange(e)}
+             
             ></Input>
             {dataUserFilter?.length !== 0 && dataUserFilter ? (
               <BoxUser
                 style={{
                   margin: "5px 0",
-                  width: "75%%",
                   border: "2px solid #ccc",
                   color: "#ccc",
                 }}
@@ -198,7 +198,7 @@ const ModalAddUserGroup = (props) => {
               ""
             )}
           </InPutContainer>
-          <InPutContainer className="mb-6" style={{ height: "50px" }}>
+          <InPutContainer className="mb-6" style={{ height: "50px", overflow: 'auto' }}>
             {dataUserUpdate?.length !== 0 && dataUserUpdate ? (
               <OptionUser>
                 <IconUser
@@ -209,7 +209,7 @@ const ModalAddUserGroup = (props) => {
                   }
                   alt={dataUserUpdate?.Name}
                 ></IconUser>
-                <NameUser>
+                <NameUser >
                   <b>Name: </b> {dataUserUpdate?.Name}
                 </NameUser>
                 <NameUser>

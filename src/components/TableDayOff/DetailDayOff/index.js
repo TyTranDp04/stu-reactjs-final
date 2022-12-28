@@ -24,7 +24,7 @@ import ModalUpdateData from '../ModalUpdateData';
 import { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
-import { checkTypeRequest } from '../../../constants/dayoff';
+import { checkTime, checkTypeRequest } from '../../../constants/dayoff';
 const DetailDayOff = (props) => {
   const { callApiTable, setShowDetail, setCallApiTable, showModalUpdate, setIdRequest, setShowModalUpdate } = props.handle
   const { dataUser, data, idMaster, formData, dataAllUser } = props
@@ -104,7 +104,9 @@ const DetailDayOff = (props) => {
                         <H4>Time:</H4>
                       </Col>
                       <Col>
-                        <H4>{dataDayOff?.Time}</H4>
+                        <H4>{
+                          checkTime(dataDayOff?.Time)
+                        }</H4>
                       </Col>
                     </Row>
                     <Row className='d-flex align-items-center'>
@@ -160,8 +162,8 @@ const DetailDayOff = (props) => {
                   </Col>
                 </Row>
               </Col>
-              <Col className='col__history' style={{ maxHeight: '500px', overflow: 'auto', position: 'relative'}}>
-                <H3 style={{ position: 'sticky', top: '-12px', height: '50px', backgroundColor: '#fff', width: '100%', zIndex: '1' }}>Histories</H3>
+              <Col className='col__history' style={{ maxHeight: '500px', overflowY: 'auto',overflowX: 'hidden', position: 'relative'}}>
+                <H3 style={{ position: 'sticky', top: '-5px', height: '50px', backgroundColor: '#fff', width: '100%', zIndex: '1' }}>Histories</H3>
                 {
                   dataHistory?.map((e, index) => (
                     <Row style={{ marginTop: '10px' }} key={index}>
@@ -181,7 +183,7 @@ const DetailDayOff = (props) => {
                                 {
                                   <TimeDayOff date={e?.Parent[0]?.DayOffTo}></TimeDayOff>
                                 }</Span>
-                              <Span>Time: {e?.Parent[0]?.Time}</Span>
+                              <Span>Time: {checkTime(e?.Parent[0]?.Time)}</Span>
                               <Span>Quantity: {e?.Parent[0]?.Quantity}</Span>
                               <Span>Reason: {e?.Parent[0]?.Reason}</Span>
                             </FormDetailcontainer>
@@ -201,7 +203,7 @@ const DetailDayOff = (props) => {
                                     {
                                       <TimeDayOff date={e?.Parent[1]?.DayOffTo}></TimeDayOff>
                                     }</Span>
-                                  <Span>Time: {e?.Parent[1]?.Time}</Span>
+                                  <Span>Time: {checkTime(e?.Parent[1]?.Time)}</Span>
                                   <Span>Quantity: {e?.Parent[1]?.Quantity}</Span>
                                   <Span>Reason: {e?.Parent[1]?.Reason}</Span>
                                 </FormDetailcontainer> : ''
