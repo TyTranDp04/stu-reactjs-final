@@ -68,7 +68,6 @@ const MyProfile = () => {
       if (selectedImage !== null) { 
         setSelectedImage(URL.createObjectURL(e));
         setfileIMG(e);
-        console.log(setfileIMG);
       } else {
       }
     });
@@ -90,7 +89,7 @@ const MyProfile = () => {
         });
         dispatch(
           updateAvata({
-            Name: data?.Name,
+            ...userInfo?.data,
             Address: res?.data?.Address,
             Avatar: res?.data?.Avatar,
             Phone: res?.data?.Phone,

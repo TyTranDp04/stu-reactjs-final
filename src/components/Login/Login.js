@@ -4,12 +4,12 @@ import React, { useEffect } from "react"
 import { GoogleLogin } from 'react-google-login'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import * as yup from "yup"
 import stlogo from '../../assets/images/power_red.svg'
-import { loginAction, loginGoogleActionFailed, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
-import { Button, Container, ForgotPass, ForgotPassH4, Form, FormHeader, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
 import { getListDpManagementAction } from '../../stores/slices/ManagementUser.slice'
+import { loginAction, loginGoogleActionSuccess } from '../../stores/slices/user.slice'
+import { Button, Container, ForgotPass, ForgotPassH4, Form, FormHeader, H2, Input, LoginTitle, Section, StImg, StImgDiv, TextBlack, TextRed } from "./style.js"
 
 const schema = yup.object().shape({
   Gmail: yup.string()
@@ -58,12 +58,8 @@ const Login = () => {
     if (validAccount) {
       dispatch(loginGoogleActionSuccess(customAccount))
     } else {
-      dispatch(loginGoogleActionFailed("Your account is invalid !!!"))
+      toast.error("Your account is invalid !!!")
     }
-  };
-
-  const onFailure = (err) => {
-    console.log('failed:', err);
   };
 
   return (
@@ -97,7 +93,6 @@ const Login = () => {
             clientId={clientId}
             buttonText="Log in with Google"
             onSuccess={onSuccess}
-            onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
           />
           <ToastContainer
